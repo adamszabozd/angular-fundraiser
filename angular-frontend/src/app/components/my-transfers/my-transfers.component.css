@@ -1,0 +1,17 @@
+.my-transfers__table-label {
+    text-align: left;
+}
+
+.my-transfers__column-from,
+.my-transfers__column-amount,
+.my-transfers__column-date {
+    width: 20%;
+}
+
+.my-transfers__column-to {
+    width: 40%;
+}
+
+.centered {
+    text-align: center;
+}

@@ -1,0 +1,45 @@
+<div class="container">
+    <div class="centered">
+        <h2>My Transfers</h2>
+    </div>
+    <hr/>
+    <h4 class="my-transfers__table-label">Incoming:</h4>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="table-success">
+                <th class="my-transfers__column-from">From</th>
+                <th class="my-transfers__column-to">To</th>
+                <th class="my-transfers__column-amount">Amount</th>
+                <th class="my-transfers__column-date">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let transfer of incomingTransfers">
+                <td>{{transfer.source}}</td>
+                <td>{{transfer.target}}</td>
+                <td>{{transfer.amount}}</td>
+                <td>{{transfer.timeStamp}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <br/>
+    <h4 class="my-transfers__table-label">Outgoing:</h4>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="table-danger">
+                <th class="my-transfers__column-from">From</th>
+                <th class="my-transfers__column-to">To</th>
+                <th class="my-transfers__column-amount">Amount</th>
+                <th class="my-transfers__column-date">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let transfer of outgoingTransfers">
+                <td>{{transfer.source}}</td>
+                <td>{{transfer.target}}</td>
+                <td>{{transfer.amount}}</td>
+                <td>{{transfer.timeStamp}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
