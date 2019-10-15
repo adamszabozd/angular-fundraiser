@@ -13,9 +13,9 @@ export class AppComponent implements OnInit {
     constructor(private registrationService: RegistrationService) {}
 
     ngOnInit() {
-        // if (localStorage.getItem('auth')) {
-        //     this.shouldDisplayNavbar = true;
-        // }
+        if (localStorage.getItem('auth')) {
+            this.shouldDisplayNavbar = true;
+        }
 
         this.registrationService.userRegistered.subscribe(
             () => this.shouldDisplayNavbar = true
