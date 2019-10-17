@@ -14,8 +14,8 @@ package hu.progmasters.fundraiser.controller;
 import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.dto.AccountDetails;
 import hu.progmasters.fundraiser.dto.AccountRegistrationCommand;
+import hu.progmasters.fundraiser.dto.TransferListItem;
 import hu.progmasters.fundraiser.service.AccountService;
-import hu.progmasters.fundraiser.service.TransferService;
 import hu.progmasters.fundraiser.validation.AccountRegistrationCommandValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +27,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/accounts")
@@ -38,13 +37,11 @@ public class AccountController {
     private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
     private AccountService accountService;
-    private TransferService transferService;
     private AccountRegistrationCommandValidator accountRegistrationCommandValidator;
 
     @Autowired
-    public AccountController(AccountService accountService, TransferService transferService, AccountRegistrationCommandValidator accountRegistrationCommandValidator) {
+    public AccountController(AccountService accountService, AccountRegistrationCommandValidator accountRegistrationCommandValidator) {
         this.accountService = accountService;
-        this.transferService = transferService;
         this.accountRegistrationCommandValidator = accountRegistrationCommandValidator;
     }
 
@@ -55,35 +52,34 @@ public class AccountController {
 
     @GetMapping
     public ResponseEntity<List<AccountDetails>> getAllAccounts() {
-        List<AccountDetails> accountDetails = new ArrayList<>();
-        List<Account> accounts = accountService.findAll();
-        for (Account account : accounts) {
-            accountDetails.add(new AccountDetails(account));
-        }
-        Collections.sort(accountDetails);
+        List<AccountDetails> accountDetails = accountService.findAll().stream()
+                .map(AccountDetails::new)
+                .sorted()
+                .collect(Collectors.toList());
         return new ResponseEntity<>(accountDetails, HttpStatus.OK);
     }
 
     @GetMapping("/myAccountDetails")
     public ResponseEntity<AccountDetails> getMyAccountDetails(HttpServletRequest request) {
-
+        ResponseEntity<AccountDetails> response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
         String ipAddress = request.getRemoteAddr();
-        Account myAccount = accountService.findMyAccount(ipAddress);
+        Account myAccount = accountService.findByIpAddress(ipAddress);
         if (myAccount != null) {
             AccountDetails myAccountDetails = new AccountDetails(myAccount);
-            myAccountDetails.setSourceTransfers(transferService.getMySourceTransfers(myAccount));
-            myAccountDetails.setTargetTransfers(transferService.getMyTargetTransfers(myAccount));
-            return new ResponseEntity<>(myAccountDetails, HttpStatus.OK);
+            myAccountDetails.setOutgoingTransfers(myAccount.getOutgoingTransfers().stream().map(TransferListItem::new).collect(Collectors.toList()));
+            myAccountDetails.setIncomingTransfers(myAccount.getIncomingTransfers().stream().map(TransferListItem::new).collect(Collectors.toList()));
+            response = new ResponseEntity<>(myAccountDetails, HttpStatus.OK);
         } else {
-            logger.debug("Account not found for IP address: " + ipAddress);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            logger.info("Account not found for IP address: {}", ipAddress);
         }
+        return response;
     }
 
     @PostMapping
-    public ResponseEntity registerNewAccount(@RequestBody @Valid AccountRegistrationCommand accountRegistrationCommand,
-                                             HttpServletRequest request) {
-        accountService.create(new Account(accountRegistrationCommand), request);
+    public ResponseEntity registerNewAccount(
+            @RequestBody @Valid AccountRegistrationCommand accountRegistrationCommand,
+            HttpServletRequest request) {
+        accountService.create(accountRegistrationCommand, request.getRemoteAddr());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

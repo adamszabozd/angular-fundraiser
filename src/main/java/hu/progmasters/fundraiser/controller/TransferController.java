@@ -30,8 +30,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/transfers")
@@ -57,17 +57,14 @@ public class TransferController {
 
     @GetMapping
     public ResponseEntity<List<TransferListItem>> getAllTransferListItems() {
-        List<TransferListItem> transferItems = new ArrayList<>();
-        List<Transfer> transfers = transferService.findAll();
-        for (Transfer transfer : transfers) {
-            transferItems.add(new TransferListItem(transfer));
-        }
+        List<TransferListItem> transferItems = transferService.findAll().stream()
+                .map(TransferListItem::new).collect(Collectors.toList());
         return new ResponseEntity<>(transferItems, HttpStatus.OK);
     }
 
     @GetMapping("/newTransferData")
     public ResponseEntity<TransferInitData> newTransferData(HttpServletRequest request) {
-        Account myAccount = accountService.findMyAccount(request.getRemoteAddr());
+        Account myAccount = accountService.findByIpAddress(request.getRemoteAddr());
         List<AccountDetails> otherAccounts = accountService.getAllAccountDetailsExceptOwn(myAccount);
         TransferInitData initData = new TransferInitData(myAccount.getUsername(), otherAccounts, myAccount.getBalance());
 
@@ -76,7 +73,12 @@ public class TransferController {
 
     @PostMapping
     public ResponseEntity saveTransfer(@Valid @RequestBody TransferCreationCommand transferCreationCommand, HttpServletRequest request) {
-        transferService.saveTransfer(transferCreationCommand, request);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        ResponseEntity response = new ResponseEntity(HttpStatus.CREATED);
+        Transfer transfer = transferService.saveTransfer(transferCreationCommand, request.getRemoteAddr());
+        if (transfer == null) {
+            logger.warn("Transfer failed, source or target account does not exist!");
+            response = new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return response;
     }
 }

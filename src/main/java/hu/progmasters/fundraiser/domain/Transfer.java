@@ -13,6 +13,7 @@ package hu.progmasters.fundraiser.domain;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 public class Transfer {
@@ -77,16 +78,14 @@ public class Transfer {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
+        if (!(o instanceof Transfer)) return false;
         Transfer transfer = (Transfer) o;
-
-        return id != null ? id.equals(transfer.id) : transfer.id == null;
+        return Objects.equals(id, transfer.id);
     }
 
     @Override
     public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+        return Objects.hash(id);
     }
 
     @Override

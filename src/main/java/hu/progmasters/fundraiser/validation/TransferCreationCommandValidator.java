@@ -13,7 +13,7 @@ package hu.progmasters.fundraiser.validation;
 
 import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.dto.TransferCreationCommand;
-import hu.progmasters.fundraiser.service.AccountService;
+import hu.progmasters.fundraiser.service.SharedValidationService;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -24,12 +24,12 @@ import javax.servlet.http.HttpServletRequest;
 public class TransferCreationCommandValidator implements Validator {
 
     private static final String AMOUNT = "amount";
-    private AccountService accountService;
 
+    private SharedValidationService validationService;
     private HttpServletRequest request;
 
-    public TransferCreationCommandValidator(AccountService accountService, HttpServletRequest request) {
-        this.accountService = accountService;
+    public TransferCreationCommandValidator(SharedValidationService validationService, HttpServletRequest request) {
+        this.validationService = validationService;
         this.request = request;
     }
 
@@ -41,18 +41,21 @@ public class TransferCreationCommandValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         TransferCreationCommand transferCreationCommand = (TransferCreationCommand) target;
-        Account from = accountService.findByIpAddress(request.getRemoteAddr());
+        Account sourceAccount = validationService.getAccountByIpAddress(request.getRemoteAddr());
 
-        if (transferCreationCommand.getAmount() == null) {
-            errors.rejectValue(AMOUNT, "transfer.amount.missing");
-        } else {
-            int transferAmount = transferCreationCommand.getAmount();
-
-            if (from.getBalance() - transferAmount < 0) {
-                errors.rejectValue(AMOUNT, "account.balanceNotEnough");
-            } else if (transferAmount > 1000 || transferAmount < 50) {
-                errors.rejectValue(AMOUNT, "transfer.amount.boundaries");
+        if (sourceAccount != null) {
+            if (transferCreationCommand.getAmount() != null) {
+                int transferAmount = transferCreationCommand.getAmount();
+                if (sourceAccount.getBalance() - transferAmount < 0) {
+                    errors.rejectValue(AMOUNT, "account.balanceNotEnough");
+                }
+            } else {
+                errors.rejectValue(AMOUNT, "transfer.amount.missing");
             }
+        }
+
+        if (transferCreationCommand.getTarget() != null && validationService.getAccountById(transferCreationCommand.getTarget()) == null) {
+            errors.rejectValue("target", "transfer.target.missing");
         }
     }
 }

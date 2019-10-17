@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,20 +38,25 @@ public class TransferService {
         this.accountRepository = accountRepository;
     }
 
-    public Transfer saveTransfer(TransferCreationCommand transferCreationCommand, HttpServletRequest request) {
-        Transfer transfer = new Transfer();
-        transfer.setTimeStamp(LocalDateTime.now());
-        transfer.setAmount(transferCreationCommand.getAmount());
+    public Transfer saveTransfer(TransferCreationCommand transferCreationCommand, String ipAddress) {
+        Account source = accountRepository.findByIpAddress(ipAddress);
+        Account target = accountRepository.findById(transferCreationCommand.getTarget()).orElse(null);
+        Transfer transfer = null;
 
-        Account target = accountRepository.getOne(transferCreationCommand.getTarget());
-        target.setFunds(target.getFunds() + transferCreationCommand.getAmount());
-        transfer.setTarget(target);
+        if (source != null && target != null) {
+            transfer = new Transfer();
+            transfer.setTimeStamp(LocalDateTime.now());
+            transfer.setAmount(transferCreationCommand.getAmount());
 
-        Account source = accountRepository.findAccountByIpAddress(request.getRemoteAddr());
-        source.setBalance(source.getBalance() - transferCreationCommand.getAmount());
-        transfer.setSource(source);
+            target.setFunds(target.getFunds() + transferCreationCommand.getAmount());
+            transfer.setTarget(target);
 
-        return transferRepository.save(transfer);
+            source.setBalance(source.getBalance() - transferCreationCommand.getAmount());
+            transfer.setSource(source);
+            transfer = transferRepository.save(transfer);
+        }
+
+        return transfer;
     }
 
     public List<Transfer> findAll() {

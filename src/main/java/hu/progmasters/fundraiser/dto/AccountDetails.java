@@ -15,6 +15,7 @@ import hu.progmasters.fundraiser.domain.Account;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class AccountDetails implements Comparable<AccountDetails> {
 
@@ -23,8 +24,8 @@ public class AccountDetails implements Comparable<AccountDetails> {
     private String goal;
     private Integer balance;
     private Integer funds;
-    private List<TransferListItem> targetTransfers = new ArrayList<>();
-    private List<TransferListItem> sourceTransfers = new ArrayList<>();
+    private List<TransferListItem> incomingTransfers = new ArrayList<>();
+    private List<TransferListItem> outgoingTransfers = new ArrayList<>();
 
     public AccountDetails(Account account) {
         this.id = account.getId();
@@ -34,12 +35,12 @@ public class AccountDetails implements Comparable<AccountDetails> {
         this.funds = account.getFunds();
     }
 
-    public void setTargetTransfers(List<TransferListItem> targetTransfers) {
-        this.targetTransfers = targetTransfers;
+    public void setIncomingTransfers(List<TransferListItem> incomingTransfers) {
+        this.incomingTransfers = incomingTransfers;
     }
 
-    public void setSourceTransfers(List<TransferListItem> sourceTransfers) {
-        this.sourceTransfers = sourceTransfers;
+    public void setOutgoingTransfers(List<TransferListItem> outgoingTransfers) {
+        this.outgoingTransfers = outgoingTransfers;
     }
 
     public Long getId() {
@@ -62,12 +63,25 @@ public class AccountDetails implements Comparable<AccountDetails> {
         return funds;
     }
 
-    public List<TransferListItem> getTargetTransfers() {
-        return targetTransfers;
+    public List<TransferListItem> getIncomingTransfers() {
+        return incomingTransfers;
     }
 
-    public List<TransferListItem> getSourceTransfers() {
-        return sourceTransfers;
+    public List<TransferListItem> getOutgoingTransfers() {
+        return outgoingTransfers;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AccountDetails)) return false;
+        AccountDetails that = (AccountDetails) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override

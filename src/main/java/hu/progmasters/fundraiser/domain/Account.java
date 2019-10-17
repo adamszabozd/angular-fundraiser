@@ -16,6 +16,7 @@ import hu.progmasters.fundraiser.dto.AccountRegistrationCommand;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Account {
@@ -35,19 +36,20 @@ public class Account {
     private Integer funds;
 
     @OneToMany(mappedBy = "source")
-    private List<Transfer> targetTransfers = new ArrayList<>();
+    private List<Transfer> outgoingTransfers = new ArrayList<>();
 
     @OneToMany(mappedBy = "target")
-    private List<Transfer> sourceTransfers = new ArrayList<>();
+    private List<Transfer> incomingTransfers = new ArrayList<>();
 
     public Account() {
     }
 
-    public Account(AccountRegistrationCommand accountRegistrationCommand) {
+    public Account(AccountRegistrationCommand accountRegistrationCommand, String ipAddress) {
         this.username = accountRegistrationCommand.getUsername();
         this.goal = accountRegistrationCommand.getGoal();
         this.balance = 5000;
         this.funds = 0;
+        this.ipAddress = ipAddress;
     }
 
     public Long getId() {
@@ -98,35 +100,33 @@ public class Account {
         this.funds = funds;
     }
 
-    public List<Transfer> getTargetTransfers() {
-        return targetTransfers;
+    public List<Transfer> getOutgoingTransfers() {
+        return outgoingTransfers;
     }
 
-    public void setTargetTransfers(List<Transfer> targetTransfers) {
-        this.targetTransfers = targetTransfers;
+    public void setOutgoingTransfers(List<Transfer> outgoingTransfers) {
+        this.outgoingTransfers = outgoingTransfers;
     }
 
-    public List<Transfer> getSourceTransfers() {
-        return sourceTransfers;
+    public List<Transfer> getIncomingTransfers() {
+        return incomingTransfers;
     }
 
-    public void setSourceTransfers(List<Transfer> sourceTransfers) {
-        this.sourceTransfers = sourceTransfers;
+    public void setIncomingTransfers(List<Transfer> incomingTransfers) {
+        this.incomingTransfers = incomingTransfers;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
+        if (!(o instanceof Account)) return false;
         Account account = (Account) o;
-
-        return id != null ? id.equals(account.id) : account.id == null;
+        return Objects.equals(id, account.id);
     }
 
     @Override
     public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+        return Objects.hash(id);
     }
 
     @Override

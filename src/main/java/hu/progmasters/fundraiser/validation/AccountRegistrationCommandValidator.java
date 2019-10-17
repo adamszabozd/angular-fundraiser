@@ -12,7 +12,7 @@
 package hu.progmasters.fundraiser.validation;
 
 import hu.progmasters.fundraiser.dto.AccountRegistrationCommand;
-import hu.progmasters.fundraiser.service.AccountService;
+import hu.progmasters.fundraiser.service.SharedValidationService;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -22,12 +22,12 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class AccountRegistrationCommandValidator implements Validator {
 
-    private AccountService accountService;
+    private SharedValidationService validationService;
 
     private HttpServletRequest request;
 
-    public AccountRegistrationCommandValidator(AccountService accountService, HttpServletRequest request) {
-        this.accountService = accountService;
+    public AccountRegistrationCommandValidator(SharedValidationService validationService, HttpServletRequest request) {
+        this.validationService = validationService;
         this.request = request;
     }
 
@@ -38,7 +38,7 @@ public class AccountRegistrationCommandValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        if (accountService.findByIpAddress(request.getRemoteAddr()) != null) {
+        if (validationService.getAccountByIpAddress(request.getRemoteAddr()) != null) {
             errors.rejectValue("username", "ipAddress.already.used");
         }
     }

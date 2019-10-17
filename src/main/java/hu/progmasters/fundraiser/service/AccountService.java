@@ -13,14 +13,14 @@ package hu.progmasters.fundraiser.service;
 
 import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.dto.AccountDetails;
+import hu.progmasters.fundraiser.dto.AccountRegistrationCommand;
 import hu.progmasters.fundraiser.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -34,9 +34,8 @@ public class AccountService {
         this.accountRepository = accountRepository;
     }
 
-    public void create(Account account, HttpServletRequest request) {
-        account.setIpAddress(request.getRemoteAddr());
-        accountRepository.save(account);
+    public void create(AccountRegistrationCommand command, String ipAddress) {
+        accountRepository.save(new Account(command, ipAddress));
     }
 
     public Account findByIpAddress(String ipAddress) {
@@ -47,18 +46,10 @@ public class AccountService {
         return accountRepository.findAll();
     }
 
-    public Account findMyAccount(String ipAddress) {
-        return findByIpAddress(ipAddress);
-    }
-
     public List<AccountDetails> getAllAccountDetailsExceptOwn(Account myAccount) {
-        List<AccountDetails> accountDetails = new ArrayList<>();
         List<Account> accounts = accountRepository.findAll();
         accounts.remove(myAccount);
-        for (Account account : accounts) {
-            accountDetails.add(new AccountDetails(account));
-        }
-        return accountDetails;
+        return accounts.stream().map(AccountDetails::new).collect(Collectors.toList());
     }
 
 }
