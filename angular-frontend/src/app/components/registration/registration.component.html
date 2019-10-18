@@ -2,27 +2,29 @@
     <h2>Registration</h2>
     <hr/>
     <br>
-    <form [formGroup]="form">
+    <form [formGroup]="form" (ngSubmit)="register()">
         <div class="form-group">
             <label
-                    for="username"
-                    [ngClass]="{'text-danger': (form.get('username').invalid && form.get('username').touched)
+                for="username"
+                [ngClass]="{'text-danger': (form.get('username').invalid && form.get('username').touched)
                             || (form.get('username').errors?.serverError)}"
-            >Username:</label>
+            >
+                Username:
+            </label>
             <input
-                    id="username"
-                    class="form-control"
-                    [ngClass]="{'is-invalid': (form.get('username').invalid && form.get('username').touched)
+                id="username"
+                class="form-control"
+                [ngClass]="{'is-invalid': (form.get('username').invalid && form.get('username').touched)
                             || (form.get('username').errors?.serverError)}"
-                    name="username"
-                    formControlName="username"
+                name="username"
+                formControlName="username"
             />
 
             <small
-                    *ngIf="!form.get('username').valid
+                *ngIf="!form.get('username').valid
                         && form.get('username').touched
                         && !form.get('username').errors?.serverError"
-                    class="text-danger"
+                class="text-danger"
             >
                 Please enter a username between 4 and 30 characters
             </small>
@@ -33,17 +35,19 @@
 
         <div class="form-group">
             <label
-                    for="goal"
-                    [ngClass]="{'text-danger': (form.get('goal').invalid && form.get('goal').touched)
+                for="goal"
+                [ngClass]="{'text-danger': (form.get('goal').invalid && form.get('goal').touched)
                             || (form.get('goal').errors?.serverError)}"
-            >Goal:</label>
+            >
+                Goal:
+            </label>
             <input
-                    id="goal"
-                    class="form-control"
-                    [ngClass]="{'is-invalid': (form.get('goal').invalid && form.get('goal').touched)
+                id="goal"
+                class="form-control"
+                [ngClass]="{'is-invalid': (form.get('goal').invalid && form.get('goal').touched)
                             || (form.get('goal').errors?.serverError)}"
-                    name="goal"
-                    formControlName="goal"
+                name="goal"
+                formControlName="goal"
             />
             <small *ngIf="!form.get('goal').valid && form.get('goal').touched && !form.get('goal').errors?.serverError" class="text-danger">
                 Please specify a goal between 5 and 100 characters
@@ -53,6 +57,6 @@
             </small>
         </div>
         <br/>
-        <button class="btn btn-primary my-buttons" (click)="register()">Register</button>
+        <button type="submit" class="btn btn-primary my-buttons">Register</button>
     </form>
 </div>

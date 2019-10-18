@@ -2,39 +2,37 @@
     <h2>Transfer Funds</h2>
     <hr/>
     <br/>
-    <form [formGroup]="form">
+    <form [formGroup]="form" (ngSubmit)="submitForm()">
         <div class="form-group">
             <label for="from">From:</label>
             <input
-                    id="from"
-                    class="form-control my-input-field-disabled"
-                    name="from"
-                    placeholder="{{sourceAccountName}}"
-                    disabled
+                id="from"
+                class="form-control my-input-field-disabled"
+                name="from"
+                placeholder="{{sourceAccountName}}"
+                disabled
             />
         </div>
         <div class="form-group">
             <label
-                    for="to"
-                    [ngClass]="{'text-danger': (!form.get('target').valid && form.get('target').touched)
-                            || (form.get('target').errors && form.get('target').errors['serverError'])
-                    }"
-            >To:</label>
+                for="to"
+                [ngClass]="{'text-danger': (form.get('target').invalid && form.get('target').touched) || (form.get('target').errors?.serverError)}"
+            >
+                To:
+            </label>
             <select
-                    id="to"
-                    class="form-control"
-                    [ngClass]="{'is-invalid': (!form.get('target').valid && form.get('target').touched)
-                            || (form.get('target').errors && form.get('target').errors['serverError'])
-                    }"
-                    name="target"
-                    formControlName="target"
+                id="to"
+                class="form-control"
+                [ngClass]="{'is-invalid': (form.get('target').invalid && form.get('target').touched) || (form.get('target').errors?.serverError)}"
+                name="target"
+                formControlName="target"
             >
                 <option value=null selected disabled>-- Choose a goal to support --</option>
                 <option *ngFor="let account of targetAccounts" value="{{account.id}}">{{account.goal}}</option>
             </select>
             <small
-                    *ngIf="!form.get('target').valid && form.get('target').touched && !form.get('target').errors?.serverError"
-                    class="text-danger"
+                *ngIf="form.get('target').invalid && form.get('target').touched && !form.get('target').errors?.serverError"
+                class="text-danger"
             >
                 Please choose an account to send money to
             </small>
@@ -45,25 +43,23 @@
 
         <div class="form-group">
             <label
-                    for="amount"
-                    [ngClass]="{'text-danger': (!form.get('amount').valid && form.get('amount').touched)
-                            || (form.get('amount').errors && form.get('amount').errors['serverError'])
-                    }"
-            >Amount:</label>
+                for="amount"
+                [ngClass]="{'text-danger': (form.get('amount').invalid && form.get('amount').touched) || (form.get('amount').errors?.serverError)}"
+            >
+                Amount:
+            </label>
             <input
-                    id="amount"
-                    type="number"
-                    class="form-control"
-                    [ngClass]="{'is-invalid': (!form.get('amount').valid && form.get('amount').touched)
-                            || (form.get('amount').errors && form.get('amount').errors['serverError'])
-                    }"
-                    name="amount"
-                    formControlName="amount"
-                    placeholder="50 - 1000"
+                id="amount"
+                type="number"
+                class="form-control"
+                [ngClass]="{'is-invalid': (form.get('amount').invalid && form.get('amount').touched) || (form.get('amount').errors?.serverError)}"
+                name="amount"
+                formControlName="amount"
+                placeholder="50 - 1000"
             />
             <small
-                    *ngIf="!form.get('amount').valid && form.get('amount').touched && !form.get('amount').errors?.serverError"
-                    class="text-danger"
+                *ngIf="form.get('amount').invalid && form.get('amount').touched && !form.get('amount').errors?.serverError"
+                class="text-danger"
             >
                 Please choose an amount between 50 and 1000
             </small>
@@ -75,15 +71,15 @@
             <div class="form-group">
                 <label for="balance">My Balance:</label>
                 <input
-                        id="balance"
-                        class="form-control my-input-field-disabled"
-                        name="balance"
-                        placeholder="{{balance}}"
-                        disabled
+                    id="balance"
+                    class="form-control my-input-field-disabled"
+                    name="balance"
+                    placeholder="{{balance}}"
+                    disabled
                 />
             </div>
         </div>
         <br/>
-        <button class="btn btn-primary my-buttons" (click)="submitForm()">Transfer</button>
+        <button class="btn btn-primary my-buttons">Transfer</button>
     </form>
 </div>

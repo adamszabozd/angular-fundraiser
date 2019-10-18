@@ -77,7 +77,7 @@ public class TransferController {
         Transfer transfer = transferService.saveTransfer(transferCreationCommand, request.getRemoteAddr());
         if (transfer == null) {
             logger.warn("Transfer failed, source or target account does not exist!");
-            response = new ResponseEntity(HttpStatus.NOT_FOUND);
+            response = new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
         return response;
     }
