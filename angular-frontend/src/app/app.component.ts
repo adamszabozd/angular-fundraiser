@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
         }
 
         this.registrationService.userRegistered.subscribe(
-            () => this.shouldDisplayNavbar = true
-        )
+            () => this.shouldDisplayNavbar = true,
+        );
     }
 }

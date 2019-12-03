@@ -17,7 +17,7 @@ export class TransferService {
         return this.http.get(BASE_URL + '/' + 'newTransferData');
     }
 
-    submitTransfer(data: { id: number, amount: number }): Observable<any> {
+    submitTransfer(data: {id: number, amount: number}): Observable<any> {
         return this.http.post(BASE_URL, data);
     }
 }

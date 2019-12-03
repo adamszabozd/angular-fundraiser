@@ -49,7 +49,10 @@
                 name="goal"
                 formControlName="goal"
             />
-            <small *ngIf="!form.get('goal').valid && form.get('goal').touched && !form.get('goal').errors?.serverError" class="text-danger">
+            <small
+                *ngIf="!form.get('goal').valid && form.get('goal').touched && !form.get('goal').errors?.serverError"
+                class="text-danger"
+            >
                 Please specify a goal between 5 and 100 characters
             </small>
             <small *ngIf="form.get('goal').errors?.serverError" class="text-danger">
