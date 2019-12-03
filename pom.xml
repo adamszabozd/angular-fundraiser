@@ -11,7 +11,6 @@
 	<groupId>hu.progmasters</groupId>
 	<artifactId>angular-fundraiser</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
 	<name>angular-fundraiser</name>
 	<description>Where an idea might turn into a fortune</description>
 
