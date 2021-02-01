@@ -29,6 +29,8 @@ public class Account {
 
     private String ipAddress;
 
+    private String email;
+
     private String goal;
 
     private Integer balance;
@@ -46,6 +48,7 @@ public class Account {
 
     public Account(AccountRegistrationCommand accountRegistrationCommand, String ipAddress) {
         this.username = accountRegistrationCommand.getUsername();
+        this.email = accountRegistrationCommand.getEmail();
         this.goal = accountRegistrationCommand.getGoal();
         this.balance = 5000;
         this.funds = 0;
@@ -74,6 +77,14 @@ public class Account {
 
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getGoal() {

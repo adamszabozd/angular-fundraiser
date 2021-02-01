@@ -15,6 +15,7 @@ export class RegistrationComponent implements OnInit {
 
     form = this.formBuilder.group({
         username: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(30)]],
+        email: ['', [Validators.required, Validators.email]],
         goal: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
     });
 

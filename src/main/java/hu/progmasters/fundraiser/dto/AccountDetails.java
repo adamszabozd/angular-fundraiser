@@ -21,6 +21,7 @@ public class AccountDetails implements Comparable<AccountDetails> {
 
     private Long id;
     private String username;
+    private String email;
     private String goal;
     private Integer balance;
     private Integer funds;
@@ -30,6 +31,7 @@ public class AccountDetails implements Comparable<AccountDetails> {
     public AccountDetails(Account account) {
         this.id = account.getId();
         this.username = account.getUsername();
+        this.email = account.getEmail();
         this.goal = account.getGoal();
         this.balance = account.getBalance();
         this.funds = account.getFunds();
@@ -49,6 +51,10 @@ public class AccountDetails implements Comparable<AccountDetails> {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public String getGoal() {

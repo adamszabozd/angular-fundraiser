@@ -11,6 +11,7 @@
 
 package hu.progmasters.fundraiser.dto;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
 public class AccountRegistrationCommand {
@@ -21,6 +22,8 @@ public class AccountRegistrationCommand {
     @Size(min = 5, max = 100, message = "Goal must be between {min} and {max} characters")
     private String goal;
 
+    @Email(message = "Invalid email address")
+    private String email;
 
     public String getUsername() {
         return username;
@@ -36,5 +39,13 @@ public class AccountRegistrationCommand {
 
     public void setGoal(String goal) {
         this.goal = goal;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

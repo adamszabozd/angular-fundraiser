@@ -11,6 +11,7 @@ export class AccountPageComponent implements OnInit {
 
     accountDetails: AccountDetailsModel = {
         username: '',
+        email: '',
         goal: '',
         balance: null,
         funds: null,
@@ -28,6 +29,7 @@ export class AccountPageComponent implements OnInit {
                 data => {
                     this.accountDetails = {
                         username: data.username,
+                        email: data.email,
                         goal: data.goal,
                         balance: data.balance,
                         funds: data.funds,

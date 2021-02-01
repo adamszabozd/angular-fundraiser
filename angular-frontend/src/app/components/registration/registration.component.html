@@ -35,6 +35,36 @@
 
         <div class="form-group">
             <label
+                for="email"
+                [ngClass]="{'text-danger': (form.get('email').invalid && form.get('email').touched)
+                            || (form.get('email').errors?.serverError)}"
+            >
+                Email:
+            </label>
+            <input
+                id="email"
+                class="form-control"
+                [ngClass]="{'is-invalid': (form.get('email').invalid && form.get('email').touched)
+                            || (form.get('email').errors?.serverError)}"
+                name="email"
+                formControlName="email"
+            />
+
+            <small
+                *ngIf="!form.get('email').valid
+                        && form.get('email').touched
+                        && !form.get('email').errors?.serverError"
+                class="text-danger"
+            >
+                Please enter a valid email address
+            </small>
+            <small *ngIf="form.get('email').errors?.serverError" class="text-danger">
+                {{form.get('email').errors.serverError}}
+            </small>
+        </div>
+
+        <div class="form-group">
+            <label
                 for="goal"
                 [ngClass]="{'text-danger': (form.get('goal').invalid && form.get('goal').touched)
                             || (form.get('goal').errors?.serverError)}"

@@ -9,7 +9,7 @@ export class AccountService {
 
     constructor(private http: HttpClient) {}
 
-    registerNewAccount(data: {username: string, goal: string}): Observable<any> {
+    registerNewAccount(data: {username: string, email: string, goal: string}): Observable<any> {
         return this.http.post(BASE_URL, data);
     }
 
