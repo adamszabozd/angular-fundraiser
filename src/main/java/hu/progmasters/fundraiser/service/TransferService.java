@@ -12,10 +12,13 @@
 package hu.progmasters.fundraiser.service;
 
 import hu.progmasters.fundraiser.domain.Account;
+import hu.progmasters.fundraiser.domain.PendingTransfer;
 import hu.progmasters.fundraiser.domain.Transfer;
+import hu.progmasters.fundraiser.dto.TransferConfirmationCommand;
 import hu.progmasters.fundraiser.dto.TransferCreationCommand;
 import hu.progmasters.fundraiser.dto.TransferListItem;
 import hu.progmasters.fundraiser.repository.AccountRepository;
+import hu.progmasters.fundraiser.repository.PendingTransferRepository;
 import hu.progmasters.fundraiser.repository.TransferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 @Transactional
@@ -31,31 +35,63 @@ public class TransferService {
 
     private TransferRepository transferRepository;
     private AccountRepository accountRepository;
+    private PendingTransferRepository pendingTransferRepository;
 
     @Autowired
-    public TransferService(TransferRepository transferRepository, AccountRepository accountRepository) {
+    public TransferService(TransferRepository transferRepository, AccountRepository accountRepository, PendingTransferRepository pendingTransferRepository) {
         this.transferRepository = transferRepository;
         this.accountRepository = accountRepository;
+        this.pendingTransferRepository = pendingTransferRepository;
     }
 
-    public Transfer saveTransfer(TransferCreationCommand transferCreationCommand, String ipAddress) {
+    public PendingTransfer savePendingTransfer(TransferCreationCommand transferCreationCommand, String ipAddress) {
         Account source = accountRepository.findByIpAddress(ipAddress);
         Account target = accountRepository.findById(transferCreationCommand.getTarget()).orElse(null);
-        Transfer transfer = null;
+        PendingTransfer pendingTransfer = null;
 
         if (source != null && target != null) {
-            transfer = new Transfer();
-            transfer.setTimeStamp(LocalDateTime.now());
-            transfer.setAmount(transferCreationCommand.getAmount());
+            pendingTransfer = new PendingTransfer();
+            pendingTransfer.setAmount(transferCreationCommand.getAmount());
 
-            target.setFunds(target.getFunds() + transferCreationCommand.getAmount());
-            transfer.setTarget(target);
+            pendingTransfer.setTarget(target);
 
-            source.setBalance(source.getBalance() - transferCreationCommand.getAmount());
-            transfer.setSource(source);
-            transfer = transferRepository.save(transfer);
+            pendingTransfer.setSource(source);
+
+            boolean codeGenerated = false;
+            String code = null;
+            while (!codeGenerated) {
+                code = generateConfirmationCode();
+                if (!pendingTransferRepository.existsPendingTransfersByConfirmationCode(code)) {
+                    codeGenerated = true;
+                }
+            }
+            pendingTransfer.setConfirmationCode(code);
+            pendingTransfer = pendingTransferRepository.save(pendingTransfer);
         }
 
+        return pendingTransfer;
+    }
+
+    public Transfer confirmTransfer(TransferConfirmationCommand transferConfirmationCommand) {
+        PendingTransfer pendingTransfer = pendingTransferRepository
+                .findPendingTransferByConfirmationCode(transferConfirmationCommand.getConfirmationCode());
+        Transfer transfer = null;
+        if (pendingTransfer != null) {
+            transfer = new Transfer();
+            transfer.setTimeStamp(LocalDateTime.now());
+            transfer.setAmount(pendingTransfer.getAmount());
+
+            Account target = pendingTransfer.getTarget();
+            target.setFunds(target.getFunds() + pendingTransfer.getAmount());
+            transfer.setTarget(target);
+
+            Account source = pendingTransfer.getSource();
+            source.setBalance(source.getBalance() - pendingTransfer.getAmount());
+            transfer.setSource(source);
+
+            transfer = transferRepository.save(transfer);
+            pendingTransferRepository.delete(pendingTransfer);
+        }
         return transfer;
     }
 
@@ -77,5 +113,25 @@ public class TransferService {
             transferListItems.add(new TransferListItem(transfer));
         }
         return transferListItems;
+    }
+
+    /* Generate a random 10 characters long alphanumeric string.
+     * The ASCII codes of digits are 48-57,
+     *  uppercase English letters 65-90, lowercase English letters 97-122.
+     */
+    private String generateConfirmationCode() {
+        Random random = new Random();
+        StringBuilder code = new StringBuilder();
+        for (int i = 0; i < 10; i++) {
+            int ch = 48 + random.nextInt(10 + 26 + 26);
+            if (ch > 57) {
+                ch += 7;
+            }
+            if (ch > 90) {
+                ch += 6;
+            }
+            code.append((char)ch);
+        }
+        return code.toString();
     }
 }

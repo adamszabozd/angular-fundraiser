@@ -17,8 +17,6 @@ import javax.validation.constraints.NotNull;
 
 public class TransferCreationCommand {
 
-    private Long id;
-
     @NotNull(message = "You must choose a target account")
     private Long target;
 
@@ -26,21 +24,11 @@ public class TransferCreationCommand {
     @Max(value = 1000, message = "The maximum amount to transfer is $1000")
     private Integer amount;
 
-    private String timeStamp;
-
-    public Long getId() {
-        return id;
-    }
-
     public Long getTarget() {
         return target;
     }
 
     public Integer getAmount() {
         return amount;
-    }
-
-    public String getTimeStamp() {
-        return timeStamp;
     }
 }

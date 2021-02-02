@@ -12,13 +12,12 @@
 package hu.progmasters.fundraiser.controller;
 
 import hu.progmasters.fundraiser.domain.Account;
+import hu.progmasters.fundraiser.domain.PendingTransfer;
 import hu.progmasters.fundraiser.domain.Transfer;
-import hu.progmasters.fundraiser.dto.AccountDetails;
-import hu.progmasters.fundraiser.dto.TransferCreationCommand;
-import hu.progmasters.fundraiser.dto.TransferInitData;
-import hu.progmasters.fundraiser.dto.TransferListItem;
+import hu.progmasters.fundraiser.dto.*;
 import hu.progmasters.fundraiser.service.AccountService;
 import hu.progmasters.fundraiser.service.TransferService;
+import hu.progmasters.fundraiser.validation.TransferConfirmationCommandValidator;
 import hu.progmasters.fundraiser.validation.TransferCreationCommandValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,17 +41,28 @@ public class TransferController {
     private TransferService transferService;
     private AccountService accountService;
     private TransferCreationCommandValidator transferCreationCommandValidator;
+    private TransferConfirmationCommandValidator transferConfirmationCommandValidator;
 
     @Autowired
-    public TransferController(TransferService transferService, AccountService accountService, TransferCreationCommandValidator transferCreationCommandValidator) {
+    public TransferController(
+            TransferService transferService,
+            AccountService accountService,
+            TransferCreationCommandValidator transferCreationCommandValidator,
+            TransferConfirmationCommandValidator transferConfirmationCommandValidator) {
         this.transferService = transferService;
         this.accountService = accountService;
         this.transferCreationCommandValidator = transferCreationCommandValidator;
+        this.transferConfirmationCommandValidator = transferConfirmationCommandValidator;
     }
 
-    @InitBinder
-    protected void initBinder(WebDataBinder binder) {
+    @InitBinder("transferCreationCommand")
+    protected void initCreationBinder(WebDataBinder binder) {
         binder.addValidators(transferCreationCommandValidator);
+    }
+
+    @InitBinder("transferConfirmationCommand")
+    protected void initConfirmationBinder(WebDataBinder binder) {
+        binder.addValidators(transferConfirmationCommandValidator);
     }
 
     @GetMapping
@@ -72,11 +82,22 @@ public class TransferController {
     }
 
     @PostMapping
-    public ResponseEntity saveTransfer(@Valid @RequestBody TransferCreationCommand transferCreationCommand, HttpServletRequest request) {
+    public ResponseEntity savePendingTransfer(@Valid @RequestBody TransferCreationCommand transferCreationCommand, HttpServletRequest request) {
         ResponseEntity response = new ResponseEntity(HttpStatus.CREATED);
-        Transfer transfer = transferService.saveTransfer(transferCreationCommand, request.getRemoteAddr());
+        PendingTransfer transfer = transferService.savePendingTransfer(transferCreationCommand, request.getRemoteAddr());
         if (transfer == null) {
             logger.warn("Transfer failed, source or target account does not exist!");
+            response = new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        return response;
+    }
+
+    @PostMapping("/confirm")
+    public ResponseEntity confirmTransfer(@Valid @RequestBody TransferConfirmationCommand transferConfirmationCommand, HttpServletRequest request) {
+        ResponseEntity response = new ResponseEntity(HttpStatus.CREATED);
+        Transfer transfer = transferService.confirmTransfer(transferConfirmationCommand);
+        if (transfer == null) {
+            logger.warn("Confirmation failed, no pending transfer exists with this confirmation code!");
             response = new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
         return response;
