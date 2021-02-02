@@ -12,7 +12,6 @@
 package hu.progmasters.fundraiser.controller;
 
 import hu.progmasters.fundraiser.domain.Account;
-import hu.progmasters.fundraiser.domain.PendingTransfer;
 import hu.progmasters.fundraiser.domain.Transfer;
 import hu.progmasters.fundraiser.dto.*;
 import hu.progmasters.fundraiser.service.AccountService;
@@ -89,7 +88,7 @@ public class TransferController {
     @PostMapping
     public ResponseEntity savePendingTransfer(@Valid @RequestBody TransferCreationCommand transferCreationCommand, HttpServletRequest request) throws MessagingException {
         ResponseEntity response = new ResponseEntity(HttpStatus.CREATED);
-        PendingTransfer pendingTransfer = transferService.savePendingTransfer(transferCreationCommand, request.getRemoteAddr());
+        Transfer pendingTransfer = transferService.savePendingTransfer(transferCreationCommand, request.getRemoteAddr());
         if (pendingTransfer == null) {
             logger.warn("Transfer failed, source or target account does not exist!");
             response = new ResponseEntity(HttpStatus.BAD_REQUEST);

@@ -14,8 +14,8 @@ package hu.progmasters.fundraiser.controller;
 import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.dto.AccountDetails;
 import hu.progmasters.fundraiser.dto.AccountRegistrationCommand;
-import hu.progmasters.fundraiser.dto.TransferListItem;
 import hu.progmasters.fundraiser.service.AccountService;
+import hu.progmasters.fundraiser.service.TransferService;
 import hu.progmasters.fundraiser.validation.AccountRegistrationCommandValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,11 +37,16 @@ public class AccountController {
     private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
     private AccountService accountService;
+    private TransferService transferService;
     private AccountRegistrationCommandValidator accountRegistrationCommandValidator;
 
     @Autowired
-    public AccountController(AccountService accountService, AccountRegistrationCommandValidator accountRegistrationCommandValidator) {
+    public AccountController(
+            AccountService accountService,
+            TransferService transferService,
+            AccountRegistrationCommandValidator accountRegistrationCommandValidator) {
         this.accountService = accountService;
+        this.transferService = transferService;
         this.accountRegistrationCommandValidator = accountRegistrationCommandValidator;
     }
 
@@ -66,8 +71,8 @@ public class AccountController {
         Account myAccount = accountService.findByIpAddress(ipAddress);
         if (myAccount != null) {
             AccountDetails myAccountDetails = new AccountDetails(myAccount);
-            myAccountDetails.setOutgoingTransfers(myAccount.getOutgoingTransfers().stream().map(TransferListItem::new).collect(Collectors.toList()));
-            myAccountDetails.setIncomingTransfers(myAccount.getIncomingTransfers().stream().map(TransferListItem::new).collect(Collectors.toList()));
+            myAccountDetails.setOutgoingTransfers(transferService.getMyOutgoingTransfers(myAccount));
+            myAccountDetails.setIncomingTransfers(transferService.getMyIncomingTransfers(myAccount));
             response = new ResponseEntity<>(myAccountDetails, HttpStatus.OK);
         } else {
             logger.info("Account not found for IP address: {}", ipAddress);

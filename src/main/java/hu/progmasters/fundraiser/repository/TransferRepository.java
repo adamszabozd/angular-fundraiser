@@ -21,9 +21,14 @@ import java.util.List;
 @Repository
 public interface TransferRepository extends JpaRepository<Transfer, Long> {
 
-    List<Transfer> findAllBySourceOrderByTimeStampDesc(Account source);
+    List<Transfer> findAllBySourceAndConfirmedTrueOrderByTimeStampDesc(Account source);
 
-    List<Transfer> findAllByTargetOrderByTimeStampDesc(Account target);
+    List<Transfer> findAllByTargetAndConfirmedTrueOrderByTimeStampDesc(Account target);
 
-    List<Transfer> findAllByOrderByTimeStampDesc();
+    List<Transfer> findAllByConfirmedTrueOrderByTimeStampDesc();
+
+    boolean existsTransfersByConfirmationCodeAndConfirmedFalse(String confirmationCode);
+
+    Transfer findTransferByConfirmationCodeAndConfirmedFalse(String confirmationCode);
+
 }

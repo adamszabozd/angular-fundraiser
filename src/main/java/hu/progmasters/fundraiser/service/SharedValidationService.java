@@ -1,9 +1,9 @@
 package hu.progmasters.fundraiser.service;
 
 import hu.progmasters.fundraiser.domain.Account;
-import hu.progmasters.fundraiser.domain.PendingTransfer;
+import hu.progmasters.fundraiser.domain.Transfer;
 import hu.progmasters.fundraiser.repository.AccountRepository;
-import hu.progmasters.fundraiser.repository.PendingTransferRepository;
+import hu.progmasters.fundraiser.repository.TransferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,12 +14,12 @@ public class SharedValidationService {
 
     private final AccountRepository accountRepository;
 
-    private final PendingTransferRepository pendingTransferRepository;
+    private final TransferRepository transferRepository;
 
     @Autowired
-    public SharedValidationService(AccountRepository accountRepository, PendingTransferRepository pendingTransferRepository) {
+    public SharedValidationService(AccountRepository accountRepository, TransferRepository transferRepository) {
         this.accountRepository = accountRepository;
-        this.pendingTransferRepository = pendingTransferRepository;
+        this.transferRepository = transferRepository;
     }
 
     public Account getAccountByIpAddress(String ipAddress) {
@@ -31,7 +31,7 @@ public class SharedValidationService {
     }
 
     public boolean pendingTransferExistsAndSourceIsRight(String confirmationCode, String ipAddress) {
-        PendingTransfer pendingTransfer = pendingTransferRepository.findPendingTransferByConfirmationCode(confirmationCode);
+        Transfer pendingTransfer = transferRepository.findTransferByConfirmationCodeAndConfirmedFalse(confirmationCode);
         if (pendingTransfer == null) {
             return false;
         } else {

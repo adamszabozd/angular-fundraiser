@@ -12,13 +12,11 @@
 package hu.progmasters.fundraiser.service;
 
 import hu.progmasters.fundraiser.domain.Account;
-import hu.progmasters.fundraiser.domain.PendingTransfer;
 import hu.progmasters.fundraiser.domain.Transfer;
 import hu.progmasters.fundraiser.dto.TransferConfirmationCommand;
 import hu.progmasters.fundraiser.dto.TransferCreationCommand;
 import hu.progmasters.fundraiser.dto.TransferListItem;
 import hu.progmasters.fundraiser.repository.AccountRepository;
-import hu.progmasters.fundraiser.repository.PendingTransferRepository;
 import hu.progmasters.fundraiser.repository.TransferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,22 +33,20 @@ public class TransferService {
 
     private TransferRepository transferRepository;
     private AccountRepository accountRepository;
-    private PendingTransferRepository pendingTransferRepository;
 
     @Autowired
-    public TransferService(TransferRepository transferRepository, AccountRepository accountRepository, PendingTransferRepository pendingTransferRepository) {
+    public TransferService(TransferRepository transferRepository, AccountRepository accountRepository) {
         this.transferRepository = transferRepository;
         this.accountRepository = accountRepository;
-        this.pendingTransferRepository = pendingTransferRepository;
     }
 
-    public PendingTransfer savePendingTransfer(TransferCreationCommand transferCreationCommand, String ipAddress) {
+    public Transfer savePendingTransfer(TransferCreationCommand transferCreationCommand, String ipAddress) {
         Account source = accountRepository.findByIpAddress(ipAddress);
         Account target = accountRepository.findById(transferCreationCommand.getTarget()).orElse(null);
-        PendingTransfer pendingTransfer = null;
+        Transfer pendingTransfer = null;
 
         if (source != null && target != null) {
-            pendingTransfer = new PendingTransfer();
+            pendingTransfer = new Transfer();
             pendingTransfer.setAmount(transferCreationCommand.getAmount());
 
             pendingTransfer.setTarget(target);
@@ -61,55 +57,52 @@ public class TransferService {
             String code = null;
             while (!codeGenerated) {
                 code = generateConfirmationCode();
-                if (!pendingTransferRepository.existsPendingTransfersByConfirmationCode(code)) {
+                if (!transferRepository.existsTransfersByConfirmationCodeAndConfirmedFalse(code)) {
                     codeGenerated = true;
                 }
             }
             pendingTransfer.setConfirmationCode(code);
-            pendingTransfer = pendingTransferRepository.save(pendingTransfer);
+            pendingTransfer.setConfirmed(false);
+            pendingTransfer = transferRepository.save(pendingTransfer);
         }
 
         return pendingTransfer;
     }
 
     public Transfer confirmTransfer(TransferConfirmationCommand transferConfirmationCommand) {
-        PendingTransfer pendingTransfer = pendingTransferRepository
-                .findPendingTransferByConfirmationCode(transferConfirmationCommand.getConfirmationCode());
-        Transfer transfer = null;
-        if (pendingTransfer != null) {
-            transfer = new Transfer();
+        Transfer transfer = transferRepository
+                .findTransferByConfirmationCodeAndConfirmedFalse(transferConfirmationCommand.getConfirmationCode());
+        if (transfer != null) {
             transfer.setTimeStamp(LocalDateTime.now());
-            transfer.setAmount(pendingTransfer.getAmount());
 
-            Account target = pendingTransfer.getTarget();
-            target.setFunds(target.getFunds() + pendingTransfer.getAmount());
-            transfer.setTarget(target);
+            Account target = transfer.getTarget();
+            target.setFunds(target.getFunds() + transfer.getAmount());
 
-            Account source = pendingTransfer.getSource();
-            source.setBalance(source.getBalance() - pendingTransfer.getAmount());
+            Account source = transfer.getSource();
+            source.setBalance(source.getBalance() - transfer.getAmount());
             transfer.setSource(source);
 
-            transfer = transferRepository.save(transfer);
-            pendingTransferRepository.delete(pendingTransfer);
+            transfer.setConfirmed(true);
+            transferRepository.save(transfer);
         }
         return transfer;
     }
 
     public List<Transfer> findAll() {
-        return transferRepository.findAllByOrderByTimeStampDesc();
+        return transferRepository.findAllByConfirmedTrueOrderByTimeStampDesc();
     }
 
-    public List<TransferListItem> getMySourceTransfers(Account account) {
+    public List<TransferListItem> getMyOutgoingTransfers(Account account) {
         List<TransferListItem> transferListItems = new ArrayList<>();
-        for (Transfer transfer : transferRepository.findAllBySourceOrderByTimeStampDesc(account)) {
+        for (Transfer transfer : transferRepository.findAllBySourceAndConfirmedTrueOrderByTimeStampDesc(account)) {
             transferListItems.add(new TransferListItem(transfer));
         }
         return transferListItems;
     }
 
-    public List<TransferListItem> getMyTargetTransfers(Account account) {
+    public List<TransferListItem> getMyIncomingTransfers(Account account) {
         List<TransferListItem> transferListItems = new ArrayList<>();
-        for (Transfer transfer : transferRepository.findAllByTargetOrderByTimeStampDesc(account)) {
+        for (Transfer transfer : transferRepository.findAllByTargetAndConfirmedTrueOrderByTimeStampDesc(account)) {
             transferListItems.add(new TransferListItem(transfer));
         }
         return transferListItems;

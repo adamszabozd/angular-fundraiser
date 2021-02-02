@@ -34,6 +34,10 @@ public class Transfer {
 
     private LocalDateTime timeStamp;
 
+    private String confirmationCode;
+
+    private Boolean confirmed;
+
 
     public Long getId() {
         return id;
@@ -73,6 +77,22 @@ public class Transfer {
 
     public void setTimeStamp(LocalDateTime timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    public String getConfirmationCode() {
+        return confirmationCode;
+    }
+
+    public void setConfirmationCode(String confirmationCode) {
+        this.confirmationCode = confirmationCode;
+    }
+
+    public Boolean getConfirmed() {
+        return confirmed;
+    }
+
+    public void setConfirmed(Boolean confirmed) {
+        this.confirmed = confirmed;
     }
 
     @Override
