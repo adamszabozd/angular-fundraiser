@@ -5,6 +5,7 @@ import { RegistrationComponent } from './components/registration/registration.co
 import { AccountPageComponent } from './components/account-page/account-page.component';
 import { SummaryPageComponent } from './components/summary-page/summary-page.component';
 import { TransferFundsComponent } from './components/transfer-funds/transfer-funds.component';
+import {TransferConfirmationComponent} from "./components/transfer-confirmation/transfer-confirmation.component";
 
 const routes: Routes = [
     {path: '', component: RegistrationComponent},
@@ -12,6 +13,7 @@ const routes: Routes = [
     {path: 'my-account', component: AccountPageComponent},
     {path: 'transfer-funds', component: TransferFundsComponent},
     {path: 'summary', component: SummaryPageComponent},
+    {path: 'transfer-confirmation', component: TransferConfirmationComponent},
 ];
 
 @NgModule({

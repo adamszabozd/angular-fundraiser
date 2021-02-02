@@ -20,4 +20,9 @@ export class TransferService {
     submitTransfer(data: {id: number, amount: number}): Observable<any> {
         return this.http.post(BASE_URL, data);
     }
+
+    confirmTransfer(data: {confirmationCode: string}): Observable<any> {
+        return this.http.post(BASE_URL + '/' + 'confirm', data);
+    }
+
 }

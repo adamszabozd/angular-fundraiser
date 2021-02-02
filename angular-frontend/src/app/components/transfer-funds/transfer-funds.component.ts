@@ -39,7 +39,7 @@ export class TransferFundsComponent implements OnInit {
 
     submitForm() {
         this.transferService.submitTransfer(this.form.value).subscribe(
-            () => this.router.navigate(['/my-account']),
+            () => this.router.navigate(['/transfer-confirmation']),
             error => validationHandler(error, this.form),
         );
     }

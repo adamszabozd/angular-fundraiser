@@ -1,0 +1,38 @@
+<div class="transfer-page">
+    <h2>Confirm Transfer</h2>
+    <hr/>
+    <br/>
+    <p *ngIf="!confirmed">A confirmation code is sent to your email address. Please enter the code below.</p>
+
+    <p *ngIf="confirmed">Transfer is confirmed!</p>
+
+    <form *ngIf="!confirmed" [formGroup]="form" (ngSubmit)="submitForm()">
+        <div class="form-group">
+            <label
+                for="confirmationCode"
+                [ngClass]="{'text-danger': (form.get('confirmationCode').invalid && form.get('confirmationCode').touched) || (form.get('confirmationCode').errors?.serverError)}"
+            >
+                Confirmation code:
+            </label>
+            <input
+                id="confirmationCode"
+                type="text"
+                class="form-control"
+                [ngClass]="{'is-invalid': (form.get('confirmationCode').invalid && form.get('confirmationCode').touched) || (form.get('confirmationCode').errors?.serverError)}"
+                name="confirmationCode"
+                formControlName="confirmationCode"
+            />
+            <small
+                *ngIf="form.get('confirmationCode').invalid && form.get('confirmationCode').touched && !form.get('confirmationCode').errors?.serverError"
+                class="text-danger"
+            >
+                Please enter the confirmation code
+            </small>
+            <small *ngIf="form.get('confirmationCode').errors?.serverError" class="text-danger">
+                {{form.get('confirmationCode').errors['serverError']}}
+            </small>
+        </div>
+        <br/>
+        <button class="btn btn-primary my-buttons">Send</button>
+    </form>
+</div>

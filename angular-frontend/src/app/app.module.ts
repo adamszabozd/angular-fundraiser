@@ -12,6 +12,7 @@ import { MyTransfersComponent } from './components/my-transfers/my-transfers.com
 import { AccountPageComponent } from './components/account-page/account-page.component';
 import { TransferFundsComponent } from './components/transfer-funds/transfer-funds.component';
 import { SummaryPageComponent } from './components/summary-page/summary-page.component';
+import { TransferConfirmationComponent } from './components/transfer-confirmation/transfer-confirmation.component';
 
 @NgModule({
     declarations: [
@@ -23,6 +24,7 @@ import { SummaryPageComponent } from './components/summary-page/summary-page.com
         AccountPageComponent,
         TransferFundsComponent,
         SummaryPageComponent,
+        TransferConfirmationComponent,
     ],
     imports: [
         BrowserModule,
