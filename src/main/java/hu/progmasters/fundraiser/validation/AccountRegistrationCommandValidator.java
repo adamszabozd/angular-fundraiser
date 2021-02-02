@@ -38,8 +38,6 @@ public class AccountRegistrationCommandValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        if (validationService.getAccountByIpAddress(request.getRemoteAddr()) != null) {
-            errors.rejectValue("username", "ipAddress.already.used");
-        }
+
     }
 }

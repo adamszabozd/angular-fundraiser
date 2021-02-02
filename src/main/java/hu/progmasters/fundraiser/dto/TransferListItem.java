@@ -29,8 +29,8 @@ public class TransferListItem {
 
     public TransferListItem(Transfer transfer) {
         this.id = transfer.getId();
-        this.source = transfer.getSource().getUsername();
-        this.target = transfer.getTarget().getGoal();
+        this.source = transfer.getSource().getEmail();
+ //       this.target = transfer.getTarget().getGoal();
         this.amount = transfer.getAmount();
         this.timeStamp = transfer.getTimeStamp().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }

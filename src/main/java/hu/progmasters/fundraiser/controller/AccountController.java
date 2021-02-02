@@ -14,6 +14,7 @@ package hu.progmasters.fundraiser.controller;
 import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.dto.AccountDetails;
 import hu.progmasters.fundraiser.dto.AccountRegistrationCommand;
+import hu.progmasters.fundraiser.dto.AuthenticatedAccountDetails;
 import hu.progmasters.fundraiser.service.AccountService;
 import hu.progmasters.fundraiser.service.TransferService;
 import hu.progmasters.fundraiser.validation.AccountRegistrationCommandValidator;
@@ -22,11 +23,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,15 +40,16 @@ public class AccountController {
 
     private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
-    private AccountService accountService;
-    private TransferService transferService;
-    private AccountRegistrationCommandValidator accountRegistrationCommandValidator;
+    private final AccountService accountService;
+    private final TransferService transferService;
+    private final AccountRegistrationCommandValidator accountRegistrationCommandValidator;
 
     @Autowired
     public AccountController(
             AccountService accountService,
             TransferService transferService,
-            AccountRegistrationCommandValidator accountRegistrationCommandValidator) {
+            AccountRegistrationCommandValidator accountRegistrationCommandValidator
+    ) {
         this.accountService = accountService;
         this.transferService = transferService;
         this.accountRegistrationCommandValidator = accountRegistrationCommandValidator;
@@ -58,33 +63,36 @@ public class AccountController {
     @GetMapping
     public ResponseEntity<List<AccountDetails>> getAllAccounts() {
         List<AccountDetails> accountDetails = accountService.findAll().stream()
-                .map(AccountDetails::new)
-                .sorted()
-                .collect(Collectors.toList());
+                                                            .map(AccountDetails::new)
+                                                            .sorted()
+                                                            .collect(Collectors.toList());
         return new ResponseEntity<>(accountDetails, HttpStatus.OK);
     }
 
     @GetMapping("/myAccountDetails")
-    public ResponseEntity<AccountDetails> getMyAccountDetails(HttpServletRequest request) {
-        ResponseEntity<AccountDetails> response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        String ipAddress = request.getRemoteAddr();
-        Account myAccount = accountService.findByIpAddress(ipAddress);
-        if (myAccount != null) {
-            AccountDetails myAccountDetails = new AccountDetails(myAccount);
-            myAccountDetails.setOutgoingTransfers(transferService.getMyOutgoingTransfers(myAccount));
-            myAccountDetails.setIncomingTransfers(transferService.getMyIncomingTransfers(myAccount));
-            response = new ResponseEntity<>(myAccountDetails, HttpStatus.OK);
-        } else {
-            logger.info("Account not found for IP address: {}", ipAddress);
-        }
-        return response;
+    public ResponseEntity<AccountDetails> getMyAccountDetails(Principal principal) {
+
+        Account myAccount = accountService.findByEmail(principal.getName());
+        AccountDetails myAccountDetails = new AccountDetails(myAccount);
+        myAccountDetails.setOutgoingTransfers(transferService.getMyOutgoingTransfers(myAccount));
+        myAccountDetails.setIncomingTransfers(transferService.getMyIncomingTransfers(myAccount));
+
+        return new ResponseEntity<>(myAccountDetails, HttpStatus.OK);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<AuthenticatedAccountDetails> getMyAccountDetails() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails user = (UserDetails) authentication.getPrincipal();
+        return new ResponseEntity<>(new AuthenticatedAccountDetails(user), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity registerNewAccount(
-            @RequestBody @Valid AccountRegistrationCommand accountRegistrationCommand,
-            HttpServletRequest request) {
-        accountService.create(accountRegistrationCommand, request.getRemoteAddr());
+    public ResponseEntity<Void> registerNewAccount(
+            @RequestBody @Valid AccountRegistrationCommand accountRegistrationCommand
+    ) {
+        accountService.create(accountRegistrationCommand);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
 }

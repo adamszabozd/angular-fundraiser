@@ -7,7 +7,7 @@ public class TargetAccountOption {
 
     public TargetAccountOption(AccountDetails accountDetails) {
         this.id = accountDetails.getId();
-        this.goal = accountDetails.getGoal();
+ //       this.goal = accountDetails.getGoal();
     }
 
     public long getId() {

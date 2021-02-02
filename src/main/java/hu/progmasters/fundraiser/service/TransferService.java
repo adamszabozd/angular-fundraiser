@@ -41,7 +41,7 @@ public class TransferService {
     }
 
     public Transfer savePendingTransfer(TransferCreationCommand transferCreationCommand, String ipAddress) {
-        Account source = accountRepository.findByIpAddress(ipAddress);
+        Account source = accountRepository.findByEmail(ipAddress);
         Account target = accountRepository.findById(transferCreationCommand.getTarget()).orElse(null);
         Transfer pendingTransfer = null;
 
@@ -76,7 +76,7 @@ public class TransferService {
             transfer.setTimeStamp(LocalDateTime.now());
 
             Account target = transfer.getTarget();
-            target.setFunds(target.getFunds() + transfer.getAmount());
+      //      target.setFunds(target.getFunds() + transfer.getAmount());
 
             Account source = transfer.getSource();
             source.setBalance(source.getBalance() - transfer.getAmount());

@@ -16,6 +16,7 @@ import hu.progmasters.fundraiser.dto.AccountDetails;
 import hu.progmasters.fundraiser.dto.AccountRegistrationCommand;
 import hu.progmasters.fundraiser.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,18 +29,17 @@ public class AccountService {
 
 
     private AccountRepository accountRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AccountService(AccountRepository accountRepository) {
+    public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
         this.accountRepository = accountRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    public void create(AccountRegistrationCommand command, String ipAddress) {
-        accountRepository.save(new Account(command, ipAddress));
-    }
-
-    public Account findByIpAddress(String ipAddress) {
-        return accountRepository.findByIpAddress(ipAddress);
+    public void create(AccountRegistrationCommand command) {
+        String encryptedPassword = passwordEncoder.encode(command.getPassword());
+        accountRepository.save(new Account(command, encryptedPassword));
     }
 
     public List<Account> findAll() {
@@ -50,6 +50,10 @@ public class AccountService {
         List<Account> accounts = accountRepository.findAll();
         accounts.remove(myAccount);
         return accounts.stream().map(AccountDetails::new).collect(Collectors.toList());
+    }
+
+    public Account findByEmail(String email) {
+       return accountRepository.findByEmail(email);
     }
 
 }

@@ -41,21 +41,5 @@ public class TransferCreationCommandValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         TransferCreationCommand transferCreationCommand = (TransferCreationCommand) target;
-        Account sourceAccount = validationService.getAccountByIpAddress(request.getRemoteAddr());
-
-        if (sourceAccount != null) {
-            if (transferCreationCommand.getAmount() != null) {
-                int transferAmount = transferCreationCommand.getAmount();
-                if (sourceAccount.getBalance() - transferAmount < 0) {
-                    errors.rejectValue(AMOUNT, "account.balanceNotEnough");
-                }
-            } else {
-                errors.rejectValue(AMOUNT, "transfer.amount.missing");
-            }
-        }
-
-        if (transferCreationCommand.getTarget() != null && validationService.getAccountById(transferCreationCommand.getTarget()) == null) {
-            errors.rejectValue("target", "transfer.target.missing");
-        }
     }
 }

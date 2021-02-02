@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 const BASE_URL = 'http://localhost:8080/api/accounts';
@@ -9,8 +9,17 @@ export class AccountService {
 
     constructor(private http: HttpClient) {}
 
-    registerNewAccount(data: {username: string, email: string, goal: string}): Observable<any> {
+    registerNewAccount(data: {email: string, password: string}): Observable<any> {
         return this.http.post(BASE_URL, data);
+    }
+
+    login(credentials): Observable<any> {
+
+        const headers = new HttpHeaders(credentials ? {
+            authorization: 'Basic ' + btoa(credentials.email + ':' + credentials.password),
+        } : {});
+
+        return this.http.get(BASE_URL + '/me', {headers: headers});
     }
 
     getMyAccountDetails(): Observable<any> {

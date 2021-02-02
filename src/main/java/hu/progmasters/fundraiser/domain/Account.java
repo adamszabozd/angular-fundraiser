@@ -14,6 +14,7 @@ package hu.progmasters.fundraiser.domain;
 import hu.progmasters.fundraiser.dto.AccountRegistrationCommand;
 
 import javax.persistence.*;
+import javax.print.DocFlavor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -25,17 +26,16 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username;
-
-    private String ipAddress;
-
     private String email;
 
-    private String goal;
+    private String password;
 
     private Integer balance;
 
-    private Integer funds;
+
+    @Enumerated(EnumType.STRING)
+    @ElementCollection(targetClass = AccountRole.class, fetch = FetchType.EAGER)
+    private List<AccountRole> accountRoleList = new ArrayList<>();
 
     @OneToMany(mappedBy = "source")
     private List<Transfer> outgoingTransfers = new ArrayList<>();
@@ -46,13 +46,11 @@ public class Account {
     public Account() {
     }
 
-    public Account(AccountRegistrationCommand accountRegistrationCommand, String ipAddress) {
-        this.username = accountRegistrationCommand.getUsername();
-        this.email = accountRegistrationCommand.getEmail();
-        this.goal = accountRegistrationCommand.getGoal();
+    public Account(AccountRegistrationCommand registrationCommand, String hashedPassword) {
+        this.email = registrationCommand.getEmail();
+        this.password = hashedPassword;
         this.balance = 5000;
-        this.funds = 0;
-        this.ipAddress = ipAddress;
+        accountRoleList.add(AccountRole.ROLE_USER);
     }
 
     public Long getId() {
@@ -63,22 +61,6 @@ public class Account {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getIpAddress() {
-        return ipAddress;
-    }
-
-    public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -87,12 +69,12 @@ public class Account {
         this.email = email;
     }
 
-    public String getGoal() {
-        return goal;
+    public String getPassword() {
+        return password;
     }
 
-    public void setGoal(String goal) {
-        this.goal = goal;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Integer getBalance() {
@@ -103,12 +85,13 @@ public class Account {
         this.balance = balance;
     }
 
-    public Integer getFunds() {
-        return funds;
+
+    public List<AccountRole> getAccountRoleList() {
+        return accountRoleList;
     }
 
-    public void setFunds(Integer funds) {
-        this.funds = funds;
+    public void setAccountRoleList(List<AccountRole> accountRoleList) {
+        this.accountRoleList = accountRoleList;
     }
 
     public List<Transfer> getOutgoingTransfers() {
@@ -127,21 +110,5 @@ public class Account {
         this.incomingTransfers = incomingTransfers;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Account)) return false;
-        Account account = (Account) o;
-        return Objects.equals(id, account.id);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    @Override
-    public String toString() {
-        return goal + "(" + username + ")" + " - balance: " + balance + ", funds: " + funds;
-    }
 }

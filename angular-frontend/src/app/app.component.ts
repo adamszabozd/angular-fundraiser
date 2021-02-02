@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { RegistrationService } from './services/registration.service';
 
 @Component({
     selector: 'app-root',
@@ -8,17 +7,8 @@ import { RegistrationService } from './services/registration.service';
 })
 export class AppComponent implements OnInit {
 
-    shouldDisplayNavbar = false;
 
-    constructor(private registrationService: RegistrationService) {}
+    constructor() {}
 
-    ngOnInit() {
-        if (localStorage.getItem('auth')) {
-            this.shouldDisplayNavbar = true;
-        }
-
-        this.registrationService.userRegistered.subscribe(
-            () => this.shouldDisplayNavbar = true,
-        );
-    }
+    ngOnInit() {}
 }

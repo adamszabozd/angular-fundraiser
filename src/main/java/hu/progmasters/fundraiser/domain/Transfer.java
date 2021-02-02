@@ -95,21 +95,5 @@ public class Transfer {
         this.confirmed = confirmed;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Transfer)) return false;
-        Transfer transfer = (Transfer) o;
-        return Objects.equals(id, transfer.id);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    @Override
-    public String toString() {
-        return "Transfer from " + source.getUsername() + " to " + target.getGoal() + " with amount " + amount + " at " + timeStamp;
-    }
 }

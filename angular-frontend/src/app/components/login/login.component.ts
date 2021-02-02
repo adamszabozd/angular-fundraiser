@@ -8,10 +8,10 @@ import { validationHandler } from '../../utils/validationHandler';
 
 @Component({
     selector: 'app-registration',
-    templateUrl: './registration.component.html',
-    styleUrls: ['./registration.component.css'],
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css'],
 })
-export class RegistrationComponent implements OnInit {
+export class LoginComponent implements OnInit {
 
     form = this.formBuilder.group({
         email: ['', [Validators.required, Validators.email]],
@@ -31,7 +31,7 @@ export class RegistrationComponent implements OnInit {
 
     register() {
         console.log('registering', this.form.value);
-        this.accountService.registerNewAccount(this.form.value).subscribe(
+        this.accountService.login(this.form.value).subscribe(
             () => {
                 localStorage.setItem('auth', 'true');
                 this.registrationService.userRegistered.next();

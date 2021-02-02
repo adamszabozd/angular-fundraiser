@@ -10,11 +10,8 @@ import { AccountService } from '../../services/account.service';
 export class AccountPageComponent implements OnInit {
 
     accountDetails: AccountDetailsModel = {
-        username: '',
         email: '',
-        goal: '',
-        balance: null,
-        funds: null,
+        balance: null
     };
     outgoingTransfers: Array<TransferDataModel>;
     incomingTransfers: Array<TransferDataModel>;
@@ -22,23 +19,17 @@ export class AccountPageComponent implements OnInit {
     constructor(private accountService: AccountService, private router: Router) {}
 
     ngOnInit(): void {
-        if (!localStorage.getItem('auth')) {
-            this.router.navigate(['/registration']);
-        } else {
             this.accountService.getMyAccountDetails().subscribe(
                 data => {
                     this.accountDetails = {
-                        username: data.username,
                         email: data.email,
-                        goal: data.goal,
                         balance: data.balance,
-                        funds: data.funds,
                     };
                     this.outgoingTransfers = data.outgoingTransfers;
                     this.incomingTransfers = data.incomingTransfers;
                 },
             );
-        }
+
     }
 
 }

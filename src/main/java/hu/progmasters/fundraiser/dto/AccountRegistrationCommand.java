@@ -16,29 +16,19 @@ import javax.validation.constraints.Size;
 
 public class AccountRegistrationCommand {
 
-    @Size(min = 4, max = 30, message = "Username must be between {min} and {max} characters")
-    private String username;
 
     @Size(min = 5, max = 100, message = "Goal must be between {min} and {max} characters")
-    private String goal;
+    private String password;
 
     @Email(message = "Invalid email address")
     private String email;
 
-    public String getUsername() {
-        return username;
+    public String getPassword() {
+        return password;
     }
 
-    public String getGoal() {
-        return goal;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setGoal(String goal) {
-        this.goal = goal;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {

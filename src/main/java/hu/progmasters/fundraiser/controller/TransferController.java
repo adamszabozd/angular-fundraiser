@@ -76,33 +76,33 @@ public class TransferController {
         return new ResponseEntity<>(transferItems, HttpStatus.OK);
     }
 
-    @GetMapping("/newTransferData")
-    public ResponseEntity<TransferInitData> newTransferData(HttpServletRequest request) {
-        Account myAccount = accountService.findByIpAddress(request.getRemoteAddr());
-        List<AccountDetails> otherAccounts = accountService.getAllAccountDetailsExceptOwn(myAccount);
-        TransferInitData initData = new TransferInitData(myAccount.getUsername(), otherAccounts, myAccount.getBalance());
+//    @GetMapping("/newTransferData")
+//    public ResponseEntity<TransferInitData> newTransferData() {
+//        Account myAccount = accountService.findByIpAddress(request.getRemoteAddr());
+//        List<AccountDetails> otherAccounts = accountService.getAllAccountDetailsExceptOwn(myAccount);
+//        TransferInitData initData = new TransferInitData(myAccount.getUsername(), otherAccounts, myAccount.getBalance());
+//
+//        return new ResponseEntity<>(initData, HttpStatus.OK);
+//    }
 
-        return new ResponseEntity<>(initData, HttpStatus.OK);
-    }
-
-    @PostMapping
-    public ResponseEntity savePendingTransfer(@Valid @RequestBody TransferCreationCommand transferCreationCommand, HttpServletRequest request) throws MessagingException {
-        ResponseEntity response = new ResponseEntity(HttpStatus.CREATED);
-        Transfer pendingTransfer = transferService.savePendingTransfer(transferCreationCommand, request.getRemoteAddr());
-        if (pendingTransfer == null) {
-            logger.warn("Transfer failed, source or target account does not exist!");
-            response = new ResponseEntity(HttpStatus.BAD_REQUEST);
-        } else {
-            String code = pendingTransfer.getConfirmationCode();
-            String to = accountService.findByIpAddress(request.getRemoteAddr()).getEmail();
-            String body = "<h1 style=\"background-color:DodgerBlue;text-align:center;\">PROGmasters Fundraiser</h1>" +
-                    "<p>A transfer was initiated from you account. Please use the following code for confirmation:</p>" +
-                    "<p style=\"font-size:50px;font-weight:bold;\">" + code + "</p>";
-            String topic = "Transfer confirmation";
-            emailSendingService.sendHtmlEmail(to, body, topic);
-        }
-        return response;
-    }
+//    @PostMapping
+//    public ResponseEntity savePendingTransfer(@Valid @RequestBody TransferCreationCommand transferCreationCommand, HttpServletRequest request) throws MessagingException {
+//        ResponseEntity response = new ResponseEntity(HttpStatus.CREATED);
+//        Transfer pendingTransfer = transferService.savePendingTransfer(transferCreationCommand, request.getRemoteAddr());
+//        if (pendingTransfer == null) {
+//            logger.warn("Transfer failed, source or target account does not exist!");
+//            response = new ResponseEntity(HttpStatus.BAD_REQUEST);
+//        } else {
+//            String code = pendingTransfer.getConfirmationCode();
+//            String to = accountService.findByIpAddress(request.getRemoteAddr()).getEmail();
+//            String body = "<h1 style=\"background-color:DodgerBlue;text-align:center;\">PROGmasters Fundraiser</h1>" +
+//                    "<p>A transfer was initiated from you account. Please use the following code for confirmation:</p>" +
+//                    "<p style=\"font-size:50px;font-weight:bold;\">" + code + "</p>";
+//            String topic = "Transfer confirmation";
+//            emailSendingService.sendHtmlEmail(to, body, topic);
+//        }
+//        return response;
+//    }
 
     @PostMapping("/confirm")
     public ResponseEntity confirmTransfer(@Valid @RequestBody TransferConfirmationCommand transferConfirmationCommand, HttpServletRequest request) {

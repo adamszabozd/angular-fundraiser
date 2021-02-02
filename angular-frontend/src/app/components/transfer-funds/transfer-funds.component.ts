@@ -24,7 +24,7 @@ export class TransferFundsComponent implements OnInit {
 
     ngOnInit() {
         if (!localStorage.auth) {
-            this.router.navigate(['/registration']);
+            this.router.navigate(['/login']);
         } else {
             this.transferService.getNewTransferData().subscribe(
                 transferData => {
