@@ -21,6 +21,20 @@ spring:
       charset: UTF-8
       enabled: true
       force: true
+  mail:
+    protocol: smtp
+    host: smtp.gmail.com
+    port: 587
+    username: fundraiser.progmasters@gmail.com
+    password: wykytjhfmpxfjkcs
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: '*'
 
 logging:
   level:

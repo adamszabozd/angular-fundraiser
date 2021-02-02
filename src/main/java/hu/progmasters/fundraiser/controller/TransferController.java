@@ -16,6 +16,7 @@ import hu.progmasters.fundraiser.domain.PendingTransfer;
 import hu.progmasters.fundraiser.domain.Transfer;
 import hu.progmasters.fundraiser.dto.*;
 import hu.progmasters.fundraiser.service.AccountService;
+import hu.progmasters.fundraiser.service.EmailSendingService;
 import hu.progmasters.fundraiser.service.TransferService;
 import hu.progmasters.fundraiser.validation.TransferConfirmationCommandValidator;
 import hu.progmasters.fundraiser.validation.TransferCreationCommandValidator;
@@ -27,6 +28,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
@@ -40,6 +42,7 @@ public class TransferController {
 
     private TransferService transferService;
     private AccountService accountService;
+    private EmailSendingService emailSendingService;
     private TransferCreationCommandValidator transferCreationCommandValidator;
     private TransferConfirmationCommandValidator transferConfirmationCommandValidator;
 
@@ -47,10 +50,12 @@ public class TransferController {
     public TransferController(
             TransferService transferService,
             AccountService accountService,
+            EmailSendingService emailSendingService,
             TransferCreationCommandValidator transferCreationCommandValidator,
             TransferConfirmationCommandValidator transferConfirmationCommandValidator) {
         this.transferService = transferService;
         this.accountService = accountService;
+        this.emailSendingService = emailSendingService;
         this.transferCreationCommandValidator = transferCreationCommandValidator;
         this.transferConfirmationCommandValidator = transferConfirmationCommandValidator;
     }
@@ -82,12 +87,20 @@ public class TransferController {
     }
 
     @PostMapping
-    public ResponseEntity savePendingTransfer(@Valid @RequestBody TransferCreationCommand transferCreationCommand, HttpServletRequest request) {
+    public ResponseEntity savePendingTransfer(@Valid @RequestBody TransferCreationCommand transferCreationCommand, HttpServletRequest request) throws MessagingException {
         ResponseEntity response = new ResponseEntity(HttpStatus.CREATED);
-        PendingTransfer transfer = transferService.savePendingTransfer(transferCreationCommand, request.getRemoteAddr());
-        if (transfer == null) {
+        PendingTransfer pendingTransfer = transferService.savePendingTransfer(transferCreationCommand, request.getRemoteAddr());
+        if (pendingTransfer == null) {
             logger.warn("Transfer failed, source or target account does not exist!");
             response = new ResponseEntity(HttpStatus.BAD_REQUEST);
+        } else {
+            String code = pendingTransfer.getConfirmationCode();
+            String to = accountService.findByIpAddress(request.getRemoteAddr()).getEmail();
+            String body = "<h1 style=\"background-color:DodgerBlue;text-align:center;\">PROGmasters Fundraiser</h1>" +
+                    "<p>A transfer was initiated from you account. Please use the following code for confirmation:</p>" +
+                    "<p style=\"font-size:50px;font-weight:bold;\">" + code + "</p>";
+            String topic = "Transfer confirmation";
+            emailSendingService.sendHtmlEmail(to, body, topic);
         }
         return response;
     }
