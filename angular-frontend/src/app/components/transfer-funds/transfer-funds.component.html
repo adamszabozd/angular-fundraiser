@@ -4,16 +4,6 @@
     <br/>
     <form [formGroup]="form" (ngSubmit)="submitForm()">
         <div class="form-group">
-            <label for="from">From:</label>
-            <input
-                id="from"
-                class="form-control my-input-field-disabled"
-                name="from"
-                placeholder="{{sourceAccountName}}"
-                disabled
-            />
-        </div>
-        <div class="form-group">
             <label
                 for="to"
                 [ngClass]="{'text-danger': (form.get('target').invalid && form.get('target').touched) || (form.get('target').errors?.serverError)}"
@@ -28,7 +18,7 @@
                 formControlName="target"
             >
                 <option value=null selected disabled>-- Choose a goal to support --</option>
-                <option *ngFor="let account of targetAccounts" value="{{account.id}}">{{account.goal}}</option>
+                <option *ngFor="let fund of transferFormInitDataModel.targetFundOptions" value="{{fund.id}}">{{fund.title}}</option>
             </select>
             <small
                 *ngIf="form.get('target').invalid && form.get('target').touched && !form.get('target').errors?.serverError"
@@ -74,7 +64,7 @@
                     id="balance"
                     class="form-control my-input-field-disabled"
                     name="balance"
-                    placeholder="{{balance}}"
+                    placeholder="{{transferFormInitDataModel.balance}}"
                     disabled
                 />
             </div>

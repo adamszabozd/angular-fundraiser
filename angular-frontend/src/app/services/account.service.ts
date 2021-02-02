@@ -26,6 +26,7 @@ export class AccountService {
         return this.http.get(BASE_URL + '/myAccountDetails');
     }
 
+    // Ezt max akkor fogjuk használni, ha csinálunk adminfelületet is. Mezei usereknek nem listázzuk ki az összes regisztáltat.
     fetchAllAccounts(): Observable<any> {
         return this.http.get(BASE_URL);
     }

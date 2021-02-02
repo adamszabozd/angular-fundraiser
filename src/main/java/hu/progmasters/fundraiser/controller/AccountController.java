@@ -60,15 +60,6 @@ public class AccountController {
         binder.addValidators(accountRegistrationCommandValidator);
     }
 
-    @GetMapping
-    public ResponseEntity<List<AccountDetails>> getAllAccounts() {
-        List<AccountDetails> accountDetails = accountService.findAll().stream()
-                                                            .map(AccountDetails::new)
-                                                            .sorted()
-                                                            .collect(Collectors.toList());
-        return new ResponseEntity<>(accountDetails, HttpStatus.OK);
-    }
-
     @GetMapping("/myAccountDetails")
     public ResponseEntity<AccountDetails> getMyAccountDetails(Principal principal) {
 
@@ -93,6 +84,16 @@ public class AccountController {
     ) {
         accountService.create(accountRegistrationCommand);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    // Ezt max akkor fogjuk használni, ha csinálunk adminfelületet is. Mezei usereknek nem listázzuk ki az összes regisztáltat.
+    @GetMapping
+    public ResponseEntity<List<AccountDetails>> getAllAccounts() {
+        List<AccountDetails> accountDetails = accountService.findAll().stream()
+                                                            .map(AccountDetails::new)
+                                                            .sorted()
+                                                            .collect(Collectors.toList());
+        return new ResponseEntity<>(accountDetails, HttpStatus.OK);
     }
 
 }

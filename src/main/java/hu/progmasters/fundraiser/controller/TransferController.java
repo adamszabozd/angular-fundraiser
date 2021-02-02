@@ -12,10 +12,12 @@
 package hu.progmasters.fundraiser.controller;
 
 import hu.progmasters.fundraiser.domain.Account;
+import hu.progmasters.fundraiser.domain.Fund;
 import hu.progmasters.fundraiser.domain.Transfer;
 import hu.progmasters.fundraiser.dto.*;
 import hu.progmasters.fundraiser.service.AccountService;
 import hu.progmasters.fundraiser.service.EmailSendingService;
+import hu.progmasters.fundraiser.service.FundService;
 import hu.progmasters.fundraiser.service.TransferService;
 import hu.progmasters.fundraiser.validation.TransferConfirmationCommandValidator;
 import hu.progmasters.fundraiser.validation.TransferCreationCommandValidator;
@@ -30,6 +32,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,6 +44,8 @@ public class TransferController {
 
     private TransferService transferService;
     private AccountService accountService;
+    private FundService fundService;
+
     private EmailSendingService emailSendingService;
     private TransferCreationCommandValidator transferCreationCommandValidator;
     private TransferConfirmationCommandValidator transferConfirmationCommandValidator;
@@ -49,11 +54,14 @@ public class TransferController {
     public TransferController(
             TransferService transferService,
             AccountService accountService,
-            EmailSendingService emailSendingService,
+            FundService fundService, EmailSendingService emailSendingService,
             TransferCreationCommandValidator transferCreationCommandValidator,
-            TransferConfirmationCommandValidator transferConfirmationCommandValidator) {
+            TransferConfirmationCommandValidator transferConfirmationCommandValidator
+    ) {
         this.transferService = transferService;
         this.accountService = accountService;
+        this.fundService = fundService;
+
         this.emailSendingService = emailSendingService;
         this.transferCreationCommandValidator = transferCreationCommandValidator;
         this.transferConfirmationCommandValidator = transferConfirmationCommandValidator;
@@ -69,40 +77,33 @@ public class TransferController {
         binder.addValidators(transferConfirmationCommandValidator);
     }
 
-    @GetMapping
-    public ResponseEntity<List<TransferListItem>> getAllTransferListItems() {
-        List<TransferListItem> transferItems = transferService.findAll().stream()
-                .map(TransferListItem::new).collect(Collectors.toList());
-        return new ResponseEntity<>(transferItems, HttpStatus.OK);
+    @GetMapping("/newTransferData")
+    public ResponseEntity<TransferFormInitData> newTransferData(Principal principal) {
+        Account myAccount = accountService.findByEmail(principal.getName());
+        List<Fund> targetFunds = fundService.findAll();
+        TransferFormInitData initData = new TransferFormInitData(targetFunds, myAccount.getBalance());
+
+        return new ResponseEntity<>(initData, HttpStatus.OK);
     }
 
-//    @GetMapping("/newTransferData")
-//    public ResponseEntity<TransferInitData> newTransferData() {
-//        Account myAccount = accountService.findByIpAddress(request.getRemoteAddr());
-//        List<AccountDetails> otherAccounts = accountService.getAllAccountDetailsExceptOwn(myAccount);
-//        TransferInitData initData = new TransferInitData(myAccount.getUsername(), otherAccounts, myAccount.getBalance());
-//
-//        return new ResponseEntity<>(initData, HttpStatus.OK);
-//    }
-
-//    @PostMapping
-//    public ResponseEntity savePendingTransfer(@Valid @RequestBody TransferCreationCommand transferCreationCommand, HttpServletRequest request) throws MessagingException {
-//        ResponseEntity response = new ResponseEntity(HttpStatus.CREATED);
-//        Transfer pendingTransfer = transferService.savePendingTransfer(transferCreationCommand, request.getRemoteAddr());
-//        if (pendingTransfer == null) {
-//            logger.warn("Transfer failed, source or target account does not exist!");
-//            response = new ResponseEntity(HttpStatus.BAD_REQUEST);
-//        } else {
-//            String code = pendingTransfer.getConfirmationCode();
-//            String to = accountService.findByIpAddress(request.getRemoteAddr()).getEmail();
-//            String body = "<h1 style=\"background-color:DodgerBlue;text-align:center;\">PROGmasters Fundraiser</h1>" +
-//                    "<p>A transfer was initiated from you account. Please use the following code for confirmation:</p>" +
-//                    "<p style=\"font-size:50px;font-weight:bold;\">" + code + "</p>";
-//            String topic = "Transfer confirmation";
-//            emailSendingService.sendHtmlEmail(to, body, topic);
-//        }
-//        return response;
-//    }
+    @PostMapping
+    public ResponseEntity savePendingTransfer(@Valid @RequestBody TransferCreationCommand transferCreationCommand, Principal principal) throws MessagingException {
+        ResponseEntity response = new ResponseEntity(HttpStatus.CREATED);
+        Transfer pendingTransfer = transferService.savePendingTransfer(transferCreationCommand, principal.getName());
+        if (pendingTransfer == null) {
+            logger.warn("Transfer failed, source or target account does not exist!");
+            response = new ResponseEntity(HttpStatus.BAD_REQUEST);
+        } else {
+            String code = pendingTransfer.getConfirmationCode();
+            String to = accountService.findByEmail(principal.getName()).getEmail();
+            String body = "<h1 style=\"background-color:DodgerBlue;text-align:center;\">PROGmasters Fundraiser</h1>" +
+                    "<p>A transfer was initiated from you account. Please use the following code for confirmation:</p>" +
+                    "<p style=\"font-size:50px;font-weight:bold;\">" + code + "</p>";
+            String topic = "Transfer confirmation";
+            emailSendingService.sendHtmlEmail(to, body, topic);
+        }
+        return response;
+    }
 
     @PostMapping("/confirm")
     public ResponseEntity confirmTransfer(@Valid @RequestBody TransferConfirmationCommand transferConfirmationCommand, HttpServletRequest request) {
@@ -113,5 +114,13 @@ public class TransferController {
             response = new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
         return response;
+    }
+
+    // Ezt akkor fogjuk használni, ha csinálunk admin felületet. Amúgy nem listázzuk ki az átutalásokat nyilvánosan.
+    @GetMapping
+    public ResponseEntity<List<TransferListItem>> getAllTransferListItems() {
+        List<TransferListItem> transferItems = transferService.findAll().stream()
+                                                              .map(TransferListItem::new).collect(Collectors.toList());
+        return new ResponseEntity<>(transferItems, HttpStatus.OK);
     }
 }

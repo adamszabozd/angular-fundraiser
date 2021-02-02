@@ -11,27 +11,23 @@
 
 package hu.progmasters.fundraiser.dto;
 
+import hu.progmasters.fundraiser.domain.Fund;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TransferInitData {
+public class TransferFormInitData {
 
-    private String sourceAccountName;
-    private List<TargetAccountOption> targetAccountOptions;
+    private List<TargetFundOption> targetFundOptions;
     private int balance;
 
-    public TransferInitData(String sourceAccountName, List<AccountDetails> targetAccounts, int balance) {
-        this.sourceAccountName = sourceAccountName;
-        this.targetAccountOptions = targetAccounts.stream().map(TargetAccountOption::new).collect(Collectors.toList());
+    public TransferFormInitData(List<Fund> targetAccounts, int balance) {
+        this.targetFundOptions = targetAccounts.stream().map(TargetFundOption::new).collect(Collectors.toList());
         this.balance = balance;
     }
 
-    public String getSourceAccountName() {
-        return sourceAccountName;
-    }
-
-    public List<TargetAccountOption> getTargetAccountOptions() {
-        return targetAccountOptions;
+    public List<TargetFundOption> getTargetFundOptions() {
+        return targetFundOptions;
     }
 
     public int getBalance() {

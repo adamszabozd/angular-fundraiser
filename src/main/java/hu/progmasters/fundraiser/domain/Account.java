@@ -14,10 +14,8 @@ package hu.progmasters.fundraiser.domain;
 import hu.progmasters.fundraiser.dto.AccountRegistrationCommand;
 
 import javax.persistence.*;
-import javax.print.DocFlavor;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 public class Account {

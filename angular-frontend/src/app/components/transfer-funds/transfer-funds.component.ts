@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TransferService } from '../../services/transfer.service';
 
 import { validationHandler } from '../../utils/validationHandler';
+import {TransferFormInitDataModel} from './transferFormInitData.model';
 
 @Component({
     selector: 'app-transfer-funds',
@@ -12,9 +13,8 @@ import { validationHandler } from '../../utils/validationHandler';
 })
 export class TransferFundsComponent implements OnInit {
 
-    sourceAccountName: string;
-    balance: number;
-    targetAccounts: Array<TargetAccountOptionModel> = [];
+    transferFormInitDataModel: TransferFormInitDataModel;
+
     form = this.formBuilder.group({
         target: [null, Validators.required],
         amount: [null, [Validators.required, Validators.min(50), Validators.max(1000)]],
@@ -27,10 +27,8 @@ export class TransferFundsComponent implements OnInit {
             this.router.navigate(['/login']);
         } else {
             this.transferService.getNewTransferData().subscribe(
-                transferData => {
-                    this.sourceAccountName = transferData.sourceAccountName;
-                    this.balance = transferData.balance;
-                    this.targetAccounts = transferData.targetAccountOptions;
+                (transferData) => {
+                    this.transferFormInitDataModel = transferData;
                 },
                 console.warn,
             );
