@@ -35,6 +35,7 @@ public class Account {
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = AccountRole.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "account_roles")
     private List<AccountRole> accountRoleList = new ArrayList<>();
 
     @OneToMany(mappedBy = "source")
