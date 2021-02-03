@@ -12,8 +12,7 @@ import java.util.List;
 @Transactional
 public class FundService {
 
-    //TODO - REVIEW: Aláhúzza az IDEA, nem szúrja a szemeteket? :) Mehet minden final-ra (mindenhol)
-    private FundRepository fundRepository;
+    private final FundRepository fundRepository;
 
     @Autowired
     public FundService(FundRepository fundRepository) {

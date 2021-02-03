@@ -3,7 +3,6 @@ package hu.progmasters.fundraiser.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -19,9 +18,12 @@ public class EmailSendingService {
 
     private static final Logger logger = LoggerFactory.getLogger(EmailSendingService.class);
 
-    //TODO - REVIEW: "Field injection is not recommended". Még szól is érte az IDEA!
+    private final JavaMailSender javaMailSender;
+
     @Autowired
-    private JavaMailSender javaMailSender;
+    public EmailSendingService(JavaMailSender javaMailSender) {
+        this.javaMailSender = javaMailSender;
+    }
 
     @Async
     public void sendHtmlEmail(String to, String body, String topic) {

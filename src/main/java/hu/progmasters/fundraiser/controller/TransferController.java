@@ -42,14 +42,14 @@ import java.util.stream.Collectors;
 public class TransferController {
 
     private static final Logger logger = LoggerFactory.getLogger(TransferController.class);
-    //TODO - REVIEW: Aláhúzza az IDEA, nem szúrja a szemeteket? :) Mehet minden final-ra (mindenhol)
-    private TransferService transferService;
-    private AccountService accountService;
-    private FundService fundService;
 
-    private EmailSendingService emailSendingService;
-    private TransferCreationCommandValidator transferCreationCommandValidator;
-    private TransferConfirmationCommandValidator transferConfirmationCommandValidator;
+    private final TransferService transferService;
+    private final AccountService accountService;
+    private final FundService fundService;
+
+    private final EmailSendingService emailSendingService;
+    private final TransferCreationCommandValidator transferCreationCommandValidator;
+    private final TransferConfirmationCommandValidator transferConfirmationCommandValidator;
 
     @Autowired
     public TransferController(

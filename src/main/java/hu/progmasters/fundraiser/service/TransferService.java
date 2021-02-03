@@ -35,9 +35,9 @@ public class TransferService {
 
     Logger logger = LoggerFactory.getLogger(TransferService.class);
 
-    private TransferRepository transferRepository;
-    private AccountRepository accountRepository;
-    private FundRepository fundRepository;
+    private final TransferRepository transferRepository;
+    private final AccountRepository accountRepository;
+    private final FundRepository fundRepository;
 
     @Autowired
     public TransferService(TransferRepository transferRepository, AccountRepository accountRepository, FundRepository fundRepository) {
@@ -52,28 +52,35 @@ public class TransferService {
         Transfer pendingTransfer = null;
 
         if (source != null && goal != null) {
-            pendingTransfer = new Transfer();
-            pendingTransfer.setAmount(transferCreationCommand.getAmount());
-
-            pendingTransfer.setTarget(goal);
-
-            pendingTransfer.setSource(source);
-            //TODO - REVIEW: ezt mehet saját methodba, ez így túúúúl hosszú
-            boolean codeGenerated = false;
-            String code = null;
-            while (!codeGenerated) {
-                code = RandomStringUtils.random(10, true, true);
-                if (!transferRepository.existsTransfersByConfirmationCodeAndConfirmedFalse(code)) {
-                    codeGenerated = true;
-                }
-            }
-            logger.info("Confirmation code generated: {}", codeGenerated);
-            pendingTransfer.setConfirmationCode(code);
-            pendingTransfer.setConfirmed(false);
-            pendingTransfer = transferRepository.save(pendingTransfer);
+            pendingTransfer = getPendingTransfer(transferCreationCommand, source, goal);
         }
-
         return pendingTransfer;
+    }
+
+    private Transfer getPendingTransfer(TransferCreationCommand transferCreationCommand, Account source, Fund goal) {
+        Transfer pendingTransfer;
+        pendingTransfer = new Transfer();
+        pendingTransfer.setAmount(transferCreationCommand.getAmount());
+        pendingTransfer.setTarget(goal);
+        pendingTransfer.setSource(source);
+        String code = getCode();
+        logger.info("Confirmation code generated.");
+        pendingTransfer.setConfirmationCode(code);
+        pendingTransfer.setConfirmed(false);
+        pendingTransfer = transferRepository.save(pendingTransfer);
+        return pendingTransfer;
+    }
+
+    private String getCode() {
+        boolean codeGenerated = false;
+        String code = null;
+        while (!codeGenerated) {
+            code = RandomStringUtils.random(10, true, true);
+            if (!transferRepository.existsTransfersByConfirmationCodeAndConfirmedFalse(code)) {
+                codeGenerated = true;
+            }
+        }
+        return code;
     }
 
     public Transfer confirmTransfer(TransferConfirmationCommand transferConfirmationCommand) {

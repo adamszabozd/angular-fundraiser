@@ -21,10 +21,6 @@ public class SharedValidationService {
         this.accountRepository = accountRepository;
         this.transferRepository = transferRepository;
     }
-    //TODO - REVIEW: unused method: kuka
-    public Account getAccountById(Long id) {
-        return accountRepository.findById(id).orElse(null);
-    }
 
     public boolean pendingTransferExistsAndSourceIsRight(String confirmationCode, String ipAddress) {
         Transfer pendingTransfer = transferRepository.findTransferByConfirmationCodeAndConfirmedFalse(confirmationCode);

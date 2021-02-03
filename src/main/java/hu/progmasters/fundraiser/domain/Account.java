@@ -17,22 +17,23 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO - REVIEW:
-// - Tábla és oszlop neveket erősen ajánlott explicit kiírni!
-// - Ha van bármi constraint, azt már most rakjátok ki ( valami nem lehet null, legyen-e default értéke stb ),
-// nagyon sok fejfájástól meg tud óvni a későbbiekben
 @Entity
+@Table(name = "account")
 public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id",insertable = false, updatable = false)
     private Long id;
 
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
+    @Column(name = "password", nullable = false)
     private String password;
 
-    private Integer balance;
+    @Column(name = "balance", nullable = false)
+    private Integer balance = 5000;
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = AccountRole.class,
@@ -43,17 +44,12 @@ public class Account {
     @OneToMany(mappedBy = "source")
     private List<Transfer> outgoingTransfers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "target")
-    private List<Transfer> incomingTransfers = new ArrayList<>();
-
     public Account() {
     }
 
     public Account(AccountRegistrationCommand registrationCommand, String hashedPassword) {
         this.email = registrationCommand.getEmail();
         this.password = hashedPassword;
-        //TODO - REVIEW: MAGIC NUMBER !!! Menjen konstansba!! Vagy még szebb, ha esetleg application.yaml-ből van behúzva! :)
-        this.balance = 5000;
         accountRoleList.add(AccountRole.ROLE_USER);
     }
 
@@ -103,14 +99,6 @@ public class Account {
 
     public void setOutgoingTransfers(List<Transfer> outgoingTransfers) {
         this.outgoingTransfers = outgoingTransfers;
-    }
-
-    public List<Transfer> getIncomingTransfers() {
-        return incomingTransfers;
-    }
-
-    public void setIncomingTransfers(List<Transfer> incomingTransfers) {
-        this.incomingTransfers = incomingTransfers;
     }
 
 }

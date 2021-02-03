@@ -11,6 +11,7 @@
 
 package hu.progmasters.fundraiser.controller;
 
+import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.dto.AccountDetails;
 import hu.progmasters.fundraiser.dto.AccountRegistrationCommand;
 import hu.progmasters.fundraiser.dto.AuthenticatedAccountDetails;
@@ -69,28 +70,16 @@ public class AccountController {
     }
 
     @GetMapping("/myAccountDetails")
-    public ResponseEntity<AccountDetails> getMyAccountDetails(Principal principal, HttpSession httpSession) {
-        //TODO Ha itt sessiont használunk, van szükség principalra?
-        //TODO - REVIEW: Session-re nincs szükség ;) Ha szükséged van a UserID-ra, azt be lehet rakni a principalbe,
-        // ez nem túl triviális, de szívesen megmutatom
-        Long userId = (Long) httpSession.getAttribute(SESSION_USER_ID_KEY);
+    public ResponseEntity<AccountDetails> getMyAccountDetails(Principal principal) {
+        Account myAccount = accountService.findByEmail(principal.getName());
+        AccountDetails myAccountDetails = new AccountDetails(myAccount);
 
-        boolean userExistsInSession = userId != null;
-        if (userExistsInSession) {
-            logger.info("User '" + userId + "' requested own details");
-            return new ResponseEntity<>(accountService.getAccountDetails(userId), HttpStatus.OK);
-        } else {
-            logger.info("User not logged in!");
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
+        return new ResponseEntity<>(myAccountDetails, HttpStatus.OK);
     }
-
     @GetMapping("/me")
-    public ResponseEntity<AuthenticatedAccountDetails> getMyAccountDetailsAfterLogin(HttpSession httpSession) {
+    public ResponseEntity<AuthenticatedAccountDetails> getMyAccountDetails() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails user = (UserDetails) authentication.getPrincipal();
-        long loggedInAccountId = accountService.findByEmail(user.getUsername()).getId();
-        httpSession.setAttribute(SESSION_USER_ID_KEY, loggedInAccountId);
         return new ResponseEntity<>(new AuthenticatedAccountDetails(user), HttpStatus.OK);
     }
 
