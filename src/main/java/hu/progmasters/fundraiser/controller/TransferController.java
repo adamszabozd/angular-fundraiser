@@ -87,7 +87,7 @@ public class TransferController {
     }
 
     @PostMapping
-    public ResponseEntity savePendingTransfer(@Valid @RequestBody TransferCreationCommand transferCreationCommand, Principal principal) throws MessagingException {
+    public ResponseEntity savePendingTransfer(@Valid @RequestBody TransferCreationCommand transferCreationCommand, Principal principal) {
         ResponseEntity response = new ResponseEntity(HttpStatus.CREATED);
         Transfer pendingTransfer = transferService.savePendingTransfer(transferCreationCommand, principal.getName());
         if (pendingTransfer == null) {
@@ -97,8 +97,8 @@ public class TransferController {
             String code = pendingTransfer.getConfirmationCode();
             String to = accountService.findByEmail(principal.getName()).getEmail();
             String body = "<h1 style=\"background-color:DodgerBlue;text-align:center;\">PROGmasters Fundraiser</h1>" +
-                    "<p>A transfer was initiated from you account. Please use the following code for confirmation:</p>" +
-                    "<p style=\"font-size:50px;font-weight:bold;\">" + code + "</p>";
+                    "<p>A transfer was initiated from you account. Please click the following link for confirmation:</p>" +
+                    "<p style=\"font-size:20px;font-weight:bold;\">http://localhost:4200/transfer-confirmation/" + code + "</p>";
             String topic = "Transfer confirmation";
             emailSendingService.sendHtmlEmail(to, body, topic);
         }

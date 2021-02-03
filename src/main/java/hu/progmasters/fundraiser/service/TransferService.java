@@ -18,6 +18,8 @@ import hu.progmasters.fundraiser.dto.TransferCreationCommand;
 import hu.progmasters.fundraiser.dto.TransferListItem;
 import hu.progmasters.fundraiser.repository.AccountRepository;
 import hu.progmasters.fundraiser.repository.TransferRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,8 @@ import java.util.Random;
 @Service
 @Transactional
 public class TransferService {
+
+    Logger logger = LoggerFactory.getLogger(TransferService.class);
 
     private TransferRepository transferRepository;
     private AccountRepository accountRepository;
@@ -61,6 +65,7 @@ public class TransferService {
                     codeGenerated = true;
                 }
             }
+            logger.info("Confirmation code generated: {}", codeGenerated);
             pendingTransfer.setConfirmationCode(code);
             pendingTransfer.setConfirmed(false);
             pendingTransfer = transferRepository.save(pendingTransfer);
