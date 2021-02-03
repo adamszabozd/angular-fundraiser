@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,23 +38,28 @@ public class AccountService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void create(AccountRegistrationCommand command) {
+    public long create(AccountRegistrationCommand command) {
         String encryptedPassword = passwordEncoder.encode(command.getPassword());
-        accountRepository.save(new Account(command, encryptedPassword));
+        Account savedAccount = accountRepository.save(new Account(command, encryptedPassword));
+        return savedAccount.getId();
     }
 
     public List<Account> findAll() {
         return accountRepository.findAll();
     }
 
-    public List<AccountDetails> getAllAccountDetailsExceptOwn(Account myAccount) {
-        List<Account> accounts = accountRepository.findAll();
-        accounts.remove(myAccount);
-        return accounts.stream().map(AccountDetails::new).collect(Collectors.toList());
-    }
-
     public Account findByEmail(String email) {
        return accountRepository.findByEmail(email);
+    }
+
+    public Account findById(Long userId) {
+        return accountRepository
+                .findById(userId)
+                .orElseThrow(EntityNotFoundException::new);
+    }
+
+    public AccountDetails getAccountDetails(Long userId) {
+        return new AccountDetails(findById(userId));
     }
 
 }

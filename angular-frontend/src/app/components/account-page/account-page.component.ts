@@ -1,34 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AccountService } from '../../services/account.service';
+import {Component, OnInit} from '@angular/core';
+import {AccountService} from '../../services/account.service';
+import {AccountDetailsModel} from '../../models/accountDetails.model';
 
 @Component({
-    selector: 'app-account-page',
-    templateUrl: './account-page.component.html',
-    styleUrls: ['./account-page.component.css'],
-})
+               selector   : 'app-account-page',
+               templateUrl: './account-page.component.html',
+               styleUrls  : ['./account-page.component.css'],
+           })
 export class AccountPageComponent implements OnInit {
 
-    accountDetails: AccountDetailsModel = {
-        email: '',
-        balance: null
-    };
-    outgoingTransfers: Array<TransferDataModel>;
-    incomingTransfers: Array<TransferDataModel>;
+    accountDetails: AccountDetailsModel;
 
-    constructor(private accountService: AccountService, private router: Router) {}
+    constructor(private accountService: AccountService) {
+    }
 
     ngOnInit(): void {
-            this.accountService.getMyAccountDetails().subscribe(
-                data => {
-                    this.accountDetails = {
-                        email: data.email,
-                        balance: data.balance,
-                    };
-                    this.outgoingTransfers = data.outgoingTransfers;
-                    this.incomingTransfers = data.incomingTransfers;
-                },
-            );
+        this.accountService.getMyAccountDetails().subscribe(
+            (data) => {
+                this.accountDetails = data;
+            },
+        );
 
     }
 

@@ -1,3 +1,49 @@
-<app-my-account [accountDetails]="accountDetails"></app-my-account>
+<div class="container">
+    <h2>My Account</h2>
+    <hr/>
+    <div class="form-group">
+        <label for="email" class="input-label">Email:</label>
+        <input
+            id="email"
+            class="form-control my-input-field-disabled"
+            name="email"
+            placeholder="{{accountDetails.email}}"
+            disabled
+        />
+    </div>
+
+    <div class="form-group">
+        <label for="balance">Balance:</label>
+        <input
+            id="balance"
+            class="form-control my-input-field-disabled"
+            name="balance"
+            placeholder="{{accountDetails.balance}}"
+            disabled
+        />
+    </div>
+</div>
 <br><br>
-<app-my-transfers [incomingTransfers]="incomingTransfers" [outgoingTransfers]="outgoingTransfers"></app-my-transfers>
+<div class="container">
+    <h4 class="my-transfers__table-label">My transfers:</h4>
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr class="table-danger">
+            <th class="my-transfers__column-from">From</th>
+            <th class="my-transfers__column-to">To</th>
+            <th class="my-transfers__column-amount">Amount</th>
+            <th class="my-transfers__column-date">Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let transfer of accountDetails.outgoingTransfers">
+            <td>{{transfer.senderAccountEmail}}</td>
+            <td>{{transfer.targetFundTitle}}</td>
+            <td>{{transfer.amount}}</td>
+            <td>{{transfer.timeStamp}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!--<app-my-transfers [incomingTransfers]="incomingTransfers" [outgoingTransfers]="outgoingTransfers"></app-my-transfers>-->

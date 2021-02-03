@@ -6,28 +6,28 @@
         <div class="form-group">
             <label
                 for="to"
-                [ngClass]="{'text-danger': (form.get('target').invalid && form.get('target').touched) || (form.get('target').errors?.serverError)}"
+                [ngClass]="{'text-danger': (form.get('targetFundId').invalid && form.get('targetFundId').touched) || (form.get('targetFundId').errors?.serverError)}"
             >
                 To:
             </label>
             <select
                 id="to"
                 class="form-control"
-                [ngClass]="{'is-invalid': (form.get('target').invalid && form.get('target').touched) || (form.get('target').errors?.serverError)}"
-                name="target"
-                formControlName="target"
+                [ngClass]="{'is-invalid': (form.get('targetFundId').invalid && form.get('targetFundId').touched) || (form.get('targetFundId').errors?.serverError)}"
+                name="targetFundId"
+                formControlName="targetFundId"
             >
                 <option value=null selected disabled>-- Choose a goal to support --</option>
                 <option *ngFor="let fund of transferFormInitDataModel.targetFundOptions" value="{{fund.id}}">{{fund.title}}</option>
             </select>
             <small
-                *ngIf="form.get('target').invalid && form.get('target').touched && !form.get('target').errors?.serverError"
+                *ngIf="form.get('targetFundId').invalid && form.get('targetFundId').touched && !form.get('targetFundId').errors?.serverError"
                 class="text-danger"
             >
                 Please choose an account to send money to
             </small>
-            <small *ngIf="form.get('target').errors?.serverError" class="text-danger">
-                {{form.get('target').errors['serverError']}}
+            <small *ngIf="form.get('targetFundId').errors?.serverError" class="text-danger">
+                {{form.get('targetFundId').errors['serverError']}}
             </small>
         </div>
 

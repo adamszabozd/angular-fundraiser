@@ -14,7 +14,10 @@ package hu.progmasters.fundraiser.controller;
 import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.domain.Fund;
 import hu.progmasters.fundraiser.domain.Transfer;
-import hu.progmasters.fundraiser.dto.*;
+import hu.progmasters.fundraiser.dto.TransferConfirmationCommand;
+import hu.progmasters.fundraiser.dto.TransferCreationCommand;
+import hu.progmasters.fundraiser.dto.TransferFormInitData;
+import hu.progmasters.fundraiser.dto.TransferListItem;
 import hu.progmasters.fundraiser.service.AccountService;
 import hu.progmasters.fundraiser.service.EmailSendingService;
 import hu.progmasters.fundraiser.service.FundService;
@@ -29,8 +32,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
@@ -123,4 +124,5 @@ public class TransferController {
                                                               .map(TransferListItem::new).collect(Collectors.toList());
         return new ResponseEntity<>(transferItems, HttpStatus.OK);
     }
+
 }

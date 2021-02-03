@@ -13,7 +13,6 @@ package hu.progmasters.fundraiser.domain;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Entity
 public class Transfer {
@@ -23,21 +22,22 @@ public class Transfer {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "transfer_from", nullable = false)
+    @JoinColumn(name = "transfer_from",
+                nullable = false)
     private Account source;
 
     @ManyToOne
-    @JoinColumn(name = "transfer_to", nullable = false)
-    private Account target;
+    @JoinColumn(name = "transfer_to",
+                nullable = false)
+    private Fund target;
 
-    private Integer amount = 0;
+    private Integer amount;
 
     private LocalDateTime timeStamp;
 
     private String confirmationCode;
 
     private Boolean confirmed;
-
 
     public Long getId() {
         return id;
@@ -55,11 +55,11 @@ public class Transfer {
         this.source = source;
     }
 
-    public Account getTarget() {
+    public Fund getTarget() {
         return target;
     }
 
-    public void setTarget(Account target) {
+    public void setTarget(Fund target) {
         this.target = target;
     }
 
@@ -94,6 +94,5 @@ public class Transfer {
     public void setConfirmed(Boolean confirmed) {
         this.confirmed = confirmed;
     }
-
 
 }

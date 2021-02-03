@@ -17,18 +17,29 @@ import javax.validation.constraints.NotNull;
 
 public class TransferCreationCommand {
 
-    @NotNull(message = "You must choose a target account")
-    private Long target;
+    @NotNull(message = "{transfer.targetNotNull}")
+    private Long targetFundId;
 
-    @Min(value = 50, message = "The minimum amount to transfer is $50")
-    @Max(value = 1000, message = "The maximum amount to transfer is $1000")
+    @Min(value = 50,
+         message = "{transfer.amountMin}")
+    @Max(value = 1000,
+         message = "{transfer.amountMin}")
     private Integer amount;
 
-    public Long getTarget() {
-        return target;
+    public Long getTargetFundId() {
+        return targetFundId;
     }
 
     public Integer getAmount() {
         return amount;
     }
+
+    public void setTargetFundId(Long targetFundId) {
+        this.targetFundId = targetFundId;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
+    }
+
 }

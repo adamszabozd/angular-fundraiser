@@ -11,12 +11,10 @@
 
 package hu.progmasters.fundraiser.controller;
 
-import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.dto.AccountDetails;
 import hu.progmasters.fundraiser.dto.AccountRegistrationCommand;
 import hu.progmasters.fundraiser.dto.AuthenticatedAccountDetails;
 import hu.progmasters.fundraiser.service.AccountService;
-import hu.progmasters.fundraiser.service.TransferService;
 import hu.progmasters.fundraiser.validation.AccountRegistrationCommandValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,10 +27,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static hu.progmasters.fundraiser.config.SpringWebConfig.SESSION_USER_ID_KEY;
 
 @RestController
 @RequestMapping("/api/accounts")
@@ -41,17 +42,14 @@ public class AccountController {
     private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
     private final AccountService accountService;
-    private final TransferService transferService;
     private final AccountRegistrationCommandValidator accountRegistrationCommandValidator;
 
     @Autowired
     public AccountController(
             AccountService accountService,
-            TransferService transferService,
             AccountRegistrationCommandValidator accountRegistrationCommandValidator
     ) {
         this.accountService = accountService;
-        this.transferService = transferService;
         this.accountRegistrationCommandValidator = accountRegistrationCommandValidator;
     }
 
@@ -60,30 +58,38 @@ public class AccountController {
         binder.addValidators(accountRegistrationCommandValidator);
     }
 
+    @PostMapping
+    public ResponseEntity<Void> registerNewAccount(HttpSession httpSession,
+                                                   @RequestBody @Valid AccountRegistrationCommand accountRegistrationCommand
+    ) {
+        long newAccountId = accountService.create(accountRegistrationCommand);
+        httpSession.setAttribute(SESSION_USER_ID_KEY, newAccountId);
+        logger.info("User '" + newAccountId + "' successfully registered!");
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
     @GetMapping("/myAccountDetails")
-    public ResponseEntity<AccountDetails> getMyAccountDetails(Principal principal) {
+    public ResponseEntity<AccountDetails> getMyAccountDetails(Principal principal, HttpSession httpSession) {
+        //TODO Ha itt sessiont használunk, van szükség principalra?
+        Long userId = (Long) httpSession.getAttribute(SESSION_USER_ID_KEY);
 
-        Account myAccount = accountService.findByEmail(principal.getName());
-        AccountDetails myAccountDetails = new AccountDetails(myAccount);
-        myAccountDetails.setOutgoingTransfers(transferService.getMyOutgoingTransfers(myAccount));
-        myAccountDetails.setIncomingTransfers(transferService.getMyIncomingTransfers(myAccount));
-
-        return new ResponseEntity<>(myAccountDetails, HttpStatus.OK);
+        boolean userExistsInSession = userId != null;
+        if (userExistsInSession) {
+            logger.info("User '" + userId + "' requested own details");
+            return new ResponseEntity<>(accountService.getAccountDetails(userId), HttpStatus.OK);
+        } else {
+            logger.info("User not logged in!");
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 
     @GetMapping("/me")
-    public ResponseEntity<AuthenticatedAccountDetails> getMyAccountDetails() {
+    public ResponseEntity<AuthenticatedAccountDetails> getMyAccountDetailsAfterLogin(HttpSession httpSession) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails user = (UserDetails) authentication.getPrincipal();
+        long loggedInAccountId = accountService.findByEmail(user.getUsername()).getId();
+        httpSession.setAttribute(SESSION_USER_ID_KEY, loggedInAccountId);
         return new ResponseEntity<>(new AuthenticatedAccountDetails(user), HttpStatus.OK);
-    }
-
-    @PostMapping
-    public ResponseEntity<Void> registerNewAccount(
-            @RequestBody @Valid AccountRegistrationCommand accountRegistrationCommand
-    ) {
-        accountService.create(accountRegistrationCommand);
-        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     // Ezt max akkor fogjuk használni, ha csinálunk adminfelületet is. Mezei usereknek nem listázzuk ki az összes regisztáltat.

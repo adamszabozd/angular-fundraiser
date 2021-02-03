@@ -13,8 +13,8 @@ package hu.progmasters.fundraiser.dto;
 
 import hu.progmasters.fundraiser.domain.Account;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AccountDetails {
 
@@ -22,21 +22,14 @@ public class AccountDetails {
     private String email;
     private Integer balance;
     private List<String> accountRoleList;
-    private List<TransferListItem> incomingTransfers = new ArrayList<>();
-    private List<TransferListItem> outgoingTransfers = new ArrayList<>();
+    private List<MyTransferListItem> outgoingTransfers;
 
     public AccountDetails(Account account) {
         this.id = account.getId();
         this.email = account.getEmail();
         this.balance = account.getBalance();
-    }
-
-    public void setIncomingTransfers(List<TransferListItem> incomingTransfers) {
-        this.incomingTransfers = incomingTransfers;
-    }
-
-    public void setOutgoingTransfers(List<TransferListItem> outgoingTransfers) {
-        this.outgoingTransfers = outgoingTransfers;
+        this.accountRoleList = account.getAccountRoleList().stream().map(String::valueOf).collect(Collectors.toList());
+        this.outgoingTransfers = account.getOutgoingTransfers().stream().map(MyTransferListItem::new).collect(Collectors.toList());
     }
 
     public Long getId() {
@@ -51,12 +44,12 @@ public class AccountDetails {
         return balance;
     }
 
-    public List<TransferListItem> getIncomingTransfers() {
-        return incomingTransfers;
+    public List<MyTransferListItem> getOutgoingTransfers() {
+        return outgoingTransfers;
     }
 
-    public List<TransferListItem> getOutgoingTransfers() {
-        return outgoingTransfers;
+    public List<String> getAccountRoleList() {
+        return accountRoleList;
     }
 
 }

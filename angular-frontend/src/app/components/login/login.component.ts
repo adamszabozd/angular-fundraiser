@@ -1,27 +1,28 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
 
-import { AccountService } from '../../services/account.service';
-import { RegistrationService } from '../../services/registration.service';
-import { validationHandler } from '../../utils/validationHandler';
+import {AccountService} from '../../services/account.service';
+import {RegistrationService} from '../../services/registration.service';
+import {validationHandler} from '../../utils/validationHandler';
 
 @Component({
-    selector: 'app-registration',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.css'],
-})
+               selector   : 'app-registration',
+               templateUrl: './login.component.html',
+               styleUrls  : ['./login.component.css'],
+           })
 export class LoginComponent implements OnInit {
 
     form = this.formBuilder.group({
-        email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
-    });
+                                      email   : ['', [Validators.required, Validators.email]],
+                                      password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+                                  });
 
     constructor(private formBuilder: FormBuilder,
                 private router: Router,
                 private accountService: AccountService,
-                private registrationService: RegistrationService) {}
+                private registrationService: RegistrationService) {
+    }
 
     ngOnInit() {
         if (localStorage.getItem('auth')) {

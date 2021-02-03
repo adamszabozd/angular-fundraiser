@@ -12,12 +12,14 @@
 package hu.progmasters.fundraiser.service;
 
 import hu.progmasters.fundraiser.domain.Account;
+import hu.progmasters.fundraiser.domain.Fund;
 import hu.progmasters.fundraiser.domain.Transfer;
 import hu.progmasters.fundraiser.dto.TransferConfirmationCommand;
 import hu.progmasters.fundraiser.dto.TransferCreationCommand;
-import hu.progmasters.fundraiser.dto.TransferListItem;
 import hu.progmasters.fundraiser.repository.AccountRepository;
+import hu.progmasters.fundraiser.repository.FundRepository;
 import hu.progmasters.fundraiser.repository.TransferRepository;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Service
 @Transactional
@@ -37,32 +37,32 @@ public class TransferService {
 
     private TransferRepository transferRepository;
     private AccountRepository accountRepository;
+    private FundRepository fundRepository;
 
     @Autowired
-    public TransferService(TransferRepository transferRepository, AccountRepository accountRepository) {
+    public TransferService(TransferRepository transferRepository, AccountRepository accountRepository, FundRepository fundRepository) {
         this.transferRepository = transferRepository;
         this.accountRepository = accountRepository;
+        this.fundRepository = fundRepository;
     }
 
     public Transfer savePendingTransfer(TransferCreationCommand transferCreationCommand, String email) {
         Account source = accountRepository.findByEmail(email);
-
-        //TODO ide majd ACCOUNT helyett fund, target helyett GOAL jön
-        Account target = accountRepository.findById(transferCreationCommand.getTarget()).orElse(null);
+        Fund goal = fundRepository.findById(transferCreationCommand.getTargetFundId()).orElse(null);
         Transfer pendingTransfer = null;
 
-        if (source != null && target != null) {
+        if (source != null && goal != null) {
             pendingTransfer = new Transfer();
             pendingTransfer.setAmount(transferCreationCommand.getAmount());
 
-            pendingTransfer.setTarget(target);
+            pendingTransfer.setTarget(goal);
 
             pendingTransfer.setSource(source);
 
             boolean codeGenerated = false;
             String code = null;
             while (!codeGenerated) {
-                code = generateConfirmationCode();
+                code = RandomStringUtils.random(10, true, true);
                 if (!transferRepository.existsTransfersByConfirmationCodeAndConfirmedFalse(code)) {
                     codeGenerated = true;
                 }
@@ -82,8 +82,8 @@ public class TransferService {
         if (transfer != null) {
             transfer.setTimeStamp(LocalDateTime.now());
 
-            Account target = transfer.getTarget();
-      //      target.setFunds(target.getFunds() + transfer.getAmount());
+            Fund goal = transfer.getTarget();
+            goal.setAmount(goal.getAmount() + transfer.getAmount());
 
             Account source = transfer.getSource();
             source.setBalance(source.getBalance() - transfer.getAmount());
@@ -99,39 +99,4 @@ public class TransferService {
         return transferRepository.findAllByConfirmedTrueOrderByTimeStampDesc();
     }
 
-    public List<TransferListItem> getMyOutgoingTransfers(Account account) {
-        List<TransferListItem> transferListItems = new ArrayList<>();
-        for (Transfer transfer : transferRepository.findAllBySourceAndConfirmedTrueOrderByTimeStampDesc(account)) {
-            transferListItems.add(new TransferListItem(transfer));
-        }
-        return transferListItems;
-    }
-
-    public List<TransferListItem> getMyIncomingTransfers(Account account) {
-        List<TransferListItem> transferListItems = new ArrayList<>();
-        for (Transfer transfer : transferRepository.findAllByTargetAndConfirmedTrueOrderByTimeStampDesc(account)) {
-            transferListItems.add(new TransferListItem(transfer));
-        }
-        return transferListItems;
-    }
-
-    /* Generate a random 10 characters long alphanumeric string.
-     * The ASCII codes of digits are 48-57,
-     *  uppercase English letters 65-90, lowercase English letters 97-122.
-     */
-    private String generateConfirmationCode() {
-        Random random = new Random();
-        StringBuilder code = new StringBuilder();
-        for (int i = 0; i < 10; i++) {
-            int ch = 48 + random.nextInt(10 + 26 + 26);
-            if (ch > 57) {
-                ch += 7;
-            }
-            if (ch > 90) {
-                ch += 6;
-            }
-            code.append((char)ch);
-        }
-        return code.toString();
-    }
 }

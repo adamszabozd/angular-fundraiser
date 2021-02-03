@@ -1,6 +1,7 @@
 package hu.progmasters.fundraiser.domain;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 public class Fund {
@@ -21,9 +22,14 @@ public class Fund {
     @Enumerated(EnumType.STRING)
     private FundCategory fundCategory;
 
+    private Integer amount;
+
+    private Integer targetAmount;
+
+    private LocalDate endDate;
+
     public Fund() {
     }
-
 
     public Long getId() {
         return id;
@@ -71,6 +77,30 @@ public class Fund {
 
     public void setFundCategory(FundCategory fundCategory) {
         this.fundCategory = fundCategory;
+    }
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
+    }
+
+    public Integer getTargetAmount() {
+        return targetAmount;
+    }
+
+    public void setTargetAmount(Integer targetAmount) {
+        this.targetAmount = targetAmount;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 
 }

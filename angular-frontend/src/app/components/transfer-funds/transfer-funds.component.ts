@@ -1,39 +1,36 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { TransferService } from '../../services/transfer.service';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {TransferService} from '../../services/transfer.service';
 
-import { validationHandler } from '../../utils/validationHandler';
-import {TransferFormInitDataModel} from './transferFormInitData.model';
+import {validationHandler} from '../../utils/validationHandler';
+import {TransferFormInitDataModel} from '../../models/transferFormInitData.model';
 
 @Component({
-    selector: 'app-transfer-funds',
-    templateUrl: './transfer-funds.component.html',
-    styleUrls: ['./transfer-funds.component.css'],
-})
+               selector   : 'app-transfer-funds',
+               templateUrl: './transfer-funds.component.html',
+               styleUrls  : ['./transfer-funds.component.css'],
+           })
 export class TransferFundsComponent implements OnInit {
 
     transferFormInitDataModel: TransferFormInitDataModel;
     submitted = false;
 
     form = this.formBuilder.group({
-        target: [null, Validators.required],
-        amount: [null, [Validators.required, Validators.min(50), Validators.max(1000)]],
-    });
+                                      targetFundId: [null, Validators.required],
+                                      amount      : [null, [Validators.required, Validators.min(50), Validators.max(1000)]],
+                                  });
 
-    constructor(private formBuilder: FormBuilder, private transferService: TransferService, private router: Router) { }
+    constructor(private formBuilder: FormBuilder, private transferService: TransferService, private router: Router) {
+    }
 
     ngOnInit() {
-        if (!localStorage.auth) {
-            this.router.navigate(['/login']);
-        } else {
-            this.transferService.getNewTransferData().subscribe(
-                (transferData) => {
-                    this.transferFormInitDataModel = transferData;
-                },
-                console.warn,
-            );
-        }
+        this.transferService.getNewTransferData().subscribe(
+            (transferData) => {
+                this.transferFormInitDataModel = transferData;
+            },
+            console.warn,
+        );
     }
 
     submitForm() {

@@ -15,13 +15,15 @@ import hu.progmasters.fundraiser.domain.Transfer;
 
 import java.time.format.DateTimeFormatter;
 
+
+// ezt max admin jogokkal rendelkező user fogja használni.
 public class TransferListItem {
 
     private Long id;
 
-    private String source;
+    private String senderAccountEmail;
 
-    private String target;
+    private Long targetFundId;
 
     private Integer amount;
 
@@ -29,8 +31,8 @@ public class TransferListItem {
 
     public TransferListItem(Transfer transfer) {
         this.id = transfer.getId();
-        this.source = transfer.getSource().getEmail();
- //       this.target = transfer.getTarget().getGoal();
+        this.senderAccountEmail = transfer.getSource().getEmail();
+        this.targetFundId = transfer.getTarget().getId();
         this.amount = transfer.getAmount();
         this.timeStamp = transfer.getTimeStamp().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
@@ -39,12 +41,12 @@ public class TransferListItem {
         return id;
     }
 
-    public String getSource() {
-        return source;
+    public String getSenderAccountEmail() {
+        return senderAccountEmail;
     }
 
-    public String getTarget() {
-        return target;
+    public Long getTargetFundId() {
+        return targetFundId;
     }
 
     public Integer getAmount() {
