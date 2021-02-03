@@ -71,6 +71,8 @@ public class AccountController {
     @GetMapping("/myAccountDetails")
     public ResponseEntity<AccountDetails> getMyAccountDetails(Principal principal, HttpSession httpSession) {
         //TODO Ha itt sessiont használunk, van szükség principalra?
+        //TODO - REVIEW: Session-re nincs szükség ;) Ha szükséged van a UserID-ra, azt be lehet rakni a principalbe,
+        // ez nem túl triviális, de szívesen megmutatom
         Long userId = (Long) httpSession.getAttribute(SESSION_USER_ID_KEY);
 
         boolean userExistsInSession = userId != null;

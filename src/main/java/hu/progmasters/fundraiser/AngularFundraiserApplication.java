@@ -10,6 +10,4 @@ public class AngularFundraiserApplication {
 		SpringApplication.run(AngularFundraiserApplication.class, args);
 	}
 
-	//Test
-
 }

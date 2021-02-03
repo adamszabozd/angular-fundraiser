@@ -21,7 +21,7 @@ public class SharedValidationService {
         this.accountRepository = accountRepository;
         this.transferRepository = transferRepository;
     }
-
+    //TODO - REVIEW: unused method: kuka
     public Account getAccountById(Long id) {
         return accountRepository.findById(id).orElse(null);
     }

@@ -58,7 +58,7 @@ public class TransferService {
             pendingTransfer.setTarget(goal);
 
             pendingTransfer.setSource(source);
-
+            //TODO - REVIEW: ezt mehet saját methodba, ez így túúúúl hosszú
             boolean codeGenerated = false;
             String code = null;
             while (!codeGenerated) {

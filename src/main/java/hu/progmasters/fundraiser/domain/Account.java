@@ -17,6 +17,10 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO - REVIEW:
+// - Tábla és oszlop neveket erősen ajánlott explicit kiírni!
+// - Ha van bármi constraint, azt már most rakjátok ki ( valami nem lehet null, legyen-e default értéke stb ),
+// nagyon sok fejfájástól meg tud óvni a későbbiekben
 @Entity
 public class Account {
 
@@ -30,9 +34,9 @@ public class Account {
 
     private Integer balance;
 
-
     @Enumerated(EnumType.STRING)
-    @ElementCollection(targetClass = AccountRole.class, fetch = FetchType.EAGER)
+    @ElementCollection(targetClass = AccountRole.class,
+                       fetch = FetchType.EAGER)
     @CollectionTable(name = "account_roles")
     private List<AccountRole> accountRoleList = new ArrayList<>();
 
@@ -48,6 +52,7 @@ public class Account {
     public Account(AccountRegistrationCommand registrationCommand, String hashedPassword) {
         this.email = registrationCommand.getEmail();
         this.password = hashedPassword;
+        //TODO - REVIEW: MAGIC NUMBER !!! Menjen konstansba!! Vagy még szebb, ha esetleg application.yaml-ből van behúzva! :)
         this.balance = 5000;
         accountRoleList.add(AccountRole.ROLE_USER);
     }
@@ -84,7 +89,6 @@ public class Account {
         this.balance = balance;
     }
 
-
     public List<AccountRole> getAccountRoleList() {
         return accountRoleList;
     }
@@ -108,6 +112,5 @@ public class Account {
     public void setIncomingTransfers(List<Transfer> incomingTransfers) {
         this.incomingTransfers = incomingTransfers;
     }
-
 
 }

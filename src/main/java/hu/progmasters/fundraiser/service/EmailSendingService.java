@@ -19,10 +19,9 @@ public class EmailSendingService {
 
     private static final Logger logger = LoggerFactory.getLogger(EmailSendingService.class);
 
+    //TODO - REVIEW: "Field injection is not recommended". Még szól is érte az IDEA!
     @Autowired
     private JavaMailSender javaMailSender;
-
-
 
     @Async
     public void sendHtmlEmail(String to, String body, String topic) {
