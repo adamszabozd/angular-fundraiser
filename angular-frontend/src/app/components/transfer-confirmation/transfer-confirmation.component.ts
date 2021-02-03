@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, Validators} from "@angular/forms";
 import {TransferService} from "../../services/transfer.service";
-import {Router} from "@angular/router";
-import {validationHandler} from "../../utils/validationHandler";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-transfer-confirmation',
@@ -11,24 +9,27 @@ import {validationHandler} from "../../utils/validationHandler";
 })
 export class TransferConfirmationComponent implements OnInit {
 
-    confirmed = false;
-    form = this.formBuilder.group({
-        confirmationCode: ['', Validators.required],
-    });
+    validCode = false;
 
-    constructor(private formBuilder: FormBuilder, private transferService: TransferService, private router: Router) { }
+    constructor(private transferService: TransferService,
+                private router: Router,
+                private route: ActivatedRoute) { }
 
     ngOnInit() {
         if (!localStorage.auth) {
             this.router.navigate(['/registration']);
+        } else {
+            this.route.paramMap.subscribe(
+                paramMap => {
+                    const confirmationCode = paramMap.get('code');
+                    this.transferService.confirmTransfer({"confirmationCode": confirmationCode}).subscribe(
+                        () => this.validCode = true,
+                        error => console.warn(error),
+                    );
+                },
+                error => console.warn(error),
+            );
         }
-    }
-
-    submitForm() {
-        this.transferService.confirmTransfer(this.form.value).subscribe(
-            () => this.confirmed = true,
-            error => validationHandler(error, this.form),
-        );
     }
 
 }
