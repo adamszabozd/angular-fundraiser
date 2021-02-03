@@ -16,16 +16,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AuthenticatedOrcDetails {
+public class AuthenticatedAccountDetails {
 
     private String name;
 
     private List<String> roles;
 
-    public AuthenticatedOrcDetails() {
+    public AuthenticatedAccountDetails() {
     }
 
-    public AuthenticatedOrcDetails(UserDetails user) {
+    public AuthenticatedAccountDetails(UserDetails user) {
         this.name = user.getUsername();
         this.roles = mapRoles(user);
     }

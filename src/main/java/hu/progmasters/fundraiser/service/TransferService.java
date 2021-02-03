@@ -44,8 +44,10 @@ public class TransferService {
         this.accountRepository = accountRepository;
     }
 
-    public Transfer savePendingTransfer(TransferCreationCommand transferCreationCommand, String ipAddress) {
-        Account source = accountRepository.findByEmail(ipAddress);
+    public Transfer savePendingTransfer(TransferCreationCommand transferCreationCommand, String email) {
+        Account source = accountRepository.findByEmail(email);
+
+        //TODO ide majd ACCOUNT helyett fund, target helyett GOAL jön
         Account target = accountRepository.findById(transferCreationCommand.getTarget()).orElse(null);
         Transfer pendingTransfer = null;
 

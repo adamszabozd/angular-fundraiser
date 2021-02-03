@@ -33,7 +33,6 @@ export class RegistrationComponent implements OnInit {
         console.log('registering', this.form.value);
         this.accountService.registerNewAccount(this.form.value).subscribe(
             () => {
-                localStorage.setItem('auth', 'true');
                 this.registrationService.userRegistered.next();
                 this.router.navigate(['/my-account']);
             },

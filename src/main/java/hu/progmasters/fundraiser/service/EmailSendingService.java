@@ -22,15 +22,7 @@ public class EmailSendingService {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    @Async
-    public void sendEmail(String to, String body, String topic) {
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setFrom("fundraiser.progmasters@gmail.com");
-        simpleMailMessage.setTo(to);
-        simpleMailMessage.setSubject(topic);
-        simpleMailMessage.setText(body);
-        javaMailSender.send(simpleMailMessage);
-    }
+
 
     @Async
     public void sendHtmlEmail(String to, String body, String topic) {

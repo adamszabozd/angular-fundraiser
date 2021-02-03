@@ -106,7 +106,7 @@ public class TransferController {
     }
 
     @PostMapping("/confirm")
-    public ResponseEntity confirmTransfer(@Valid @RequestBody TransferConfirmationCommand transferConfirmationCommand, HttpServletRequest request) {
+    public ResponseEntity confirmTransfer(@Valid @RequestBody TransferConfirmationCommand transferConfirmationCommand) {
         ResponseEntity response = new ResponseEntity(HttpStatus.CREATED);
         Transfer transfer = transferService.confirmTransfer(transferConfirmationCommand);
         if (transfer == null) {
