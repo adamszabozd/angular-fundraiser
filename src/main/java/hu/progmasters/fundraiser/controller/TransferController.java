@@ -27,13 +27,18 @@ import hu.progmasters.fundraiser.validation.TransferCreationCommandValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.context.Context;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,8 +51,8 @@ public class TransferController {
     private final TransferService transferService;
     private final AccountService accountService;
     private final FundService fundService;
-
     private final EmailSendingService emailSendingService;
+
     private final TransferCreationCommandValidator transferCreationCommandValidator;
     private final TransferConfirmationCommandValidator transferConfirmationCommandValidator;
 
@@ -55,15 +60,16 @@ public class TransferController {
     public TransferController(
             TransferService transferService,
             AccountService accountService,
-            FundService fundService, EmailSendingService emailSendingService,
+            FundService fundService,
+            EmailSendingService emailSendingService,
             TransferCreationCommandValidator transferCreationCommandValidator,
             TransferConfirmationCommandValidator transferConfirmationCommandValidator
     ) {
         this.transferService = transferService;
         this.accountService = accountService;
         this.fundService = fundService;
-
         this.emailSendingService = emailSendingService;
+
         this.transferCreationCommandValidator = transferCreationCommandValidator;
         this.transferConfirmationCommandValidator = transferConfirmationCommandValidator;
     }
@@ -99,13 +105,9 @@ public class TransferController {
             logger.warn("Transfer failed, source or target account does not exist!");
             response = new ResponseEntity(HttpStatus.BAD_REQUEST);
         } else {
-            String code = pendingTransfer.getConfirmationCode();
+            String confirmationCode = pendingTransfer.getConfirmationCode();
             String to = accountService.findByEmail(principal.getName()).getEmail();
-            String body = "<h1 style=\"background-color:DodgerBlue;text-align:center;\">PROGmasters Fundraiser</h1>" +
-                    "<p>A transfer was initiated from you account. Please click the following link for confirmation:</p>" +
-                    "<p style=\"font-size:20px;font-weight:bold;\">http://localhost:4200/transfer-confirmation/" + code + "</p>";
-            String topic = "Transfer confirmation";
-            emailSendingService.sendHtmlEmail(to, body, topic);
+            emailSendingService.sendConfirmationEmail(to, confirmationCode);
         }
         return response;
     }
