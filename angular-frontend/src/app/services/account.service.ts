@@ -3,8 +3,10 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {AccountDetailsModel} from '../models/accountDetails.model';
 import {AccountRegistrationDataModel} from '../models/accountRegistrationData.model';
+import {environment} from "../../environments/environment";
 
-const BASE_URL = 'http://localhost:8080/api/accounts';
+const host = environment.BASE_URL;
+const BASE_URL = host + '/api/accounts';
 
 @Injectable({providedIn: 'root'})
 export class AccountService {

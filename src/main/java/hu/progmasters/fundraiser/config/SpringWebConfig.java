@@ -11,6 +11,7 @@
 
 package hu.progmasters.fundraiser.config;
  
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -18,12 +19,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class SpringWebConfig implements WebMvcConfigurer {
 
+    @Value("${cors-policies}")
+    private String[] corsPolicies;
+
+
     public static final String SESSION_USER_ID_KEY = "userId";
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:4200", "http://127.0.0.1:4200")
+                .allowedOrigins(corsPolicies)
                 .allowedMethods("GET", "POST", "DELETE", "PUT");
     }
 }

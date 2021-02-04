@@ -47,3 +47,5 @@ logging:
 account:
   balance:
     default: 5000
+
+cors-policies: http://localhost:4200

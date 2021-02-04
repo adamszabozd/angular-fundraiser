@@ -3,8 +3,10 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {TransferFormInitDataModel} from '../models/transferFormInitData.model';
 import {TransferCreationModel} from '../models/transferCreation.model';
+import {environment} from "../../environments/environment";
 
-const BASE_URL = 'http://localhost:8080/api/transfers';
+const host = environment.BASE_URL;
+const BASE_URL = host+'/api/transfers';
 
 @Injectable({providedIn: 'root'})
 export class TransferService {
