@@ -61,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers( "/api/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/accounts").permitAll()
                 .anyRequest().authenticated()
-                .and().logout().deleteCookies("JSESSIONID")
+                .and().logout().logoutUrl("api/accounts/logout").invalidateHttpSession(true).deleteCookies("JSESSIONID")
                 .and().httpBasic();
     }
 

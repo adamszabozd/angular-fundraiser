@@ -25,9 +25,13 @@ export class RegistrationComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (localStorage.getItem('auth')) {
-            this.router.navigate(['/my-account']);
-        }
+        this.accountService.isLoggedIn().subscribe(
+            data => {
+                if (data) {
+                    this.router.navigate(['/my-account']);
+                }
+            }
+        );
     }
 
     register() {

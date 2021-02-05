@@ -93,4 +93,8 @@ public class AccountController {
         return new ResponseEntity<>(accountDetails, HttpStatus.OK);
     }
 
+    @GetMapping("/loggedIn")
+    public ResponseEntity<Boolean> isLoggedIn(Principal principal) {
+        return new ResponseEntity<>(principal == null, HttpStatus.OK);
+    }
 }

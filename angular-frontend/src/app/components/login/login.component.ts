@@ -25,21 +25,25 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (localStorage.getItem('auth')) {
-            this.router.navigate(['/my-account']);
-        }
+        this.accountService.isLoggedIn().subscribe(
+            data => {
+                if (data) {
+                    this.router.navigate(['/my-account']);
+                }
+            }
+        );
     }
 
     register() {
         console.log('registering', this.form.value);
         this.accountService.login(this.form.value).subscribe(
             () => {
-                localStorage.setItem('auth', 'true');
                 this.registrationService.userRegistered.next();
                 this.router.navigate(['/my-account']);
             },
             error => validationHandler(error, this.form),
         );
+        this.accountService.loggedInStatusUpdate.next(true);
     }
 
 }

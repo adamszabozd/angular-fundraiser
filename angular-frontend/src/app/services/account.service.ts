@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {AccountDetailsModel} from '../models/accountDetails.model';
 import {AccountRegistrationDataModel} from '../models/accountRegistrationData.model';
 import {environment} from "../../environments/environment";
@@ -10,6 +10,8 @@ const BASE_URL = host + '/api/accounts';
 
 @Injectable({providedIn: 'root'})
 export class AccountService {
+
+    loggedInStatusUpdate = new Subject<boolean>();
 
     constructor(private http: HttpClient) {
     }
@@ -34,5 +36,13 @@ export class AccountService {
     // Ezt max akkor fogjuk használni, ha csinálunk adminfelületet is. Mezei usereknek nem listázzuk ki az összes regisztáltat.
     fetchAllAccounts(): Observable<any> {
         return this.http.get(BASE_URL);
+    }
+
+    isLoggedIn(): Observable<any> {
+        return this.http.get(BASE_URL + "/loggedIn");
+    }
+
+    logout(): Observable<any> {
+        return this.http.get(BASE_URL + "/logout");
     }
 }
