@@ -12,6 +12,7 @@
 package hu.progmasters.fundraiser.dto;
 
 import hu.progmasters.fundraiser.domain.Account;
+import hu.progmasters.fundraiser.domain.Transfer;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,14 +23,23 @@ public class AccountDetails {
     private String email;
     private Integer balance;
     private List<String> accountRoleList;
-    private List<MyTransferListItem> outgoingTransfers;
+    private List<MyTransferListItem> confirmedTransfers;
+    private List<MyTransferListPendingItem> pendingTransfers;
 
     public AccountDetails(Account account) {
         this.id = account.getId();
         this.email = account.getEmail();
         this.balance = account.getBalance();
-        this.accountRoleList = account.getAccountRoleList().stream().map(String::valueOf).collect(Collectors.toList());
-        this.outgoingTransfers = account.getOutgoingTransfers().stream().map(MyTransferListItem::new).collect(Collectors.toList());
+        this.accountRoleList = account.getAccountRoleList().stream()
+                .map(String::valueOf)
+                .collect(Collectors.toList());
+        this.confirmedTransfers = account.getOutgoingTransfers().stream()
+                .filter(Transfer::getConfirmed).map(MyTransferListItem::new)
+                .collect(Collectors.toList());
+        this.pendingTransfers = account.getOutgoingTransfers().stream()
+                .filter(t -> !t.getConfirmed())
+                .map(MyTransferListPendingItem::new)
+                .collect(Collectors.toList());
     }
 
     public Long getId() {
@@ -44,12 +54,15 @@ public class AccountDetails {
         return balance;
     }
 
-    public List<MyTransferListItem> getOutgoingTransfers() {
-        return outgoingTransfers;
+    public List<MyTransferListItem> getConfirmedTransfers() {
+        return confirmedTransfers;
     }
 
     public List<String> getAccountRoleList() {
         return accountRoleList;
     }
 
+    public List<MyTransferListPendingItem> getPendingTransfers() {
+        return pendingTransfers;
+    }
 }

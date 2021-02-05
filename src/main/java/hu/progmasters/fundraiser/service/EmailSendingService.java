@@ -53,6 +53,7 @@ public class EmailSendingService {
         }
     }
 
+    @Async
     public void sendConfirmationEmail(String to, String confirmationCode) {
         String confirmationLink = "http://localhost:4200/transfer-confirmation/" + confirmationCode;
         Context ctx = new Context();

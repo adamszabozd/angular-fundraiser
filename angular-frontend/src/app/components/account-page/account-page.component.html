@@ -28,7 +28,7 @@
     <h4 class="my-transfers__table-label">My transfers:</h4>
     <table class="table table-bordered table-striped">
         <thead>
-        <tr class="table-danger">
+        <tr class="table-success">
             <th class="my-transfers__column-from">From</th>
             <th class="my-transfers__column-to">To</th>
             <th class="my-transfers__column-amount">Amount</th>
@@ -36,11 +36,31 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let transfer of accountDetails.outgoingTransfers">
+        <tr *ngFor="let transfer of accountDetails.confirmedTransfers">
             <td>{{transfer.senderAccountEmail}}</td>
             <td>{{transfer.targetFundTitle}}</td>
             <td>{{transfer.amount}}</td>
             <td>{{transfer.timeStamp}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<br><br>
+<div class="container">
+    <h4 class="my-transfers__table-label">My pending transfers:</h4>
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr class="table-danger">
+            <th class="my-transfers__column-from">From</th>
+            <th class="my-transfers__column-to">To</th>
+            <th class="my-transfers__column-amount">Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let transfer of accountDetails.pendingTransfers">
+            <td>{{transfer.senderAccountEmail}}</td>
+            <td>{{transfer.targetFundTitle}}</td>
+            <td>{{transfer.amount}}</td>
         </tr>
         </tbody>
     </table>
