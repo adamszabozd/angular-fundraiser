@@ -22,9 +22,10 @@ export class NavbarComponent implements OnInit {
     }
 
     logout() {
-        this.accountService.logout();
-        this.accountService.loggedInStatusUpdate.next(false);
-        this.router.navigate(['']);
+        this.accountService.logout().subscribe(() => {
+            this.accountService.loggedInStatusUpdate.next(false);
+            this.router.navigate(['']);
+        });
     }
 
 }
