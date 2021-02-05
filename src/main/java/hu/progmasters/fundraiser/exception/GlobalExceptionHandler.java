@@ -88,5 +88,19 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(body, status);
     }
 
-}
+    @ExceptionHandler(NotOwnTransferException.class)
+    public ResponseEntity<ApiError> notOwnTransferExceptionHandler(NotOwnTransferException e) {
+        logger.error("User {} tried to delete a transfer belonging to another account", e.getAccountEmail());
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
+        ApiError body = new ApiError("NOT_OWN_TRANSFER_ERROR", "You cannot delete a transfer belonging to another account", e.getLocalizedMessage());
+        return new ResponseEntity<>(body, status);
+    }
 
+    @ExceptionHandler(ConfirmedTransferDeleteException.class)
+    public ResponseEntity<ApiError> confirmedTransferDeleteExceptionHandler(ConfirmedTransferDeleteException e) {
+        logger.error("User {} tried to delete a confirmed transfer", e.getAccountEmail());
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
+        ApiError body = new ApiError("CONFIRMED_TRANSFER_DELETION_ERROR", "You cannot delete a confirmed transfer", e.getLocalizedMessage());
+        return new ResponseEntity<>(body, status);
+    }
+}

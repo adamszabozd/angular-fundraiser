@@ -14,8 +14,11 @@ package hu.progmasters.fundraiser.service;
 import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.domain.Fund;
 import hu.progmasters.fundraiser.domain.Transfer;
+import hu.progmasters.fundraiser.dto.MyTransferListPendingItem;
 import hu.progmasters.fundraiser.dto.TransferConfirmationCommand;
 import hu.progmasters.fundraiser.dto.TransferCreationCommand;
+import hu.progmasters.fundraiser.exception.ConfirmedTransferDeleteException;
+import hu.progmasters.fundraiser.exception.NotOwnTransferException;
 import hu.progmasters.fundraiser.repository.AccountRepository;
 import hu.progmasters.fundraiser.repository.FundRepository;
 import hu.progmasters.fundraiser.repository.TransferRepository;
@@ -27,8 +30,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
+import javax.security.auth.login.AccountNotFoundException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -101,6 +108,35 @@ public class TransferService {
             transferRepository.save(transfer);
         }
         return transfer;
+    }
+
+    public boolean deleteTransfer(Long id, String email) {
+        Optional<Transfer> transferOptional = transferRepository.findById(id);
+        boolean result = false;
+        if (transferOptional.isPresent()) {
+            Transfer transfer = transferOptional.get();
+            if (transfer.getConfirmed()) {
+                throw new ConfirmedTransferDeleteException("Confirmed transfer cannot be deleted", email);
+            } else if (transfer.getSource().getEmail().equals(email)) {
+                transferRepository.delete(transfer);
+                result = true;
+            } else {
+                throw new NotOwnTransferException("Not own transfer", email);
+            }
+        }
+        return result;
+    }
+
+    public List<MyTransferListPendingItem> getPendingTransfers(String email) throws AccountNotFoundException {
+        Account account = accountRepository.findByEmail(email);
+        if (account != null) {
+            return account.getOutgoingTransfers().stream()
+                    .filter(t -> !t.getConfirmed())
+                    .map(MyTransferListPendingItem::new)
+                    .collect(Collectors.toList());
+        } else {
+            throw new AccountNotFoundException();
+        }
     }
 
     public List<Transfer> findAll() {

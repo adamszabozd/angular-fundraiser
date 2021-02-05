@@ -29,4 +29,8 @@ export class TransferService {
         return this.http.post(BASE_URL + '/' + 'confirm', data);
     }
 
+    deletePendingTransfer(id: number): Observable<any> {
+        return this.http.delete(BASE_URL + '/' + id);
+    }
+
 }

@@ -14,10 +14,7 @@ package hu.progmasters.fundraiser.controller;
 import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.domain.Fund;
 import hu.progmasters.fundraiser.domain.Transfer;
-import hu.progmasters.fundraiser.dto.TransferConfirmationCommand;
-import hu.progmasters.fundraiser.dto.TransferCreationCommand;
-import hu.progmasters.fundraiser.dto.TransferFormInitData;
-import hu.progmasters.fundraiser.dto.TransferListItem;
+import hu.progmasters.fundraiser.dto.*;
 import hu.progmasters.fundraiser.service.AccountService;
 import hu.progmasters.fundraiser.service.EmailSendingService;
 import hu.progmasters.fundraiser.service.FundService;
@@ -35,6 +32,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.Context;
 
+import javax.security.auth.login.AccountNotFoundException;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Arrays;
@@ -132,6 +130,20 @@ public class TransferController {
         List<TransferListItem> transferItems = transferService.findAll().stream()
                                                               .map(TransferListItem::new).collect(Collectors.toList());
         return new ResponseEntity<>(transferItems, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<List<MyTransferListPendingItem>> deletePendingTransfer(@PathVariable Long id, Principal principal) throws AccountNotFoundException {
+        boolean isDeleteSuccessful = transferService.deleteTransfer(id, principal.getName());
+
+        ResponseEntity<List<MyTransferListPendingItem>> result;
+        if (isDeleteSuccessful) {
+            result = new ResponseEntity<>(transferService.getPendingTransfers(principal.getName()), HttpStatus.OK);
+        } else {
+            result = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return result;
     }
 
 }
