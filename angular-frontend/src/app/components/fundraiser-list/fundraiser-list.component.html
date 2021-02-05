@@ -1,3 +1,20 @@
-<h2>Here comes the list of fundraisers</h2>
-<hr/>
+<div class="row">
+    <div *ngFor="let fund of fundList" class="col-sm-6">
+        <div class="card" style="width: 18rem;">
+            <img [src]="fund.imageUrl" class="card-img-top" alt="fund image">
+            <div class="card-body">
+                <h5 class="card-title">{{fund.title}}</h5>
+                <p class="card-text">{{fund.shortDescription}}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Raised {{fund.aimAmount}} HUF with the target of {{fund.targetAmount}} HUF</li>
+                <li class="list-group-item">End date: {{fund.endDate}}</li>
+            </ul>
+            <div class="card-body">
+                <a href="#" class="btn btn-primary">Details</a>
+            </div>
+        </div>
+    </div>
+
+</div>
 

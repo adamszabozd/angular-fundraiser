@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import {FundsService} from "../../services/funds.service";
+import {FundListItemModel} from "../../models/FundListItem.model";
+import {error} from "util";
 
 @Component({
     selector: 'app-summary-page',
@@ -8,9 +11,15 @@ import { Router } from '@angular/router';
 })
 export class FundraiserListComponent implements OnInit{
 
-    constructor(private router: Router) { }
+    fundList: Array<FundListItemModel>;
+
+    constructor(private router: Router, private fundsService: FundsService) { }
 
     ngOnInit() {
+        this.fundsService.fetchAllFunds().subscribe(
+            (data)=> this.fundList=data,
+            (error)=> console.log(error)
+        )
     }
 
 }
