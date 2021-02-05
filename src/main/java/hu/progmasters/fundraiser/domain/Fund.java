@@ -1,5 +1,7 @@
 package hu.progmasters.fundraiser.domain;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -8,24 +10,33 @@ public class Fund {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
+    @Column(name = "fund_title")
     private String fundTitle;
 
+    @Column(name = "short_description")
     private String shortDescription;
 
     @Lob
+    @Column(name = "long_description")
     private String longDescription;
 
+    @Column(name = "image_url")
     private String imageUrl;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "category")
     private FundCategory fundCategory;
 
+    @Column(name = "amount")
     private Integer amount;
 
+    @Column(name = "target_amount")
     private Integer targetAmount;
 
+    @Column(name = "end_date")
     private LocalDate endDate;
 
     public Fund() {

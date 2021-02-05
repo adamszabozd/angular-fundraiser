@@ -21,8 +21,8 @@ public class TransferFormInitData {
     private List<TargetFundOption> targetFundOptions;
     private int balance;
 
-    public TransferFormInitData(List<Fund> targetAccounts, int balance) {
-        this.targetFundOptions = targetAccounts.stream().map(TargetFundOption::new).collect(Collectors.toList());
+    public TransferFormInitData(List<Fund> fundList, int balance) {
+        this.targetFundOptions = fundList.stream().map(TargetFundOption::new).collect(Collectors.toList());
         this.balance = balance;
     }
 
