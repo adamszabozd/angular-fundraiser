@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
 public class AccountRegistrationCommand {
 
 
-    @Size(min = 5, max = 100, message = "Goal must be between {min} and {max} characters")
+    @Size(min = 5, max = 20, message = "Password must be between {min} and {max} characters")
     private String password;
 
     @Email(message = "Invalid email address")

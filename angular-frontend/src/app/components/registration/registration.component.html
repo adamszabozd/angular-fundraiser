@@ -55,7 +55,7 @@
                 *ngIf="!form.get('password').valid && form.get('password').touched && !form.get('password').errors?.serverError"
                 class="text-danger"
             >
-                Please specify a goal between 5 and 100 characters
+                Please give a valid password!
             </small>
             <small *ngIf="form.get('password').errors?.serverError" class="text-danger">
                 {{form.get('password').errors.serverError}}

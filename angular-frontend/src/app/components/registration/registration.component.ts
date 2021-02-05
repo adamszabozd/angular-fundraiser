@@ -15,7 +15,7 @@ export class RegistrationComponent implements OnInit {
 
     form = this.formBuilder.group({
                                       email   : ['', [Validators.required, Validators.email]],
-                                      password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+                                      password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
                                   });
 
     constructor(private formBuilder: FormBuilder,
@@ -39,7 +39,7 @@ export class RegistrationComponent implements OnInit {
         this.accountService.registerNewAccount(this.form.value).subscribe(
             () => {
                 this.registrationService.userRegistered.next();
-                this.router.navigate(['/my-account']);
+                this.router.navigate(['/login']);
             },
             error => validationHandler(error, this.form),
         );

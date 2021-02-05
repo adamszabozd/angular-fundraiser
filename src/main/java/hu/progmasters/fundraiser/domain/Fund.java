@@ -12,7 +12,7 @@ public class Fund {
 
     private String fundTitle;
 
-    private String sortDescription;
+    private String shortDescription;
 
     @Lob
     private String longDescription;
@@ -47,12 +47,12 @@ public class Fund {
         this.fundTitle = fundTitle;
     }
 
-    public String getSortDescription() {
-        return sortDescription;
+    public String getShortDescription() {
+        return shortDescription;
     }
 
-    public void setSortDescription(String sortDescription) {
-        this.sortDescription = sortDescription;
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
     }
 
     public String getLongDescription() {
