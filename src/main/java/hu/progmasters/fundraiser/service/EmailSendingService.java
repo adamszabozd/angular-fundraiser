@@ -29,6 +29,8 @@ public class EmailSendingService {
     @Value("classpath:/logo.png")
     private Resource resourceFile;
 
+    @Value("${frontend-url}")
+    private String frontendUrl;
 
     @Autowired
     public EmailSendingService(JavaMailSender javaMailSender, SpringTemplateEngine thymeleafTemplateEngine) {
@@ -55,12 +57,12 @@ public class EmailSendingService {
 
     @Async
     public void sendConfirmationEmail(String to, String confirmationCode) {
-        String confirmationLink = "http://localhost:4200/transfer-confirmation/" + confirmationCode;
+        String confirmationLink = frontendUrl + "/transfer-confirmation/" + confirmationCode;
         Context ctx = new Context();
         ctx.setVariable("confirmationLink", confirmationLink);
         String htmlContent = thymeleafTemplateEngine.process("transfer-confirmation.html", ctx);
         String subject = "Transfer confirmation";
-        sendHtmlEmail("fenny26@gmail.com", subject, htmlContent, resourceFile);
+        sendHtmlEmail(to, subject, htmlContent, resourceFile);
     }
 
 }

@@ -10,3 +10,4 @@ account:
   balance:
     default: 5000
 cors-policies: https://kickstarter.progmasters.hu
+frontend-url: https://kickstarter.progmasters.hu

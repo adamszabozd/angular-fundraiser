@@ -49,3 +49,4 @@ account:
     default: 5000
 
 cors-policies: http://localhost:4200
+frontend-url: http://localhost:4200

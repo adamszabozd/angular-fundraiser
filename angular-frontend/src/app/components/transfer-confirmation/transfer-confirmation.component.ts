@@ -17,20 +17,16 @@ export class TransferConfirmationComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (!localStorage.auth) {
-            this.router.navigate(['/registration']);
-        } else {
-            this.route.paramMap.subscribe(
-                paramMap => {
-                    const confirmationCode = paramMap.get('code');
-                    this.transferService.confirmTransfer({'confirmationCode': confirmationCode}).subscribe(
-                        () => this.validCode = true,
-                        error => console.warn(error),
-                    );
-                },
-                error => console.warn(error),
-            );
-        }
+        this.route.paramMap.subscribe(
+            paramMap => {
+                const confirmationCode = paramMap.get('code');
+                this.transferService.confirmTransfer({'confirmationCode': confirmationCode}).subscribe(
+                    () => this.validCode = true,
+                    error => console.warn(error),
+                );
+            },
+            error => console.warn(error),
+        );
     }
 
 }
