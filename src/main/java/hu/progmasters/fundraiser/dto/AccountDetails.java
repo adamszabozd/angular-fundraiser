@@ -67,4 +67,8 @@ public class AccountDetails {
     public List<MyTransferListPendingItem> getPendingTransfers() {
         return pendingTransfers;
     }
+
+    public String getUsername() {
+        return username;
+    }
 }

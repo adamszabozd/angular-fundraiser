@@ -7,16 +7,17 @@ import {RegistrationService} from '../../services/registration.service';
 import {validationHandler} from '../../utils/validationHandler';
 
 @Component({
-               selector   : 'app-registration',
-               templateUrl: './registration.component.html',
-               styleUrls  : ['./registration.component.css'],
-           })
+    selector: 'app-registration',
+    templateUrl: './registration.component.html',
+    styleUrls: ['./registration.component.css'],
+})
 export class RegistrationComponent implements OnInit {
 
     form = this.formBuilder.group({
-                                      email   : ['', [Validators.required, Validators.email]],
-                                      password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
-                                  });
+        email: ['', [Validators.required, Validators.email]],
+        username: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
+        password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+    });
 
     constructor(private formBuilder: FormBuilder,
                 private router: Router,
