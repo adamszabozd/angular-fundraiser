@@ -38,6 +38,12 @@ public class AccountRegistrationCommandValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-
+        AccountRegistrationCommand registration = (AccountRegistrationCommand) target;
+        if(validationService.emailAlreadyExists(registration.getEmail())){
+            errors.rejectValue("email", "email.already.exists");
+        }
+        if(validationService.usernameAlreadyExists(registration.getUsername())){
+            errors.rejectValue("username", "username.already.exists");
+        }
     }
 }

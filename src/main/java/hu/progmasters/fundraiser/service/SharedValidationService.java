@@ -30,4 +30,14 @@ public class SharedValidationService {
             return true; // pendingTransfer.getSource().getIpAddress().equals(ipAddress);
         }
     }
+
+    public boolean emailAlreadyExists (String email){
+        Account account = accountRepository.findByEmail(email);
+        return account != null;
+    }
+
+    public boolean usernameAlreadyExists (String username){
+        Account account = accountRepository.findByUsername(username);
+        return account != null;
+    }
 }

@@ -22,4 +22,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     @Query("SELECT a FROM Account a WHERE a.email = :email")
     Account findByEmail(String email);
 
+    @Query("SELECT a FROM Account a WHERE a.username = :username")
+    Account findByUsername(String username);
+
 }
