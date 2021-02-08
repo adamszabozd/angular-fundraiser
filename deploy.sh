@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #UPDATE THESE LINES ACCORDING TO YOUR PROJECT STRUCTURE
-PRIVATE_KEY_PATH=C:\Felhasználók\Asus\Letöltések\2020-sept-demo.pem
+PRIVATE_KEY_PATH=C:\pm-fundraiser-key
 SITE_DOMAIN=kickstarter.progmasters.hu
 SERVER_USER=ubuntu
 PATH_OF_JAR_FILE=./target/angular-fundraiser-0.0.1-SNAPSHOT.jar

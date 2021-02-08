@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 public class AccountDetails {
 
     private Long id;
+    private String username;
     private String email;
     private Integer balance;
     private List<String> accountRoleList;
@@ -28,6 +29,7 @@ public class AccountDetails {
 
     public AccountDetails(Account account) {
         this.id = account.getId();
+        this.username = account.getUsername();
         this.email = account.getEmail();
         this.balance = account.getBalance();
         this.accountRoleList = account.getAccountRoleList().stream()

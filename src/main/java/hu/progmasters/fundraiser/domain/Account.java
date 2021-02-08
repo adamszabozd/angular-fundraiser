@@ -29,6 +29,9 @@ public class Account {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
+    @Column(name = "username", unique = true, nullable = false)
+    private String username;
+
     @Column(name = "password", nullable = false)
     private String password;
 
@@ -44,12 +47,16 @@ public class Account {
     @OneToMany(mappedBy = "source")
     private List<Transfer> outgoingTransfers = new ArrayList<>();
 
+    @OneToMany(mappedBy = "creator")
+    private List<Fund> funds = new ArrayList<>();
+
     public Account() {
     }
 
     public Account(AccountRegistrationCommand registrationCommand, String hashedPassword) {
         this.email = registrationCommand.getEmail();
         this.password = hashedPassword;
+        this.username = registrationCommand.getUsername();
         accountRoleList.add(AccountRole.ROLE_USER);
     }
 
@@ -101,4 +108,19 @@ public class Account {
         this.outgoingTransfers = outgoingTransfers;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public List<Fund> getFunds() {
+        return funds;
+    }
+
+    public void setFunds(List<Fund> funds) {
+        this.funds = funds;
+    }
 }

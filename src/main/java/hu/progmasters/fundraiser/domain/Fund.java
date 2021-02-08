@@ -39,6 +39,10 @@ public class Fund {
     @Column(name = "end_date")
     private LocalDate endDate;
 
+    @ManyToOne
+    @JoinColumn(name = "creator")
+    private Account creator;
+
     public Fund() {
     }
 
@@ -114,4 +118,11 @@ public class Fund {
         this.endDate = endDate;
     }
 
+    public Account getCreator() {
+        return creator;
+    }
+
+    public void setCreator(Account creator) {
+        this.creator = creator;
+    }
 }
