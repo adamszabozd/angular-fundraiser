@@ -2,6 +2,7 @@ package hu.progmasters.fundraiser.controller;
 
 import hu.progmasters.fundraiser.domain.FundCategory;
 import hu.progmasters.fundraiser.dto.CategoryOption;
+import hu.progmasters.fundraiser.dto.FundFormCommand;
 import hu.progmasters.fundraiser.dto.FundListItem;
 import hu.progmasters.fundraiser.service.FundService;
 import org.slf4j.Logger;
@@ -9,14 +10,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/funds")
@@ -47,5 +46,12 @@ public class FundController {
         ResponseEntity<List<CategoryOption>> response = new ResponseEntity<>(categoryOptions, HttpStatus.OK);
         logger.info("Category list requested");
         return response;
+    }
+
+    @PostMapping
+    public ResponseEntity saveNewFund(@RequestBody FundFormCommand fundFormCommand, Principal principal){
+        String emailAddress = principal.getName();
+        fundService.savenewFund(fundFormCommand, emailAddress);
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 }

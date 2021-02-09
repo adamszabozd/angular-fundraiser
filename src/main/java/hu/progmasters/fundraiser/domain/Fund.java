@@ -1,6 +1,6 @@
 package hu.progmasters.fundraiser.domain;
 
-import org.hibernate.annotations.Type;
+import hu.progmasters.fundraiser.dto.FundFormCommand;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -31,7 +31,7 @@ public class Fund {
     private FundCategory fundCategory;
 
     @Column(name = "amount")
-    private Integer amount;
+    private Integer raisedAmount;
 
     @Column(name = "target_amount")
     private Integer targetAmount;
@@ -44,6 +44,18 @@ public class Fund {
     private Account creator;
 
     public Fund() {
+    }
+
+    public Fund(FundFormCommand fundFormCommand, Account account) {
+        this.fundTitle = fundFormCommand.getTitle();
+        this.shortDescription = fundFormCommand.getShortDescription();
+        this.longDescription = fundFormCommand.getLongDescription();
+        this.imageUrl = fundFormCommand.getImageUrl();
+        this.fundCategory = FundCategory.valueOf(fundFormCommand.getCategory());
+        this.raisedAmount = 0;
+        this.targetAmount = fundFormCommand.getTargetAmount();
+        this.endDate = fundFormCommand.getEndDate();
+        this.creator = account;
     }
 
     public Long getId() {
@@ -94,12 +106,12 @@ public class Fund {
         this.fundCategory = fundCategory;
     }
 
-    public Integer getAmount() {
-        return amount;
+    public Integer getRaisedAmount() {
+        return raisedAmount;
     }
 
-    public void setAmount(Integer amount) {
-        this.amount = amount;
+    public void setRaisedAmount(Integer amount) {
+        this.raisedAmount = amount;
     }
 
     public Integer getTargetAmount() {

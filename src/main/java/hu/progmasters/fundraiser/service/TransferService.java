@@ -28,11 +28,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.security.auth.login.AccountNotFoundException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -98,7 +96,7 @@ public class TransferService {
             transfer.setTimeStamp(LocalDateTime.now());
 
             Fund goal = transfer.getTarget();
-            goal.setAmount(goal.getAmount() + transfer.getAmount());
+            goal.setRaisedAmount(goal.getRaisedAmount() + transfer.getAmount());
 
             Account source = transfer.getSource();
             source.setBalance(source.getBalance() - transfer.getAmount());

@@ -27,7 +27,7 @@ public class FundListItem {
         this.title = fund.getFundTitle();
         this.shortDescription = fund.getShortDescription();
         this.targetAmount = fund.getTargetAmount();
-        this.aimAmount = fund.getAmount();
+        this.aimAmount = fund.getRaisedAmount();
         this.endDate = fund.getEndDate();
         this.creatorName = fund.getCreator().getUsername();
     }

@@ -1,7 +1,10 @@
 package hu.progmasters.fundraiser.service;
 
+import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.domain.Fund;
+import hu.progmasters.fundraiser.dto.FundFormCommand;
 import hu.progmasters.fundraiser.dto.FundListItem;
+import hu.progmasters.fundraiser.repository.AccountRepository;
 import hu.progmasters.fundraiser.repository.FundRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +18,12 @@ import java.util.stream.Collectors;
 public class FundService {
 
     private final FundRepository fundRepository;
+    private final AccountRepository accountRepository;
 
     @Autowired
-    public FundService(FundRepository fundRepository) {
+    public FundService(FundRepository fundRepository, AccountRepository accountRepository) {
         this.fundRepository = fundRepository;
+        this.accountRepository = accountRepository;
     }
 
     public List<Fund> findAll() {
@@ -30,5 +35,10 @@ public class FundService {
     }
 
 
-
+    public void savenewFund(FundFormCommand fundFormCommand, String emailAddress) {
+        Account myAccount = accountRepository.findByEmail(emailAddress);
+        Fund fund = new Fund(fundFormCommand, myAccount);
+        myAccount.getFunds().add(fund);
+        fundRepository.save(fund);
+    }
 }

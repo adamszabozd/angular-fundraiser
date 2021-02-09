@@ -35,6 +35,11 @@ export class NewFundFormComponent implements OnInit {
         )
     }
 
-    onSubmit(){}
+    onSubmit(){
+        this.fundService.saveNewFund(this.form.value).subscribe(
+            ()=> this.router.navigate(['']),
+            (error)=> console.log(error)
+        );
+    }
 
 }
