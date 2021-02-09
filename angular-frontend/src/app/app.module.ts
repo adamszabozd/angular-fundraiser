@@ -13,6 +13,7 @@ import { FundraiserListComponent } from './components/fundraiser-list/fundraiser
 import { TransferConfirmationComponent } from './components/transfer-confirmation/transfer-confirmation.component';
 import {HttpRequestInterceptor} from './utils/httpRequestInterceptor';
 import {LoginComponent} from './components/login/login.component';
+import { NewFundFormComponent } from './components/new-fund-form/new-fund-form.component';
 
 @NgModule({
     declarations: [
@@ -23,7 +24,8 @@ import {LoginComponent} from './components/login/login.component';
         TransferFundsComponent,
         FundraiserListComponent,
         TransferConfirmationComponent,
-        LoginComponent
+        LoginComponent,
+        NewFundFormComponent
     ],
     imports: [
         BrowserModule,
