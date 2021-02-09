@@ -1,5 +1,7 @@
 package hu.progmasters.fundraiser.controller;
 
+import hu.progmasters.fundraiser.domain.FundCategory;
+import hu.progmasters.fundraiser.dto.CategoryOption;
 import hu.progmasters.fundraiser.dto.FundListItem;
 import hu.progmasters.fundraiser.service.FundService;
 import org.slf4j.Logger;
@@ -11,7 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/funds")
@@ -30,6 +35,17 @@ public class FundController {
     public ResponseEntity<List<FundListItem>> fetchAllFunds(){
         ResponseEntity<List<FundListItem>> response = new ResponseEntity<>(fundService.fetchAllForList(), HttpStatus.OK);
         logger.info("Fund list requested");
+        return response;
+    }
+
+    @GetMapping("/initData")
+    public ResponseEntity<List<CategoryOption>> fetchCategoryList(){
+        List<CategoryOption> categoryOptions = new ArrayList<>();
+        for (FundCategory category : FundCategory.values()) {
+            categoryOptions.add(new CategoryOption(category));
+        }
+        ResponseEntity<List<CategoryOption>> response = new ResponseEntity<>(categoryOptions, HttpStatus.OK);
+        logger.info("Category list requested");
         return response;
     }
 }

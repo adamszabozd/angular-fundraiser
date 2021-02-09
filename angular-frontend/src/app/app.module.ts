@@ -13,6 +13,7 @@ import { FundraiserListComponent } from './components/fundraiser-list/fundraiser
 import { TransferConfirmationComponent } from './components/transfer-confirmation/transfer-confirmation.component';
 import {HttpRequestInterceptor} from './utils/httpRequestInterceptor';
 import {LoginComponent} from './components/login/login.component';
+import { NewFundFormComponent } from './components/new-fund-form/new-fund-form.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 @NgModule({
@@ -25,7 +26,8 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
         FundraiserListComponent,
         TransferConfirmationComponent,
         LoginComponent,
-        PageNotFoundComponent
+        PageNotFoundComponent,
+        NewFundFormComponent
     ],
     imports: [
         BrowserModule,

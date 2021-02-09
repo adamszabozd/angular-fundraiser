@@ -8,6 +8,7 @@ import { TransferFundsComponent } from './components/transfer-funds/transfer-fun
 import {TransferConfirmationComponent} from "./components/transfer-confirmation/transfer-confirmation.component";
 import {LoginComponent} from './components/login/login.component';
 import {PageNotFoundComponent} from "./components/page-not-found/page-not-found.component";
+import {NewFundFormComponent} from "./components/new-fund-form/new-fund-form.component";
 
 const routes: Routes = [
     {path: '', component: FundraiserListComponent},
@@ -16,8 +17,8 @@ const routes: Routes = [
     {path: 'transfer-funds', component: TransferFundsComponent},
     {path: 'transfer-confirmation/:code', component: TransferConfirmationComponent},
     {path: 'login', component: LoginComponent},
-    {path: 'page-not-found', component: PageNotFoundComponent},
     {path: '**', component: PageNotFoundComponent},
+    {path: 'new-fund', component:NewFundFormComponent}
 ];
 
 @NgModule({

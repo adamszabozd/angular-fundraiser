@@ -6,4 +6,5 @@ export interface FundListItemModel{
     targetAmount: number;
     aimAmount: number;
     endDate: Date;
+    creatorName: string;
 }

@@ -3,6 +3,7 @@ import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {FundListItemModel} from "../models/FundListItem.model";
+import {CategoryOptionModel} from "../models/categoryOption.model";
 
 const host = environment.BASE_URL;
 const BASE_URL = host+'/api/funds';
@@ -17,4 +18,8 @@ export class FundsService {
   fetchAllFunds(): Observable<Array<FundListItemModel>> {
       return this.http.get<Array<FundListItemModel>>(BASE_URL);
   }
+
+    getInitialFormData(): Observable<CategoryOptionModel[]> {
+        return this.http.get<CategoryOptionModel[]>(BASE_URL + "/initData")
+    }
 }

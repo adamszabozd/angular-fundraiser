@@ -1,0 +1,171 @@
+<div class="container jumbotron">
+    <h2>New Fund</h2>
+    <hr/>
+    <br>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <div class="form-group">
+            <label
+                for="title"
+                [ngClass]="{'text-danger': (form.get('title').invalid && form.get('title').touched)
+                            || (form.get('title').errors?.serverError)}"
+            >
+                Title:
+            </label> <br>
+            <input
+                id="title"
+                class="form-control"
+                type="text"
+                [ngClass]="{'is-invalid': (form.get('title').invalid && form.get('title').touched)
+                            || (form.get('title').errors?.serverError)}"
+                name="title"
+                formControlName="title"
+            />
+
+            <small
+                *ngIf="!form.get('title').valid
+                        && form.get('title').touched
+                        && !form.get('title').errors?.serverError"
+                class="text-danger"
+            >
+                Please enter a title for your fundraiser!
+            </small>
+            <small *ngIf="form.get('title').errors?.serverError" class="text-danger">
+                {{form.get('title').errors.serverError}}
+            </small>
+        </div>
+
+        <div class="form-group">
+            <label
+                for="shortDescription"
+                [ngClass]="{'text-danger': (form.get('shortDescription').invalid && form.get('shortDescription').touched)
+                            || (form.get('shortDescription').errors?.serverError)}"
+            >
+                Short description:
+            </label><br>
+            <textarea
+                id="shortDescription"
+                class="form-control"
+                rows="5"
+                cols="20"
+                placeholder="Please give a short description, which will be displayed in the Discover page"
+                [ngClass]="{'is-invalid': (form.get('shortDescription').invalid && form.get('shortDescription').touched)
+                            || (form.get('shortDescription').errors?.serverError)}"
+                name="shortDescription"
+                formControlName="shortDescription"></textarea>
+            <small
+                *ngIf="!form.get('shortDescription').valid
+                        && form.get('shortDescription').touched
+                        && !form.get('shortDescription').errors?.serverError"
+                class="text-danger"
+            >
+                Please give a short description for you fundraiser (max 200 characters)!
+            </small>
+            <small *ngIf="form.get('shortDescription').errors?.serverError" class="text-danger">
+                {{form.get('shortDescription').errors.serverError}}
+            </small>
+        </div>
+
+        <div class="form-group">
+            <label
+                for="longDescription"
+            >
+                Long description (optional, but recommended):
+            </label><br>
+            <textarea
+                id="longDescription"
+                class="form-control"
+                rows="30"
+                cols="60"
+                placeholder="The long, detailed description of your fund idea"
+                name="longDescription"
+                formControlName="longDescription"></textarea>
+            </div>
+
+        <div class="form-group">
+            <label
+                for="imageUrl"
+            >
+                Image URL:
+            </label>
+            <input
+                id="imageUrl"
+                class="form-control"
+                type="text"
+                name="imageUrl"
+                formControlName="imageUrl"
+            />
+        </div>
+
+        <div class="form-group">
+            <label
+                for="category"
+                [ngClass]="{'text-danger': (form.get('category').invalid && form.get('category').touched) || (form.get('category').errors?.serverError)}"
+            >
+                Category:
+            </label>
+            <select
+                id="category"
+                class="form-control"
+                [ngClass]="{'is-invalid': (form.get('category').invalid && form.get('category').touched) || (form.get('category').errors?.serverError)}"
+                name="category"
+                formControlName="category"
+            >
+                <option value=null selected disabled>-- Choose a category --</option>
+                <option *ngFor="let category of categories" value="{{category.name}}">{{category.displayName}}</option>
+            </select>
+            <small
+                *ngIf="form.get('category').invalid && form.get('category').touched && !form.get('category').errors?.serverError"
+                class="text-danger"
+            >
+                Please choose a category for your fundraiser!
+            </small>
+            <small *ngIf="form.get('category').errors?.serverError" class="text-danger">
+                {{form.get('category').errors['serverError']}}
+            </small>
+        </div>
+
+        <div class="form-group">
+            <label
+                for="targetAmount"
+                [ngClass]="{'text-danger': (form.get('targetAmount').invalid && form.get('targetAmount').touched) || (form.get('targetAmount').errors?.serverError)}"
+            >
+                Target amount:
+            </label>
+            <input
+                id="targetAmount"
+                type="number"
+                class="form-control"
+                [ngClass]="{'is-invalid': (form.get('targetAmount').invalid && form.get('targetAmount').touched) || (form.get('targetAmount').errors?.serverError)}"
+                name="targetAmount"
+                formControlName="targetAmount"
+            />
+            <small
+                *ngIf="form.get('targetAmount').invalid && form.get('targetAmount').touched && !form.get('targetAmount').errors?.serverError"
+                class="text-danger"
+            >
+                Please give a target amount for your fundraiser!
+            </small>
+            <small *ngIf="form.get('targetAmount').errors?.serverError" class="text-danger">
+                {{form.get('targetAmount').errors['serverError']}}
+            </small>
+        </div>
+
+        <div class="form-group">
+            <label
+                for="endDate"
+            >
+                End date(optional):
+            </label>
+            <input
+                id="endDate"
+                class="form-control"
+                type="date"
+                name="endDate"
+                formControlName="endDate"
+            />
+        </div>
+        <br/>
+        <button type="submit" class="btn btn-primary my-buttons">Submit</button>
+    </form>
+</div>

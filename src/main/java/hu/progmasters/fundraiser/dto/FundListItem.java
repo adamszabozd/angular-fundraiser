@@ -20,6 +20,8 @@ public class FundListItem {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
+    private String creatorName;
+
     public FundListItem(Fund fund) {
         this.imageUrl = fund.getImageUrl();
         this.title = fund.getFundTitle();
@@ -27,6 +29,7 @@ public class FundListItem {
         this.targetAmount = fund.getTargetAmount();
         this.aimAmount = fund.getAmount();
         this.endDate = fund.getEndDate();
+        this.creatorName = fund.getCreator().getUsername();
     }
 
     public String getImageUrl() {
@@ -51,5 +54,9 @@ public class FundListItem {
 
     public LocalDate getEndDate() {
         return endDate;
+    }
+
+    public String getCreatorName() {
+        return creatorName;
     }
 }
