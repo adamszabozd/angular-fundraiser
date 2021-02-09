@@ -15,6 +15,7 @@ import {HttpRequestInterceptor} from './utils/httpRequestInterceptor';
 import {LoginComponent} from './components/login/login.component';
 import { NewFundFormComponent } from './components/new-fund-form/new-fund-form.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import {HttpResponseInterceptor} from "./utils/httpResponseInterceptor";
 
 @NgModule({
     declarations: [
@@ -39,6 +40,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
         // Http Interceptor(s) -  adds with Client Credentials
         [
             {provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true},
+            {provide: HTTP_INTERCEPTORS, useClass: HttpResponseInterceptor, multi: true},
         ],
     ],
     bootstrap: [AppComponent],
