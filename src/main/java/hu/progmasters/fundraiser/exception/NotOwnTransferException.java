@@ -1,6 +1,7 @@
 package hu.progmasters.fundraiser.exception;
 
 public class NotOwnTransferException extends RuntimeException {
+
     private final String accountEmail;
 
     public NotOwnTransferException(String message, String accountEmail) {
@@ -11,4 +12,5 @@ public class NotOwnTransferException extends RuntimeException {
     public String getAccountEmail() {
         return accountEmail;
     }
+
 }

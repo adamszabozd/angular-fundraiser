@@ -22,13 +22,10 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class AccountRegistrationCommandValidator implements Validator {
 
-    private SharedValidationService validationService;
+    private final SharedValidationService validationService;
 
-    private HttpServletRequest request;
-
-    public AccountRegistrationCommandValidator(SharedValidationService validationService, HttpServletRequest request) {
+    public AccountRegistrationCommandValidator(SharedValidationService validationService) {
         this.validationService = validationService;
-        this.request = request;
     }
 
     @Override

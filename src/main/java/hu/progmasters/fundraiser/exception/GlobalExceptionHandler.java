@@ -88,6 +88,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(body, status);
     }
 
+    //TODO - Review: Ilyen ExceptionHandler osztályokból szerintem lehet berakni akár többet is,
+    // és akkor a logikailag összetartozóakat egy helyre lehet csoportosítani
     @ExceptionHandler(NotOwnTransferException.class)
     public ResponseEntity<ApiError> notOwnTransferExceptionHandler(NotOwnTransferException e) {
         logger.error("User {} tried to delete a transfer belonging to another account", e.getAccountEmail());

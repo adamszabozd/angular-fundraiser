@@ -13,7 +13,9 @@ package hu.progmasters.fundraiser.domain;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-
+//TODO - Review: Tábla és oszlopnevek!! Illetve ha bármi constraint van, azokat
+// MINDENKÉPPEN vegyétek fel mihamarabb! Illetve ezután érdemes eldobni a db-t is, hogy újracsinálja.
+// Vagy kézzel updatelni...
 @Entity
 public class Transfer {
 

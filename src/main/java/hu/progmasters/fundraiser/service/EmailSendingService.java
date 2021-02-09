@@ -26,6 +26,8 @@ public class EmailSendingService {
 
     private final SpringTemplateEngine thymeleafTemplateEngine;
 
+    //TODO - Review: Ez működik a szerveren is? Ha nem, akkor a deploy leírásban van egy GYIK, arról,
+    // hogy tudsz resource-ból fájlt beolvasni ( a vége felé )
     @Value("classpath:/logo.png")
     private Resource resourceFile;
 

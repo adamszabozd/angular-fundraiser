@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class TransferConfirmationCommandValidator implements Validator {
 
-    private SharedValidationService validationService;
-    private HttpServletRequest request;
+    private final SharedValidationService validationService;
+    private final HttpServletRequest request;
 
     @Autowired
     public TransferConfirmationCommandValidator(SharedValidationService validationService, HttpServletRequest request) {

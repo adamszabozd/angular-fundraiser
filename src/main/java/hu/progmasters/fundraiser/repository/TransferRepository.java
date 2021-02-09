@@ -20,7 +20,7 @@ import java.util.List;
 
 @Repository
 public interface TransferRepository extends JpaRepository<Transfer, Long> {
-    //TODO - REVIEW: Óvatosan az ilyen querykkel! Atom szívás debuggolni, hát még átlátni, szebb kiírni a qeuryt
+    //TODO - REVIEW: Óvatosan az ilyen querykkel! Atom szívás debuggolni, hát még átlátni, szebb kiírni a queryt
     List<Transfer> findAllBySourceAndConfirmedFalseOrderByTimeStampDesc(Account source);
 
     List<Transfer> findAllByConfirmedTrueOrderByTimeStampDesc();

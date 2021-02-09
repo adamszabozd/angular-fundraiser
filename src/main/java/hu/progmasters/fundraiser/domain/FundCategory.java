@@ -6,7 +6,7 @@ public enum FundCategory {
     EMERGENCY("Emergency"),
     NONPROFIT("Non-profit");
 
-    private String displayName;
+    private final String displayName;
 
     FundCategory(String displayName) {
         this.displayName = displayName;

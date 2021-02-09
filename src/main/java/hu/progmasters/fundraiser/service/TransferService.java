@@ -111,6 +111,8 @@ public class TransferService {
     public boolean deleteTransfer(Long id, String email) {
         Optional<Transfer> transferOptional = transferRepository.findById(id);
         boolean result = false;
+        //TODO - Review: Itt nem sok értelme van visszatérni azzal a boolean-nel,
+        // hiszen vagy sikerül, vagy exception dobódik, nem? :) Maga a megoldás viszont szerintem szuper :)
         if (transferOptional.isPresent()) {
             Transfer transfer = transferOptional.get();
             if (transfer.getConfirmed()) {

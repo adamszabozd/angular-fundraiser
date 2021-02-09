@@ -91,10 +91,7 @@ public class TransferController {
         return new ResponseEntity<>(initData, HttpStatus.OK);
     }
 
-    //TODO - REVIEW: Üzleti logikát ne rakjatok a controller rétegbe, ez mind mehet a servicebe,
-    // ezért van itt ilyen sok függőség
-    // Also, ha HTML-t szeretnél küldeni, érdemes esetleg a Thymelea-nek utánanézni, erre is van példakódom,
-    // megosztom ha érdekel
+    //TODO - REVIEW: Logikát ne rakjatok a controller rétegbe, ez mind mehet a servicebe
     @PostMapping
     public ResponseEntity savePendingTransfer(@Valid @RequestBody TransferCreationCommand transferCreationCommand, Principal principal) {
         ResponseEntity response = new ResponseEntity(HttpStatus.CREATED);
@@ -113,6 +110,7 @@ public class TransferController {
     //TODO - REVIEW: Ilyet is sokat látok, hogy controllerig visszaadtok entityt, és megnézitek hogy az null értékű-e
     // Ennél sokkal elegánsabb, ha a service rétegben hibánál exceptiont dobtok ( pl sajátot ),
     // majd azt az ExceptionHandler-ben lekezelitek!
+    //TODO - Review: ResponseEntity-nek adjatok generikus típust
     @PostMapping("/confirm")
     public ResponseEntity confirmTransfer(@Valid @RequestBody TransferConfirmationCommand transferConfirmationCommand) {
         ResponseEntity response = new ResponseEntity(HttpStatus.CREATED);
@@ -125,6 +123,7 @@ public class TransferController {
     }
 
     // Ezt akkor fogjuk használni, ha csinálunk admin felületet. Amúgy nem listázzuk ki az átutalásokat nyilvánosan.
+    //TODO - Review: Google: ' YAGNI ' ;)
     @GetMapping
     public ResponseEntity<List<TransferListItem>> getAllTransferListItems() {
         List<TransferListItem> transferItems = transferService.findAll().stream()

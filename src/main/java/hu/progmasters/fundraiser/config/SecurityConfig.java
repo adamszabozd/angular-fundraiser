@@ -36,9 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${cors-policies}")
     private String[] corsPolicies;
 
-
     private final UserDetailsService userDetailsService;
-
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -54,15 +52,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //@formatter:off
         http
-                .cors().and()
-                .csrf().disable()
+                .cors()
+                .and()
+                    .csrf().disable()
                 .authorizeRequests()
-                .antMatchers( "/api/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/accounts").permitAll()
-                .anyRequest().authenticated()
-                .and().logout().logoutUrl("/api/accounts/logout").invalidateHttpSession(true).deleteCookies("JSESSIONID")
+                    .antMatchers( "/api/**").permitAll()
+                    .antMatchers(HttpMethod.POST, "/api/accounts").permitAll()
+                    .anyRequest().authenticated()
+                .and()
+                    .logout()
+                        .logoutUrl("/api/accounts/logout")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
                 .and().httpBasic();
+        //@formatter:on
     }
 
     @Bean
@@ -77,6 +82,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
 
 }

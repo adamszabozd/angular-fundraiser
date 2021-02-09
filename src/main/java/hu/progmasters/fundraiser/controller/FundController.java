@@ -23,7 +23,7 @@ public class FundController {
 
     private static final Logger logger = LoggerFactory.getLogger(TransferController.class);
 
-    private FundService fundService;
+    private final FundService fundService;
 
     @Autowired
     public FundController(FundService fundService) {
@@ -40,6 +40,7 @@ public class FundController {
     @GetMapping("/initData")
     public ResponseEntity<List<CategoryOption>> fetchCategoryList(){
         List<CategoryOption> categoryOptions = new ArrayList<>();
+        //TODO - Review: Logikát ne rakjunk a controllerbe!!!!
         for (FundCategory category : FundCategory.values()) {
             categoryOptions.add(new CategoryOption(category));
         }
@@ -48,6 +49,7 @@ public class FundController {
         return response;
     }
 
+    //TODO - Review: Response Entity-nek adjunk generic típust! Sír a szegény IDEA :(
     @PostMapping
     public ResponseEntity saveNewFund(@RequestBody FundFormCommand fundFormCommand, Principal principal){
         String emailAddress = principal.getName();

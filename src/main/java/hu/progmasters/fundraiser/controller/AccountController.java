@@ -64,7 +64,10 @@ public class AccountController {
                                                    @RequestBody @Valid AccountRegistrationCommand accountRegistrationCommand
     ) {
         long newAccountId = accountService.create(accountRegistrationCommand);
+
+        //TODO - Review: Ezt miért?
         httpSession.setAttribute(SESSION_USER_ID_KEY, newAccountId);
+
         logger.info("User '" + newAccountId + "' successfully registered!");
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
