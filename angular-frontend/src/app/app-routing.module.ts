@@ -17,8 +17,8 @@ const routes: Routes = [
     {path: 'transfer-funds', component: TransferFundsComponent},
     {path: 'transfer-confirmation/:code', component: TransferConfirmationComponent},
     {path: 'login', component: LoginComponent},
-    {path: '**', component: PageNotFoundComponent},
-    {path: 'new-fund', component:NewFundFormComponent}
+    {path: 'new-fund', component:NewFundFormComponent},
+    {path: '**', component: PageNotFoundComponent}
 ];
 
 @NgModule({
