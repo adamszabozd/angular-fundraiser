@@ -40,6 +40,7 @@ public class AccountDetails {
                 .collect(Collectors.toList());
         this.pendingTransfers = account.getOutgoingTransfers().stream()
                 .filter(t -> !t.getConfirmed())
+
                 .map(MyTransferListPendingItem::new)
                 .collect(Collectors.toList());
     }
