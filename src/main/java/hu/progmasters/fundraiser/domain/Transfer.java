@@ -17,10 +17,12 @@ import java.time.LocalDateTime;
 // MINDENKÉPPEN vegyétek fel mihamarabb! Illetve ezután érdemes eldobni a db-t is, hogy újracsinálja.
 // Vagy kézzel updatelni...
 @Entity
+@Table(name = "transfer")
 public class Transfer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @ManyToOne
@@ -33,12 +35,16 @@ public class Transfer {
                 nullable = false)
     private Fund target;
 
+    @Column(name = "amount")
     private Integer amount;
 
+    @Column(name = "time_stamp")
     private LocalDateTime timeStamp;
 
+    @Column(name = "confirmation_code")
     private String confirmationCode;
 
+    @Column(name = "confirmed")
     private Boolean confirmed;
 
     public Long getId() {
