@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,5 +42,12 @@ public class FundService {
         Fund fund = new Fund(fundFormCommand, myAccount);
         myAccount.getFunds().add(fund);
         fundRepository.save(fund);
+    }
+
+    public FundListItem fetchFundDetails(Long id) {
+        Optional<Fund> fund = fundRepository.findById(id);
+        if(fund.isPresent()){
+            return new FundListItem(fund.get());
+        } else throw new EntityNotFoundException();
     }
 }

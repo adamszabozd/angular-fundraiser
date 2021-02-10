@@ -27,4 +27,8 @@ export class FundsService {
     saveNewFund(data: FundFormCommandModel): Observable<any> {
         return this.http.post(BASE_URL, data);
     }
+
+    fetchSingleFund(id: number): Observable<FundListItemModel> {
+        return this.http.get<FundListItemModel>(BASE_URL + "/" + id);
+    }
 }

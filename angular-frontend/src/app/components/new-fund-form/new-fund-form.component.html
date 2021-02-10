@@ -54,7 +54,7 @@
                 name="shortDescription"
                 formControlName="shortDescription"></textarea>
             <small
-                *ngIf="!form.get('shortDescription').valid
+                *ngIf="form.get('shortDescription').invalid
                         && form.get('shortDescription').touched
                         && !form.get('shortDescription').errors?.serverError"
                 class="text-danger"

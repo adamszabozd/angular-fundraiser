@@ -49,11 +49,16 @@ public class FundController {
         return response;
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<FundListItem> getFundDetails(@PathVariable Long id){
+        return new ResponseEntity<>(fundService.fetchFundDetails(id), HttpStatus.OK);
+    }
+
     //TODO - Review: Response Entity-nek adjunk generic típust! Sír a szegény IDEA :(
     @PostMapping
-    public ResponseEntity saveNewFund(@RequestBody FundFormCommand fundFormCommand, Principal principal){
+    public ResponseEntity<Void> saveNewFund(@RequestBody FundFormCommand fundFormCommand, Principal principal){
         String emailAddress = principal.getName();
         fundService.savenewFund(fundFormCommand, emailAddress);
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

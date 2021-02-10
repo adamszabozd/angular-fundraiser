@@ -15,7 +15,7 @@ export class NewFundFormComponent implements OnInit {
 
     form = this.formBuilder.group({
         title: ['', Validators.required],
-        shortDescription: ['', Validators.required, Validators.minLength(10), Validators.maxLength(200)],
+        shortDescription: ['', Validators.required, Validators.maxLength(200)],
         longDescription: [''],
         imageUrl: [''],
         category: [null],
