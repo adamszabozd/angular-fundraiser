@@ -1,0 +1,18 @@
+<div class="main-div">
+    <h1 class="title">{{fund.title}}</h1>
+    <div class="image">
+        <img class="image" [src]="fund.imageUrl" alt="funraiser image">
+    </div><br>
+    <div class="description-text">
+        <p>{{fund.longDescription}} </p>
+    </div>
+    <div class="fund-info">
+        <div><h3 class="raised-money">{{fund.raisedAmount}} HUF</h3>
+            <h6>raised of {{fund.targetAmount}} HUF goal</h6></div>
+        <div>
+            <h6>Number of backers: </h6>
+            <h6>Expiration date: {{fund.endDate}}</h6>
+        </div>
+        <button type="button" class="btn btn-success btn-lg">Fund this project</button>
+    </div>
+</div>

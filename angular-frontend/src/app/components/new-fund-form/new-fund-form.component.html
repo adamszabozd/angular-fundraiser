@@ -54,12 +54,12 @@
                 name="shortDescription"
                 formControlName="shortDescription"></textarea>
             <small
-                *ngIf="!form.get('shortDescription').valid
+                *ngIf="form.get('shortDescription').invalid
                         && form.get('shortDescription').touched
                         && !form.get('shortDescription').errors?.serverError"
                 class="text-danger"
             >
-                Please give a short description for you fundraiser (max 200 characters)!
+                Please give a short description for your fundraiser (max 200 characters)!
             </small>
             <small *ngIf="form.get('shortDescription').errors?.serverError" class="text-danger">
                 {{form.get('shortDescription').errors.serverError}}
