@@ -14,8 +14,8 @@ import {validationHandler} from '../../utils/validationHandler';
 export class LoginComponent implements OnInit {
 
     form = this.formBuilder.group({
-                                      email   : ['', [Validators.required, Validators.email]],
-                                      password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+                                      email   : ['', [Validators.required]],
+                                      password: ['', [Validators.required]],
                                   });
 
     constructor(private formBuilder: FormBuilder,
@@ -34,16 +34,26 @@ export class LoginComponent implements OnInit {
         );
     }
 
-    register() {
-        console.log('registering', this.form.value);
+    login() {
+        console.log('logging in', this.form.value);
         this.accountService.login(this.form.value).subscribe(
             () => {
                 this.registrationService.userRegistered.next();
                 this.router.navigate(['/my-account']);
+                this.accountService.loggedInStatusUpdate.next(true);
             },
-            error => validationHandler(error, this.form),
+            error => {
+                error.error = {
+                    fieldErrors: [
+                        {
+                            field: 'email',
+                            message: 'Invalid email or password',
+                        },
+                    ],
+                };
+                validationHandler(error, this.form);
+            }
         );
-        this.accountService.loggedInStatusUpdate.next(true);
     }
 
 }
