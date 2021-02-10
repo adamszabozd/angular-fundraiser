@@ -21,9 +21,10 @@ export class FundraiserDetailsComponent implements OnInit {
             (paraMap) => {
                 this.id = Number.parseInt(paraMap.get("id"));
                 this.fundService.fetchSingleFund(this.id).subscribe(
-                    (data) => {
-                        this.fund = data
-                        debugger;
+                    (data) => this.fund = data,
+                    (error) => {
+                        console.log(error);
+                        this.router.navigate(['page-not-found']);
                     }
                 )
             }

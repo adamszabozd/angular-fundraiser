@@ -3,6 +3,7 @@ import {FormBuilder, Validators} from "@angular/forms";
 import {FundsService} from "../../services/funds.service";
 import {Router} from "@angular/router";
 import {CategoryOptionModel} from "../../models/categoryOption.model";
+import {validationHandler} from "../../utils/validationHandler";
 
 @Component({
     selector: 'app-new-fund-form',
@@ -38,7 +39,7 @@ export class NewFundFormComponent implements OnInit {
     onSubmit(){
         this.fundService.saveNewFund(this.form.value).subscribe(
             ()=> this.router.navigate(['']),
-            (error)=> console.log(error)
+            (error)=> validationHandler(error, this.form)
         );
     }
 

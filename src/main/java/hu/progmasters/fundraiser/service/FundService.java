@@ -44,10 +44,10 @@ public class FundService {
         fundRepository.save(fund);
     }
 
-    public FundListItem fetchFundDetails(Long id) {
+    public FundListItem fetchFundDetails(Long id) throws IllegalArgumentException{
         Optional<Fund> fund = fundRepository.findById(id);
         if(fund.isPresent()){
             return new FundListItem(fund.get());
-        } else throw new EntityNotFoundException();
+        } else throw new IllegalArgumentException();
     }
 }
