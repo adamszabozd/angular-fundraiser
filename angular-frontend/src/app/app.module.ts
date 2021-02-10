@@ -16,6 +16,7 @@ import {LoginComponent} from './components/login/login.component';
 import { NewFundFormComponent } from './components/new-fund-form/new-fund-form.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import {HttpResponseInterceptor} from "./utils/httpResponseInterceptor";
+import { FundraiserDetailsComponent } from './components/fundraiser-details/fundraiser-details.component';
 
 @NgModule({
     declarations: [
@@ -28,7 +29,8 @@ import {HttpResponseInterceptor} from "./utils/httpResponseInterceptor";
         TransferConfirmationComponent,
         LoginComponent,
         PageNotFoundComponent,
-        NewFundFormComponent
+        NewFundFormComponent,
+        FundraiserDetailsComponent
     ],
     imports: [
         BrowserModule,

@@ -1,0 +1,29 @@
+.main-div {
+    width: 100%;
+    margin: auto
+}
+.title {
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+    text-align: center;
+
+}
+.image {
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 30px;
+}
+
+.fund-info {
+    border-top: 5px green;
+    width: 60%;
+    margin: auto;
+    text-align: center ;
+}
+.description-text {
+    white-space: pre-line;
+    margin: 15px
+}

@@ -7,15 +7,19 @@ import java.time.LocalDate;
 
 public class FundListItem {
 
+    private Long id;
+
     private String imageUrl;
 
     private String title;
 
     private String shortDescription;
 
+    private String longDescription;
+
     private Integer targetAmount;
 
-    private Integer aimAmount;
+    private Integer raisedAmount;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
@@ -23,13 +27,19 @@ public class FundListItem {
     private String creatorName;
 
     public FundListItem(Fund fund) {
+        this.id = fund.getId();
         this.imageUrl = fund.getImageUrl();
         this.title = fund.getFundTitle();
         this.shortDescription = fund.getShortDescription();
+        this.longDescription = fund.getLongDescription();
         this.targetAmount = fund.getTargetAmount();
-        this.aimAmount = fund.getRaisedAmount();
+        this.raisedAmount = fund.getRaisedAmount();
         this.endDate = fund.getEndDate();
         this.creatorName = fund.getCreator().getUsername();
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getImageUrl() {
@@ -44,12 +54,16 @@ public class FundListItem {
         return shortDescription;
     }
 
+    public String getLongDescription() {
+        return longDescription;
+    }
+
     public Integer getTargetAmount() {
         return targetAmount;
     }
 
-    public Integer getAimAmount() {
-        return aimAmount;
+    public Integer getRaisedAmount() {
+        return raisedAmount;
     }
 
     public LocalDate getEndDate() {

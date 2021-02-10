@@ -22,4 +22,7 @@ export class FundraiserListComponent implements OnInit{
         )
     }
 
+    goToDetails(id: number) {
+        this.router.navigate(['fund-details', id]);
+    }
 }

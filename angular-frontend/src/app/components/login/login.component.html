@@ -2,7 +2,7 @@
     <h2>Login</h2>
     <hr/>
     <br>
-    <form [formGroup]="form" (ngSubmit)="register()">
+    <form [formGroup]="form" (ngSubmit)="login()">
 
         <div class="form-group">
             <label
@@ -27,7 +27,7 @@
                         && !form.get('email').errors?.serverError"
                 class="text-danger"
             >
-                Please enter a valid email address
+                Email field cannot be empty
             </small>
             <small *ngIf="form.get('email').errors?.serverError" class="text-danger">
                 {{form.get('email').errors.serverError}}
@@ -55,7 +55,7 @@
                 *ngIf="!form.get('password').valid && form.get('password').touched && !form.get('password').errors?.serverError"
                 class="text-danger"
             >
-                Please specify a goal between 5 and 100 characters
+                Password field cannot be empty
             </small>
             <small *ngIf="form.get('password').errors?.serverError" class="text-danger">
                 {{form.get('password').errors.serverError}}
