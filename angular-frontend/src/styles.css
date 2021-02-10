@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+app-root {
+    overflow-x: hidden;
+    font-family: 'Montserrat', sans-serif;
+    color: #616371;
+    background: #3cacca;
+}
+
+.row, .container-fluid {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+}
+
+

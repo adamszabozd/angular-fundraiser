@@ -28,13 +28,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static hu.progmasters.fundraiser.config.SpringWebConfig.SESSION_USER_ID_KEY;
 
 @RestController
 @RequestMapping("/api/accounts")
@@ -60,14 +57,10 @@ public class AccountController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> registerNewAccount(HttpSession httpSession,
-                                                   @RequestBody @Valid AccountRegistrationCommand accountRegistrationCommand
+    public ResponseEntity<Void> registerNewAccount(
+            @RequestBody @Valid AccountRegistrationCommand accountRegistrationCommand
     ) {
         long newAccountId = accountService.create(accountRegistrationCommand);
-
-        //TODO - Review: Ezt miért?
-        httpSession.setAttribute(SESSION_USER_ID_KEY, newAccountId);
-
         logger.info("User '" + newAccountId + "' successfully registered!");
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -79,6 +72,7 @@ public class AccountController {
 
         return new ResponseEntity<>(myAccountDetails, HttpStatus.OK);
     }
+
     @GetMapping("/me")
     public ResponseEntity<AuthenticatedAccountDetails> getMyAccountDetails() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -100,4 +94,5 @@ public class AccountController {
     public ResponseEntity<Boolean> isLoggedIn(Principal principal) {
         return new ResponseEntity<>(principal != null, HttpStatus.OK);
     }
+
 }

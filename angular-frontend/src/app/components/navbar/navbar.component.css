@@ -1,0 +1,19 @@
+.navbar-brand img {
+ height: 3rem;
+}
+.navbar {
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    background-color: #f7ae14 !important;
+}
+.nav-item {
+    padding: .5rem;
+}
+.nav-link {
+    color: #5b5555!important;
+}
+.nav-link.active,
+.nav-link:hover{
+    color: #3cacca!important;
+}

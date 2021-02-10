@@ -42,15 +42,13 @@ public class JPAUserDetailsService implements UserDetailsService {
         Account account = accountRepository.findByEmail(email);
 
         if (account == null) {
-            throw new UsernameNotFoundException("No orc found with name: " + email);
+            throw new UsernameNotFoundException("No account found with email: " + email);
         }
 
         String[] accountRoles = account.getAccountRoleList().stream().map(AccountRole::name).toArray(String[]::new);
         List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(accountRoles);
 
-        UserDetails principal = User.withUsername(email).authorities(authorities).password(account.getPassword()).build();
-
-        return principal;
+        return User.withUsername(email).authorities(authorities).password(account.getPassword()).build();
     }
 
 }
