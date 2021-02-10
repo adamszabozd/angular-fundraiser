@@ -14,7 +14,6 @@ import {TransferFormInitDataModel} from '../../models/transferFormInitData.model
 export class TransferFundsComponent implements OnInit {
 
     transferFormInitDataModel: TransferFormInitDataModel;
-    submitted = false;
 
     form = this.formBuilder.group({
                                       targetFundId: [null, Validators.required],
@@ -35,7 +34,7 @@ export class TransferFundsComponent implements OnInit {
 
     submitForm() {
         this.transferService.submitTransfer(this.form.value).subscribe(
-            () => this.submitted = true,
+            () => this.router.navigate(['/transfer-confirmation']),
             error => validationHandler(error, this.form),
         );
     }

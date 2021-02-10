@@ -2,7 +2,7 @@
     <h2>Transfer Funds</h2>
     <hr/>
     <br/>
-    <form *ngIf="!submitted" [formGroup]="form" (ngSubmit)="submitForm()">
+    <form [formGroup]="form" (ngSubmit)="submitForm()">
         <div class="form-group">
             <label
                 for="to"
@@ -72,6 +72,4 @@
         <br/>
         <button class="btn btn-primary my-buttons">Transfer</button>
     </form>
-
-    <p *ngIf="submitted">A confirmation link is sent to your email address.</p>
 </div>

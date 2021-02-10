@@ -12,7 +12,7 @@
         </p>
     </div>
     <p>
-        A transfer was initiated from you account. Please click the following link for confirmation:
+        A transfer was initiated from you account. Your confirmation code is <b th:text="${confirmationCode}"></b>. If you really want to support "<span th:text="${goalName}"></span>" with <span th:text="${amount}"></span>, please type this code on the confirmation page or click the link below:
     </p>
     <p style="font-size:20px;font-weight:bold;" th:text="${confirmationLink}">
     </p>

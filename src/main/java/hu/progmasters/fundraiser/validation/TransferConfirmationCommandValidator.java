@@ -8,17 +8,16 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 
 @Component
 public class TransferConfirmationCommandValidator implements Validator {
 
     private final SharedValidationService validationService;
-    private final HttpServletRequest request;
 
     @Autowired
-    public TransferConfirmationCommandValidator(SharedValidationService validationService, HttpServletRequest request) {
+    public TransferConfirmationCommandValidator(SharedValidationService validationService) {
         this.validationService = validationService;
-        this.request = request;
     }
 
     @Override
@@ -30,7 +29,7 @@ public class TransferConfirmationCommandValidator implements Validator {
     public void validate(Object target, Errors errors) {
         TransferConfirmationCommand transferConfirmationCommand = (TransferConfirmationCommand) target;
         String code = transferConfirmationCommand.getConfirmationCode();
-        if (!validationService.pendingTransferExistsAndSourceIsRight(code, request.getRemoteAddr())) {
+        if (!validationService.pendingTransferExistsAndSourceIsRight(code)) {
             errors.rejectValue("confirmationCode", "pendingTransfer.invalidConfirmationCode");
         }
     }

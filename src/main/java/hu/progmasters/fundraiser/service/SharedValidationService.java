@@ -5,6 +5,7 @@ import hu.progmasters.fundraiser.domain.Transfer;
 import hu.progmasters.fundraiser.repository.AccountRepository;
 import hu.progmasters.fundraiser.repository.TransferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,12 +23,13 @@ public class SharedValidationService {
         this.transferRepository = transferRepository;
     }
 
-    public boolean pendingTransferExistsAndSourceIsRight(String confirmationCode, String ipAddress) {
+    public boolean pendingTransferExistsAndSourceIsRight(String confirmationCode) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Transfer pendingTransfer = transferRepository.findTransferByConfirmationCodeAndConfirmedFalse(confirmationCode);
         if (pendingTransfer == null) {
             return false;
         } else {
-            return true; // pendingTransfer.getSource().getIpAddress().equals(ipAddress);
+            return pendingTransfer.getSource().getEmail().equals(email);
         }
     }
 
