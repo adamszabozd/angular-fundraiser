@@ -102,7 +102,7 @@ public class TransferController {
         } else {
             String confirmationCode = pendingTransfer.getConfirmationCode();
             String to = accountService.findByEmail(principal.getName()).getEmail();
-            emailSendingService.sendConfirmationEmail(to, confirmationCode);
+            emailSendingService.sendConfirmationEmail(to, confirmationCode, pendingTransfer.getTarget().getFundTitle(), pendingTransfer.getAmount());
         }
         return response;
     }
