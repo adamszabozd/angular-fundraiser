@@ -17,6 +17,7 @@ import hu.progmasters.fundraiser.domain.Transfer;
 import hu.progmasters.fundraiser.dto.MyTransferListPendingItem;
 import hu.progmasters.fundraiser.dto.TransferConfirmationCommand;
 import hu.progmasters.fundraiser.dto.TransferCreationCommand;
+import hu.progmasters.fundraiser.exception.AlreadyConfirmedTransferException;
 import hu.progmasters.fundraiser.exception.ConfirmedTransferDeleteException;
 import hu.progmasters.fundraiser.exception.NotOwnTransferException;
 import hu.progmasters.fundraiser.repository.AccountRepository;
@@ -143,4 +144,19 @@ public class TransferService {
         return transferRepository.findAllByConfirmedTrueOrderByTimeStampDesc();
     }
 
+    public Transfer getPendingTransferByIdAndEmail(Long id, String email) {
+        Optional<Transfer> transferOptional = transferRepository.findById(id);
+        if (transferOptional.isPresent()) {
+            Transfer transfer = transferOptional.get();
+            if (transfer.getConfirmed()) {
+                throw new AlreadyConfirmedTransferException("The transfer is already confirmed", email);
+            } else if (transfer.getSource().getEmail().equals(email)) {
+                return transfer;
+            } else {
+                throw new NotOwnTransferException("Not own transfer", email);
+            }
+        } else {
+            return null;
+        }
+    }
 }

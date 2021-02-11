@@ -145,4 +145,20 @@ public class TransferController {
         return result;
     }
 
+    @GetMapping("/resend/{id}")
+    public ResponseEntity resendConfirmationEmail(@PathVariable Long id, Principal principal) {
+        Transfer pendingTransfer = transferService.getPendingTransferByIdAndEmail(id, principal.getName());
+        ResponseEntity response;
+        if (pendingTransfer == null) {
+            logger.warn("Transfer does not exist!");
+            response = new ResponseEntity(HttpStatus.BAD_REQUEST);
+        } else {
+            String confirmationCode = pendingTransfer.getConfirmationCode();
+            String to = principal.getName();
+            emailSendingService.sendConfirmationEmail(to, confirmationCode, pendingTransfer.getTarget().getFundTitle(), pendingTransfer.getAmount());
+            response = new ResponseEntity<>(HttpStatus.OK);
+        }
+        return response;
+    }
+
 }
