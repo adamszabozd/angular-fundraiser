@@ -5,14 +5,17 @@ import hu.progmasters.fundraiser.dto.CategoryOption;
 import hu.progmasters.fundraiser.dto.FundFormCommand;
 import hu.progmasters.fundraiser.dto.FundListItem;
 import hu.progmasters.fundraiser.service.FundService;
+import hu.progmasters.fundraiser.validation.FundFormCommandValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +24,20 @@ import java.util.List;
 @RequestMapping("/api/funds")
 public class FundController {
 
-    private static final Logger logger = LoggerFactory.getLogger(TransferController.class);
+    private static final Logger logger = LoggerFactory.getLogger(FundController.class);
 
     private final FundService fundService;
+    private final FundFormCommandValidator validator;
 
     @Autowired
-    public FundController(FundService fundService) {
+    public FundController(FundService fundService, FundFormCommandValidator fundFormCommandValidator) {
         this.fundService = fundService;
+        this.validator = fundFormCommandValidator;
+    }
+
+    @InitBinder(value = "fundFormCommand")
+    protected void init (WebDataBinder webDataBinder){
+        webDataBinder.addValidators(validator);
     }
 
     @GetMapping
@@ -56,7 +66,7 @@ public class FundController {
 
     //TODO - Review: Response Entity-nek adjunk generic típust! Sír a szegény IDEA :(
     @PostMapping
-    public ResponseEntity<Void> saveNewFund(@RequestBody FundFormCommand fundFormCommand, Principal principal){
+    public ResponseEntity<Void> saveNewFund(@RequestBody @Valid FundFormCommand fundFormCommand, Principal principal){
         String emailAddress = principal.getName();
         fundService.savenewFund(fundFormCommand, emailAddress);
         return new ResponseEntity<>(HttpStatus.CREATED);

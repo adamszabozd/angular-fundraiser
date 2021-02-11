@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {FundsService} from "../../services/funds.service";
 import {FundListItemModel} from "../../models/FundListItem.model";
-import {error} from "util";
 
 @Component({
     selector: 'app-summary-page',
@@ -20,9 +19,5 @@ export class FundraiserListComponent implements OnInit{
             (data)=> this.fundList=data,
             (error)=> console.log(error)
         )
-    }
-
-    goToDetails(id: number) {
-        this.router.navigate(['fund-details', id]);
     }
 }

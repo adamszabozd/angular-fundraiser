@@ -33,4 +33,8 @@ export class TransferService {
         return this.http.delete(BASE_URL + '/' + id);
     }
 
+    resendConfirmationEmail(id: number): Observable<any> {
+        return this.http.get(BASE_URL + '/resend/' + id);
+    }
+
 }
