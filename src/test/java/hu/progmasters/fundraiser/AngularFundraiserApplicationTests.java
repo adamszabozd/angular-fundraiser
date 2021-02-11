@@ -1,4 +1,4 @@
-package hu.progmasters.angularfundraiser;
+package hu.progmasters.fundraiser;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
