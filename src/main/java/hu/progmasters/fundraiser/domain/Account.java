@@ -14,6 +14,8 @@ package hu.progmasters.fundraiser.domain;
 import hu.progmasters.fundraiser.dto.account.AccountRegistrationCommand;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,12 +31,14 @@ public class Account {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
+    @Size(min=4, max=20)
     @Column(name = "username", unique = true, nullable = false)
     private String username;
 
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Min(0)
     @Column(name = "balance", nullable = false)
     private Integer balance = 5000;
 

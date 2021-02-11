@@ -3,6 +3,9 @@ package hu.progmasters.fundraiser.domain;
 import hu.progmasters.fundraiser.dto.fund.FundFormCommand;
 
 import javax.persistence.*;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
@@ -11,37 +14,42 @@ public class Fund {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", insertable = false, updatable = false)
     private Long id;
 
-    @Column(name = "fund_title")
+    @Size(min=5, max=100)
+    @Column(name = "fund_title", unique = true, nullable = false)
     private String fundTitle;
 
-    @Column(name = "short_description")
+    @Size(min=5, max=200)
+    @Column(name = "short_description", nullable = false)
     private String shortDescription;
 
     @Lob
     @Column(name = "long_description")
     private String longDescription;
 
-    @Column(name = "image_url")
+    @Column(name = "image_url", nullable = false)
     private String imageUrl;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "category")
+    @Column(name = "category", nullable = false)
     private FundCategory fundCategory;
 
-    @Column(name = "amount")
+    @Min(0)
+    @Column(name = "amount", nullable = false)
     private Integer raisedAmount;
 
-    @Column(name = "target_amount")
+    @Min(1)
+    @Column(name = "target_amount", nullable = false)
     private Integer targetAmount;
 
+    @Future
     @Column(name = "end_date")
     private LocalDate endDate;
 
     @ManyToOne
-    @JoinColumn(name = "creator")
+    @JoinColumn(name = "creator", nullable = false)
     private Account creator;
 
     public Fund() {

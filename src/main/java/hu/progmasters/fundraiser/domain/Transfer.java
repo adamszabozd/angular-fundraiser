@@ -12,39 +12,41 @@
 package hu.progmasters.fundraiser.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
-//TODO - Review: Tábla és oszlopnevek!! Illetve ha bármi constraint van, azokat
-// MINDENKÉPPEN vegyétek fel mihamarabb! Illetve ezután érdemes eldobni a db-t is, hogy újracsinálja.
-// Vagy kézzel updatelni...
+
 @Entity
 @Table(name = "transfer")
 public class Transfer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id",
+            insertable = false,
+            updatable = false)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "transfer_from",
-                nullable = false)
+    @JoinColumn(name = "transfer_from", nullable = false)
     private Account source;
 
     @ManyToOne
-    @JoinColumn(name = "transfer_to",
-                nullable = false)
+    @JoinColumn(name = "transfer_to", nullable = false)
     private Fund target;
 
-    @Column(name = "amount")
+    @Min(50)
+    @Max(1000)
+    @Column(name = "amount", nullable = false)
     private Integer amount;
 
-    @Column(name = "time_stamp")
+    @Column(name = "time_stamp", nullable = false)
     private LocalDateTime timeStamp;
 
-    @Column(name = "confirmation_code")
+    @Column(name = "confirmation_code", nullable = false)
     private String confirmationCode;
 
-    @Column(name = "confirmed")
+    @Column(name = "confirmed", nullable = false)
     private Boolean confirmed;
 
     public Long getId() {
