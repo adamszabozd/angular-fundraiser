@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -21,9 +20,6 @@ public class EmailSendingService {
     private static final Logger logger = LoggerFactory.getLogger(EmailSendingService.class);
 
     private final JavaMailSender javaMailSender;
-
-    //TODO - Review: Ez működik a szerveren is? Ha nem, akkor a deploy leírásban van egy GYIK, arról,
-    // hogy tudsz resource-ból fájlt beolvasni ( a vége felé )
 
     @Value("${frontend-url}")
     private String frontendUrl;
@@ -59,8 +55,8 @@ public class EmailSendingService {
 
     private final String emailTemplate =
             "<p style=\"background-color:DodgerBlue;font-size:50px;font-weight:bold;\">PROGmasters Fundraiser</p>" +
-            "<p>A transfer was initiated from your account. Your confirmation code is <b>%s</b>. " +
-            "If you really want to support %s with %d, please type this code on the confirmation page or click the link below:</p>" +
-            "<p style=\"font-size:20px;font-weight:bold;\">%s</p>";
+                    "<p>A transfer was initiated from your account. Your confirmation code is <b>%s</b>. " +
+                    "If you really want to support %s with %d, please type this code on the confirmation page or click the link below:</p>" +
+                    "<p style=\"font-size:20px;font-weight:bold;\">%s</p>";
 
 }
