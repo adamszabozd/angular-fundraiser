@@ -20,6 +20,19 @@ public class FundFormCommand {
 
     private LocalDate endDate;
 
+
+    public static FundFormCommand getDummyInstance(String name) {
+        FundFormCommand instance = new FundFormCommand();
+        instance.setTitle(name);
+        instance.setShortDescription("Short description two");
+        instance.setLongDescription("Long Descripton tow");
+        instance.setImageUrl("image_two.jpg");
+        instance.setCategory("MEDICAL");
+        instance.setTargetAmount(1001);
+        instance.setEndDate(LocalDate.now());
+        return instance;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -46,5 +59,33 @@ public class FundFormCommand {
 
     public LocalDate getEndDate() {
         return endDate;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
+    }
+
+    public void setLongDescription(String longDescription) {
+        this.longDescription = longDescription;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setTargetAmount(Integer targetAmount) {
+        this.targetAmount = targetAmount;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 }

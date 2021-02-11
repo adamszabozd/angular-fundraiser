@@ -37,7 +37,7 @@ public class FundService {
     }
 
 
-    public void savenewFund(FundFormCommand fundFormCommand, String emailAddress) {
+    public void saveNewFund(FundFormCommand fundFormCommand, String emailAddress) {
         Account myAccount = accountRepository.findByEmail(emailAddress);
         Fund fund = new Fund(fundFormCommand, myAccount);
         myAccount.getFunds().add(fund);

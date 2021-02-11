@@ -26,6 +26,8 @@ public class FundListItem {
 
     private String creatorName;
 
+    private String category;
+
     public FundListItem(Fund fund) {
         this.id = fund.getId();
         this.imageUrl = fund.getImageUrl();
@@ -36,6 +38,7 @@ public class FundListItem {
         this.raisedAmount = fund.getRaisedAmount();
         this.endDate = fund.getEndDate();
         this.creatorName = fund.getCreator().getUsername();
+        this.category = fund.getFundCategory().getDisplayName();
     }
 
     public Long getId() {
@@ -72,5 +75,9 @@ public class FundListItem {
 
     public String getCreatorName() {
         return creatorName;
+    }
+
+    public String getCategory() {
+        return category;
     }
 }
