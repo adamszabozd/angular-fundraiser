@@ -1,16 +1,13 @@
 package hu.progmasters.fundraiser.dto;
 
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
+
 import java.time.LocalDate;
 
 public class FundFormCommand {
 
-    @Size(min = 5, max = 100, message = "The title can't be longer than {max} characters!")
     private String title;
 
-    @Size(min = 5, max = 200, message = "Please give a description shorter than 200 characters!")
     private String shortDescription;
 
     private String longDescription;
@@ -19,7 +16,6 @@ public class FundFormCommand {
 
     private String category;
 
-    @Min(value = 1, message = "The target amount must be above zero!")
     private Integer targetAmount;
 
     private LocalDate endDate;
