@@ -10,8 +10,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -24,24 +22,19 @@ public class EmailSendingService {
 
     private final JavaMailSender javaMailSender;
 
-    private final SpringTemplateEngine thymeleafTemplateEngine;
-
     //TODO - Review: Ez működik a szerveren is? Ha nem, akkor a deploy leírásban van egy GYIK, arról,
     // hogy tudsz resource-ból fájlt beolvasni ( a vége felé )
-    @Value("classpath:/logo.png")
-    private Resource resourceFile;
 
     @Value("${frontend-url}")
     private String frontendUrl;
 
     @Autowired
-    public EmailSendingService(JavaMailSender javaMailSender, SpringTemplateEngine thymeleafTemplateEngine) {
+    public EmailSendingService(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
-        this.thymeleafTemplateEngine = thymeleafTemplateEngine;
     }
 
     @Async
-    public void sendHtmlEmail(String to, String subject, String body, Resource resourceFile) {
+    public void sendHtmlEmail(String to, String subject, String body) {
         try {
             MimeMessage msg = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(msg, true);
@@ -49,7 +42,6 @@ public class EmailSendingService {
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(body, true); // true = text/html
-            helper.addInline("logo.png", resourceFile);
             javaMailSender.send(msg);
             logger.info("Email successfully sent to {}", to);
         } catch (MessagingException e) {
@@ -60,14 +52,15 @@ public class EmailSendingService {
     @Async
     public void sendConfirmationEmail(String to, String confirmationCode, String goalName, int amount) {
         String confirmationLink = frontendUrl + "/transfer-confirmation/" + confirmationCode;
-        Context ctx = new Context();
-        ctx.setVariable("goalName", goalName);
-        ctx.setVariable("amount", amount);
-        ctx.setVariable("confirmationCode", confirmationCode);
-        ctx.setVariable("confirmationLink", confirmationLink);
-        String htmlContent = thymeleafTemplateEngine.process("transfer-confirmation.html", ctx);
+        String htmlContent = String.format(emailTemplate, confirmationCode, goalName, amount, confirmationLink);
         String subject = "Transfer confirmation";
-        sendHtmlEmail(to, subject, htmlContent, resourceFile);
+        sendHtmlEmail(to, subject, htmlContent);
     }
+
+    private final String emailTemplate =
+            "<p style=\"background-color:DodgerBlue;font-size:50px;font-weight:bold;\">PROGmasters Fundraiser</p>" +
+            "<p>A transfer was initiated from your account. Your confirmation code is <b>%s</b>. " +
+            "If you really want to support %s with %d, please type this code on the confirmation page or click the link below:</p>" +
+            "<p style=\"font-size:20px;font-weight:bold;\">%s</p>";
 
 }
