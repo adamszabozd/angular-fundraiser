@@ -1,4 +1,4 @@
-package hu.progmasters.fundraiser.dto;
+package hu.progmasters.fundraiser.dto.fund;
 
 
 

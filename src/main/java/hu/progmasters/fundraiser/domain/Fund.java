@@ -1,6 +1,6 @@
 package hu.progmasters.fundraiser.domain;
 
-import hu.progmasters.fundraiser.dto.FundFormCommand;
+import hu.progmasters.fundraiser.dto.fund.FundFormCommand;
 
 import javax.persistence.*;
 import java.time.LocalDate;

@@ -2,15 +2,14 @@ package hu.progmasters.fundraiser.service;
 
 import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.domain.Fund;
-import hu.progmasters.fundraiser.dto.FundFormCommand;
-import hu.progmasters.fundraiser.dto.FundListItem;
+import hu.progmasters.fundraiser.dto.fund.FundFormCommand;
+import hu.progmasters.fundraiser.dto.fund.FundListItem;
 import hu.progmasters.fundraiser.repository.AccountRepository;
 import hu.progmasters.fundraiser.repository.FundRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

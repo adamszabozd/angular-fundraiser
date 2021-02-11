@@ -1,9 +1,9 @@
 package hu.progmasters.fundraiser.controller;
 
 import hu.progmasters.fundraiser.domain.FundCategory;
-import hu.progmasters.fundraiser.dto.CategoryOption;
-import hu.progmasters.fundraiser.dto.FundFormCommand;
-import hu.progmasters.fundraiser.dto.FundListItem;
+import hu.progmasters.fundraiser.dto.fund.CategoryOption;
+import hu.progmasters.fundraiser.dto.fund.FundFormCommand;
+import hu.progmasters.fundraiser.dto.fund.FundListItem;
 import hu.progmasters.fundraiser.service.FundService;
 import hu.progmasters.fundraiser.validation.FundFormCommandValidator;
 import org.slf4j.Logger;

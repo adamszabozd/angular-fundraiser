@@ -11,7 +11,7 @@
 
 package hu.progmasters.fundraiser.domain;
 
-import hu.progmasters.fundraiser.dto.AccountRegistrationCommand;
+import hu.progmasters.fundraiser.dto.account.AccountRegistrationCommand;
 
 import javax.persistence.*;
 import java.util.ArrayList;

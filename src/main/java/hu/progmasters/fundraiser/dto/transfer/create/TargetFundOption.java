@@ -1,4 +1,4 @@
-package hu.progmasters.fundraiser.dto;
+package hu.progmasters.fundraiser.dto.transfer.create;
 
 import hu.progmasters.fundraiser.domain.Fund;
 

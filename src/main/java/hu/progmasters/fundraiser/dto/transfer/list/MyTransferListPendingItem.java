@@ -1,10 +1,10 @@
-package hu.progmasters.fundraiser.dto;
+package hu.progmasters.fundraiser.dto.transfer.list;
 
 import hu.progmasters.fundraiser.domain.Transfer;
 
 import java.time.format.DateTimeFormatter;
 
-public class MyTransferListItem {
+public class MyTransferListPendingItem {
 
     private Long id;
 
@@ -14,14 +14,11 @@ public class MyTransferListItem {
 
     private Integer amount;
 
-    private String timeStamp;
-
-    public MyTransferListItem(Transfer transfer) {
+    public MyTransferListPendingItem(Transfer transfer) {
         this.id = transfer.getId();
         this.senderAccountEmail = transfer.getSource().getEmail();
         this.targetFundTitle = transfer.getTarget().getFundTitle();
         this.amount = transfer.getAmount();
-        this.timeStamp = transfer.getTimeStamp().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
     public Long getId() {
@@ -38,10 +35,6 @@ public class MyTransferListItem {
 
     public Integer getAmount() {
         return amount;
-    }
-
-    public String getTimeStamp() {
-        return timeStamp;
     }
 
 }

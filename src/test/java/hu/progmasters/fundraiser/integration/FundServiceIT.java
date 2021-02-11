@@ -1,12 +1,9 @@
 package hu.progmasters.fundraiser.integration;
 
 
-import hu.progmasters.fundraiser.domain.Account;
-import hu.progmasters.fundraiser.domain.Fund;
-import hu.progmasters.fundraiser.domain.FundCategory;
-import hu.progmasters.fundraiser.dto.AccountRegistrationCommand;
-import hu.progmasters.fundraiser.dto.FundFormCommand;
-import hu.progmasters.fundraiser.dto.FundListItem;
+import hu.progmasters.fundraiser.dto.account.AccountRegistrationCommand;
+import hu.progmasters.fundraiser.dto.fund.FundFormCommand;
+import hu.progmasters.fundraiser.dto.fund.FundListItem;
 import hu.progmasters.fundraiser.repository.FundRepository;
 import hu.progmasters.fundraiser.service.AccountService;
 import hu.progmasters.fundraiser.service.FundService;
@@ -18,7 +15,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @SpringBootTest

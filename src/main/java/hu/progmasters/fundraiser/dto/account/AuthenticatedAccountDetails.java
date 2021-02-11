@@ -1,4 +1,4 @@
-package hu.progmasters.fundraiser.dto;
+package hu.progmasters.fundraiser.dto.account;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

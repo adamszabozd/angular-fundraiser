@@ -2,7 +2,7 @@ package hu.progmasters.fundraiser.integration;
 
 
 import hu.progmasters.fundraiser.domain.Account;
-import hu.progmasters.fundraiser.dto.AccountRegistrationCommand;
+import hu.progmasters.fundraiser.dto.account.AccountRegistrationCommand;
 import hu.progmasters.fundraiser.service.AccountService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

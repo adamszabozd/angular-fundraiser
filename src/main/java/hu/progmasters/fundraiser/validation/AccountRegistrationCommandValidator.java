@@ -11,13 +11,11 @@
 
 package hu.progmasters.fundraiser.validation;
 
-import hu.progmasters.fundraiser.dto.AccountRegistrationCommand;
+import hu.progmasters.fundraiser.dto.account.AccountRegistrationCommand;
 import hu.progmasters.fundraiser.service.SharedValidationService;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Component
 public class AccountRegistrationCommandValidator implements Validator {

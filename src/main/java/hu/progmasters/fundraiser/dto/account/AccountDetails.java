@@ -9,10 +9,12 @@
  * Any dispute or claim arising out of the breach of these provisions shall be governed by and construed in accordance with the laws of Hungary.
  */
 
-package hu.progmasters.fundraiser.dto;
+package hu.progmasters.fundraiser.dto.account;
 
 import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.domain.Transfer;
+import hu.progmasters.fundraiser.dto.transfer.list.MyTransferListItem;
+import hu.progmasters.fundraiser.dto.transfer.list.MyTransferListPendingItem;
 
 import java.util.List;
 import java.util.stream.Collectors;

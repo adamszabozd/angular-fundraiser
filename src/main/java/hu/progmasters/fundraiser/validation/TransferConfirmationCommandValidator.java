@@ -1,14 +1,11 @@
 package hu.progmasters.fundraiser.validation;
 
-import hu.progmasters.fundraiser.dto.TransferConfirmationCommand;
+import hu.progmasters.fundraiser.dto.transfer.create.TransferConfirmationCommand;
 import hu.progmasters.fundraiser.service.SharedValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-
-import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 
 @Component
 public class TransferConfirmationCommandValidator implements Validator {

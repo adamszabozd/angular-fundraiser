@@ -9,28 +9,42 @@
  * Any dispute or claim arising out of the breach of these provisions shall be governed by and construed in accordance with the laws of Hungary.
  */
 
-package hu.progmasters.fundraiser.dto;
+package hu.progmasters.fundraiser.dto.account;
 
-import hu.progmasters.fundraiser.domain.Fund;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import java.util.List;
-import java.util.stream.Collectors;
+public class AccountRegistrationCommand {
 
-public class TransferFormInitData {
+    private String password;
 
-    private List<TargetFundOption> targetFundOptions;
-    private int balance;
+    @Email(message = "Invalid email address")
+    private String email;
 
-    public TransferFormInitData(List<Fund> fundList, int balance) {
-        this.targetFundOptions = fundList.stream().map(TargetFundOption::new).collect(Collectors.toList());
-        this.balance = balance;
+    private String username;
+
+    public String getPassword() {
+        return password;
     }
 
-    public List<TargetFundOption> getTargetFundOptions() {
-        return targetFundOptions;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public int getBalance() {
-        return balance;
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

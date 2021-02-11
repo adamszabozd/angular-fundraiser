@@ -1,4 +1,4 @@
-package hu.progmasters.fundraiser.dto;
+package hu.progmasters.fundraiser.dto.fund;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import hu.progmasters.fundraiser.domain.Fund;

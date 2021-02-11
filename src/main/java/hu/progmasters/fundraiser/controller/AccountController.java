@@ -12,9 +12,9 @@
 package hu.progmasters.fundraiser.controller;
 
 import hu.progmasters.fundraiser.domain.Account;
-import hu.progmasters.fundraiser.dto.AccountDetails;
-import hu.progmasters.fundraiser.dto.AccountRegistrationCommand;
-import hu.progmasters.fundraiser.dto.AuthenticatedAccountDetails;
+import hu.progmasters.fundraiser.dto.account.AccountDetails;
+import hu.progmasters.fundraiser.dto.account.AccountRegistrationCommand;
+import hu.progmasters.fundraiser.dto.account.AuthenticatedAccountDetails;
 import hu.progmasters.fundraiser.service.AccountService;
 import hu.progmasters.fundraiser.validation.AccountRegistrationCommandValidator;
 import org.slf4j.Logger;

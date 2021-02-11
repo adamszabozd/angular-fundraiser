@@ -11,7 +11,7 @@
 
 package hu.progmasters.fundraiser.validation;
 
-import hu.progmasters.fundraiser.dto.TransferCreationCommand;
+import hu.progmasters.fundraiser.dto.transfer.create.TransferCreationCommand;
 import hu.progmasters.fundraiser.service.SharedValidationService;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
