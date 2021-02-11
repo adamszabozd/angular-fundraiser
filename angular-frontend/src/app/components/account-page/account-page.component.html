@@ -74,7 +74,10 @@
             <td>{{transfer.targetFundTitle}}</td>
             <td>{{transfer.amount}}</td>
             <td>
-                <button (click)="deletePendingTransfer(transfer.id)" class="btn btn-danger">delete</button>
+                <span class="btn-group">
+                    <button (click)="resendConfirmationEmail(transfer.id)" class="btn btn-primary">resend code</button>
+                    <button (click)="deletePendingTransfer(transfer.id)" class="btn btn-danger">delete</button>
+                </span>
             </td>
         </tr>
         </tbody>

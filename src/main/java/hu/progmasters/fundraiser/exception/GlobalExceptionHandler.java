@@ -105,4 +105,13 @@ public class GlobalExceptionHandler {
         ApiError body = new ApiError("CONFIRMED_TRANSFER_DELETION_ERROR", "You cannot delete a confirmed transfer", e.getLocalizedMessage());
         return new ResponseEntity<>(body, status);
     }
+
+    @ExceptionHandler(AlreadyConfirmedTransferException.class)
+    public ResponseEntity<ApiError> alreadyConfirmedTransferExceptionHandler(AlreadyConfirmedTransferException e) {
+        logger.error("User {} tried to resend email for a confirmed transfer", e.getAccountEmail());
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ApiError body = new ApiError("ALREADY_CONFIRMED_TRANSFER_CONFIRMATION", "You cannot send a confirmation email for a confirmed transfer", e.getLocalizedMessage());
+        return new ResponseEntity<>(body, status);
+    }
+
 }
