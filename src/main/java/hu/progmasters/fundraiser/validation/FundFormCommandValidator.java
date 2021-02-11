@@ -1,6 +1,7 @@
 package hu.progmasters.fundraiser.validation;
 
 import hu.progmasters.fundraiser.dto.FundFormCommand;
+import hu.progmasters.fundraiser.service.SharedValidationService;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -9,6 +10,13 @@ import java.time.LocalDate;
 
 @Component
 public class FundFormCommandValidator implements Validator {
+
+    private final SharedValidationService validationService;
+
+    public FundFormCommandValidator(SharedValidationService validationService) {
+        this.validationService = validationService;
+    }
+
     @Override
     public boolean supports(Class<?> clazz) {
         return FundFormCommand.class.equals(clazz);
@@ -22,6 +30,9 @@ public class FundFormCommandValidator implements Validator {
         }
         if (fund.getTitle().length() < 5 || fund.getTitle().length() > 100) {
             errors.rejectValue("title", "title.length.wrong");
+        }
+        if (validationService.fundTitleAlreadyExist(fund.getTitle())) {
+            errors.rejectValue("title", "title.already.exist");
         }
         if (fund.getShortDescription() == null || fund.getShortDescription().isEmpty()) {
             errors.rejectValue("shortDescription", "short.description.missing");

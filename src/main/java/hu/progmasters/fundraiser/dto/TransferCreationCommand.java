@@ -17,13 +17,8 @@ import javax.validation.constraints.NotNull;
 
 public class TransferCreationCommand {
 
-    @NotNull(message = "{transfer.targetNotNull}")
     private Long targetFundId;
 
-    @Min(value = 50,
-         message = "{transfer.amountMin}")
-    @Max(value = 1000,
-         message = "{transfer.amountMin}")
     private Integer amount;
 
     public Long getTargetFundId() {

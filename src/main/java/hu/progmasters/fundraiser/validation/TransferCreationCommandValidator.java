@@ -11,26 +11,19 @@
 
 package hu.progmasters.fundraiser.validation;
 
-import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.dto.TransferCreationCommand;
 import hu.progmasters.fundraiser.service.SharedValidationService;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import javax.servlet.http.HttpServletRequest;
-
 @Component
 public class TransferCreationCommandValidator implements Validator {
 
-    private static final String AMOUNT = "amount";
-
     private SharedValidationService validationService;
-    private HttpServletRequest request;
 
-    public TransferCreationCommandValidator(SharedValidationService validationService, HttpServletRequest request) {
+    public TransferCreationCommandValidator(SharedValidationService validationService) {
         this.validationService = validationService;
-        this.request = request;
     }
 
     @Override
@@ -40,6 +33,19 @@ public class TransferCreationCommandValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        TransferCreationCommand transferCreationCommand = (TransferCreationCommand) target;
+        TransferCreationCommand transfer = (TransferCreationCommand) target;
+        if (transfer.getTargetFundId() == null) {
+            errors.rejectValue("targetFundId", "transfer.targetNotNull");
+        }
+        if (transfer.getAmount() > validationService.checkBalance()) {
+            errors.rejectValue("amount", "transfer.notEnough.balance");
+        }
+        if (transfer.getAmount() != null && transfer.getAmount() <= 50) {
+            errors.rejectValue("amount", "transfer.amountMin");
+        }
+        if (transfer.getAmount() != null && transfer.getAmount() >= 1000) {
+            errors.rejectValue("amount", "transfer.amountMax");
+        }
     }
+
 }

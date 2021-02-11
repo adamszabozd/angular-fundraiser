@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FundRepository extends JpaRepository<Fund, Long> {
 
+    Fund findByFundTitle(String title);
+
 }

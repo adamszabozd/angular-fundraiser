@@ -40,6 +40,8 @@
             </label>
             <input
                 id="amount"
+                min="50"
+                max="1000"
                 type="number"
                 class="form-control"
                 [ngClass]="{'is-invalid': (form.get('amount').invalid && form.get('amount').touched) || (form.get('amount').errors?.serverError)}"
