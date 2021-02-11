@@ -15,7 +15,7 @@
                 <li *ngIf="loggedIn" class="nav-item"><a class="nav-link" routerLink="/new-fund">Create new fund</a> </li>
                 <li *ngIf="!loggedIn" class="nav-item"><a class="nav-link" routerLink="/registration">Registration</a></li>
                 <li *ngIf="!loggedIn" class="nav-item"><a class="nav-link" routerLink="/login">Login</a></li>
-                <li *ngIf="loggedIn" class="nav-item"><a class="nav-link" routerLink="/" (click)="logout()">Logout</a></li>
+                <li *ngIf="loggedIn" class="nav-item"><a class="nav-link" (click)="logout()" routerLink="/">Logout</a></li>
             </ul>
         </div>
     </div>
