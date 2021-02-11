@@ -12,18 +12,16 @@
 package hu.progmasters.fundraiser.dto;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class AccountRegistrationCommand {
 
-
-    @Size(min = 5, max = 100, message = "Password must be between {min} and {max} characters")
     private String password;
 
     @Email(message = "Invalid email address")
     private String email;
 
-    @Size(min = 4, max = 20, message = "Username must be between {min} and {max} characters")
     private String username;
 
     public String getPassword() {
