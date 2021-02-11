@@ -9,11 +9,12 @@
             <h4 class="my-4">{{fund.title}}</h4>
             <p class="description">{{fund.shortDescription}}</p>
             <ul class="list-group list-group-flush">
+                <li class="list-group-item">Category: {{fund.category}}</li>
                 <li class="list-group-item">Raised {{fund.raisedAmount}} HUF with the target of {{fund.targetAmount}} HUF</li>
                 <li class="list-group-item">End date: {{fund.endDate}}</li>
                 <li class="list-group-item">Creator: {{fund.creatorName}}</li>
             </ul>
-                <a target="_blank" [routerLink]="['/fund-details',fund.id]" class="btn btn-outline-warning btn-md" >Read more</a>
+                <a (click)="goToDetails(fund.id)"  class="btn btn-outline-warning btn-md">Read more</a>
         </div>
     </div>
 

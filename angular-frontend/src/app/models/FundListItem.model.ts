@@ -9,4 +9,5 @@ export interface FundListItemModel{
     raisedAmount: number;
     endDate: Date;
     creatorName: string;
+    category: string;
 }

@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,7 +67,7 @@ public class FundController {
     @PostMapping
     public ResponseEntity<Void> saveNewFund(@RequestBody @Valid FundFormCommand fundFormCommand, Principal principal){
         String emailAddress = principal.getName();
-        fundService.savenewFund(fundFormCommand, emailAddress);
+        fundService.saveNewFund(fundFormCommand, emailAddress);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
