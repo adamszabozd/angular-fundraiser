@@ -5,6 +5,7 @@ import {TransferService} from '../../services/transfer.service';
 
 import {validationHandler} from '../../utils/validationHandler';
 import {TransferFormInitDataModel} from '../../models/transferFormInitData.model';
+import {AccountService} from "../../services/account.service";
 
 @Component({
                selector   : 'app-transfer-funds',
@@ -20,7 +21,7 @@ export class TransferFundsComponent implements OnInit {
                                       amount      : [null, [Validators.required, Validators.min(50), Validators.max(1000)]],
                                   });
 
-    constructor(private formBuilder: FormBuilder, private transferService: TransferService, private router: Router) {
+    constructor(private formBuilder: FormBuilder, private transferService: TransferService, private router: Router, private accountService: AccountService) {
     }
 
     ngOnInit() {
@@ -28,7 +29,11 @@ export class TransferFundsComponent implements OnInit {
             (transferData) => {
                 this.transferFormInitDataModel = transferData;
             },
-            console.warn,
+            error => {
+                this.accountService.loggedInStatusUpdate.next(false);
+                this.router.navigate(['/login']);
+                console.log(error);
+            }
         );
     }
 

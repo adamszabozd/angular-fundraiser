@@ -21,8 +21,12 @@ export class AccountPageComponent implements OnInit {
             (data) => {
                 this.accountDetails = data;
             },
+            error => {
+                this.accountService.loggedInStatusUpdate.next(false);
+                this.router.navigate(['/login']);
+                console.log(error);
+            }
         );
-
     }
 
     deletePendingTransfer(id: number): void {
