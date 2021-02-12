@@ -56,7 +56,6 @@ public class EmailSendingService {
     private final String emailTemplate =
             "<p style=\"background-color:DodgerBlue;font-size:50px;font-weight:bold;\">PROGmasters Fundraiser</p>" +
                     "<p>A transfer was initiated from your account. Your confirmation code is <b>%s</b>. " +
-                    "If you really want to support %s with %d, please type this code on the confirmation page or click the link below:</p>" +
-                    "<p style=\"font-size:20px;font-weight:bold;\">%s</p>";
+                    "If you really want to support \"%s\" with %d, please type this code on the confirmation page or <a href=\"%s\">click here</a>.</p>";
 
 }
