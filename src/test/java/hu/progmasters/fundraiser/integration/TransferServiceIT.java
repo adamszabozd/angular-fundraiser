@@ -1,12 +1,17 @@
-package hu.progmasters.fundraiser;
+package hu.progmasters.fundraiser.integration;
 
 import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.domain.Fund;
+import hu.progmasters.fundraiser.domain.FundCategory;
 import hu.progmasters.fundraiser.domain.Transfer;
+import hu.progmasters.fundraiser.dto.account.AccountRegistrationCommand;
+import hu.progmasters.fundraiser.dto.fund.FundFormCommand;
 import hu.progmasters.fundraiser.dto.transfer.create.TransferCreationCommand;
 import hu.progmasters.fundraiser.repository.AccountRepository;
 import hu.progmasters.fundraiser.repository.FundRepository;
 import hu.progmasters.fundraiser.repository.TransferRepository;
+import hu.progmasters.fundraiser.service.AccountService;
+import hu.progmasters.fundraiser.service.FundService;
 import hu.progmasters.fundraiser.service.TransferService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 @Transactional
 @Rollback
 @AutoConfigureTestDatabase
-public class TransferServiceTest {
+public class TransferServiceIT {
 
     @Autowired
     private TransferService transferService;
@@ -31,24 +36,28 @@ public class TransferServiceTest {
     private TransferRepository transferRepository;
 
     @Autowired
-    private AccountRepository accountRepository;
+    private AccountService accountService;
 
     @Autowired
-    private FundRepository fundRepository;
+    private FundService fundService;
 
-    private Long accountId;
     private Long fundId;
 
     public void init() {
-        Account account = new Account();
-        account.setEmail("test@gmail.com");
-        account.setUsername("tester");
-        account.setBalance(5000);
-        account.setPassword("qqqq");
-        accountId = accountRepository.save(account).getId();
-        Fund fund = new Fund();
-        fund.setFundTitle("Save Forests");
-        fundId = fundRepository.save(fund).getId();
+        String email = "test@gmail.com";
+        AccountRegistrationCommand accountRegistrationCommand = new AccountRegistrationCommand();
+        accountRegistrationCommand.setEmail(email);
+        accountRegistrationCommand.setUsername("tester");
+        accountRegistrationCommand.setPassword("qqqq");
+        accountService.create(accountRegistrationCommand);
+        FundFormCommand fundFormCommand = new FundFormCommand();
+        fundFormCommand.setTitle("Save Forests");
+        fundFormCommand.setShortDescription("They are in danger!!!");
+        fundFormCommand.setImageUrl("www.forest.com/forest.jpg");
+        fundFormCommand.setCategory("NONPROFIT");
+        fundFormCommand.setTargetAmount(1000000);
+        fundService.saveNewFund(fundFormCommand, email);
+        fundId = fundService.findAll().get(0).getId();
     }
 
     @Test
