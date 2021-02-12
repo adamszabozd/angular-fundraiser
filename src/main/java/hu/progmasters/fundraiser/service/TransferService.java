@@ -74,6 +74,7 @@ public class TransferService {
         logger.info("Confirmation code generated.");
         pendingTransfer.setConfirmationCode(code);
         pendingTransfer.setConfirmed(false);
+        pendingTransfer.setTimeStamp(LocalDateTime.now());
         pendingTransfer = transferRepository.save(pendingTransfer);
         return pendingTransfer;
     }
