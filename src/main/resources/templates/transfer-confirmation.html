@@ -2,14 +2,34 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Confirmation email</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@300;500&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
 </head>
-<body>
-<p style="background-color:DodgerBlue;font-size:30px;font-weight:bold;">
-    PROGmasters Fundraiser
-</p>
-<p>
-    A transfer was initiated from you account. Your confirmation code is <b th:text="${confirmationCode}"></b>. If you really want to support "<span th:text="${goalName}"></span>" with <span th:text="${amount}"></span>, please type this code on the confirmation page or <a th:href="${confirmationLink}">click here</a>.
-</p>
+<body align="center" style="font-family: 'Montserrat', sans-serif">
+<div style="max-width: 800px">
+    <div>
+        <img src="https://kickstarter.progmasters.hu/assets/img/kick-starter.png" th:src="@{https://kickstarter.progmasters.hu/assets/img/kick-starter.png}" alt="KickStarter"/>
+    </div><br>
+    <div>
+    <p style="font-size: 1.1rem; color: #323232">
+        A transfer was initiated from you account. Your confirmation code is:<br>
+        <b th:align="center" th:text="${confirmationCode}"></b><br>
+        If you really want to support "<strong><span th:text="${goalName}"></span></strong>" with
+        <strong><span th:text="${amount}"></span> HUF</strong>, please
+        type this code on the confirmation page or</p>
+    </div>
+    <br>
+    <div align="center" style="background-color: #3cacca;
+    border-color: #3cacca; border-radius: 0.25rem;height: 40px; width: 150px">
+        <a style="font-size: 1.5rem; font-weight: bold; color: #5b5555;
+        border-color: #3cacca; border-radius: 0.25rem; text-decoration: none"
+           th:href="${confirmationLink}">click here</a>
+    </div>
+
+
+</div>
 </body>
 </html>
