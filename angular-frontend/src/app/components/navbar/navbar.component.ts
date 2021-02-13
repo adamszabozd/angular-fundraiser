@@ -1,13 +1,18 @@
 import {Component, OnInit} from '@angular/core';
 import {AccountService} from "../../services/account.service";
 import {Router} from "@angular/router";
+import {slideInFromRight} from '../../animations';
 
 @Component({
                selector   : 'app-navbar',
                templateUrl: './navbar.component.html',
                styleUrls  : ['./navbar.component.css'],
+               animations: [
+                   slideInFromRight
+               ]
            })
 export class NavbarComponent implements OnInit {
+    slideInState = 'in';
     loggedIn = false;
 
     constructor(private accountService: AccountService, private router: Router) {

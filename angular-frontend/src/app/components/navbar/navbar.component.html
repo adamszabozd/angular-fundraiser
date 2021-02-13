@@ -8,14 +8,14 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div id="myNavbar" class="navbar-collapse collapse">
+            <div><a class="nav-link active" routerLink="/fund-list">Discover</a></div>
             <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                <li class="nav-item"><a class="nav-link active" routerLink="/fund-list">Discover</a></li>
-                <li *ngIf="loggedIn" class="nav-item"><a class="nav-link" routerLink="/my-account">My Account</a></li>
-                <li *ngIf="loggedIn" class="nav-item"><a class="nav-link" routerLink="/transfer-funds">Transfer Funds</a></li>
-                <li *ngIf="loggedIn" class="nav-item"><a class="nav-link" routerLink="/new-fund">Create new fund</a> </li>
-                <li *ngIf="!loggedIn" class="nav-item"><a class="nav-link" routerLink="/registration">Registration</a></li>
-                <li *ngIf="!loggedIn" class="nav-item"><a class="nav-link" routerLink="/login">Login</a></li>
-                <li *ngIf="loggedIn" class="nav-item"><a class="nav-link" (click)="logout()" routerLink="/">Logout</a></li>
+                <li [@slideIn]="slideInState"  *ngIf="loggedIn" class="nav-item"><a class="nav-link" routerLink="/my-account">My Account</a></li>
+                <li [@slideIn]="slideInState"  *ngIf="loggedIn" class="nav-item"><a class="nav-link" routerLink="/transfer-funds">Transfer Funds</a></li>
+                <li [@slideIn]="slideInState"  *ngIf="loggedIn" class="nav-item"><a class="nav-link" routerLink="/new-fund">Create new fund</a> </li>
+                <li [@slideIn]="slideInState"  *ngIf="!loggedIn" class="nav-item"><a class="nav-link" routerLink="/registration">Registration</a></li>
+                <li [@slideIn]="slideInState"  *ngIf="!loggedIn" class="nav-item"><a class="nav-link" routerLink="/login">Login</a></li>
+                <li [@slideIn]="slideInState"  *ngIf="loggedIn" class="nav-item"><a class="nav-link" (click)="logout()" routerLink="/">Logout</a></li>
             </ul>
         </div>
     </div>
