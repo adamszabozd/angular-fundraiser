@@ -11,7 +11,7 @@ import {Router} from "@angular/router";
            })
 export class AccountPageComponent implements OnInit {
 
-    accountDetails: AccountDetailsModel;
+    accountDetails: AccountDetailsModel | undefined;
 
     constructor(private accountService: AccountService, private transferService: TransferService, private router: Router) {
     }

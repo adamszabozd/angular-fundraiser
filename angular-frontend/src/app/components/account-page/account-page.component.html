@@ -1,87 +1,82 @@
-<div class="container">
-    <h2>My Account</h2>
-    <hr/>
-    <div class="form-group">
-        <label for="email" class="input-label">Email:</label>
-        <input
-            id="email"
-            class="form-control my-input-field-disabled"
-            name="email"
-            placeholder="{{accountDetails.email}}"
-            disabled
-        />
+<div class="account row mb-3">
+    <div class="container  jumbotron col-sm-4">
+        <h2>My Account</h2>
+        <div class="border-top mx-auto my-3"></div>
+        <div class="form-group">
+            <label for="email" class="input-label">Email:</label>
+                <input
+                    id="email"
+                    class="form-control my-input-field-disabled"
+                    name="email"
+                    placeholder="{{accountDetails?.email}}"
+                    disabled
+                />
+        </div>
+        <div class="form-group">
+            <label for="username" class="input-label">Username:</label>
+            <input
+                id="username"
+                class="form-control my-input-field-disabled"
+                name="username"
+                placeholder="{{accountDetails?.username}}"
+                disabled
+            />
+        </div>
+        <div class="form-group">
+            <label for="balance">Balance:</label>
+            <input
+                id="balance"
+                class="form-control my-input-field-disabled"
+                name="balance"
+                placeholder="{{accountDetails?.balance}}"
+                disabled
+            />
+        </div>
     </div>
-
-    <div class="form-group">
-        <label for="username" class="input-label">Username:</label>
-        <input
-            id="username"
-            class="form-control my-input-field-disabled"
-            name="username"
-            placeholder="{{accountDetails.username}}"
-            disabled
-        />
-    </div>
-
-    <div class="form-group">
-        <label for="balance">Balance:</label>
-        <input
-            id="balance"
-            class="form-control my-input-field-disabled"
-            name="balance"
-            placeholder="{{accountDetails.balance}}"
-            disabled
-        />
-    </div>
-</div>
-<br><br>
-<div class="container">
-    <h4 class="my-transfers__table-label">My transfers:</h4>
-    <table class="table table-bordered table-striped">
-        <thead>
-        <tr class="table-success">
-            <th class="my-transfers__column-from">From</th>
-            <th class="my-transfers__column-to">To</th>
-            <th class="my-transfers__column-amount">Amount</th>
-            <th class="my-transfers__column-date">Date</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let transfer of accountDetails.confirmedTransfers">
-            <td>{{transfer.senderAccountEmail}}</td>
-            <td>{{transfer.targetFundTitle}}</td>
-            <td>{{transfer.amount}}</td>
-            <td>{{transfer.timeStamp}}</td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<br><br>
-<div *ngIf="accountDetails.pendingTransfers.length > 0" class="container">
-    <h4 class="my-transfers__table-label">My pending transfers:</h4>
-    <table class="table table-bordered table-striped">
-        <thead>
-        <tr class="table-danger">
-            <th class="my-transfers__column-from">From</th>
-            <th class="my-transfers__column-to">To</th>
-            <th class="my-transfers__column-amount">Amount</th>
-            <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let transfer of accountDetails.pendingTransfers">
-            <td>{{transfer.senderAccountEmail}}</td>
-            <td>{{transfer.targetFundTitle}}</td>
-            <td>{{transfer.amount}}</td>
-            <td>
+    <div class="col-sm-8">
+        <div *ngIf="accountDetails?.pendingTransfers.length > 0" class="container jumbotron upper">
+            <h4 class="my-transfers__table-label">My pending transfers</h4>
+            <table class="table-pending table table-bordered table-striped">
+                <thead>
+                <tr class="pending">
+                    <th class="my-transfers__column-to">To</th>
+                    <th class="my-transfers__column-amount">Amount</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let transfer of accountDetails?.pendingTransfers">
+                    <td class="pending-border">{{transfer.targetFundTitle}}</td>
+                    <td class="pending-border">{{transfer.amount}}</td>
+                    <td class="pending-border">
                 <span class="btn-group">
                     <button (click)="resendConfirmationEmail(transfer.id)" class="btn btn-primary">resend code</button>
                     <button (click)="deletePendingTransfer(transfer.id)" class="btn btn-danger">delete</button>
                 </span>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div *ngIf="accountDetails?.confirmedTransfers.length > 0" class="container jumbotron lower">
+            <h4 class="my-transfers__table-label">My transfers</h4>
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr class="confirmed">
+                    <th class="my-transfers__column-to">To</th>
+                    <th class="my-transfers__column-amount">Amount</th>
+                    <th class="my-transfers__column-date">Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let transfer of accountDetails?.confirmedTransfers">
+                    <td class="confirmed-border">{{transfer.targetFundTitle}}</td>
+                    <td class="confirmed-border">{{transfer.amount}}</td>
+                    <td class="confirmed-border">{{transfer.timeStamp}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
-<!--<app-my-transfers [incomingTransfers]="incomingTransfers" [outgoingTransfers]="outgoingTransfers"></app-my-transfers>-->
+    </div>
+</div>

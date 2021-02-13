@@ -1,23 +1,84 @@
-div {
-    margin-top: 80px;
+.account {
+    max-width: 100%;
 }
+
 .container {
+    margin-top: 3rem;
+    max-width: 98%;
     text-align: center;
-}
-.my-transfers__table-label {
-    text-align: left;
+    box-shadow: 0 .5rem .5rem rgba(0, 0, 0, .2);
 }
 
-.my-transfers__column-from,
-.my-transfers__column-amount,
-.my-transfers__column-date {
-    width: 20%;
+input::-webkit-input-placeholder {
+    color: #1d7e97;
+    font-size: 1.1rem;
+    font-weight: 500;
 }
 
-.my-transfers__column-to {
-    width: 40%;
+button {
+    width: 150px;
 }
 
-.centered {
-    text-align: center;
+.btn-primary {
+    background-color: #3cacca;
+    border-color: #3cacca;
+}
+
+.btn-primary:hover {
+    background-color: #1d7e97;
+    border-color: #1d7e97;
+}
+
+.btn-primary:focus, .btn-primary.focus, .btn-primary:active {
+    background-color: #009cc6 !important;
+    border-color: #009cc6 !important;
+    box-shadow: 0 0 0 0.2rem rgba(1, 154, 194, 0.5) !important;
+}
+.btn-danger {
+    background-color: #fabe55;
+    border-color: #fabe55;
+}
+
+.btn-danger:hover {
+    background-color: #f7ae2f;
+    border-color: #f7ae2f;
+}
+
+.btn-danger:focus, .btn-danger.focus, .btn-danger:active {
+    background-color: #f7ae2f !important;
+    border-color: #f7ae2f !important;
+    box-shadow: 0 0 0 0.2rem rgba(238, 155, 9, 0.5) !important;
+}
+
+.border-top {
+    border-top: 3px solid #fabe55 !important;
+    width: 60% !important;
+}
+
+.nav-link {
+    color: #3cacca !important;
+    font-weight: 500;
+}
+.pending {
+    background-color: rgba(250, 190, 85, 0.7);
+}
+.pending-border {
+    border: 1px solid #f7ae2f;
+}
+.col-sm-4 {
+    max-height: 500px;
+}
+.confirmed {
+    background-color: rgba(60, 172, 202, 0.7);
+}
+.confirmed-border {
+    border: 1px solid #3cacca;
+}
+.upper {
+    padding: 15px;
+    margin-bottom: 23px;
+}
+.lower {
+    padding: 15px;
+    margin-top: 0px;
 }
