@@ -36,6 +36,8 @@ public class TransferCreationCommandValidator implements Validator {
         TransferCreationCommand transfer = (TransferCreationCommand) target;
         if (transfer.getTargetFundId() == null) {
             errors.rejectValue("targetFundId", "transfer.targetNotNull");
+        } else if (!validationService.existsFundById(transfer.getTargetFundId())) {
+            errors.rejectValue("targetFundId", "transfer.invalidFundId");
         }
         if (transfer.getAmount() > validationService.checkBalance()) {
             errors.rejectValue("amount", "transfer.notEnough.balance");

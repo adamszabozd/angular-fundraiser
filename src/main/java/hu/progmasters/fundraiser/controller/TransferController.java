@@ -18,7 +18,6 @@ import hu.progmasters.fundraiser.dto.transfer.create.TransferConfirmationCommand
 import hu.progmasters.fundraiser.dto.transfer.create.TransferCreationCommand;
 import hu.progmasters.fundraiser.dto.transfer.create.TransferFormInitData;
 import hu.progmasters.fundraiser.dto.transfer.list.MyTransferListPendingItem;
-import hu.progmasters.fundraiser.dto.transfer.list.TransferListItem;
 import hu.progmasters.fundraiser.service.AccountService;
 import hu.progmasters.fundraiser.service.EmailSendingService;
 import hu.progmasters.fundraiser.service.FundService;
@@ -37,7 +36,6 @@ import javax.security.auth.login.AccountNotFoundException;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/transfers")
@@ -66,7 +64,6 @@ public class TransferController {
         this.accountService = accountService;
         this.fundService = fundService;
         this.emailSendingService = emailSendingService;
-
         this.transferCreationCommandValidator = transferCreationCommandValidator;
         this.transferConfirmationCommandValidator = transferConfirmationCommandValidator;
     }
@@ -86,78 +83,39 @@ public class TransferController {
         Account myAccount = accountService.findByEmail(principal.getName());
         List<Fund> targetFunds = fundService.findAll();
         TransferFormInitData initData = new TransferFormInitData(targetFunds, myAccount.getBalance());
-
         return new ResponseEntity<>(initData, HttpStatus.OK);
     }
 
-    //TODO - REVIEW: Logikát ne rakjatok a controller rétegbe, ez mind mehet a servicebe
     @PostMapping
-    public ResponseEntity savePendingTransfer(@Valid @RequestBody TransferCreationCommand transferCreationCommand, Principal principal) {
-        ResponseEntity response = new ResponseEntity(HttpStatus.CREATED);
+    public ResponseEntity<Void> savePendingTransfer(@Valid @RequestBody TransferCreationCommand transferCreationCommand, Principal principal) {
         Transfer pendingTransfer = transferService.savePendingTransfer(transferCreationCommand, principal.getName());
-        if (pendingTransfer == null) {
-            logger.warn("Transfer failed, source or target account does not exist!");
-            response = new ResponseEntity(HttpStatus.BAD_REQUEST);
-        } else {
-            String confirmationCode = pendingTransfer.getConfirmationCode();
-            String to = accountService.findByEmail(principal.getName()).getEmail();
-            emailSendingService.sendConfirmationEmail(to, confirmationCode, pendingTransfer.getTarget().getFundTitle(), pendingTransfer.getAmount());
-        }
-        return response;
+        String confirmationCode = pendingTransfer.getUnencryptedConfirmationCode();
+        String to = accountService.findByEmail(principal.getName()).getEmail();
+        emailSendingService.sendConfirmationEmail(to, confirmationCode, pendingTransfer.getTarget().getFundTitle(), pendingTransfer.getAmount());
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    //TODO - REVIEW: Ilyet is sokat látok, hogy controllerig visszaadtok entityt, és megnézitek hogy az null értékű-e
-    // Ennél sokkal elegánsabb, ha a service rétegben hibánál exceptiont dobtok ( pl sajátot ),
-    // majd azt az ExceptionHandler-ben lekezelitek!
-    //TODO - Review: ResponseEntity-nek adjatok generikus típust
     @PostMapping("/confirm")
-    public ResponseEntity confirmTransfer(@Valid @RequestBody TransferConfirmationCommand transferConfirmationCommand) {
-        ResponseEntity response = new ResponseEntity(HttpStatus.CREATED);
-        Transfer transfer = transferService.confirmTransfer(transferConfirmationCommand);
-        if (transfer == null) {
-            logger.warn("Confirmation failed, no pending transfer exists with this confirmation code!");
-            response = new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
-        return response;
-    }
-
-    // Ezt akkor fogjuk használni, ha csinálunk admin felületet. Amúgy nem listázzuk ki az átutalásokat nyilvánosan.
-    //TODO - Review: Google: ' YAGNI ' ;)
-    @GetMapping
-    public ResponseEntity<List<TransferListItem>> getAllTransferListItems() {
-        List<TransferListItem> transferItems = transferService.findAll().stream()
-                                                              .map(TransferListItem::new).collect(Collectors.toList());
-        return new ResponseEntity<>(transferItems, HttpStatus.OK);
+    public ResponseEntity<Void> confirmTransfer(@Valid @RequestBody TransferConfirmationCommand transferConfirmationCommand, Principal principal) {
+        transferService.confirmTransfer(transferConfirmationCommand, principal.getName());
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<List<MyTransferListPendingItem>> deletePendingTransfer(@PathVariable Long id, Principal principal) throws AccountNotFoundException {
-        boolean isDeleteSuccessful = transferService.deleteTransfer(id, principal.getName());
-
-        ResponseEntity<List<MyTransferListPendingItem>> result;
-        if (isDeleteSuccessful) {
-            result = new ResponseEntity<>(transferService.getPendingTransfers(principal.getName()), HttpStatus.OK);
-        } else {
-            result = new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        return result;
+        transferService.deleteTransfer(id, principal.getName());
+        logger.info("Pending transfer deleted with id=" + id);
+        return new ResponseEntity<>(transferService.getPendingTransfers(principal.getName()), HttpStatus.OK);
     }
 
     @GetMapping("/resend/{id}")
-    public ResponseEntity resendConfirmationEmail(@PathVariable Long id, Principal principal) {
+    public ResponseEntity<Void> resendConfirmationEmail(@PathVariable Long id, Principal principal) {
         Transfer pendingTransfer = transferService.getPendingTransferByIdAndEmail(id, principal.getName());
-        ResponseEntity response;
-        if (pendingTransfer == null) {
-            logger.warn("Transfer does not exist!");
-            response = new ResponseEntity(HttpStatus.BAD_REQUEST);
-        } else {
-            String confirmationCode = pendingTransfer.getConfirmationCode();
-            String to = principal.getName();
-            emailSendingService.sendConfirmationEmail(to, confirmationCode, pendingTransfer.getTarget().getFundTitle(), pendingTransfer.getAmount());
-            response = new ResponseEntity<>(HttpStatus.OK);
-        }
-        return response;
+        transferService.generateNewConfirmationCode(pendingTransfer);
+        String confirmationCode = pendingTransfer.getUnencryptedConfirmationCode();
+        String to = principal.getName();
+        emailSendingService.sendConfirmationEmail(to, confirmationCode, pendingTransfer.getTarget().getFundTitle(), pendingTransfer.getAmount());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

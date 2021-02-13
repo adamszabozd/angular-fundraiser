@@ -114,4 +114,20 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(body, status);
     }
 
+    @ExceptionHandler(InvalidConfirmationCodeException.class)
+    public ResponseEntity<ApiError> invalidConfirmationCodeExceptionHandler(InvalidConfirmationCodeException e) {
+        logger.error("Confirmation failed, no pending transfer exists with this confirmation code! User: " + e.getAccountEmail());
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ApiError body = new ApiError("INVALID_CONFIRMATION_CODE", "There is no pending transfer with this confirmation code", e.getLocalizedMessage());
+        return new ResponseEntity<>(body, status);
+    }
+
+    @ExceptionHandler(TransferNotFoundException.class)
+    public ResponseEntity<ApiError> transferNotFoundExceptionHandler(TransferNotFoundException e) {
+        logger.error(e.getMessage() + " User: " + e.getAccountEmail());
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ApiError body = new ApiError("TRANSFER_NOT_FOUND", e.getMessage(), e.getLocalizedMessage());
+        return new ResponseEntity<>(body, status);
+    }
+
 }

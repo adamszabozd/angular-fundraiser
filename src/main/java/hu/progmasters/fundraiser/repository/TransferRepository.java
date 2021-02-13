@@ -11,22 +11,17 @@
 
 package hu.progmasters.fundraiser.repository;
 
-import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.domain.Transfer;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 public interface TransferRepository extends JpaRepository<Transfer, Long> {
-    //TODO - REVIEW: Óvatosan az ilyen querykkel! Atom szívás debuggolni, hát még átlátni, szebb kiírni a queryt
-    List<Transfer> findAllBySourceAndConfirmedFalseOrderByTimeStampDesc(Account source);
 
-    List<Transfer> findAllByConfirmedTrueOrderByTimeStampDesc();
-
-    boolean existsTransfersByConfirmationCodeAndConfirmedFalse(String confirmationCode);
-
-    Transfer findTransferByConfirmationCodeAndConfirmedFalse(String confirmationCode);
+    @Query("SELECT t FROM Transfer t WHERE t.confirmed=false")
+    List<Transfer> getPendingTransfers();
 
 }
