@@ -9,6 +9,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -21,12 +23,15 @@ public class EmailSendingService {
 
     private final JavaMailSender javaMailSender;
 
+    private final SpringTemplateEngine thymeleafTemplateEngine;
+
     @Value("${frontend-url}")
     private String frontendUrl;
 
     @Autowired
-    public EmailSendingService(JavaMailSender javaMailSender) {
+    public EmailSendingService(JavaMailSender javaMailSender, SpringTemplateEngine thymeleafTemplateEngine) {
         this.javaMailSender = javaMailSender;
+        this.thymeleafTemplateEngine = thymeleafTemplateEngine;
     }
 
     @Async
@@ -48,14 +53,16 @@ public class EmailSendingService {
     @Async
     public void sendConfirmationEmail(String to, String confirmationCode, String goalName, int amount) {
         String confirmationLink = frontendUrl + "/transfer-confirmation/" + confirmationCode;
-        String htmlContent = String.format(emailTemplate, confirmationCode, goalName, amount, confirmationLink);
+
+        Context ctx = new Context();
+        ctx.setVariable("goalName", goalName);
+        ctx.setVariable("amount", amount);
+        ctx.setVariable("confirmationCode", confirmationCode);
+        ctx.setVariable("confirmationLink", confirmationLink);
+        String htmlContent = thymeleafTemplateEngine.process("transfer-confirmation.html", ctx);
+
         String subject = "Transfer confirmation";
         sendHtmlEmail(to, subject, htmlContent);
     }
-
-    private final String emailTemplate =
-            "<p style=\"background-color:DodgerBlue;font-size:50px;font-weight:bold;\">PROGmasters Fundraiser</p>" +
-                    "<p>A transfer was initiated from your account. Your confirmation code is <b>%s</b>. " +
-                    "If you really want to support \"%s\" with %d, please type this code on the confirmation page or <a href=\"%s\">click here</a>.</p>";
 
 }

@@ -5,16 +5,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-    <img src="cid:logo.png" alt="logo" height="100" style="float:left"/>
-    <div style="background-color:DodgerBlue;">
-        <p style="font-size:50px;font-weight:bold;">
-            PROGmasters <br> Fundraiser
-        </p>
-    </div>
-    <p>
-        A transfer was initiated from you account. Your confirmation code is <b th:text="${confirmationCode}"></b>. If you really want to support "<span th:text="${goalName}"></span>" with <span th:text="${amount}"></span>, please type this code on the confirmation page or click the link below:
-    </p>
-    <p style="font-size:20px;font-weight:bold;" th:text="${confirmationLink}">
-    </p>
+<p style="background-color:DodgerBlue;font-size:30px;font-weight:bold;">
+    PROGmasters Fundraiser
+</p>
+<p>
+    A transfer was initiated from you account. Your confirmation code is <b th:text="${confirmationCode}"></b>. If you really want to support "<span th:text="${goalName}"></span>" with <span th:text="${amount}"></span>, please type this code on the confirmation page or <a th:href="${confirmationLink}">click here</a>.
+</p>
 </body>
 </html>
