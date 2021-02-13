@@ -3,13 +3,19 @@ import {AccountService} from '../../services/account.service';
 import {AccountDetailsModel} from '../../models/accountDetails.model';
 import {TransferService} from "../../services/transfer.service";
 import {Router} from "@angular/router";
+import {slideInFromDown} from '../../animations';
 
 @Component({
                selector   : 'app-account-page',
                templateUrl: './account-page.component.html',
                styleUrls  : ['./account-page.component.css'],
+               animations: [
+                   slideInFromDown
+               ]
            })
 export class AccountPageComponent implements OnInit {
+
+    state = 'up';
 
     accountDetails: AccountDetailsModel | undefined;
 

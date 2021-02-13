@@ -43,10 +43,10 @@ public class AccountRegistrationCommandValidator implements Validator {
         if (registration.getUsername() == null || registration.getUsername().isEmpty()) {
             errors.rejectValue("username","username.notEmpty");
         }
-        if (registration.getUsername() != null && registration.getUsername().length() <= 4) {
+        if (registration.getUsername() != null && registration.getUsername().length() < 4) {
             errors.rejectValue("username","username.TooShort");
         }
-        if (registration.getUsername() != null && registration.getUsername().length() >= 20) {
+        if (registration.getUsername() != null && registration.getUsername().length() > 20) {
             errors.rejectValue("username","username.TooLong");
         }
         if(validationService.usernameAlreadyExists(registration.getUsername())){
@@ -55,10 +55,10 @@ public class AccountRegistrationCommandValidator implements Validator {
         if (registration.getPassword() == null || registration.getPassword().isEmpty()) {
             errors.rejectValue("password", "password.notEmpty");
         }
-        if (registration.getPassword() != null && registration.getPassword().length() <= 5) {
+        if (registration.getPassword() != null && registration.getPassword().length() < 5) {
             errors.rejectValue("password","password.TooShort");
         }
-        if (registration.getPassword() != null && registration.getPassword().length() >= 100) {
+        if (registration.getPassword() != null && registration.getPassword().length() > 100) {
             errors.rejectValue("password","password.TooLong");
         }
 

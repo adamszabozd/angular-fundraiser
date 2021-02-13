@@ -17,6 +17,8 @@
                     id="title"
                     class="form-control"
                     type="text"
+                    minlength="5"
+                    maxlength="100"
                     [ngClass]="{'is-invalid': (form.get('title').invalid && form.get('title').touched)
                             || (form.get('title').errors?.serverError)}"
                     name="title"
@@ -29,7 +31,7 @@
                         && !form.get('title').errors?.serverError"
                     class="text-danger"
                 >
-                    Please enter a title for your fundraiser!
+                    Please enter a title for your fundraiser between 5 and 100 character
                 </small>
                 <small *ngIf="form.get('title').errors?.serverError" class="text-danger">
                     {{form.get('title').errors.serverError}}
@@ -49,8 +51,9 @@
                 <textarea
                     id="shortDescription"
                     class="form-control"
-                    rows="5"
-                    cols="20"
+                    minlength="5"
+                    maxlength="200"
+                    rows="3"
                     style="min-height: 40px"
                     placeholder="Please give a short description, which will be displayed in the Discover page"
                     [ngClass]="{'is-invalid': (form.get('shortDescription').invalid && form.get('shortDescription').touched)
@@ -63,7 +66,7 @@
                         && !form.get('shortDescription').errors?.serverError"
                     class="text-danger"
                 >
-                    Please give a short description for your fundraiser (max 200 characters)!
+                    Please give a short description for your fund (max 200 characters)
                 </small>
                 <small *ngIf="form.get('shortDescription').errors?.serverError" class="text-danger">
                     {{form.get('shortDescription').errors.serverError}}

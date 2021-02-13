@@ -20,6 +20,20 @@ export const slideInFromRight = trigger('slideIn', [
     state('out',   style({
                              transform: 'translateX(-100%)',
                          })),
-    transition('* => in', animate('600ms ease-in')),
-    transition('in => out', animate('600ms ease-in'))
+    transition('* => in', animate('800ms ease-in-out')),
+    transition('in => out', animate('800ms ease-in-out'))
+]);
+
+export const slideInFromDown = trigger('slideUp', [
+    state('*', style({
+                         transform: 'translateY(100%)',
+                     })),
+    state('up', style({
+                          transform: 'translateY(0)',
+                      })),
+    state('down',   style({
+                             transform: 'translateY(-100%)',
+                         })),
+    transition('* => up', animate('800ms ease-in-out')),
+    transition('in => down', animate('800ms ease-in-out'))
 ]);

@@ -19,3 +19,8 @@
 .nav-link:hover{
     color: #3cacca!important;
 }
+.discover {
+    font-size: 1.4rem!important;
+    font-weight: 700;
+    letter-spacing: .07rem!important;
+}

@@ -8,7 +8,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div id="myNavbar" class="navbar-collapse collapse">
-            <div><a class="nav-link active" routerLink="/fund-list">Discover</a></div>
+            <div><a class="nav-link active discover" routerLink="/fund-list">Discover</a></div>
             <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                 <li [@slideIn]="slideInState"  *ngIf="loggedIn" class="nav-item"><a class="nav-link" routerLink="/my-account">My Account</a></li>
                 <li [@slideIn]="slideInState"  *ngIf="loggedIn" class="nav-item"><a class="nav-link" routerLink="/transfer-funds">Transfer Funds</a></li>

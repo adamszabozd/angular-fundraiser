@@ -18,6 +18,7 @@
                 [ngClass]="{'is-invalid': (form.get('email').invalid && form.get('email').touched)
                             || (form.get('email').errors?.serverError)}"
                 name="email"
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                 placeholder="example@mail.tld"
                 formControlName="email"
             />
@@ -41,7 +42,7 @@
                 [ngClass]="{'text-danger': (form.get('username').invalid && form.get('username').touched)
                             || (form.get('username').errors?.serverError)}"
             >
-                Username:
+                Nickname:
             </label>
             <input
                 id="username"
@@ -49,6 +50,8 @@
                 [ngClass]="{'is-invalid': (form.get('username').invalid && form.get('username').touched)
                             || (form.get('username').errors?.serverError)}"
                 name="username"
+                minlength="4"
+                maxlength="20"
                 formControlName="username"
             />
             <small
@@ -79,6 +82,8 @@
                 [ngClass]="{'is-invalid': (form.get('password').invalid && form.get('password').touched)
                             || (form.get('password').errors?.serverError)}"
                 name="password"
+                minlength="5"
+                maxlength="100"
                 formControlName="password"
             />
             <small
@@ -90,6 +95,23 @@
             <small *ngIf="form.get('password').errors?.serverError" class="text-danger">
                 {{form.get('password').errors.serverError}}
             </small>
+        </div>
+        <div class="form-group">
+            <label for="confirm">
+                Confirm password:
+            </label>
+            <input id="confirm"
+                type="password"
+                class="form-control"
+                name="confirm"
+                minlength="5"
+                maxlength="100"
+                formControlName="confirm"
+                   [ngClass]="{ 'is-invalid': submitted && f.confirm.errors }"/>
+            <div *ngIf="submitted && f.confirm.errors" class="invalid-feedback">
+                <div *ngIf="f.confirm.errors.required">Confirm Password is required</div>
+                <div *ngIf="f.confirm.errors.mustMatch">Passwords must match</div>
+            </div>
         </div>
         <br/>
         <button type="submit" class="btn btn-primary my-buttons">Register</button>
