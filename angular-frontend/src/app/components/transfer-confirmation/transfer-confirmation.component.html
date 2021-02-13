@@ -1,12 +1,12 @@
-<div class="transfer-page">
+<div [@formAppear]="state" class="container jumbotron transfer-page">
     <h2>Confirm Transfer</h2>
-    <hr/>
+    <div class="border-top mx-auto my-3"></div>
     <br/>
     <p *ngIf="!urlCode && !confirmed">A confirmation code was sent to your email address. Please enter the code below.</p>
 
-    <p *ngIf="confirmed">Transfer is confirmed!</p>
+    <p class="text-success" *ngIf="confirmed">Transfer is confirmed!</p>
 
-    <p *ngIf="urlCode && !confirmed">Error: confirmation code is invalid or you are not logged in</p>
+    <p class="transfer-error" *ngIf="urlCode && !confirmed">Error: confirmation code is invalid or you are not logged in</p>
 
     <form *ngIf="!urlCode && !confirmed" [formGroup]="form" (ngSubmit)="submitForm()">
         <div class="form-group">
