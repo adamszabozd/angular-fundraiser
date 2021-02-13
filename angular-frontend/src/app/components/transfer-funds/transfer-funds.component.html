@@ -18,7 +18,7 @@
                 formControlName="targetFundId"
             >
                 <option value=null selected disabled>-- Choose a goal to support --</option>
-                <option *ngFor="let fund of transferFormInitDataModel.targetFundOptions"
+                <option *ngFor="let fund of transferFormInitDataModel?.targetFundOptions"
                         value="{{fund.id}}">{{fund.title}}</option>
             </select>
             <small

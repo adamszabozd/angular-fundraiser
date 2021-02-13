@@ -19,7 +19,7 @@ import {formAppearAnimation} from '../../animations';
 export class TransferFundsComponent implements OnInit {
 
     state = 'invisible';
-    transferFormInitDataModel: TransferFormInitDataModel;
+    transferFormInitDataModel: TransferFormInitDataModel | undefined;
 
     form = this.formBuilder.group({
                                       targetFundId: [null, Validators.required],
