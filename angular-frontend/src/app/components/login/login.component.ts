@@ -5,13 +5,19 @@ import {Router} from '@angular/router';
 import {AccountService} from '../../services/account.service';
 import {RegistrationService} from '../../services/registration.service';
 import {validationHandler} from '../../utils/validationHandler';
+import {formAppearAnimation} from '../../animations';
 
 @Component({
                selector   : 'app-registration',
                templateUrl: './login.component.html',
                styleUrls  : ['./login.component.css'],
+               animations: [
+                   formAppearAnimation
+               ]
            })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit{
+
+    state = "invisible";
 
     form = this.formBuilder.group({
                                       email   : ['', [Validators.required]],
@@ -25,6 +31,9 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
+        if (this.state == "invisible") {
+            setTimeout(() => this.state = "visible")
+        }
         this.accountService.isLoggedIn().subscribe(
             data => {
                 if (data) {

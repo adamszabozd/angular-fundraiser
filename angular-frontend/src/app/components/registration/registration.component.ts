@@ -5,19 +5,25 @@ import {Router} from '@angular/router';
 import {AccountService} from '../../services/account.service';
 import {RegistrationService} from '../../services/registration.service';
 import {validationHandler} from '../../utils/validationHandler';
+import {formAppearAnimation} from '../../animations';
 
 @Component({
-    selector: 'app-registration',
-    templateUrl: './registration.component.html',
-    styleUrls: ['./registration.component.css'],
-})
+               selector   : 'app-registration',
+               templateUrl: './registration.component.html',
+               styleUrls  : ['./registration.component.css'],
+               animations : [
+                   formAppearAnimation,
+               ],
+           })
 export class RegistrationComponent implements OnInit {
 
+    state = 'invisible';
+
     form = this.formBuilder.group({
-        email: ['', [Validators.required, Validators.email]],
-        username: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
-        password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
-    });
+                                      email   : ['', [Validators.required, Validators.email]],
+                                      username: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
+                                      password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+                                  });
 
     constructor(private formBuilder: FormBuilder,
                 private router: Router,
@@ -26,12 +32,15 @@ export class RegistrationComponent implements OnInit {
     }
 
     ngOnInit() {
+        if (this.state == 'invisible') {
+            setTimeout(() => this.state = 'visible');
+        }
         this.accountService.isLoggedIn().subscribe(
             data => {
                 if (data) {
                     this.router.navigate(['/my-account']);
                 }
-            }
+            },
         );
     }
 

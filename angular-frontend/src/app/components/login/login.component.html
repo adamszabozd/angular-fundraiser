@@ -1,6 +1,6 @@
-<div class="container jumbotron">
+<div [@formAppear]="state" class="container jumbotron formAppear">
     <h2>Login</h2>
-    <hr/>
+    <div class="border-top mx-auto my-3"></div>
     <br>
     <form [formGroup]="form" (ngSubmit)="login()">
 
@@ -63,9 +63,11 @@
         </div>
         <br/>
         <button type="submit" class="btn btn-primary my-buttons">Login</button>
+        <div class="under border-top mx-auto my-5"></div>
+        <div align="center">
+            <h6>Aren't you registered yet?</h6>
+            <a class="nav-link" routerLink="/registration">Sign up</a>
+        </div>
     </form>
 </div>
-<div align="center">
-    <h5>Aren't you registered yet?</h5>
-    <a class="nav-link" routerLink="/registration">Registration</a>
-</div>
+

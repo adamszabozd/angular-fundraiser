@@ -5,15 +5,20 @@ import {TransferService} from '../../services/transfer.service';
 
 import {validationHandler} from '../../utils/validationHandler';
 import {TransferFormInitDataModel} from '../../models/transferFormInitData.model';
-import {AccountService} from "../../services/account.service";
+import {AccountService} from '../../services/account.service';
+import {formAppearAnimation} from '../../animations';
 
 @Component({
                selector   : 'app-transfer-funds',
                templateUrl: './transfer-funds.component.html',
                styleUrls  : ['./transfer-funds.component.css'],
+               animations : [
+                   formAppearAnimation,
+               ],
            })
 export class TransferFundsComponent implements OnInit {
 
+    state = 'invisible';
     transferFormInitDataModel: TransferFormInitDataModel;
 
     form = this.formBuilder.group({
@@ -25,6 +30,9 @@ export class TransferFundsComponent implements OnInit {
     }
 
     ngOnInit() {
+        if (this.state == 'invisible') {
+            setTimeout(() => this.state = 'visible');
+        }
         this.transferService.getNewTransferData().subscribe(
             (transferData) => {
                 this.transferFormInitDataModel = transferData;
@@ -33,7 +41,7 @@ export class TransferFundsComponent implements OnInit {
                 this.accountService.loggedInStatusUpdate.next(false);
                 this.router.navigate(['/login']);
                 console.log(error);
-            }
+            },
         );
     }
 

@@ -1,7 +1,7 @@
-<div class="transfer-page">
+<div [@formAppear]="state" class="container jumbotron formAppear">
     <h2>Transfer Funds</h2>
-    <hr/>
-    <br/>
+    <div class="border-top mx-auto my-3"></div>
+    <br>
     <form [formGroup]="form" (ngSubmit)="submitForm()">
         <div class="form-group">
             <label
@@ -18,7 +18,8 @@
                 formControlName="targetFundId"
             >
                 <option value=null selected disabled>-- Choose a goal to support --</option>
-                <option *ngFor="let fund of transferFormInitDataModel.targetFundOptions" value="{{fund.id}}">{{fund.title}}</option>
+                <option *ngFor="let fund of transferFormInitDataModel.targetFundOptions"
+                        value="{{fund.id}}">{{fund.title}}</option>
             </select>
             <small
                 *ngIf="form.get('targetFundId').invalid && form.get('targetFundId').touched && !form.get('targetFundId').errors?.serverError"

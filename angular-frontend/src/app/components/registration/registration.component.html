@@ -1,6 +1,6 @@
-<div class="container jumbotron">
+<div [@formAppear]="state" class="container jumbotron formAppear">
     <h2>Registration</h2>
-    <hr/>
+    <div class="border-top mx-auto my-3"></div>
     <br>
     <form [formGroup]="form" (ngSubmit)="register()">
 
@@ -18,6 +18,7 @@
                 [ngClass]="{'is-invalid': (form.get('email').invalid && form.get('email').touched)
                             || (form.get('email').errors?.serverError)}"
                 name="email"
+                placeholder="example@mail.tld"
                 formControlName="email"
             />
 
