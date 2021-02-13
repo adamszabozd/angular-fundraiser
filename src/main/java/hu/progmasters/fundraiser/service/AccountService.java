@@ -28,8 +28,8 @@ import java.util.List;
 public class AccountService {
 
 
-    private AccountRepository accountRepository;
-    private PasswordEncoder passwordEncoder;
+    private final AccountRepository accountRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder) {

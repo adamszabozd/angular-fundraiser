@@ -20,7 +20,7 @@ import org.springframework.validation.Validator;
 @Component
 public class TransferCreationCommandValidator implements Validator {
 
-    private SharedValidationService validationService;
+    private final SharedValidationService validationService;
 
     public TransferCreationCommandValidator(SharedValidationService validationService) {
         this.validationService = validationService;
