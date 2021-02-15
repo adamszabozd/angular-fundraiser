@@ -1,14 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {AccountService} from "../../services/account.service";
 import {Router} from "@angular/router";
-import {slideInFromRight} from '../../animations';
+import {slideRight} from '../../animations';
 
 @Component({
                selector   : 'app-navbar',
                templateUrl: './navbar.component.html',
                styleUrls  : ['./navbar.component.css'],
                animations: [
-                   slideInFromRight
+                   slideRight
                ]
            })
 export class NavbarComponent implements OnInit {
