@@ -11,29 +11,25 @@
 
 package hu.progmasters.fundraiser.dto.transfer.create;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-
 public class TransferCreationCommand {
 
     private Long targetFundId;
 
-    private Integer amount;
+    private Double amount;
 
     public Long getTargetFundId() {
         return targetFundId;
-    }
-
-    public Integer getAmount() {
-        return amount;
     }
 
     public void setTargetFundId(Long targetFundId) {
         this.targetFundId = targetFundId;
     }
 
-    public void setAmount(Integer amount) {
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 

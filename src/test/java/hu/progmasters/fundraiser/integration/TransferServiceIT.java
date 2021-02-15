@@ -1,14 +1,9 @@
 package hu.progmasters.fundraiser.integration;
 
-import hu.progmasters.fundraiser.domain.Account;
-import hu.progmasters.fundraiser.domain.Fund;
-import hu.progmasters.fundraiser.domain.FundCategory;
 import hu.progmasters.fundraiser.domain.Transfer;
 import hu.progmasters.fundraiser.dto.account.AccountRegistrationCommand;
 import hu.progmasters.fundraiser.dto.fund.FundFormCommand;
 import hu.progmasters.fundraiser.dto.transfer.create.TransferCreationCommand;
-import hu.progmasters.fundraiser.repository.AccountRepository;
-import hu.progmasters.fundraiser.repository.FundRepository;
 import hu.progmasters.fundraiser.repository.TransferRepository;
 import hu.progmasters.fundraiser.service.AccountService;
 import hu.progmasters.fundraiser.service.FundService;
@@ -43,7 +38,7 @@ public class TransferServiceIT {
 
     private Long fundId;
 
-    public void init() {
+    void init() {
         String email = "test@gmail.com";
         AccountRegistrationCommand accountRegistrationCommand = new AccountRegistrationCommand();
         accountRegistrationCommand.setEmail(email);
@@ -55,19 +50,19 @@ public class TransferServiceIT {
         fundFormCommand.setShortDescription("They are in danger!!!");
         fundFormCommand.setImageUrl("www.forest.com/forest.jpg");
         fundFormCommand.setCategory("NONPROFIT");
-        fundFormCommand.setTargetAmount(1000000);
+        fundFormCommand.setTargetAmount(1000000.0);
         fundService.saveNewFund(fundFormCommand, email);
         fundId = fundService.findAll().get(0).getId();
     }
 
     @Test
-    public void testSavePendingTransfer() {
+    void testSavePendingTransfer() {
         init();
         TransferCreationCommand transferCreationCommand = new TransferCreationCommand();
-        transferCreationCommand.setAmount(200);
+        transferCreationCommand.setAmount(200.0);
         transferCreationCommand.setTargetFundId(fundId);
         Transfer t = transferService.savePendingTransfer(transferCreationCommand, "test@gmail.com");
-        assertEquals(transferRepository.count(), 1);
+        assertEquals(1, transferRepository.count());
         assertFalse(t.getConfirmed());
     }
 

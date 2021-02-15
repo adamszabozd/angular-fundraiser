@@ -2,8 +2,6 @@ package hu.progmasters.fundraiser.dto.transfer.list;
 
 import hu.progmasters.fundraiser.domain.Transfer;
 
-import java.time.format.DateTimeFormatter;
-
 public class MyTransferListPendingItem {
 
     private Long id;
@@ -12,7 +10,7 @@ public class MyTransferListPendingItem {
 
     private String targetFundTitle;
 
-    private Integer amount;
+    private Double amount;
 
     public MyTransferListPendingItem(Transfer transfer) {
         this.id = transfer.getId();
@@ -33,7 +31,7 @@ public class MyTransferListPendingItem {
         return targetFundTitle;
     }
 
-    public Integer getAmount() {
+    public Double getAmount() {
         return amount;
     }
 

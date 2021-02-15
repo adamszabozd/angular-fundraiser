@@ -14,42 +14,58 @@ public class Fund {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", insertable = false, updatable = false)
+    @Column(name = "id",
+            insertable = false,
+            updatable = false)
     private Long id;
 
-    @Size(min=5, max=100)
-    @Column(name = "fund_title", unique = true, nullable = false)
+    @Size(min = 5,
+          max = 100)
+    @Column(name = "fund_title",
+            unique = true,
+            nullable = false)
     private String fundTitle;
 
-    @Size(min=5, max=200)
-    @Column(name = "short_description", nullable = false)
+    @Size(min = 5,
+          max = 200)
+    @Column(name = "short_description",
+            nullable = false)
     private String shortDescription;
 
-    @Lob
-    @Column(name = "long_description")
+    @Column(name = "long_description",
+            columnDefinition = "TEXT")
     private String longDescription;
 
-    @Column(name = "image_url", nullable = false)
+    @Column(name = "image_url",
+            nullable = false)
     private String imageUrl;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "category", nullable = false)
+    @Column(name = "category",
+            nullable = false)
     private FundCategory fundCategory;
 
     @Min(0)
-    @Column(name = "amount", nullable = false)
-    private Integer raisedAmount;
+    @Column(name = "amount",
+            nullable = false)
+    private Double raisedAmount;
 
     @Min(1)
-    @Column(name = "target_amount", nullable = false)
-    private Integer targetAmount;
+    @Column(name = "target_amount",
+            nullable = false)
+    private Double targetAmount;
+
+    @Column(name = "fund_currency",
+            nullable = false)
+    private Currency currency = Currency.EUR;
 
     @Future
     @Column(name = "end_date")
     private LocalDate endDate;
 
     @ManyToOne
-    @JoinColumn(name = "creator", nullable = false)
+    @JoinColumn(name = "creator",
+                nullable = false)
     private Account creator;
 
     public Fund() {
@@ -61,7 +77,7 @@ public class Fund {
         this.longDescription = fundFormCommand.getLongDescription();
         this.imageUrl = fundFormCommand.getImageUrl();
         this.fundCategory = FundCategory.valueOf(fundFormCommand.getCategory());
-        this.raisedAmount = 0;
+        this.raisedAmount = 0.0;
         this.targetAmount = fundFormCommand.getTargetAmount();
         this.endDate = fundFormCommand.getEndDate();
         this.creator = account;
@@ -115,19 +131,19 @@ public class Fund {
         this.fundCategory = fundCategory;
     }
 
-    public Integer getRaisedAmount() {
+    public Double getRaisedAmount() {
         return raisedAmount;
     }
 
-    public void setRaisedAmount(Integer amount) {
+    public void setRaisedAmount(Double amount) {
         this.raisedAmount = amount;
     }
 
-    public Integer getTargetAmount() {
+    public Double getTargetAmount() {
         return targetAmount;
     }
 
-    public void setTargetAmount(Integer targetAmount) {
+    public void setTargetAmount(Double targetAmount) {
         this.targetAmount = targetAmount;
     }
 
@@ -146,4 +162,13 @@ public class Fund {
     public void setCreator(Account creator) {
         this.creator = creator;
     }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
 }

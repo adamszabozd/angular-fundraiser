@@ -25,22 +25,35 @@ public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id",insertable = false, updatable = false)
+    @Column(name = "id",
+            insertable = false,
+            updatable = false)
     private Long id;
 
-    @Column(name = "email", unique = true, nullable = false)
+    @Column(name = "email",
+            unique = true,
+            nullable = false)
     private String email;
 
-    @Size(min=4, max=20)
-    @Column(name = "username", unique = true, nullable = false)
+    @Size(min = 4,
+          max = 20)
+    @Column(name = "username",
+            unique = true,
+            nullable = false)
     private String username;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password",
+            nullable = false)
     private String password;
 
     @Min(0)
-    @Column(name = "balance", nullable = false)
-    private Integer balance = 5000;
+    @Column(name = "balance",
+            nullable = false)
+    private Double balance = 5000.0;
+
+    @Column(name = "account_currency",
+            nullable = false)
+    private Currency currency = Currency.EUR;
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = AccountRole.class,
@@ -88,11 +101,11 @@ public class Account {
         this.password = password;
     }
 
-    public Integer getBalance() {
+    public Double getBalance() {
         return balance;
     }
 
-    public void setBalance(Integer balance) {
+    public void setBalance(Double balance) {
         this.balance = balance;
     }
 
@@ -127,4 +140,13 @@ public class Account {
     public void setFunds(List<Fund> funds) {
         this.funds = funds;
     }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
 }

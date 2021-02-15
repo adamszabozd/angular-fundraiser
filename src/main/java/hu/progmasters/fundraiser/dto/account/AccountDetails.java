@@ -24,7 +24,7 @@ public class AccountDetails {
     private Long id;
     private String username;
     private String email;
-    private Integer balance;
+    private Double balance;
     private List<String> accountRoleList;
     private List<MyTransferListItem> confirmedTransfers;
     private List<MyTransferListPendingItem> pendingTransfers;
@@ -55,7 +55,7 @@ public class AccountDetails {
         return email;
     }
 
-    public Integer getBalance() {
+    public Double getBalance() {
         return balance;
     }
 

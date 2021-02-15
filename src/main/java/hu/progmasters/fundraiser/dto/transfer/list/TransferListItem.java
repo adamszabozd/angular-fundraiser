@@ -25,7 +25,7 @@ public class TransferListItem {
 
     private Long targetFundId;
 
-    private Integer amount;
+    private Double amount;
 
     private String timeStamp;
 
@@ -49,7 +49,7 @@ public class TransferListItem {
         return targetFundId;
     }
 
-    public Integer getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
