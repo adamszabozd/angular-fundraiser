@@ -41,20 +41,18 @@
             </label>
             <input
                 id="amount"
-                min="50"
-                max="1000"
+                min="1"
                 type="number"
                 class="form-control"
                 [ngClass]="{'is-invalid': (form.get('amount').invalid && form.get('amount').touched) || (form.get('amount').errors?.serverError)}"
                 name="amount"
                 formControlName="amount"
-                placeholder="50 - 1000"
             />
             <small
                 *ngIf="form.get('amount').invalid && form.get('amount').touched && !form.get('amount').errors?.serverError"
                 class="text-danger"
             >
-                Please choose an amount between 50 and 1000
+                Please choose an amount above 0
             </small>
             <small *ngIf="form.get('amount').errors?.serverError" class="text-danger">
                 {{form.get('amount').errors['serverError']}}

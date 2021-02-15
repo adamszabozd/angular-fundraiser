@@ -14,45 +14,35 @@ public class Fund {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id",
-            insertable = false,
-            updatable = false)
+    @Column(name = "id", insertable = false, updatable = false)
     private Long id;
 
-    @Size(min = 5,
-          max = 100)
-    @Column(name = "fund_title",
-            unique = true,
-            nullable = false)
+    @Size(min=5, max=100)
+    @Column(name = "fund_title", unique = true, nullable = false)
     private String fundTitle;
 
-    @Size(min = 5,
-          max = 200)
-    @Column(name = "short_description",
-            nullable = false)
+    @Size(min=5, max=250)
+    @Column(name = "short_description", nullable = false)
     private String shortDescription;
 
     @Column(name = "long_description",
             columnDefinition = "TEXT")
     private String longDescription;
 
-    @Column(name = "image_url",
-            nullable = false)
+    @Size(min = 5, max=1000)
+    @Column(name = "image_url")
     private String imageUrl;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "category",
-            nullable = false)
+    @Column(name = "category", nullable = false)
     private FundCategory fundCategory;
 
     @Min(0)
-    @Column(name = "amount",
-            nullable = false)
+    @Column(name = "amount", nullable = false)
     private Double raisedAmount;
 
     @Min(1)
-    @Column(name = "target_amount",
-            nullable = false)
+    @Column(name = "target_amount", nullable = false)
     private Double targetAmount;
 
     @Column(name = "fund_currency",
@@ -64,8 +54,7 @@ public class Fund {
     private LocalDate endDate;
 
     @ManyToOne
-    @JoinColumn(name = "creator",
-                nullable = false)
+    @JoinColumn(name = "creator", nullable = false)
     private Account creator;
 
     public Fund() {

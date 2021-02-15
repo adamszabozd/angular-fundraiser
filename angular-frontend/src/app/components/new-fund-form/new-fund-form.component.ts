@@ -22,10 +22,10 @@ export class NewFundFormComponent implements OnInit {
     categories: CategoryOptionModel[];
 
     form = this.formBuilder.group({
-        title: ['', Validators.required],
-        shortDescription: ['', Validators.required, Validators.maxLength(200)],
+        title: ['', Validators.required, Validators.minLength(5), Validators.maxLength(100)],
+        shortDescription: ['', Validators.required, Validators.maxLength(250)],
         longDescription: [''],
-        imageUrl: [''],
+        imageUrl: ['', Validators.maxLength(1000)],
         category: [null],
         targetAmount: [null, Validators.required],
         endDate: [null]

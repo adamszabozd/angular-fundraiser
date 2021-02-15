@@ -21,12 +21,12 @@ public class TransferCreationCommand {
         return targetFundId;
     }
 
-    public void setTargetFundId(Long targetFundId) {
-        this.targetFundId = targetFundId;
-    }
-
     public Double getAmount() {
         return amount;
+    }
+
+    public void setTargetFundId(Long targetFundId) {
+        this.targetFundId = targetFundId;
     }
 
     public void setAmount(Double amount) {

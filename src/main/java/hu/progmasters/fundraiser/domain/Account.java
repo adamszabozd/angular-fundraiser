@@ -25,30 +25,21 @@ public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id",
-            insertable = false,
-            updatable = false)
+    @Column(name = "id",insertable = false, updatable = false)
     private Long id;
 
-    @Column(name = "email",
-            unique = true,
-            nullable = false)
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Size(min = 4,
-          max = 20)
-    @Column(name = "username",
-            unique = true,
-            nullable = false)
+    @Size(min=4, max=20)
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
 
-    @Column(name = "password",
-            nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Min(0)
-    @Column(name = "balance",
-            nullable = false)
+    @Column(name = "balance", nullable = false)
     private Double balance = 5000.0;
 
     @Column(name = "account_currency",

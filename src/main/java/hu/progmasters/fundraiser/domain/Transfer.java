@@ -12,6 +12,7 @@
 package hu.progmasters.fundraiser.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
 
 @Entity
@@ -33,9 +34,11 @@ public class Transfer {
     @JoinColumn(name = "transfer_to", nullable = false)
     private Fund target;
 
+    @Min(1)
     @Column(name = "amount", nullable = false)
     private Double amount;
 
+    @Column(name = "currency")
     private Currency currency;
 
     @Column(name = "time_stamp", nullable = false)
