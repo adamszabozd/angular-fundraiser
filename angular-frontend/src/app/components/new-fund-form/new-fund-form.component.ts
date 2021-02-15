@@ -25,7 +25,7 @@ export class NewFundFormComponent implements OnInit {
         title: ['', Validators.required],
         shortDescription: ['', Validators.required, Validators.maxLength(200)],
         longDescription: [''],
-        imageUrl: [''],
+        imageUrl: ['', Validators.maxLength(1000)],
         category: [null],
         targetAmount: [null, Validators.required],
         endDate: [null]

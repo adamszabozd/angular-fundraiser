@@ -52,7 +52,7 @@ public class FundFormCommandValidator implements Validator {
         if (fund.getEndDate() != null && fund.getEndDate().isBefore(LocalDate.now())) {
             errors.rejectValue("endDate", "end.date.wrong");
         }
-        if (fund.getImageUrl() != null && fund.getImageUrl().length() > 255) {
+        if (fund.getImageUrl() != null && fund.getImageUrl().length() > 1000) {
             errors.rejectValue("imageUrl", "url.too.long");
         }
 

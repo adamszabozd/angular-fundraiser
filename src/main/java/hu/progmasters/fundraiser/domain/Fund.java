@@ -29,7 +29,8 @@ public class Fund {
     @Column(name = "long_description")
     private String longDescription;
 
-    @Column(name = "image_url", nullable = false)
+    @Size(min = 5, max=1000)
+    @Column(name = "image_url")
     private String imageUrl;
 
     @Enumerated(EnumType.STRING)
