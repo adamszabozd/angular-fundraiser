@@ -12,7 +12,7 @@ public class MyTransferListPendingItem {
 
     private String targetFundTitle;
 
-    private Integer amount;
+    private Double amount;
 
     public MyTransferListPendingItem(Transfer transfer) {
         this.id = transfer.getId();
@@ -33,7 +33,7 @@ public class MyTransferListPendingItem {
         return targetFundTitle;
     }
 
-    public Integer getAmount() {
+    public Double getAmount() {
         return amount;
     }
 

@@ -35,8 +35,9 @@ public class Transfer {
     @JoinColumn(name = "transfer_to", nullable = false)
     private Fund target;
 
+    @Min(1)
     @Column(name = "amount", nullable = false)
-    private Integer amount;
+    private Double amount;
 
     @Column(name = "time_stamp", nullable = false)
     private LocalDateTime timeStamp;
@@ -74,11 +75,11 @@ public class Transfer {
         this.target = target;
     }
 
-    public Integer getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(Integer amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 

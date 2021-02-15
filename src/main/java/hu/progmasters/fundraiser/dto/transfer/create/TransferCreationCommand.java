@@ -19,13 +19,13 @@ public class TransferCreationCommand {
 
     private Long targetFundId;
 
-    private Integer amount;
+    private Double amount;
 
     public Long getTargetFundId() {
         return targetFundId;
     }
 
-    public Integer getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
@@ -33,7 +33,7 @@ public class TransferCreationCommand {
         this.targetFundId = targetFundId;
     }
 
-    public void setAmount(Integer amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 

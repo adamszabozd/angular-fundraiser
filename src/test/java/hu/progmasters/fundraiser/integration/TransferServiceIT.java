@@ -55,7 +55,7 @@ public class TransferServiceIT {
         fundFormCommand.setShortDescription("They are in danger!!!");
         fundFormCommand.setImageUrl("www.forest.com/forest.jpg");
         fundFormCommand.setCategory("NONPROFIT");
-        fundFormCommand.setTargetAmount(1000000);
+        fundFormCommand.setTargetAmount(1000000.00);
         fundService.saveNewFund(fundFormCommand, email);
         fundId = fundService.findAll().get(0).getId();
     }
@@ -64,7 +64,7 @@ public class TransferServiceIT {
     public void testSavePendingTransfer() {
         init();
         TransferCreationCommand transferCreationCommand = new TransferCreationCommand();
-        transferCreationCommand.setAmount(200);
+        transferCreationCommand.setAmount(200.00);
         transferCreationCommand.setTargetFundId(fundId);
         Transfer t = transferService.savePendingTransfer(transferCreationCommand, "test@gmail.com");
         assertEquals(transferRepository.count(), 1);

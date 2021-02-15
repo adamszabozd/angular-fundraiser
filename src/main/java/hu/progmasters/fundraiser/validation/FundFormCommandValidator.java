@@ -37,7 +37,7 @@ public class FundFormCommandValidator implements Validator {
         if (fund.getShortDescription() == null || fund.getShortDescription().isEmpty()) {
             errors.rejectValue("shortDescription", "short.description.missing");
         }
-        if (fund.getShortDescription().length() < 5 || fund.getShortDescription().length() > 200) {
+        if (fund.getShortDescription().length() < 5 || fund.getShortDescription().length() > 250) {
             errors.rejectValue("shortDescription", "short.description.length.wrong");
         }
         if (fund.getCategory() == null) {

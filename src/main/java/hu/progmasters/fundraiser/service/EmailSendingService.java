@@ -51,7 +51,7 @@ public class EmailSendingService {
     }
 
     @Async
-    public void sendConfirmationEmail(String to, String confirmationCode, String goalName, int amount) {
+    public void sendConfirmationEmail(String to, String confirmationCode, String goalName, double amount) {
         String confirmationLink = frontendUrl + "/transfer-confirmation/" + confirmationCode;
 
         Context ctx = new Context();

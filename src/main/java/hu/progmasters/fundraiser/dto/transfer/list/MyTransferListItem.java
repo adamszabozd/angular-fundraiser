@@ -12,7 +12,7 @@ public class MyTransferListItem {
 
     private String targetFundTitle;
 
-    private Integer amount;
+    private Double amount;
 
     private String timeStamp;
 
@@ -36,7 +36,7 @@ public class MyTransferListItem {
         return targetFundTitle;
     }
 
-    public Integer getAmount() {
+    public Double getAmount() {
         return amount;
     }
 

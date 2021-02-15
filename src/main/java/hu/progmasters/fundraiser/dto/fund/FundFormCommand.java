@@ -16,7 +16,7 @@ public class FundFormCommand {
 
     private String category;
 
-    private Integer targetAmount;
+    private Double targetAmount;
 
     private LocalDate endDate;
 
@@ -28,7 +28,7 @@ public class FundFormCommand {
         instance.setLongDescription("Long Descripton tow");
         instance.setImageUrl("image_two.jpg");
         instance.setCategory("MEDICAL");
-        instance.setTargetAmount(1001);
+        instance.setTargetAmount(1001.0);
         instance.setEndDate(LocalDate.now());
         return instance;
     }
@@ -53,7 +53,7 @@ public class FundFormCommand {
         return category;
     }
 
-    public Integer getTargetAmount() {
+    public Double getTargetAmount() {
         return targetAmount;
     }
 
@@ -81,7 +81,7 @@ public class FundFormCommand {
         this.category = category;
     }
 
-    public void setTargetAmount(Integer targetAmount) {
+    public void setTargetAmount(Double targetAmount) {
         this.targetAmount = targetAmount;
     }
 

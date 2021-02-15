@@ -66,7 +66,7 @@ public class SharedValidationService {
         return fund != null;
     }
 
-    public Integer checkBalance() {
+    public Double checkBalance() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return accountRepository.findByEmail(authentication.getName()).getBalance();
     }

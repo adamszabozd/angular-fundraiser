@@ -21,7 +21,7 @@ public class Fund {
     @Column(name = "fund_title", unique = true, nullable = false)
     private String fundTitle;
 
-    @Size(min=5, max=200)
+    @Size(min=5, max=250)
     @Column(name = "short_description", nullable = false)
     private String shortDescription;
 
@@ -39,11 +39,11 @@ public class Fund {
 
     @Min(0)
     @Column(name = "amount", nullable = false)
-    private Integer raisedAmount;
+    private Double raisedAmount;
 
     @Min(1)
     @Column(name = "target_amount", nullable = false)
-    private Integer targetAmount;
+    private Double targetAmount;
 
     @Future
     @Column(name = "end_date")
@@ -62,7 +62,7 @@ public class Fund {
         this.longDescription = fundFormCommand.getLongDescription();
         this.imageUrl = fundFormCommand.getImageUrl();
         this.fundCategory = FundCategory.valueOf(fundFormCommand.getCategory());
-        this.raisedAmount = 0;
+        this.raisedAmount = 0.0;
         this.targetAmount = fundFormCommand.getTargetAmount();
         this.endDate = fundFormCommand.getEndDate();
         this.creator = account;
@@ -116,19 +116,19 @@ public class Fund {
         this.fundCategory = fundCategory;
     }
 
-    public Integer getRaisedAmount() {
+    public Double getRaisedAmount() {
         return raisedAmount;
     }
 
-    public void setRaisedAmount(Integer amount) {
+    public void setRaisedAmount(Double amount) {
         this.raisedAmount = amount;
     }
 
-    public Integer getTargetAmount() {
+    public Double getTargetAmount() {
         return targetAmount;
     }
 
-    public void setTargetAmount(Integer targetAmount) {
+    public void setTargetAmount(Double targetAmount) {
         this.targetAmount = targetAmount;
     }
 
