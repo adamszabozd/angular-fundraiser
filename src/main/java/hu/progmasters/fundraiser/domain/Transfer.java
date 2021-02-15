@@ -35,8 +35,6 @@ public class Transfer {
     @JoinColumn(name = "transfer_to", nullable = false)
     private Fund target;
 
-    @Min(50)
-    @Max(1000)
     @Column(name = "amount", nullable = false)
     private Integer amount;
 

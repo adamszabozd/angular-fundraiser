@@ -48,7 +48,6 @@
                 [ngClass]="{'is-invalid': (form.get('amount').invalid && form.get('amount').touched) || (form.get('amount').errors?.serverError)}"
                 name="amount"
                 formControlName="amount"
-                placeholder="50 - 1000"
             />
             <small
                 *ngIf="form.get('amount').invalid && form.get('amount').touched && !form.get('amount').errors?.serverError"

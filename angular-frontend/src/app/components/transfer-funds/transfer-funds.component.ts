@@ -23,7 +23,7 @@ export class TransferFundsComponent implements OnInit {
 
     form = this.formBuilder.group({
                                       targetFundId: [null, Validators.required],
-                                      amount      : [null, [Validators.required, Validators.min(50), Validators.max(1000)]],
+                                      amount      : [null, [Validators.required]],
                                   });
 
     constructor(private formBuilder: FormBuilder, private transferService: TransferService, private router: Router, private accountService: AccountService) {
