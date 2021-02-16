@@ -49,4 +49,10 @@ public class FundService {
             return new FundListItem(fund.get());
         } else throw new IllegalArgumentException();
     }
+
+    public List<FundListItem> fetchMyFunds(String email) {
+
+        Account myAccount = accountRepository.findByEmail(email);
+        return myAccount.getFunds().stream().map(FundListItem::new).collect(Collectors.toList());
+    }
 }

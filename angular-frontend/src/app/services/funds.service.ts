@@ -20,6 +20,10 @@ export class FundsService {
       return this.http.get<Array<FundListItemModel>>(BASE_URL);
   }
 
+    fetchMyFunds(): Observable<Array<FundListItemModel>> {
+      return this.http.get<Array<FundListItemModel>>(BASE_URL+"/myFunds")
+    }
+
     getInitialFormData(): Observable<CategoryOptionModel[]> {
         return this.http.get<CategoryOptionModel[]>(BASE_URL + "/initData")
     }

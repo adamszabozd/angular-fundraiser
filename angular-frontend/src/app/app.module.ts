@@ -18,6 +18,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import {HttpResponseInterceptor} from "./utils/httpResponseInterceptor";
 import { FundraiserDetailsComponent } from './components/fundraiser-details/fundraiser-details.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { MyFundsComponent } from './components/my-funds/my-funds.component';
 
 @NgModule({
     declarations: [
@@ -31,7 +32,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
         LoginComponent,
         PageNotFoundComponent,
         NewFundFormComponent,
-        FundraiserDetailsComponent
+        FundraiserDetailsComponent,
+        MyFundsComponent
     ],
     imports: [
         BrowserModule,

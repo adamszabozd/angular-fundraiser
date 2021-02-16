@@ -34,6 +34,7 @@ public class AccountServiceIT {
 
         Assertions.assertEquals("Valaki",newAccount.getUsername());
         Assertions.assertEquals("valaki@gmail.com",newAccount.getEmail());
+        Assertions.assertNotEquals("123123", newAccount.getPassword());
 
     }
 

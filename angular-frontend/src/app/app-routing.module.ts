@@ -10,6 +10,7 @@ import {LoginComponent} from './components/login/login.component';
 import {PageNotFoundComponent} from "./components/page-not-found/page-not-found.component";
 import {NewFundFormComponent} from "./components/new-fund-form/new-fund-form.component";
 import {FundraiserDetailsComponent} from "./components/fundraiser-details/fundraiser-details.component";
+import {MyFundsComponent} from "./components/my-funds/my-funds.component";
 
 const routes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'fund-list'},
@@ -22,6 +23,7 @@ const routes: Routes = [
     {path: 'login', component: LoginComponent},
     {path: 'new-fund', component: NewFundFormComponent},
     {path: 'fund-details/:id', component: FundraiserDetailsComponent},
+    {path: 'my-funds', component: MyFundsComponent},
     {path: '**', component: PageNotFoundComponent}
 ];
 

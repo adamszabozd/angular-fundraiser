@@ -35,19 +35,25 @@ public class FundController {
     }
 
     @InitBinder(value = "fundFormCommand")
-    protected void init (WebDataBinder webDataBinder){
+    protected void init(WebDataBinder webDataBinder) {
         webDataBinder.addValidators(validator);
     }
 
     @GetMapping
-    public ResponseEntity<List<FundListItem>> fetchAllFunds(){
+    public ResponseEntity<List<FundListItem>> fetchAllFunds() {
         ResponseEntity<List<FundListItem>> response = new ResponseEntity<>(fundService.fetchAllForList(), HttpStatus.OK);
         logger.info("Fund list requested");
         return response;
     }
 
+    @GetMapping("/myFunds")
+    public ResponseEntity<List<FundListItem>> fetchMyFunds(Principal principal) {
+        return new ResponseEntity<>(fundService.fetchMyFunds(principal.getName()), HttpStatus.OK);
+    }
+
+
     @GetMapping("/initData")
-    public ResponseEntity<List<CategoryOption>> fetchCategoryList(){
+    public ResponseEntity<List<CategoryOption>> fetchCategoryList() {
         List<CategoryOption> categoryOptions = new ArrayList<>();
         //TODO - Review: Logikát ne rakjunk a controllerbe!!!!
         for (FundCategory category : FundCategory.values()) {
@@ -59,13 +65,13 @@ public class FundController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FundListItem> getFundDetails(@PathVariable Long id){
+    public ResponseEntity<FundListItem> getFundDetails(@PathVariable Long id) {
         return new ResponseEntity<>(fundService.fetchFundDetails(id), HttpStatus.OK);
     }
 
     //TODO - Review: Response Entity-nek adjunk generic típust! Sír a szegény IDEA :(
     @PostMapping
-    public ResponseEntity<Void> saveNewFund(@RequestBody @Valid FundFormCommand fundFormCommand, Principal principal){
+    public ResponseEntity<Void> saveNewFund(@RequestBody @Valid FundFormCommand fundFormCommand, Principal principal) {
         String emailAddress = principal.getName();
         fundService.saveNewFund(fundFormCommand, emailAddress);
         return new ResponseEntity<>(HttpStatus.CREATED);
