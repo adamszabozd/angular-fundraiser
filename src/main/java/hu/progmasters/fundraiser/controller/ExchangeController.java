@@ -28,7 +28,7 @@ public class ExchangeController {
         this.exchangeService = exchangeService;
     }
 
-    @Scheduled(cron = "0 47 23 * * *")
+    @Scheduled(cron = "0 0 12 * * *")
     @GetMapping
     public void getDailyExchange() {
         RestTemplate restTemplate = new RestTemplate();
