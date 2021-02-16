@@ -1,5 +1,5 @@
 <div [@formAppear]="state" class="container jumbotron formAppear">
-    <h2>Transfer Funds</h2>
+    <h2>{{ 'TRANSFER.TRANSFER_FUNDS' | translate }}</h2>
     <div class="border-top mx-auto my-3"></div>
     <br>
     <form [formGroup]="form" (ngSubmit)="submitForm()">
@@ -8,7 +8,7 @@
                 for="to"
                 [ngClass]="{'text-danger': (form.get('targetFundId').invalid && form.get('targetFundId').touched) || (form.get('targetFundId').errors?.serverError)}"
             >
-                To:
+                {{ 'TRANSFER.TO' | translate }}
             </label>
             <select
                 id="to"
@@ -17,7 +17,7 @@
                 name="targetFundId"
                 formControlName="targetFundId"
             >
-                <option value=null selected disabled>-- Choose a goal to support --</option>
+                <option value=null selected disabled>{{ 'TRANSFER.CHOOSE_A_GOAL' | translate }}</option>
                 <option *ngFor="let fund of transferFormInitDataModel?.targetFundOptions"
                         value="{{fund.id}}">{{fund.title}}</option>
             </select>
@@ -25,7 +25,7 @@
                 *ngIf="form.get('targetFundId').invalid && form.get('targetFundId').touched && !form.get('targetFundId').errors?.serverError"
                 class="text-danger"
             >
-                Please choose an account to send money to
+                {{ 'TRANSFER.TO_ERROR' | translate }}
             </small>
             <small *ngIf="form.get('targetFundId').errors?.serverError" class="text-danger">
                 {{form.get('targetFundId').errors['serverError']}}
@@ -37,7 +37,7 @@
                 for="amount"
                 [ngClass]="{'text-danger': (form.get('amount').invalid && form.get('amount').touched) || (form.get('amount').errors?.serverError)}"
             >
-                Amount:
+                {{ 'TRANSFER.AMOUNT' | translate }}
             </label>
             <input
                 id="amount"
@@ -52,7 +52,7 @@
                 *ngIf="form.get('amount').invalid && form.get('amount').touched && !form.get('amount').errors?.serverError"
                 class="text-danger"
             >
-                Please choose an amount above 0
+                {{ 'TRANSFER.AMOUNT_ERROR' | translate }}
             </small>
             <small *ngIf="form.get('amount').errors?.serverError" class="text-danger">
                 {{form.get('amount').errors['serverError']}}
@@ -60,17 +60,17 @@
         </div>
         <div>
             <div class="form-group">
-                <label for="balance">My Balance:</label>
+                <label for="balance">{{ 'TRANSFER.MY_BALANCE' | translate }}</label>
                 <input
                     id="balance"
                     class="form-control my-input-field-disabled"
                     name="balance"
-                    placeholder="{{transferFormInitDataModel.balance}}"
+                    placeholder="{{transferFormInitDataModel?.balance}}"
                     disabled
                 />
             </div>
         </div>
         <br/>
-        <button class="btn btn-primary my-buttons">Transfer</button>
+        <button class="btn btn-primary my-buttons">{{ 'TRANSFER.TRANSFER' | translate }}</button>
     </form>
 </div>

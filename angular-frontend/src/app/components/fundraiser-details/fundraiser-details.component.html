@@ -4,15 +4,15 @@
         <img class="image" [src]="fund.imageUrl" alt="funraiser image">
     </div><br>
     <div class="description-text">
-        <h3> Category: {{fund.category}}</h3>
+        <h3>{{ 'DETAILS.CATEGORY' | translate }}{{fund.category}}</h3>
         <p>{{fund.longDescription}} </p>
     </div>
     <div class="fund-info">
         <div><h3 class="raised-money">{{fund.raisedAmount}} HUF</h3>
-            <h6>raised of {{fund.targetAmount}} HUF goal</h6></div>
+            <h6>{{ 'DETAILS.AMOUNT' | translate: { targetAmount: fund.targetAmount } }}</h6></div>
         <div>
-            <h6>Number of backers: </h6>
-            <h6>Expiration date: {{fund.endDate}}</h6>
+            <h6>{{ 'DETAILS.NUMBER_OF_BACKERS' | translate }}</h6>
+            <h6>{{ 'DETAILS.EXPIRATION_DATE' | translate }}{{fund.endDate}}</h6>
         </div>
 <!--        Ez a gomb még nem csinál semmit-->
 <!--        <button type="button" class="btn btn-success btn-lg">Fund this project</button>-->

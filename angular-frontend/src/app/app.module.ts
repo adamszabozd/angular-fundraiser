@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +19,13 @@ import {HttpResponseInterceptor} from "./utils/httpResponseInterceptor";
 import { FundraiserDetailsComponent } from './components/fundraiser-details/fundraiser-details.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { MyFundsComponent } from './components/my-funds/my-funds.component';
+import { FundraiserModifyComponent } from './components/fundraiser-modify/fundraiser-modify.component';
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+
+export function HttpLoaderFactory(httpClient: HttpClient) {
+    return new TranslateHttpLoader(httpClient);
+}
 
 @NgModule({
     declarations: [
@@ -33,7 +40,8 @@ import { MyFundsComponent } from './components/my-funds/my-funds.component';
         PageNotFoundComponent,
         NewFundFormComponent,
         FundraiserDetailsComponent,
-        MyFundsComponent
+        MyFundsComponent,
+        FundraiserModifyComponent
     ],
     imports: [
         BrowserModule,
@@ -41,6 +49,13 @@ import { MyFundsComponent } from './components/my-funds/my-funds.component';
         AppRoutingModule,
         ReactiveFormsModule,
         HttpClientModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        })
     ],
     providers: [
         // Http Interceptor(s) -  adds with Client Credentials
