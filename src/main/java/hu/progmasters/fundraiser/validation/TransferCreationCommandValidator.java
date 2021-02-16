@@ -42,11 +42,8 @@ public class TransferCreationCommandValidator implements Validator {
         if (transfer.getAmount() > validationService.checkBalance()) {
             errors.rejectValue("amount", "transfer.notEnough.balance");
         }
-        if (transfer.getAmount() != null && transfer.getAmount() < 50) {
+        if (transfer.getAmount() != null && transfer.getAmount() < 0) {
             errors.rejectValue("amount", "transfer.amountMin");
-        }
-        if (transfer.getAmount() != null && transfer.getAmount() > 1000) {
-            errors.rejectValue("amount", "transfer.amountMax");
         }
     }
 

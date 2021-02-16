@@ -4,7 +4,7 @@
 </div>
 <div class="container">
     <div class="row my-5">
-        <div *ngFor="let fund of fundList" class="col-md-4 my-4">
+        <div  [@slideUp]="state" *ngFor="let fund of fundList" class="col-md-4 my-4">
             <img [src]="fund.imageUrl" alt="fund image" class="w-100">
             <h4 class="my-4">{{fund.title}}</h4>
             <p class="description">{{fund.shortDescription}}</p>

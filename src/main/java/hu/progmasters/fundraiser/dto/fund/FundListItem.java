@@ -17,9 +17,9 @@ public class FundListItem {
 
     private String longDescription;
 
-    private Integer targetAmount;
+    private Double targetAmount;
 
-    private Integer raisedAmount;
+    private Double raisedAmount;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
@@ -61,11 +61,11 @@ public class FundListItem {
         return longDescription;
     }
 
-    public Integer getTargetAmount() {
+    public Double getTargetAmount() {
         return targetAmount;
     }
 
-    public Integer getRaisedAmount() {
+    public Double getRaisedAmount() {
         return raisedAmount;
     }
 

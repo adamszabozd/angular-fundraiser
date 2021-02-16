@@ -19,9 +19,9 @@ import java.util.stream.Collectors;
 public class TransferFormInitData {
 
     private List<TargetFundOption> targetFundOptions;
-    private int balance;
+    private double balance;
 
-    public TransferFormInitData(List<Fund> fundList, int balance) {
+    public TransferFormInitData(List<Fund> fundList, double balance) {
         this.targetFundOptions = fundList.stream().map(TargetFundOption::new).collect(Collectors.toList());
         this.balance = balance;
     }
@@ -30,7 +30,8 @@ public class TransferFormInitData {
         return targetFundOptions;
     }
 
-    public int getBalance() {
+    public double getBalance() {
         return balance;
     }
+
 }

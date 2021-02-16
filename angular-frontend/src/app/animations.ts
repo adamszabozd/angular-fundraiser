@@ -10,15 +10,15 @@ export const formAppearAnimation = trigger('formAppear', [
     transition('invisible => visible', animate('1100ms')),
 ]);
 
-export const slideInFromRight = trigger('slideIn', [
+export const slideRight = trigger('slideIn', [
     state('*', style({
-                         transform: 'translateX(100%)',
+                         transform: 'translateX(-600%)',
                      })),
     state('in', style({
-                          transform: 'translateX(0)',
+                          transform: 'translateX(0%)',
                       })),
     state('out',   style({
-                             transform: 'translateX(-100%)',
+                             transform: 'translateX(100%)',
                          })),
     transition('* => in', animate('800ms ease-in-out')),
     transition('in => out', animate('800ms ease-in-out'))

@@ -40,7 +40,11 @@ public class Account {
 
     @Min(0)
     @Column(name = "balance", nullable = false)
-    private Integer balance = 5000;
+    private Double balance = 5000.0;
+
+    @Column(name = "account_currency",
+            nullable = false)
+    private Currency currency = Currency.EUR;
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = AccountRole.class,
@@ -88,11 +92,11 @@ public class Account {
         this.password = password;
     }
 
-    public Integer getBalance() {
+    public Double getBalance() {
         return balance;
     }
 
-    public void setBalance(Integer balance) {
+    public void setBalance(Double balance) {
         this.balance = balance;
     }
 
@@ -127,4 +131,13 @@ public class Account {
     public void setFunds(List<Fund> funds) {
         this.funds = funds;
     }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
 }

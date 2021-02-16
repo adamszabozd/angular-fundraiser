@@ -12,7 +12,6 @@
 package hu.progmasters.fundraiser.domain;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
 
@@ -35,10 +34,12 @@ public class Transfer {
     @JoinColumn(name = "transfer_to", nullable = false)
     private Fund target;
 
-    @Min(50)
-    @Max(1000)
+    @Min(1)
     @Column(name = "amount", nullable = false)
-    private Integer amount;
+    private Double amount;
+
+    @Column(name = "currency")
+    private Currency currency;
 
     @Column(name = "time_stamp", nullable = false)
     private LocalDateTime timeStamp;
@@ -76,12 +77,20 @@ public class Transfer {
         this.target = target;
     }
 
-    public Integer getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(Integer amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 
     public LocalDateTime getTimeStamp() {

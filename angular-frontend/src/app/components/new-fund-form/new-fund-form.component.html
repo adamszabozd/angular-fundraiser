@@ -17,8 +17,7 @@
                     id="title"
                     class="form-control"
                     type="text"
-                    minlength="5"
-                    maxlength="100"
+                    placeholder="5-100 characters"
                     [ngClass]="{'is-invalid': (form.get('title').invalid && form.get('title').touched)
                             || (form.get('title').errors?.serverError)}"
                     name="title"
@@ -55,7 +54,7 @@
                     maxlength="200"
                     rows="3"
                     style="min-height: 40px"
-                    placeholder="Please give a short description, which will be displayed in the Discover page"
+                    placeholder="Please give a short description, which will be displayed in the Discover page. Max 250 characters"
                     [ngClass]="{'is-invalid': (form.get('shortDescription').invalid && form.get('shortDescription').touched)
                             || (form.get('shortDescription').errors?.serverError)}"
                     name="shortDescription"
@@ -66,7 +65,7 @@
                         && !form.get('shortDescription').errors?.serverError"
                     class="text-danger"
                 >
-                    Please give a short description for your fund (max 200 characters)
+                    Please give a short description for your fund (max 250 characters)
                 </small>
                 <small *ngIf="form.get('shortDescription').errors?.serverError" class="text-danger">
                     {{form.get('shortDescription').errors.serverError}}
@@ -107,6 +106,7 @@
                     type="text"
                     name="imageUrl"
                     formControlName="imageUrl"
+                    placeholder="max 1000 characters"
                 />
                 <small *ngIf="form.get('imageUrl').errors?.serverError" class="text-danger">
                     {{form.get('imageUrl').errors.serverError}}
