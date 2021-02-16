@@ -18,6 +18,8 @@
                     class="form-control"
                     type="text"
                     placeholder="5-100 characters"
+                    minlength="5"
+                    maxlength="100"
                     [ngClass]="{'is-invalid': (form.get('title').invalid && form.get('title').touched)
                             || (form.get('title').errors?.serverError)}"
                     name="title"
