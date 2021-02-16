@@ -1,5 +1,5 @@
 <div [@formAppear]="state" class="container jumbotron formAppear">
-    <h2>{{ 'FUND.NEW_FUND' | translate }}</h2>
+    <h2>{{ 'FUND.MODIFY_FUND' | translate }}</h2>
     <div class="border-top mx-auto my-3"></div>
     <br>
     <form class="form-horizontal" [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -7,8 +7,6 @@
         <div class="row mb-3">
             <label class="col-sm-3 col-form-label"
                    for="title"
-                   [ngClass]="{'text-danger': (form.get('title').invalid && form.get('title').touched)
-                            || (form.get('title').errors?.serverError)}"
             >
                 {{ 'FUND.TITLE' | translate }}
             </label> <br>
@@ -20,23 +18,10 @@
                     [placeholder]="'FUND.TITLE_PLACEHOLDER' | translate"
                     minlength="5"
                     maxlength="100"
-                    [ngClass]="{'is-invalid': (form.get('title').invalid && form.get('title').touched)
-                            || (form.get('title').errors?.serverError)}"
                     name="title"
                     formControlName="title"
+                    disabled
                 />
-
-                <small
-                    *ngIf="!form.get('title').valid
-                        && form.get('title').touched
-                        && !form.get('title').errors?.serverError"
-                    class="text-danger"
-                >
-                    {{ 'FUND.TITLE_ERROR' | translate }}
-                </small>
-                <small *ngIf="form.get('title').errors?.serverError" class="text-danger">
-                    {{form.get('title').errors.serverError}}
-                </small>
             </div>
         </div>
 
@@ -119,31 +104,18 @@
         <div class="row mb-3">
             <label class="col-sm-3 col-form-label"
                    for="category"
-                   [ngClass]="{'text-danger': (form.get('category').invalid && form.get('category').touched) || (form.get('category').errors?.serverError)}"
             >
                 {{ 'FUND.CATEGORY' | translate }}
             </label>
             <div class="col-sm-9">
-                <select
+                <input
                     id="category"
                     class="form-control"
-                    [ngClass]="{'is-invalid': (form.get('category').invalid && form.get('category').touched) || (form.get('category').errors?.serverError)}"
+                    type="text"
                     name="category"
                     formControlName="category"
-                >
-                    <option value=null selected disabled>{{ 'FUND.CHOOSE_A_CATEGORY' | translate }}</option>
-                    <option *ngFor="let category of categories"
-                            value="{{category.name}}">{{category.displayName}}</option>
-                </select>
-                <small
-                    *ngIf="form.get('category').invalid && form.get('category').touched && !form.get('category').errors?.serverError"
-                    class="text-danger"
-                >
-                    {{ 'FUND.CATEGORY_ERROR' | translate }}
-                </small>
-                <small *ngIf="form.get('category').errors?.serverError" class="text-danger">
-                    {{form.get('category').errors['serverError']}}
-                </small>
+                    disabled
+                />
             </div>
         </div>
 
@@ -197,6 +169,6 @@
             </div>
         </div>
         <br/>
-        <button type="submit" class="btn btn-primary my-buttons">{{ 'FUND.SUBMIT' | translate }}</button>
+        <button type="submit" class="btn btn-primary my-buttons">{{ 'FUND.SAVE' | translate }}</button>
     </form>
 </div>

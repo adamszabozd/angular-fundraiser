@@ -8,7 +8,7 @@
         </button>
         <div id="myNavbar" class="navbar-collapse collapse">
             <div class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle active discover" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Discover</a>
+                <a class="nav-link dropdown-toggle active discover" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ 'NAVBAR.DISCOVER' | translate }}</a>
 <!--                <a class="nav-link active discover" routerLink="/fund-list">Discover</a>-->
                 <div class="dropdown-menu">
                     <a class="dropdown-item nav-link" routerLink="/fund-list">All</a>
@@ -16,13 +16,18 @@
                 </div>
             </div>
             <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                <li [@slideIn]="slideInState"  *ngIf="loggedIn" class="nav-item"><a class="nav-link" routerLink="/my-account">My Account</a></li>
-                <li [@slideIn]="slideInState"  *ngIf="loggedIn" class="nav-item"><a class="nav-link" routerLink="/my-funds">My Funds</a></li>
-                <li [@slideIn]="slideInState"  *ngIf="loggedIn" class="nav-item"><a class="nav-link" routerLink="/new-fund">Create new fund</a> </li>
-                <li [@slideIn]="slideInState"  *ngIf="loggedIn" class="nav-item"><a class="nav-link" routerLink="/transfer-funds">Donate</a></li>
-                <li [@slideIn]="slideInState"  *ngIf="!loggedIn" class="nav-item"><a class="nav-link" routerLink="/registration">Registration</a></li>
-                <li [@slideIn]="slideInState"  *ngIf="!loggedIn" class="nav-item"><a class="nav-link" routerLink="/login">Login</a></li>
-                <li [@slideIn]="slideInState"  *ngIf="loggedIn" class="nav-item"><a class="nav-link" (click)="logout()" routerLink="/">Logout</a></li>
+                <li [@slideIn]="slideInState"  *ngIf="loggedIn" class="nav-item"><a class="nav-link" routerLink="/my-account">{{ 'NAVBAR.MY_ACCOUNT' | translate }}</a></li>
+                <li [@slideIn]="slideInState"  *ngIf="loggedIn" class="nav-item"><a class="nav-link" routerLink="/my-funds">{{ 'NAVBAR.MY_FUNDS' | translate }}</a></li>
+                <li [@slideIn]="slideInState"  *ngIf="loggedIn" class="nav-item"><a class="nav-link" routerLink="/new-fund">{{ 'NAVBAR.CREATE_FUND' | translate }}</a> </li>
+                <li [@slideIn]="slideInState"  *ngIf="loggedIn" class="nav-item"><a class="nav-link" routerLink="/transfer-funds">{{ 'NAVBAR.TRANSFER_FUNDS' | translate }}</a></li>
+                <li [@slideIn]="slideInState"  *ngIf="!loggedIn" class="nav-item"><a class="nav-link" routerLink="/registration">{{ 'NAVBAR.REGISTRATION' | translate }}</a></li>
+                <li [@slideIn]="slideInState"  *ngIf="!loggedIn" class="nav-item"><a class="nav-link" routerLink="/login">{{ 'NAVBAR.LOGIN' | translate }}</a></li>
+                <li [@slideIn]="slideInState"  *ngIf="loggedIn" class="nav-item"><a class="nav-link" (click)="logout()" routerLink="/">{{ 'NAVBAR.LOGOUT' | translate }}</a></li>
+                <li [@slideIn]="slideInState" class="nav-item">
+                    <select class="nav-link" #langSelect (change)="translate.use(langSelect.value)">
+                        <option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{ lang }}</option>
+                    </select>
+                </li>
             </ul>
         </div>
     </div>

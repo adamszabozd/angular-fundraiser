@@ -2,7 +2,7 @@
  height: 3rem;
 }
 .navbar {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     font-weight: 600;
     letter-spacing: .1rem;
     background-color: #fabe55 !important;
@@ -23,4 +23,8 @@
     font-size: 1.4rem!important;
     font-weight: 700;
     letter-spacing: .07rem!important;
+}
+select {
+    background-color: #fabe55 !important;
+    font-weight: bold;
 }

@@ -1,0 +1,76 @@
+{
+    "DISCLAIMER": "A honlap a PROGmasters hallgatóinak projektmunkája",
+    "NAVBAR": {
+        "DISCOVER": "Böngészés",
+        "MY_ACCOUNT": "Fiókom",
+        "MY_FUNDS": "Gyűjtéseim",
+        "TRANSFER_FUNDS": "Adományozás",
+        "CREATE_FUND": "Új gyűjtés",
+        "LOGOUT": "Kilépés",
+        "REGISTRATION": "Regisztráció",
+        "LOGIN": "Bejelentkezés"
+    },
+    "MY_ACCOUNT": {
+        "USERNAME": "Felhasználónév:",
+        "EMAIL": "E-mail cím:",
+        "BALANCE": "Egyenleg:",
+        "MY_TRANSFERS": "Adományaim:",
+        "MY_TRANSFERS_TO": "Gyűjtés",
+        "MY_TRANSFERS_AMOUNT": "Összeg",
+        "MY_TRANSFERS_DATE": "Dátum",
+        "MY_PENDING_TRANSFERS": "Megerősítésre váró adományaim:",
+        "MY_PENDING_TRANSFERS_TO": "Gyűjtés",
+        "MY_PENDING_TRANSFERS_AMOUNT": "Összeg",
+        "MY_PENDING_TRANSFERS_RESEND_CODE": "új kód",
+        "MY_PENDING_TRANSFERS_DELETE": "törlés"
+    },
+    "FUNDS": {
+        "BROWSE_FUNDRAISERS": "Böngészés",
+        "IMAGE": "gyűjtés képe",
+        "CATEGORY": "Kategória: ",
+        "AMOUNT": "Eddig összegyűlt {{ amount }} HUF, a cél {{ amountGoal }} HUF",
+        "END_DATE": "Gyűjtés vége: ",
+        "CREATOR": "Kezdeményező: ",
+        "MODIFY": "Módosítás",
+        "READ_MORE": "Részletek"
+    },
+    "FUND": {
+        "NEW_FUND": "Új gyűjtés",
+        "MODIFY_FUND": "Gyűjtés módosítása",
+        "TITLE": "Gyűjtés célja:",
+        "TITLE_PLACEHOLDER": "5-100 karakter",
+        "TITLE_ERROR": "Adjon meg egy 5 és 100 karakter közti hosszúságú címet a gyűjtésének",
+        "SHORT_DESCRIPTION": "Rövid leírás:",
+        "SHORT_DESCRIPTION_PLACEHOLDER": "Adjon meg egy rövid leírást, amit megjeleníthetünk a gyűjtések böngészése oldalon. Legfeljebb 250 karakter.",
+        "SHORT_DESCRIPTION_ERROR": "Adjon meg egy rövid leírást a gyűjtéséről (legfeljebb 250 karakter)",
+        "LONG_DESCRIPTION": "Hosszú leírás (nem kötelező):",
+        "LONG_DESCRIPTION_PLACEHOLDER": "A gyűjtés céljának hosszú, részletes leírása",
+        "IMAGE_URL": "Kép URL-je:",
+        "IMAGE_URL_PLACEHOLDER": "legfeljebb 1000 karakter",
+        "CATEGORY": "Kategória:",
+        "CHOOSE_A_CATEGORY": "-- Válasszon egy kategóriát --",
+        "CATEGORY_ERROR": "Válassza ki, hogy melyik kategóriába tartozik a gyűjtése!",
+        "TARGET_AMOUNT": "Elérendő összeg:",
+        "TARGET_AMOUNT_ERROR": "Adja meg, mekkora összeget szeretne gyűjteni!",
+        "END_DATE": "Gyűjtés vége (nem kötelező):",
+        "SUBMIT": "Küldés",
+        "SAVE": "Mentés"
+    },
+    "TRANSFER": {
+        "TRANSFER_FUNDS": "Adomány küldése",
+        "TO": "Gyűjtés:",
+        "CHOOSE_A_GOAL": "-- Válasszon ki egy gyűjtést --",
+        "TO_ERROR": "Válassza ki a gyűjtést, amelynek adományozni szeretne",
+        "AMOUNT": "Összeg:",
+        "AMOUNT_ERROR": "Az összeg csak 0-nál nagyobb lehet",
+        "MY_BALANCE": "Egyenlegem:",
+        "TRANSFER": "Átutalás"
+    },
+    "DETAILS": {
+        "CATEGORY": "Kategória: ",
+        "AMOUNT": "gyűlt össze a {{ targetAmount }} HUF célból",
+        "NUMBER_OF_BACKERS": "Támogatók száma: ",
+        "EXPIRATION_DATE": "Gyűjtés vége: "
+    }
+
+}

@@ -11,6 +11,7 @@ import {PageNotFoundComponent} from "./components/page-not-found/page-not-found.
 import {NewFundFormComponent} from "./components/new-fund-form/new-fund-form.component";
 import {FundraiserDetailsComponent} from "./components/fundraiser-details/fundraiser-details.component";
 import {MyFundsComponent} from "./components/my-funds/my-funds.component";
+import {FundraiserModifyComponent} from "./components/fundraiser-modify/fundraiser-modify.component";
 
 const routes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'fund-list'},
@@ -25,6 +26,7 @@ const routes: Routes = [
     {path: 'new-fund', component: NewFundFormComponent},
     {path: 'fund-details/:id', component: FundraiserDetailsComponent},
     {path: 'my-funds', component: MyFundsComponent},
+    {path: 'modify/:id', component: FundraiserModifyComponent},
     {path: '**', component: PageNotFoundComponent}
 ];
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FundsService} from "../../services/funds.service";
 import {FundListItemModel} from "../../models/FundListItem.model";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-my-funds',
@@ -11,7 +12,7 @@ export class MyFundsComponent implements OnInit {
 
     myFundList: Array<FundListItemModel>;
 
-  constructor(private fundService: FundsService) { }
+  constructor(private fundService: FundsService, private router: Router) { }
 
   ngOnInit() {
       this.fundService.fetchMyFunds().subscribe(
@@ -20,4 +21,7 @@ export class MyFundsComponent implements OnInit {
       )
   }
 
+    goToModify(id: number) {
+        this.router.navigate(['modify',id]);
+    }
 }

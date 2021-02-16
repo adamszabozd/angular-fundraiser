@@ -5,6 +5,7 @@ import hu.progmasters.fundraiser.domain.Fund;
 import hu.progmasters.fundraiser.domain.FundCategory;
 import hu.progmasters.fundraiser.dto.fund.FundFormCommand;
 import hu.progmasters.fundraiser.dto.fund.FundListItem;
+import hu.progmasters.fundraiser.dto.fund.ModifyFundFormCommand;
 import hu.progmasters.fundraiser.repository.AccountRepository;
 import hu.progmasters.fundraiser.repository.FundRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,24 @@ public class FundService {
 
         Account myAccount = accountRepository.findByEmail(email);
         return myAccount.getFunds().stream().map(FundListItem::new).collect(Collectors.toList());
+    }
+
+    public void modifyFund(ModifyFundFormCommand modifyFundFormCommand) {
+
+        Optional<Fund> optionalFund = fundRepository.findById(modifyFundFormCommand.getId());
+
+        if(optionalFund.isPresent()){
+            Fund fund = optionalFund.get();
+            fund.setShortDescription(modifyFundFormCommand.getShortDescription());
+            fund.setLongDescription(modifyFundFormCommand.getLongDescription());
+            fund.setImageUrl(modifyFundFormCommand.getImageUrl());
+            fund.setTargetAmount(modifyFundFormCommand.getTargetAmount());
+            fund.setEndDate(modifyFundFormCommand.getEndDate());
+            fundRepository.save(fund);
+        }else{
+            throw new IllegalArgumentException("Fund not found by id. Modify unsuccessful");
+        }
+
     }
 
     public List<FundListItem> fetchFundsByCategory(String categoryName) {
