@@ -19,6 +19,7 @@ import {HttpResponseInterceptor} from "./utils/httpResponseInterceptor";
 import { FundraiserDetailsComponent } from './components/fundraiser-details/fundraiser-details.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { MyFundsComponent } from './components/my-funds/my-funds.component';
+import { FundraiserModifyComponent } from './components/fundraiser-modify/fundraiser-modify.component';
 
 @NgModule({
     declarations: [
@@ -33,7 +34,8 @@ import { MyFundsComponent } from './components/my-funds/my-funds.component';
         PageNotFoundComponent,
         NewFundFormComponent,
         FundraiserDetailsComponent,
-        MyFundsComponent
+        MyFundsComponent,
+        FundraiserModifyComponent
     ],
     imports: [
         BrowserModule,
