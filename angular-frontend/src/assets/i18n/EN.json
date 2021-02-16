@@ -1,0 +1,76 @@
+{
+    "DISCLAIMER": "This website is a project work of PROGmasters students",
+    "NAVBAR": {
+        "DISCOVER": "Discover",
+        "MY_ACCOUNT": "My Account",
+        "MY_FUNDS": "My Funds",
+        "TRANSFER_FUNDS": "Donate",
+        "CREATE_FUND": "Create Fund",
+        "LOGOUT": "Logout",
+        "REGISTRATION": "Registration",
+        "LOGIN": "Login"
+    },
+    "MY_ACCOUNT": {
+        "USERNAME": "Username:",
+        "EMAIL": "Email:",
+        "BALANCE": "Balance:",
+        "MY_TRANSFERS": "My transfers:",
+        "MY_TRANSFERS_TO": "To",
+        "MY_TRANSFERS_AMOUNT": "Amount",
+        "MY_TRANSFERS_DATE": "Date",
+        "MY_PENDING_TRANSFERS": "My pending transfers:",
+        "MY_PENDING_TRANSFERS_TO": "To",
+        "MY_PENDING_TRANSFERS_AMOUNT": "Amount",
+        "MY_PENDING_TRANSFERS_RESEND_CODE": "resend code",
+        "MY_PENDING_TRANSFERS_DELETE": "delete"
+    },
+    "FUNDS": {
+        "BROWSE_FUNDRAISERS": "Browse fundraisers",
+        "IMAGE": "fund image",
+        "CATEGORY": "Category: ",
+        "AMOUNT": "Raised {{ amount }} HUF with the target of {{ amountGoal }} HUF",
+        "END_DATE": "End date: ",
+        "CREATOR": "Creator: ",
+        "MODIFY": "Modify",
+        "READ_MORE": "Read more"
+    },
+    "FUND": {
+        "NEW_FUND": "New Fund",
+        "MODIFY_FUND": "Modify Fund",
+        "TITLE": "Title:",
+        "TITLE_PLACEHOLDER": "5-100 characters",
+        "TITLE_ERROR": "Please enter a title for your fundraiser between 5 and 100 character",
+        "SHORT_DESCRIPTION": "Short description:",
+        "SHORT_DESCRIPTION_PLACEHOLDER": "Please give a short description, which will be displayed in the Discover page. Max 250 characters",
+        "SHORT_DESCRIPTION_ERROR": "Please give a short description for your fund (max 250 characters)",
+        "LONG_DESCRIPTION": "Long description (optional):",
+        "LONG_DESCRIPTION_PLACEHOLDER": "The long, detailed description of your fund idea",
+        "IMAGE_URL": "Image URL:",
+        "IMAGE_URL_PLACEHOLDER": "max 1000 characters",
+        "CATEGORY": "Category:",
+        "CHOOSE_A_CATEGORY": "-- Choose a category --",
+        "CATEGORY_ERROR": "Please choose a category for your fundraiser!",
+        "TARGET_AMOUNT": "Target amount:",
+        "TARGET_AMOUNT_ERROR": "Please give a target amount for your fundraiser!",
+        "END_DATE": "End date (optional):",
+        "SUBMIT": "Submit",
+        "SAVE": "Save"
+    },
+    "TRANSFER": {
+        "TRANSFER_FUNDS": "Transfer Funds",
+        "TO": "To:",
+        "CHOOSE_A_GOAL": "-- Choose a goal to support --",
+        "TO_ERROR": "Please choose an account to send money to",
+        "AMOUNT": "Amount:",
+        "AMOUNT_ERROR": "Please choose an amount above 0",
+        "MY_BALANCE": "My Balance:",
+        "TRANSFER": "Transfer"
+    },
+    "DETAILS": {
+        "CATEGORY": "Category: ",
+        "AMOUNT": "raised of {{ targetAmount }} HUF goal",
+        "NUMBER_OF_BACKERS": "Number of backers: ",
+        "EXPIRATION_DATE": "Expiration date: "
+    }
+
+}

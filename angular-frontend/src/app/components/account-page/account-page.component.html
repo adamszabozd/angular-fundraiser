@@ -1,9 +1,9 @@
 <div class="account row mb-3">
     <div [@slideUp]="state" class="container  jumbotron col-sm-4">
-        <h2>My Account</h2>
+        <h2>{{ 'NAVBAR.MY_ACCOUNT' | translate }}</h2>
         <div class="border-top mx-auto my-3"></div>
         <div class="form-group">
-            <label for="email" class="input-label">Email:</label>
+            <label for="email" class="input-label">{{ 'MY_ACCOUNT.EMAIL' | translate }}</label>
                 <input
                     id="email"
                     class="form-control my-input-field-disabled"
@@ -13,7 +13,7 @@
                 />
         </div>
         <div class="form-group">
-            <label for="username" class="input-label">Username:</label>
+            <label for="username" class="input-label">{{ 'MY_ACCOUNT.USERNAME' | translate }}</label>
             <input
                 id="username"
                 class="form-control my-input-field-disabled"
@@ -23,7 +23,7 @@
             />
         </div>
         <div class="form-group">
-            <label for="balance">Balance:</label>
+            <label for="balance">{{ 'MY_ACCOUNT.BALANCE' | translate }}</label>
             <input
                 id="balance"
                 class="form-control my-input-field-disabled"
@@ -35,12 +35,12 @@
     </div>
     <div [@slideUp]="state" class="col-sm-8">
         <div *ngIf="accountDetails?.pendingTransfers.length > 0" class="container jumbotron upper">
-            <h4 class="my-transfers__table-label">My pending transfers</h4>
+            <h4 class="my-transfers__table-label">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS' | translate }}</h4>
             <table class="table-pending table table-bordered table-striped">
                 <thead>
                 <tr class="pending">
-                    <th class="my-transfers__column-to">To</th>
-                    <th class="my-transfers__column-amount">Amount</th>
+                    <th class="my-transfers__column-to">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS_TO' | translate }}</th>
+                    <th class="my-transfers__column-amount">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS_AMOUNT' | translate }}</th>
                     <th scope="col"></th>
                 </tr>
                 </thead>
@@ -50,8 +50,8 @@
                     <td class="pending-border">{{transfer.amount}}</td>
                     <td class="pending-border">
                 <span class="btn-group">
-                    <button (click)="resendConfirmationEmail(transfer.id)" class="btn btn-primary">resend code</button>
-                    <button (click)="deletePendingTransfer(transfer.id)" class="btn btn-danger">delete</button>
+                    <button (click)="resendConfirmationEmail(transfer.id)" class="btn btn-primary">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS_RESEND_CODE' | translate }}</button>
+                    <button (click)="deletePendingTransfer(transfer.id)" class="btn btn-danger">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS_DELETE' | translate }}</button>
                 </span>
                     </td>
                 </tr>
@@ -59,13 +59,13 @@
             </table>
         </div>
         <div [@slideUp]="state" *ngIf="accountDetails?.confirmedTransfers.length > 0" class="container jumbotron lower">
-            <h4 class="my-transfers__table-label">My transfers</h4>
+            <h4 class="my-transfers__table-label">{{ 'MY_ACCOUNT.MY_TRANSFERS' | translate }}</h4>
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr class="confirmed">
-                    <th class="my-transfers__column-to">To</th>
-                    <th class="my-transfers__column-amount">Amount</th>
-                    <th class="my-transfers__column-date">Date</th>
+                    <th class="my-transfers__column-to">{{ 'MY_ACCOUNT.MY_TRANSFERS_TO' | translate }}</th>
+                    <th class="my-transfers__column-amount">{{ 'MY_ACCOUNT.MY_TRANSFERS_AMOUNT' | translate }}</th>
+                    <th class="my-transfers__column-date">{{ 'MY_ACCOUNT.MY_TRANSFERS_DATE' | translate }}</th>
                 </tr>
                 </thead>
                 <tbody>

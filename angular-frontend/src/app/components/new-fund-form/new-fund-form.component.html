@@ -1,5 +1,5 @@
 <div [@formAppear]="state" class="container jumbotron formAppear">
-    <h2>New Fund</h2>
+    <h2>{{ 'FUND.NEW_FUND' | translate }}</h2>
     <div class="border-top mx-auto my-3"></div>
     <br>
     <form class="form-horizontal" [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -10,14 +10,14 @@
                    [ngClass]="{'text-danger': (form.get('title').invalid && form.get('title').touched)
                             || (form.get('title').errors?.serverError)}"
             >
-                Title:
+                {{ 'FUND.TITLE' | translate }}
             </label> <br>
             <div class="col-sm-9">
                 <input
                     id="title"
                     class="form-control"
                     type="text"
-                    placeholder="5-100 characters"
+                    [placeholder]="'FUND.TITLE_PLACEHOLDER' | translate"
                     minlength="5"
                     maxlength="100"
                     [ngClass]="{'is-invalid': (form.get('title').invalid && form.get('title').touched)
@@ -32,7 +32,7 @@
                         && !form.get('title').errors?.serverError"
                     class="text-danger"
                 >
-                    Please enter a title for your fundraiser between 5 and 100 character
+                    {{ 'FUND.TITLE_ERROR' | translate }}
                 </small>
                 <small *ngIf="form.get('title').errors?.serverError" class="text-danger">
                     {{form.get('title').errors.serverError}}
@@ -46,7 +46,7 @@
                    [ngClass]="{'text-danger': (form.get('shortDescription').invalid && form.get('shortDescription').touched)
                             || (form.get('shortDescription').errors?.serverError)}"
             >
-                Short description:
+                {{ 'FUND.SHORT_DESCRIPTION' | translate }}
             </label><br>
             <div class="col-sm-9">
                 <textarea
@@ -56,7 +56,7 @@
                     maxlength="200"
                     rows="3"
                     style="min-height: 40px"
-                    placeholder="Please give a short description, which will be displayed in the Discover page. Max 250 characters"
+                    [placeholder]="'FUND.SHORT_DESCRIPTION_PLACEHOLDER' | translate"
                     [ngClass]="{'is-invalid': (form.get('shortDescription').invalid && form.get('shortDescription').touched)
                             || (form.get('shortDescription').errors?.serverError)}"
                     name="shortDescription"
@@ -67,7 +67,7 @@
                         && !form.get('shortDescription').errors?.serverError"
                     class="text-danger"
                 >
-                    Please give a short description for your fund (max 250 characters)
+                    {{ 'FUND.SHORT_DESCRIPTION_ERROR' | translate }}
                 </small>
                 <small *ngIf="form.get('shortDescription').errors?.serverError" class="text-danger">
                     {{form.get('shortDescription').errors.serverError}}
@@ -79,7 +79,7 @@
             <label class="col-sm-3 col-form-label"
                    for="longDescription"
             >
-                Long description (optional):
+                {{ 'FUND.LONG_DESCRIPTION' | translate }}
             </label><br>
             <div class="col-sm-9">
             <textarea
@@ -88,7 +88,7 @@
                 rows="8"
                 cols="60"
                 style="min-height: 40px"
-                placeholder="The long, detailed description of your fund idea"
+                [placeholder]="'FUND.LONG_DESCRIPTION_PLACEHOLDER' | translate"
                 name="longDescription"
                 formControlName="longDescription"></textarea>
             </div>
@@ -98,7 +98,7 @@
             <label class="col-sm-3 col-form-label"
                    for="imageUrl"
             >
-                Image URL:
+                {{ 'FUND.IMAGE_URL' | translate }}
             </label>
             <div class="col-sm-9">
                 <input
@@ -108,7 +108,7 @@
                     type="text"
                     name="imageUrl"
                     formControlName="imageUrl"
-                    placeholder="max 1000 characters"
+                    [placeholder]="'FUND.IMAGE_URL_PLACEHOLDER' | translate"
                 />
                 <small *ngIf="form.get('imageUrl').errors?.serverError" class="text-danger">
                     {{form.get('imageUrl').errors.serverError}}
@@ -121,7 +121,7 @@
                    for="category"
                    [ngClass]="{'text-danger': (form.get('category').invalid && form.get('category').touched) || (form.get('category').errors?.serverError)}"
             >
-                Category:
+                {{ 'FUND.CATEGORY' | translate }}
             </label>
             <div class="col-sm-9">
                 <select
@@ -131,7 +131,7 @@
                     name="category"
                     formControlName="category"
                 >
-                    <option value=null selected disabled>-- Choose a category --</option>
+                    <option value=null selected disabled>{{ 'FUND.CHOOSE_A_CATEGORY' | translate }}</option>
                     <option *ngFor="let category of categories"
                             value="{{category.name}}">{{category.displayName}}</option>
                 </select>
@@ -139,7 +139,7 @@
                     *ngIf="form.get('category').invalid && form.get('category').touched && !form.get('category').errors?.serverError"
                     class="text-danger"
                 >
-                    Please choose a category for your fundraiser!
+                    {{ 'FUND.CATEGORY_ERROR' | translate }}
                 </small>
                 <small *ngIf="form.get('category').errors?.serverError" class="text-danger">
                     {{form.get('category').errors['serverError']}}
@@ -152,7 +152,7 @@
                    for="targetAmount"
                    [ngClass]="{'text-danger': (form.get('targetAmount').invalid && form.get('targetAmount').touched) || (form.get('targetAmount').errors?.serverError)}"
             >
-                Target amount:
+                {{ 'FUND.TARGET_AMOUNT' | translate }}
             </label>
             <div class="col-sm-9">
                 <input
@@ -168,7 +168,7 @@
                     *ngIf="form.get('targetAmount').invalid && form.get('targetAmount').touched && !form.get('targetAmount').errors?.serverError"
                     class="text-danger"
                 >
-                    Please give a target amount for your fundraiser!
+                    {{ 'FUND.TARGET_AMOUNT_ERROR' | translate }}
                 </small>
                 <small *ngIf="form.get('targetAmount').errors?.serverError" class="text-danger">
                     {{form.get('targetAmount').errors['serverError']}}
@@ -180,7 +180,7 @@
             <label class="col-sm-3 col-form-label"
                    for="endDate"
             >
-                End date(optional):
+                {{ 'FUND.END_DATE' | translate }}
             </label>
             <div class="col-sm-9">
                 <input
@@ -197,6 +197,6 @@
             </div>
         </div>
         <br/>
-        <button type="submit" class="btn btn-primary my-buttons">Submit</button>
+        <button type="submit" class="btn btn-primary my-buttons">{{ 'FUND.SUBMIT' | translate }}</button>
     </form>
 </div>

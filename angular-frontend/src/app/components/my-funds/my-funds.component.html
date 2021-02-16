@@ -1,20 +1,20 @@
 <div class="col-12 text-center mt-5">
-    <h1 class="text-dark pt-4">My funds</h1>
+    <h1 class="text-dark pt-4">{{ 'NAVBAR.MY_FUNDS' | translate }}</h1>
     <div class="border-top mx-auto my-3"></div>
 </div>
 <div class="container">
     <div class="row my-5">
         <div *ngFor="let fund of myFundList" class="col-md-4 my-4">
-            <img [src]="fund.imageUrl" alt="fund image" class="w-100">
+            <img [src]="fund.imageUrl" [alt]="'FUNDS.IMAGE' | translate" class="w-100">
             <h4 class="my-4">{{fund.title}}</h4>
             <p class="description">{{fund.shortDescription}}</p>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">Category: {{fund.category}}</li>
-                <li class="list-group-item">Raised {{fund.raisedAmount}} HUF with the target of {{fund.targetAmount}} HUF</li>
-                <li class="list-group-item">End date: {{fund.endDate}}</li>
-                <li class="list-group-item">Creator: {{fund.creatorName}}</li>
+                <li class="list-group-item">{{ 'FUNDS.CATEGORY' | translate }}{{fund.category}}</li>
+                <li class="list-group-item">{{ 'FUNDS.AMOUNT' | translate: { amount: fund.raisedAmount, amountGoal: fund.targetAmount } }}</li>
+                <li class="list-group-item">{{ 'FUNDS.END_DATE' | translate }}{{fund.endDate}}</li>
+                <li class="list-group-item">{{ 'FUNDS.CREATOR' | translate }}{{fund.creatorName}}</li>
             </ul>
-            <a class="btn btn-outline-warning btn-md" (click)="goToModify(fund.id)">Modify</a>
+            <a class="btn btn-outline-warning btn-md" (click)="goToModify(fund.id)">{{ 'FUNDS.MODIFY' | translate }}</a>
 <!--            <a [routerLink]="['/modify',fund.id]" class="btn btn-outline-warning btn-md" >Modify</a>-->
         </div>
     </div>
