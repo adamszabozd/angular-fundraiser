@@ -38,9 +38,4 @@ export class FundraiserListComponent implements OnInit {
         )
 
     }
-
-    categoryFilter(category: string){
-        this. fundList = this.fundList.filter(fund => fund.category = category);
-    }
-
 }

@@ -19,8 +19,7 @@ export class NavbarComponent implements OnInit {
     loggedIn = false;
     categories: CategoryOptionModel[];
 
-    constructor(private accountService: AccountService, private router: Router, private fundService: FundsService) {
-    constructor(private accountService: AccountService, private router: Router, public translate: TranslateService) {
+    constructor(private accountService: AccountService, private router: Router, private fundService: FundsService, private translate: TranslateService) {
         this.accountService.loggedInStatusUpdate.subscribe(
             status => this.loggedIn = status
         );
