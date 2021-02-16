@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {FundsService} from '../../services/funds.service';
 import {FundListItemModel} from '../../models/FundListItem.model';
 import {slideInFromDown} from '../../animations';
@@ -18,13 +18,29 @@ export class FundraiserListComponent implements OnInit {
 
     fundList: Array<FundListItemModel>;
 
-    constructor(private router: Router, private fundsService: FundsService) {
+    constructor(private router: Router, private fundsService: FundsService, private route: ActivatedRoute) {
     }
 
     ngOnInit() {
-        this.fundsService.fetchAllFunds().subscribe(
-            (data) => this.fundList = data,
-            (error) => console.log(error),
-        );
+        this.route.paramMap.subscribe(
+            (paraMap)=> {
+                const category = paraMap.get('category');
+                if(category){
+                    this.fundsService.fetchFundsByCategory(category).subscribe(
+                        (data)=> this.fundList = data,
+                        (error)=> console.log(error)
+                    );
+                } else this.fundsService.fetchAllFunds().subscribe(
+                    (data) => this.fundList = data,
+                    (error) => console.log(error),
+                );
+            }
+        )
+
     }
+
+    categoryFilter(category: string){
+        this. fundList = this.fundList.filter(fund => fund.category = category);
+    }
+
 }

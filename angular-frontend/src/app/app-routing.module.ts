@@ -15,6 +15,7 @@ import {MyFundsComponent} from "./components/my-funds/my-funds.component";
 const routes: Routes = [
     {path: '', pathMatch: 'full', redirectTo: 'fund-list'},
     {path: 'fund-list', component: FundraiserListComponent},
+    {path: 'fund-list/:category', component: FundraiserListComponent},
     {path: 'registration', component: RegistrationComponent},
     {path: 'my-account', component: AccountPageComponent},
     {path: 'transfer-funds', component: TransferFundsComponent},
