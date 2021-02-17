@@ -20,6 +20,7 @@ const routes: Routes = [
     {path: 'registration', component: RegistrationComponent},
     {path: 'my-account', component: AccountPageComponent},
     {path: 'transfer-funds', component: TransferFundsComponent},
+    {path: 'transfer-funds/:id', component: TransferFundsComponent},
     {path: 'transfer-confirmation', component: TransferConfirmationComponent},
     {path: 'transfer-confirmation/:code', component: TransferConfirmationComponent},
     {path: 'login', component: LoginComponent},

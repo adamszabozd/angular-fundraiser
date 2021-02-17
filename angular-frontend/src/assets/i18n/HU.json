@@ -106,5 +106,7 @@
         "CONFIRMATION_CODE": "Megerősítő kód:",
         "EMPTY_FIELD_ERROR": "Írja be a megerősítő kódot",
         "SEND": "Küldés"
+        "EXPIRATION_DATE": "Gyűjtés vége: ",
+        "FUND_THIS_PROJECT": "Támogatom ezt a gyűjtést"
     }
 }

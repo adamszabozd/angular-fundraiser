@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {TransferService} from '../../services/transfer.service';
 
 import {validationHandler} from '../../utils/validationHandler';
@@ -20,6 +20,7 @@ import {minAmount} from "../../validator";
 export class TransferFundsComponent implements OnInit {
 
     state = 'invisible';
+    showOnlyOneOption: boolean = false;
     transferFormInitDataModel: TransferFormInitDataModel | undefined;
 
     form = this.formBuilder.group({
@@ -28,23 +29,52 @@ export class TransferFundsComponent implements OnInit {
     }, {validator: minAmount('amount'),
     });
 
-    constructor(private formBuilder: FormBuilder, private transferService: TransferService, private router: Router, private accountService: AccountService) {
+    constructor(private formBuilder: FormBuilder,
+                private transferService: TransferService,
+                private router: Router,
+                private accountService: AccountService,
+                private route: ActivatedRoute) {
     }
 
     ngOnInit() {
         if (this.state == 'invisible') {
             setTimeout(() => this.state = 'visible');
         }
-        this.transferService.getNewTransferData().subscribe(
-            (transferData) => {
-                this.transferFormInitDataModel = transferData;
-            },
-            error => {
-                this.accountService.loggedInStatusUpdate.next(false);
-                this.router.navigate(['/login']);
-                console.log(error);
-            },
-        );
+
+        this.route.paramMap.subscribe(
+            (paraMap)=> {
+                const id = paraMap.get('id');
+                if(id){
+                    this.transferService.getConcreteTransferData(id).subscribe(
+                        (data)=> {
+                            this.showOnlyOneOption = true;
+                            this.transferFormInitDataModel = data;
+                            this.form.patchValue({
+                                targetFundId: data.targetFundOptions[0].id
+                            })
+                        },
+                        (error)=> {
+                            this.accountService.loggedInStatusUpdate.next(false);
+                            this.router.navigate(['/login']);
+                            console.log(error)
+                        }
+                    );
+                } else {
+                    this.transferService.getNewTransferData().subscribe(
+                        (transferData) => {
+                            this.transferFormInitDataModel = transferData;
+                        },
+                        error => {
+                            this.accountService.loggedInStatusUpdate.next(false);
+                            this.router.navigate(['/login']);
+                            console.log(error);
+                        },
+                    );
+                }
+            }
+        )
+
+
     }
 
     submitForm() {

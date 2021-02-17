@@ -106,5 +106,8 @@
         "CONFIRMATION_CODE": "Confirmation code:",
         "EMPTY_FIELD_ERROR": "Please enter the confirmation code",
         "SEND": "Send"
+        "EXPIRATION_DATE": "Expiration date: ",
+        "FUND_THIS_PROJECT": "Fund this project"
+
     }
 }

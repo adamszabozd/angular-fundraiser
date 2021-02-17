@@ -16,4 +16,5 @@ public interface FundRepository extends JpaRepository<Fund, Long> {
     @Query("SELECT f FROM Fund f WHERE f.fundCategory = ?1")
     List<Fund> findAllByCategory(FundCategory category);
 
+
 }

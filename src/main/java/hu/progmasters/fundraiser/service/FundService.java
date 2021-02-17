@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -92,5 +93,15 @@ public class FundService {
             }
         }
         return false;
+    }
+
+    public List<Fund> findById(Long id) {
+        Optional<Fund> fundOptional= fundRepository.findById(id);
+        if(fundOptional.isPresent()){
+            Fund fund = fundOptional.get();
+            List<Fund> fundList = new ArrayList<>();
+            fundList.add(fund);
+            return fundList;
+        } else throw new IllegalArgumentException();
     }
 }

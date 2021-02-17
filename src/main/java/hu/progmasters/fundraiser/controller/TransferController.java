@@ -36,6 +36,7 @@ import javax.security.auth.login.AccountNotFoundException;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/transfers")
@@ -86,7 +87,15 @@ public class TransferController {
         return new ResponseEntity<>(initData, HttpStatus.OK);
     }
 
-    @PostMapping
+    @GetMapping("/{id}")
+    public ResponseEntity<TransferFormInitData> concreteTransferData(@PathVariable Long id, Principal principal) {
+        Account myAccount = accountService.findByEmail(principal.getName());
+        List<Fund> targetFunds = fundService.findById(id);
+        TransferFormInitData initData = new TransferFormInitData(targetFunds, myAccount.getBalance());
+        return new ResponseEntity<>(initData, HttpStatus.OK);
+    }
+
+        @PostMapping
     public ResponseEntity<Void> savePendingTransfer(@Valid @RequestBody TransferCreationCommand transferCreationCommand, Principal principal) {
         Transfer pendingTransfer = transferService.savePendingTransfer(transferCreationCommand, principal.getName());
         String confirmationCode = pendingTransfer.getUnencryptedConfirmationCode();
