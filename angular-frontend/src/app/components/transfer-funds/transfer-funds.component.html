@@ -41,7 +41,7 @@
             </label>
             <input
                 id="amount"
-                min="1"
+                min="0"
                 type="number"
                 class="form-control"
                 [ngClass]="{'is-invalid': (form.get('amount').invalid && form.get('amount').touched) || (form.get('amount').errors?.serverError)}"
