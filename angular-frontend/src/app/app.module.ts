@@ -22,6 +22,7 @@ import { MyFundsComponent } from './components/my-funds/my-funds.component';
 import { FundraiserModifyComponent } from './components/fundraiser-modify/fundraiser-modify.component';
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {NgxPaginationModule} from "ngx-pagination";
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -49,6 +50,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         AppRoutingModule,
         ReactiveFormsModule,
         HttpClientModule,
+        NgxPaginationModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,

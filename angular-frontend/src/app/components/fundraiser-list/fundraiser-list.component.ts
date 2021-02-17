@@ -17,6 +17,8 @@ export class FundraiserListComponent implements OnInit {
     state = 'up';
 
     fundList: Array<FundListItemModel>;
+    numberOfFunds: number;
+    page: number = 1;
 
     constructor(private router: Router, private fundsService: FundsService, private route: ActivatedRoute) {
     }
@@ -27,11 +29,17 @@ export class FundraiserListComponent implements OnInit {
                 const category = paraMap.get('category');
                 if(category){
                     this.fundsService.fetchFundsByCategory(category).subscribe(
-                        (data)=> this.fundList = data,
+                        (data)=> {
+                            this.fundList = data;
+                            this.numberOfFunds = data.length;
+                        },
                         (error)=> console.log(error)
                     );
                 } else this.fundsService.fetchAllFunds().subscribe(
-                    (data) => this.fundList = data,
+                    (data) => {
+                        this.fundList = data
+                        this.numberOfFunds = data.length;
+                    },
                     (error) => console.log(error),
                 );
             }
