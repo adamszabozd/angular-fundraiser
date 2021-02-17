@@ -34,7 +34,7 @@ public class Transfer {
     @JoinColumn(name = "transfer_to", nullable = false)
     private Fund target;
 
-    @Min(1)
+    @Min(0)
     @Column(name = "amount", nullable = false)
     private Double amount;
 

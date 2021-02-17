@@ -1,5 +1,5 @@
 <div [@formAppear]="state" class="container jumbotron formAppear">
-    <h2>Login</h2>
+    <h2>{{ 'NAVBAR.LOGIN' | translate }}</h2>
     <div class="border-top mx-auto my-3"></div>
     <br>
     <form [formGroup]="form" (ngSubmit)="login()">
@@ -10,7 +10,7 @@
                 [ngClass]="{'text-danger': (form.get('email').invalid && form.get('email').touched)
                             || (form.get('email').errors?.serverError)}"
             >
-                Email:
+                {{ 'LOGIN.EMAIL' | translate }}
             </label>
             <input
                 id="email"
@@ -27,7 +27,7 @@
                         && !form.get('email').errors?.serverError"
                 class="text-danger"
             >
-                Email field cannot be empty
+                {{ 'LOGIN.EMAIL_ERROR' | translate }}
             </small>
             <small *ngIf="form.get('email').errors?.serverError" class="text-danger">
                 {{form.get('email').errors.serverError}}
@@ -40,7 +40,7 @@
                 [ngClass]="{'text-danger': (form.get('password').invalid && form.get('password').touched)
                             || (form.get('password').errors?.serverError)}"
             >
-                Password:
+                {{ 'LOGIN.PASSWORD' | translate }}
             </label>
             <input
                 id="password"
@@ -55,19 +55,18 @@
                 *ngIf="!form.get('password').valid && form.get('password').touched && !form.get('password').errors?.serverError"
                 class="text-danger"
             >
-                Password field cannot be empty
+                {{ 'LOGIN.PASSWORD_ERROR' | translate }}
             </small>
             <small *ngIf="form.get('password').errors?.serverError" class="text-danger">
                 {{form.get('password').errors.serverError}}
             </small>
         </div>
         <br/>
-        <button type="submit" class="btn btn-primary my-buttons">Login</button>
+        <button type="submit" class="btn btn-primary my-buttons">{{ 'LOGIN.LOGIN' | translate }}</button>
         <div class="under border-top mx-auto my-5"></div>
         <div align="center">
-            <h6>Aren't you registered yet?</h6>
-            <a class="nav-link" routerLink="/registration">Sign up</a>
+            <h6>{{ 'LOGIN.NOT_REGISTERED' | translate }}</h6>
+            <a class="nav-link" routerLink="/registration">{{ 'LOGIN.SIGN_UP' | translate }}</a>
         </div>
     </form>
 </div>
-

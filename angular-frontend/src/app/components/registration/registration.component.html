@@ -1,5 +1,5 @@
 <div [@formAppear]="state" class="container jumbotron formAppear">
-    <h2>Registration</h2>
+    <h2>{{ 'NAVBAR.REGISTRATION' | translate }}</h2>
     <div class="border-top mx-auto my-3"></div>
     <br>
     <form [formGroup]="form" (ngSubmit)="register()">
@@ -10,7 +10,7 @@
                 [ngClass]="{'text-danger': (form.get('email').invalid && form.get('email').touched)
                             || (form.get('email').errors?.serverError)}"
             >
-                Email:
+                {{ 'REGISTRATION.EMAIL' | translate }}
             </label>
             <input
                 id="email"
@@ -19,7 +19,7 @@
                             || (form.get('email').errors?.serverError)}"
                 name="email"
                 pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-                placeholder="example@mail.tld"
+                [placeholder]="'REGISTRATION.EMAIL_PLACEHOLDER' | translate"
                 formControlName="email"
             />
 
@@ -29,7 +29,7 @@
                         && !form.get('email').errors?.serverError"
                 class="text-danger"
             >
-                Please enter a valid email address
+                {{ 'REGISTRATION.EMAIL_ERROR' | translate }}
             </small>
             <small *ngIf="form.get('email').errors?.serverError" class="text-danger">
                 {{form.get('email').errors.serverError}}
@@ -42,7 +42,7 @@
                 [ngClass]="{'text-danger': (form.get('username').invalid && form.get('username').touched)
                             || (form.get('username').errors?.serverError)}"
             >
-                Nickname:
+                {{ 'REGISTRATION.USERNAME' | translate }}
             </label>
             <input
                 id="username"
@@ -60,7 +60,7 @@
                         && !form.get('username').errors?.serverError"
                 class="text-danger"
             >
-                Please enter a valid username (between 4 and 20 characters)
+                {{ 'REGISTRATION.USERNAME_ERROR' | translate }}
             </small>
             <small *ngIf="form.get('username').errors?.serverError" class="text-danger">
                 {{form.get('username').errors.serverError}}
@@ -73,7 +73,7 @@
                 [ngClass]="{'text-danger': (form.get('password').invalid && form.get('password').touched)
                             || (form.get('password').errors?.serverError)}"
             >
-                Password:
+                {{ 'REGISTRATION.PASSWORD' | translate }}
             </label>
             <input
                 id="password"
@@ -90,7 +90,7 @@
                 *ngIf="!form.get('password').valid && form.get('password').touched && !form.get('password').errors?.serverError"
                 class="text-danger"
             >
-                Please give a valid password!
+                {{ 'REGISTRATION.PASSWORD_ERROR' | translate }}
             </small>
             <small *ngIf="form.get('password').errors?.serverError" class="text-danger">
                 {{form.get('password').errors.serverError}}
@@ -98,7 +98,7 @@
         </div>
         <div class="form-group">
             <label for="confirm">
-                Confirm password:
+                {{ 'REGISTRATION.CONFIRM_PASSWORD' | translate }}
             </label>
             <input id="confirm"
                 type="password"
@@ -109,11 +109,11 @@
                 formControlName="confirm"
                    [ngClass]="{ 'is-invalid': submitted && f.confirm.errors }"/>
             <div *ngIf="submitted && f.confirm.errors" class="invalid-feedback">
-                <div *ngIf="f.confirm.errors.required">Confirm Password is required</div>
-                <div *ngIf="f.confirm.errors.mustMatch">Passwords must match</div>
+                <div *ngIf="f.confirm.errors.required">{{ 'REGISTRATION.CONFIRM_PASSWORD_REQUIRED_ERROR' | translate }}</div>
+                <div *ngIf="f.confirm.errors.mustMatch">{{ 'REGISTRATION.PASSWORDS_MUST_MATCH_ERROR' | translate }}</div>
             </div>
         </div>
         <br/>
-        <button type="submit" class="btn btn-primary my-buttons">Register</button>
+        <button type="submit" class="btn btn-primary my-buttons">{{ 'REGISTRATION.REGISTER' | translate }}</button>
     </form>
 </div>

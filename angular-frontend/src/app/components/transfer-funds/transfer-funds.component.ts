@@ -7,15 +7,16 @@ import {validationHandler} from '../../utils/validationHandler';
 import {TransferFormInitDataModel} from '../../models/transferFormInitData.model';
 import {AccountService} from '../../services/account.service';
 import {formAppearAnimation} from '../../animations';
+import {minAmount} from "../../validator";
 
 @Component({
-               selector   : 'app-transfer-funds',
-               templateUrl: './transfer-funds.component.html',
-               styleUrls  : ['./transfer-funds.component.css'],
-               animations : [
-                   formAppearAnimation,
-               ],
-           })
+    selector: 'app-transfer-funds',
+    templateUrl: './transfer-funds.component.html',
+    styleUrls: ['./transfer-funds.component.css'],
+    animations: [
+        formAppearAnimation,
+    ],
+})
 export class TransferFundsComponent implements OnInit {
 
     state = 'invisible';
@@ -23,9 +24,10 @@ export class TransferFundsComponent implements OnInit {
     transferFormInitDataModel: TransferFormInitDataModel | undefined;
 
     form = this.formBuilder.group({
-                                      targetFundId: [null, Validators.required],
-                                      amount      : [null, [Validators.required]],
-                                  });
+        targetFundId: [null, Validators.required],
+        amount: [null, [Validators.required]],
+    }, {validator: minAmount('amount'),
+    });
 
     constructor(private formBuilder: FormBuilder,
                 private transferService: TransferService,
