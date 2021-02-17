@@ -14,7 +14,6 @@ export class FundraiserModifyComponent implements OnInit {
 
     state = "invisible";
     id: number;
-    fund: FundListItemModel
 
     form = this.FormBuilder.group({
         title: ['', Validators.required],
