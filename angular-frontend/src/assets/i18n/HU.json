@@ -8,7 +8,8 @@
         "CREATE_FUND": "Új gyűjtés",
         "LOGOUT": "Kilépés",
         "REGISTRATION": "Regisztráció",
-        "LOGIN": "Bejelentkezés"
+        "LOGIN": "Bejelentkezés",
+        "ALL": "Mind"
     },
     "MY_ACCOUNT": {
         "USERNAME": "Felhasználónév:",

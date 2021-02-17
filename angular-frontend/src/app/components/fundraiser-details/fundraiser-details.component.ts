@@ -17,6 +17,7 @@ export class FundraiserDetailsComponent implements OnInit {
     }
 
     ngOnInit(): void {
+
         this.activatedRoute.paramMap.subscribe(
             (paraMap) => {
                 this.id = Number.parseInt(paraMap.get("id"));

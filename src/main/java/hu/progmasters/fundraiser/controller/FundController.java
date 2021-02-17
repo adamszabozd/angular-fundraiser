@@ -81,6 +81,11 @@ public class FundController {
         return new ResponseEntity<>(fundService.fetchFundDetails(id), HttpStatus.OK);
     }
 
+    @GetMapping("/categories/{category}")
+    public ResponseEntity<List<FundListItem>> getFundsByCategory(@PathVariable String category) {
+        return new ResponseEntity<>(fundService.fetchFundsByCategory(category), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<Void> saveNewFund(@RequestBody @Valid FundFormCommand fundFormCommand, Principal principal) {
         String emailAddress = principal.getName();

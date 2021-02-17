@@ -2,6 +2,7 @@ package hu.progmasters.fundraiser.service;
 
 import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.domain.Fund;
+import hu.progmasters.fundraiser.domain.FundCategory;
 import hu.progmasters.fundraiser.dto.fund.FundFormCommand;
 import hu.progmasters.fundraiser.dto.fund.FundListItem;
 import hu.progmasters.fundraiser.dto.fund.ModifyFundFormCommand;
@@ -44,7 +45,7 @@ public class FundService {
         fundRepository.save(fund);
     }
 
-    public FundListItem fetchFundDetails(Long id) throws IllegalArgumentException{
+    public FundListItem fetchFundDetails(Long id) {
         Optional<Fund> fund = fundRepository.findById(id);
         if(fund.isPresent()){
             return new FundListItem(fund.get());
@@ -73,5 +74,23 @@ public class FundService {
             throw new IllegalArgumentException("Fund not found by id. Modify unsuccessful");
         }
 
+    }
+
+    public List<FundListItem> fetchFundsByCategory(String categoryName) {
+        if (contains(categoryName)) {
+            FundCategory category = FundCategory.valueOf(categoryName);
+            List<Fund> funds = fundRepository.findAllByCategory(category);
+            return funds.stream().map(FundListItem::new).collect(Collectors.toList());
+        } else throw new IllegalArgumentException();
+    }
+
+    private boolean contains(String categoryName) {
+
+        for (FundCategory c : FundCategory.values()) {
+            if (c.name().equals(categoryName)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
