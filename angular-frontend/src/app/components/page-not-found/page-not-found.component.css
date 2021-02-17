@@ -1,0 +1,12 @@
+a{
+    box-shadow: none!important;
+}
+.border-top {
+    border-top: 3px solid #fabe55 !important;
+    width: 40% !important;
+}
+
+.btn-teszt{
+    background-color: deepskyblue;
+    color: white;
+}
