@@ -12,9 +12,11 @@ import {NewFundFormComponent} from "./components/new-fund-form/new-fund-form.com
 import {FundraiserDetailsComponent} from "./components/fundraiser-details/fundraiser-details.component";
 import {MyFundsComponent} from "./components/my-funds/my-funds.component";
 import {FundraiserModifyComponent} from "./components/fundraiser-modify/fundraiser-modify.component";
+import {HomePageComponent} from "./components/home-page/home-page.component";
 
 const routes: Routes = [
-    {path: '', pathMatch: 'full', redirectTo: 'fund-list'},
+    // {path: '', pathMatch: 'full', redirectTo: 'fund-list'},
+    {path: '', component: HomePageComponent},
     {path: 'fund-list', component: FundraiserListComponent},
     {path: 'fund-list/:category', component: FundraiserListComponent},
     {path: 'registration', component: RegistrationComponent},

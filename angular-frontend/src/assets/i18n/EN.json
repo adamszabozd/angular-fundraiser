@@ -108,5 +108,14 @@
         "EMPTY_FIELD_ERROR": "Please enter the confirmation code",
         "SEND": "Send",
         "EXPIRATION_DATE": "Expiration date: "
+    },
+    "HOME": {
+        "H1": "Welcome to KickStarter!",
+        "H4": "KickStarter is the #1 and most trusted leader in online fundraising.\n    We built our reputation by serving and supporting our community every step of the way.",
+        "H5": "We help you easily share your story far and wide over email, text, and social media to rally support for your cause.\n In addition, we have a dedicated team looking for great stories to amplify and share with the media and our community.",
+        "P1": "1. Start your donation.",
+        "P2": "2. Share with friends.",
+        "P3": "3. Manage donations.",
+        "FOOTER": "This is a demo project of 4 enthusiastic junior software developers. We hope you enjoy our presentation.\n If you require any further information, don’t hesitate to contact PROGMasters!"
     }
 }

@@ -22,6 +22,7 @@ import { MyFundsComponent } from './components/my-funds/my-funds.component';
 import { FundraiserModifyComponent } from './components/fundraiser-modify/fundraiser-modify.component';
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import { HomePageComponent } from './components/home-page/home-page.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -41,7 +42,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         NewFundFormComponent,
         FundraiserDetailsComponent,
         MyFundsComponent,
-        FundraiserModifyComponent
+        FundraiserModifyComponent,
+        HomePageComponent
     ],
     imports: [
         BrowserModule,
