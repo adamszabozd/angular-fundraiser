@@ -33,7 +33,7 @@ public class ExchangeRate {
     }
 
     public ExchangeRate(CurrentExchangeRateCommand exchangeRateCommand) {
-        this.currentTime = exchangeRateCommand.getDate().plusDays(1);
+        this.currentTime = exchangeRateCommand.getDate();
         this.baseCurrency = exchangeRateCommand.getBase();
         this.USD = exchangeRateCommand.getRates().get("USD");
         this.HUF = exchangeRateCommand.getRates().get("HUF");
