@@ -71,7 +71,9 @@
         "CATEGORY": "Category: ",
         "AMOUNT": "raised of {{ targetAmount }} HUF goal",
         "NUMBER_OF_BACKERS": "Number of backers: ",
-        "EXPIRATION_DATE": "Expiration date: "
+        "EXPIRATION_DATE": "Expiration date: ",
+        "FUND_THIS_PROJECT": "Fund this project"
+
     }
 
 }

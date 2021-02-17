@@ -11,16 +11,18 @@
                 {{ 'TRANSFER.TO' | translate }}
             </label>
             <select
+
                 id="to"
                 class="form-control"
                 [ngClass]="{'is-invalid': (form.get('targetFundId').invalid && form.get('targetFundId').touched) || (form.get('targetFundId').errors?.serverError)}"
                 name="targetFundId"
                 formControlName="targetFundId"
             >
-                <option value=null selected disabled>{{ 'TRANSFER.CHOOSE_A_GOAL' | translate }}</option>
+                <option  *ngIf="!showOnlyOneOption" value=null selected disabled>{{ 'TRANSFER.CHOOSE_A_GOAL' | translate }}</option>
                 <option *ngFor="let fund of transferFormInitDataModel?.targetFundOptions"
                         value="{{fund.id}}">{{fund.title}}</option>
             </select>
+
             <small
                 *ngIf="form.get('targetFundId').invalid && form.get('targetFundId').touched && !form.get('targetFundId').errors?.serverError"
                 class="text-danger"

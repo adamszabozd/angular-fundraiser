@@ -11,7 +11,7 @@ import {FundListItemModel} from "../../models/FundListItem.model";
 export class FundraiserDetailsComponent implements OnInit {
 
     id: number;
-    fund: FundListItemModel;
+    fund: FundListItemModel | undefined;
 
     constructor(private fundService: FundsService, private activatedRoute: ActivatedRoute, private router: Router) {
     }

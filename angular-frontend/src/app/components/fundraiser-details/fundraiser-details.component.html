@@ -14,7 +14,7 @@
             <h6>{{ 'DETAILS.NUMBER_OF_BACKERS' | translate }}</h6>
             <h6>{{ 'DETAILS.EXPIRATION_DATE' | translate }}{{fund.endDate}}</h6>
         </div>
-<!--        Ez a gomb még nem csinál semmit-->
-<!--        <button type="button" class="btn btn-success btn-lg">Fund this project</button>-->
+
+        <button type="button" class="btn btn-success btn-lg" [routerLink]="['/transfer-funds', id]">{{'DETAILS.FUND_THIS_PROJECT' | translate}}</button>
     </div>
 </div>
