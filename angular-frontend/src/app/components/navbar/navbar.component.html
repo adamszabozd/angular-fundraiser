@@ -9,7 +9,6 @@
         <div id="myNavbar" class="navbar-collapse collapse">
             <div class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle active discover" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ 'NAVBAR.DISCOVER' | translate }}</a>
-<!--                <a class="nav-link active discover" routerLink="/fund-list">Discover</a>-->
                 <div class="dropdown-menu">
                     <a class="dropdown-item nav-link" routerLink="/fund-list">{{ 'NAVBAR.ALL' | translate }}</a>
                     <a *ngFor="let category of categories" class="dropdown-item nav-link" [routerLink]="['/fund-list', category.name]">{{category.displayName}}</a>

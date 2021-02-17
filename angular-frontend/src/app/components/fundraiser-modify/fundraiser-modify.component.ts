@@ -4,6 +4,7 @@ import {FundsService} from "../../services/funds.service";
 import {FundListItemModel} from "../../models/FundListItem.model";
 import {FormBuilder, Validators} from "@angular/forms";
 import {validationHandler} from "../../utils/validationHandler";
+import {FundFormCommandModel} from "../../models/fundFormCommand.model";
 
 @Component({
     selector: 'app-fundraiser-modify',
@@ -32,7 +33,7 @@ export class FundraiserModifyComponent implements OnInit {
         this.activatedRoute.paramMap.subscribe(
             (paraMap) => {
                 this.id = Number.parseInt(paraMap.get("id"));
-                this.fundService.fetchSingleFund(this.id).subscribe(
+                this.fundService.fetchFundForModify(this.id).subscribe(
                     (data) => this.fillForm(data),
                     (error) => {
                         console.log(error);
@@ -43,14 +44,14 @@ export class FundraiserModifyComponent implements OnInit {
         )
     }
 
-    fillForm(fundListItemModel: FundListItemModel){
-        this.form.get("title").setValue(fundListItemModel.title);
-        this.form.get("shortDescription").setValue(fundListItemModel.shortDescription);
-        this.form.get("longDescription").setValue(fundListItemModel.longDescription);
-        this.form.get("imageUrl").setValue(fundListItemModel.imageUrl);
-        this.form.get("category").setValue(fundListItemModel.category);
-        this.form.get("targetAmount").setValue(fundListItemModel.targetAmount);
-        this.form.get("endDate").setValue(fundListItemModel.endDate)
+    fillForm(data: FundFormCommandModel){
+        this.form.get("title").setValue(data.title);
+        this.form.get("shortDescription").setValue(data.shortDescription);
+        this.form.get("longDescription").setValue(data.longDescription);
+        this.form.get("imageUrl").setValue(data.imageUrl);
+        this.form.get("category").setValue(data.category);
+        this.form.get("targetAmount").setValue(data.targetAmount);
+        this.form.get("endDate").setValue(data.endDate)
     }
 
     onSubmit() {

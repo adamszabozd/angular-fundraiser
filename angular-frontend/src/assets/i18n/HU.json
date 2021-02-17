@@ -71,7 +71,8 @@
         "CATEGORY": "Kategória: ",
         "AMOUNT": "gyűlt össze a {{ targetAmount }} HUF célból",
         "NUMBER_OF_BACKERS": "Támogatók száma: ",
-        "EXPIRATION_DATE": "Gyűjtés vége: "
+        "EXPIRATION_DATE": "Gyűjtés vége: ",
+        "FUND_THIS_PROJECT": "Támogatom ezt a gyűjtést"
     },
     "REGISTRATION": {
         "EMAIL": "E-mail cím:",
@@ -105,8 +106,7 @@
         "LINK_ERROR": "Érvénytelen megerősítő kód",
         "CONFIRMATION_CODE": "Megerősítő kód:",
         "EMPTY_FIELD_ERROR": "Írja be a megerősítő kódot",
-        "SEND": "Küldés"
-        "EXPIRATION_DATE": "Gyűjtés vége: ",
-        "FUND_THIS_PROJECT": "Támogatom ezt a gyűjtést"
+        "SEND": "Küldés",
+        "EXPIRATION_DATE": "Gyűjtés vége: "
     }
 }

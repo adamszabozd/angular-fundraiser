@@ -71,7 +71,8 @@
         "CATEGORY": "Category: ",
         "AMOUNT": "raised of {{ targetAmount }} HUF goal",
         "NUMBER_OF_BACKERS": "Number of backers: ",
-        "EXPIRATION_DATE": "Expiration date: "
+        "EXPIRATION_DATE": "Expiration date: ",
+        "FUND_THIS_PROJECT": "Fund this project"
     },
     "REGISTRATION": {
         "EMAIL": "Email:",
@@ -105,9 +106,7 @@
         "LINK_ERROR": "Confirmation code is invalid",
         "CONFIRMATION_CODE": "Confirmation code:",
         "EMPTY_FIELD_ERROR": "Please enter the confirmation code",
-        "SEND": "Send"
-        "EXPIRATION_DATE": "Expiration date: ",
-        "FUND_THIS_PROJECT": "Fund this project"
-
+        "SEND": "Send",
+        "EXPIRATION_DATE": "Expiration date: "
     }
 }

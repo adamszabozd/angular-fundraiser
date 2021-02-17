@@ -3,11 +3,13 @@ package hu.progmasters.fundraiser.service;
 import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.domain.Fund;
 import hu.progmasters.fundraiser.domain.FundCategory;
+import hu.progmasters.fundraiser.dto.fund.FundDetailsItem;
 import hu.progmasters.fundraiser.dto.fund.FundFormCommand;
 import hu.progmasters.fundraiser.dto.fund.FundListItem;
 import hu.progmasters.fundraiser.dto.fund.ModifyFundFormCommand;
 import hu.progmasters.fundraiser.repository.AccountRepository;
 import hu.progmasters.fundraiser.repository.FundRepository;
+import hu.progmasters.fundraiser.repository.TransferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,11 +25,13 @@ public class FundService {
 
     private final FundRepository fundRepository;
     private final AccountRepository accountRepository;
+    private final TransferRepository transferRepository;
 
     @Autowired
-    public FundService(FundRepository fundRepository, AccountRepository accountRepository) {
+    public FundService(FundRepository fundRepository, AccountRepository accountRepository, TransferRepository transferRepository) {
         this.fundRepository = fundRepository;
         this.accountRepository = accountRepository;
+        this.transferRepository = transferRepository;
     }
 
     public List<Fund> findAll() {
@@ -46,10 +50,11 @@ public class FundService {
         fundRepository.save(fund);
     }
 
-    public FundListItem fetchFundDetails(Long id) {
+    public FundDetailsItem fetchFundDetails(Long id) {
         Optional<Fund> fund = fundRepository.findById(id);
         if(fund.isPresent()){
-            return new FundListItem(fund.get());
+            Long backers = transferRepository.numberOfBackers(id);
+            return new FundDetailsItem(fund.get(), backers);
         } else throw new IllegalArgumentException();
     }
 

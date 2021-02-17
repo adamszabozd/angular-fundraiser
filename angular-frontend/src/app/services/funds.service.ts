@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {FundListItemModel} from "../models/FundListItem.model";
 import {CategoryOptionModel} from "../models/categoryOption.model";
 import {FundFormCommandModel} from "../models/fundFormCommand.model";
+import {FundDetailsItemModel} from "../models/fundDetailsItem.model";
 
 const host = environment.BASE_URL;
 const BASE_URL = host+'/api/funds';
@@ -37,8 +38,12 @@ export class FundsService {
     }
 
 
-    fetchSingleFund(id: number): Observable<FundListItemModel> {
-        return this.http.get<FundListItemModel>(BASE_URL + "/" + id);
+    fetchFundForModify(id: number): Observable<FundFormCommandModel> {
+        return this.http.get<FundFormCommandModel>(BASE_URL + "/modify/" + id);
+    }
+
+    fetchFundDetails(id: number): Observable<FundDetailsItemModel> {
+        return this.http.get<FundDetailsItemModel>(BASE_URL + "/" + id);
     }
 
     fetchFundsByCategory(category: string): Observable<Array<FundListItemModel>> {
