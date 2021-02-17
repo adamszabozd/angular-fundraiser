@@ -72,6 +72,39 @@
         "AMOUNT": "raised of {{ targetAmount }} HUF goal",
         "NUMBER_OF_BACKERS": "Number of backers: ",
         "EXPIRATION_DATE": "Expiration date: "
+    },
+    "REGISTRATION": {
+        "EMAIL": "Email:",
+        "EMAIL_PLACEHOLDER": "example@mail.tld",
+        "EMAIL_ERROR": "Please enter a valid email address",
+        "USERNAME": "Nickname:",
+        "USERNAME_ERROR": "Please enter a valid username (between 4 and 20 characters)",
+        "PASSWORD": "Password:",
+        "PASSWORD_ERROR": "Please give a valid password",
+        "CONFIRM_PASSWORD": "Confirm password:",
+        "CONFIRM_PASSWORD_REQUIRED_ERROR": "Confirm Password is required",
+        "PASSWORDS_MUST_MATCH_ERROR": "Passwords must match",
+        "REGISTER": "Register"
+    },
+    "LOGIN": {
+        "EMAIL": "Email:",
+        "EMAIL_ERROR": "Email field cannot be empty",
+        "PASSWORD": "Password:",
+        "PASSWORD_ERROR": "Password field cannot be empty",
+        "LOGIN": "Login",
+        "NOT_REGISTERED": "Aren't you registered yet?",
+        "SIGN_UP": "Sign up"
+    },
+    "PAGE_NOT_FOUND": {
+        "HOME_PAGE": "Home Page"
+    },
+    "CONFIRMATION": {
+        "CONFIRM_TRANSFER": "Confirm Transfer",
+        "CODE_SENT": "A confirmation code was sent to your email address. Please enter the code below.",
+        "CONFIRMED": "Transfer is confirmed!",
+        "LINK_ERROR": "Confirmation code is invalid",
+        "CONFIRMATION_CODE": "Confirmation code:",
+        "EMPTY_FIELD_ERROR": "Please enter the confirmation code",
+        "SEND": "Send"
     }
-
 }

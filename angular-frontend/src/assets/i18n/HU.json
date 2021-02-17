@@ -72,6 +72,39 @@
         "AMOUNT": "gyűlt össze a {{ targetAmount }} HUF célból",
         "NUMBER_OF_BACKERS": "Támogatók száma: ",
         "EXPIRATION_DATE": "Gyűjtés vége: "
+    },
+    "REGISTRATION": {
+        "EMAIL": "E-mail cím:",
+        "EMAIL_PLACEHOLDER": "example@mail.tld",
+        "EMAIL_ERROR": "Adjon meg egy érvényes e-mail címet",
+        "USERNAME": "Felhasználónév:",
+        "USERNAME_ERROR": "Adjon meg egy érvényes felhasználónevet (4 és 20 karakter között)",
+        "PASSWORD": "Jelszó:",
+        "PASSWORD_ERROR": "Adjon meg egy érvényes jelszót",
+        "CONFIRM_PASSWORD": "Jelszó még egyszer:",
+        "CONFIRM_PASSWORD_REQUIRED_ERROR": "Adja meg még egyszer a jelszót",
+        "PASSWORDS_MUST_MATCH_ERROR": "A két jelszónak meg kell egyeznie",
+        "REGISTER": "Regisztráció"
+    },
+    "LOGIN": {
+        "EMAIL": "E-mail cím:",
+        "EMAIL_ERROR": "Az e-mail cím mező nem maradhat üresen",
+        "PASSWORD": "Jelszó:",
+        "PASSWORD_ERROR": "A jelszó mező nem maradhat üresen",
+        "LOGIN": "Belépés",
+        "NOT_REGISTERED": "Még nem regisztrált?",
+        "SIGN_UP": "Regisztrálok"
+    },
+    "PAGE_NOT_FOUND": {
+        "HOME_PAGE": "Kezdőlap"
+    },
+    "CONFIRMATION": {
+        "CONFIRM_TRANSFER": "Átutalás megerősítése",
+        "CODE_SENT": "Elküldtünk egy megerősítő kódot az Ön e-mail címére. Kérjük írja be a kódot az alábbi mezőbe.",
+        "CONFIRMED": "Átutalás véglegesítve!",
+        "LINK_ERROR": "Érvénytelen megerősítő kód",
+        "CONFIRMATION_CODE": "Megerősítő kód:",
+        "EMPTY_FIELD_ERROR": "Írja be a megerősítő kódot",
+        "SEND": "Küldés"
     }
-
 }
