@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../environments/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {FundListItemModel} from "../models/FundListItem.model";
 import {CategoryOptionModel} from "../models/categoryOption.model";
 import {FundFormCommandModel} from "../models/fundFormCommand.model";
@@ -16,7 +16,9 @@ const BASE_URL = host+'/api/funds';
 })
 export class FundsService {
 
-  constructor(private http: HttpClient, public translate: TranslateService) { }
+    languageStatusUpdate = new Subject<boolean>();
+
+    constructor(private http: HttpClient, public translate: TranslateService) { }
 
   fetchAllFunds(): Observable<Array<FundListItemModel>> {
       return this.http.get<Array<FundListItemModel>>(BASE_URL);

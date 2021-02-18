@@ -1,16 +1,14 @@
 package hu.progmasters.fundraiser.dto.fund;
 
-import hu.progmasters.fundraiser.domain.FundCategory;
-
 public class CategoryOption {
 
-    private String name;
+    private final String name;
 
-    private String displayName;
+    private final String displayName;
 
-    public CategoryOption(FundCategory fundCategory) {
-        this.name = fundCategory.toString();
-        this.displayName = fundCategory.getDisplayName();
+    public CategoryOption(String name, String displayName) {
+        this.name = name;
+        this.displayName = displayName;
     }
 
     public String getName() {

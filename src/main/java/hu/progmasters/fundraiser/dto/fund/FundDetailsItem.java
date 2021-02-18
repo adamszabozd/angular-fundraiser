@@ -30,7 +30,7 @@ public class FundDetailsItem {
 
     private Long numberOfBackers;
 
-    public FundDetailsItem(Fund fund, Long numberOfBackers) {
+    public FundDetailsItem(Fund fund, Long numberOfBackers, String categoryDisplayName) {
         this.id = fund.getId();
         this.imageUrl = fund.getImageUrl();
         this.title = fund.getFundTitle();
@@ -40,7 +40,7 @@ public class FundDetailsItem {
         this.raisedAmount = fund.getRaisedAmount();
         this.endDate = fund.getEndDate();
         this.creatorName = fund.getCreator().getUsername();
-        this.category = fund.getFundCategory().getDisplayName();
+        this.category = categoryDisplayName;
         this.numberOfBackers = numberOfBackers;
     }
 

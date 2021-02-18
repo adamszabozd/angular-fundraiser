@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FundsService} from "../../services/funds.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {FundListItemModel} from "../../models/FundListItem.model";
 import {FundDetailsItemModel} from "../../models/fundDetailsItem.model";
 
 @Component({
@@ -22,13 +21,20 @@ export class FundraiserDetailsComponent implements OnInit {
         this.activatedRoute.paramMap.subscribe(
             (paraMap) => {
                 this.id = Number.parseInt(paraMap.get("id"));
-                this.fundService.fetchFundDetails(this.id).subscribe(
-                    (data) => this.fund = data,
-                    (error) => {
-                        console.log(error);
-                        this.router.navigate(['page-not-found']);
-                    }
-                )
+                this.fetchData();
+            }
+        )
+        this.fundService.languageStatusUpdate.subscribe(() => {
+            this.fetchData();
+        })
+    }
+
+    fetchData() {
+        this.fundService.fetchFundDetails(this.id).subscribe(
+            (data) => this.fund = data,
+            (error) => {
+                console.log(error);
+                this.router.navigate(['page-not-found']);
             }
         )
     }

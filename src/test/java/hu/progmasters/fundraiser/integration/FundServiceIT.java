@@ -16,6 +16,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Locale;
 
 @SpringBootTest
 @Transactional
@@ -51,7 +52,7 @@ public class FundServiceIT {
 
         fundService.saveNewFund(fundFormCommand2, "email@email.com");
 
-        List<FundListItem> fundListItemList = fundService.fetchAllForList();
+        List<FundListItem> fundListItemList = fundService.fetchAllForList(Locale.getDefault());
 
         Assertions.assertEquals(2, fundListItemList.size());
 

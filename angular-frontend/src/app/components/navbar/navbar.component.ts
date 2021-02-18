@@ -48,6 +48,7 @@ export class NavbarComponent implements OnInit {
             (data) => this.categories = data,
             (error) => console.log(error)
         );
+        this.fundService.languageStatusUpdate.next(true);
     }
 
 }

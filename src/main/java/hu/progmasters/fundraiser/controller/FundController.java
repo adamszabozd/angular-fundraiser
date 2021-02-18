@@ -1,6 +1,5 @@
 package hu.progmasters.fundraiser.controller;
 
-import hu.progmasters.fundraiser.domain.FundCategory;
 import hu.progmasters.fundraiser.dto.fund.*;
 import hu.progmasters.fundraiser.service.FundService;
 import hu.progmasters.fundraiser.validation.FundFormCommandValidator;
@@ -15,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("/api/funds")
@@ -48,42 +47,37 @@ public class FundController {
     }
 
     @GetMapping
-    public ResponseEntity<List<FundListItem>> fetchAllFunds() {
-        ResponseEntity<List<FundListItem>> response = new ResponseEntity<>(fundService.fetchAllForList(), HttpStatus.OK);
+    public ResponseEntity<List<FundListItem>> fetchAllFunds(Locale locale) {
+        ResponseEntity<List<FundListItem>> response = new ResponseEntity<>(fundService.fetchAllForList(locale), HttpStatus.OK);
         logger.info("Fund list requested");
         return response;
     }
 
     @GetMapping("/myFunds")
-    public ResponseEntity<List<FundListItem>> fetchMyFunds(Principal principal) {
-        return new ResponseEntity<>(fundService.fetchMyFunds(principal.getName()), HttpStatus.OK);
+    public ResponseEntity<List<FundListItem>> fetchMyFunds(Principal principal, Locale locale) {
+        return new ResponseEntity<>(fundService.fetchMyFunds(principal.getName(), locale), HttpStatus.OK);
     }
 
     @GetMapping("/initData")
-    public ResponseEntity<List<CategoryOption>> fetchCategoryList() {
-        List<CategoryOption> categoryOptions = new ArrayList<>();
-        //TODO - Review: Logikát ne rakjunk a controllerbe!!!!
-        for (FundCategory category : FundCategory.values()) {
-            categoryOptions.add(new CategoryOption(category));
-        }
-        ResponseEntity<List<CategoryOption>> response = new ResponseEntity<>(categoryOptions, HttpStatus.OK);
+    public ResponseEntity<List<CategoryOption>> fetchCategoryList(Locale locale) {
+        ResponseEntity<List<CategoryOption>> response = new ResponseEntity<>(fundService.getCategoryOptions(locale), HttpStatus.OK);
         logger.info("Category list requested");
         return response;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FundDetailsItem> getFundDetails(@PathVariable Long id) {
-        return new ResponseEntity<>(fundService.fetchFundDetails(id), HttpStatus.OK);
+    public ResponseEntity<FundDetailsItem> getFundDetails(@PathVariable Long id, Locale locale) {
+        return new ResponseEntity<>(fundService.fetchFundDetails(id, locale), HttpStatus.OK);
     }
 
     @GetMapping("/modify/{id}")
-    public ResponseEntity<FundDetailsItem> modifyFund(@PathVariable Long id) {
-        return new ResponseEntity<>(fundService.fetchFundDetails(id), HttpStatus.OK);
+    public ResponseEntity<FundDetailsItem> modifyFund(@PathVariable Long id, Locale locale) {
+        return new ResponseEntity<>(fundService.fetchFundDetails(id, locale), HttpStatus.OK);
     }
 
     @GetMapping("/categories/{category}")
-    public ResponseEntity<List<FundListItem>> getFundsByCategory(@PathVariable String category) {
-        return new ResponseEntity<>(fundService.fetchFundsByCategory(category), HttpStatus.OK);
+    public ResponseEntity<List<FundListItem>> getFundsByCategory(@PathVariable String category, Locale locale) {
+        return new ResponseEntity<>(fundService.fetchFundsByCategory(category, locale), HttpStatus.OK);
     }
 
     @PostMapping

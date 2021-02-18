@@ -2,7 +2,6 @@ package hu.progmasters.fundraiser.dto.fund;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import hu.progmasters.fundraiser.domain.Fund;
-import hu.progmasters.fundraiser.domain.Transfer;
 
 import java.time.LocalDate;
 
@@ -27,7 +26,7 @@ public class FundListItem {
 
     private String category;
 
-    public FundListItem(Fund fund) {
+    public FundListItem(Fund fund, String categoryDisplayName) {
         this.id = fund.getId();
         this.imageUrl = fund.getImageUrl();
         this.title = fund.getFundTitle();
@@ -36,8 +35,7 @@ public class FundListItem {
         this.raisedAmount = fund.getRaisedAmount();
         this.endDate = fund.getEndDate();
         this.creatorName = fund.getCreator().getUsername();
-        this.category = fund.getFundCategory().getDisplayName();
-
+        this.category = categoryDisplayName;
     }
 
     public Long getId() {
