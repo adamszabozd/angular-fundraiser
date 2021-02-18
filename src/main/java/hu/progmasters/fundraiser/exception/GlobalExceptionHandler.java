@@ -47,7 +47,6 @@ public class GlobalExceptionHandler {
         logger.error("A validation error occurred: ", ex);
         BindingResult result = ex.getBindingResult();
         List<FieldError> fieldErrors = result.getFieldErrors();
-        System.out.println("handler: " + localeResolver.resolveLocale(request));
         return new ResponseEntity<>(processFieldErrors(fieldErrors, localeResolver.resolveLocale(request)), HttpStatus.BAD_REQUEST);
     }
 
