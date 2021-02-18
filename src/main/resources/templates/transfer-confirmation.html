@@ -15,20 +15,19 @@
     </div><br>
     <div>
     <p style="font-size: 1.1rem; color: #323232">
-        A transfer was initiated from you account. Your confirmation code is:<br>
+        <span style="color: #323232" th:text="#{email.your.code}"></span><br>
         <b th:align="center" th:text="${confirmationCode}"></b><br>
-        If you really want to support "<strong><span th:text="${goalName}"></span></strong>" with
-        <strong><span th:text="${amount}"></span> HUF</strong>, please
-        type this code on the confirmation page or</p>
+        <span style="color: #323232" th:text="#{email.want}"></span><strong><span th:text="${goalName}"></span></strong><span style="color: #323232" th:text="#{email.with}"></span>
+        <strong><span th:text="${amount}"></span> HUF</strong><span style="color: #323232" th:text="#{email.please.type}"></span>
+        </p>
     </div>
     <br>
     <div align="center" style="background-color: #3cacca;
-    border-color: #3cacca; border-radius: 0.25rem;height: 40px; width: 150px">
+    border-color: #3cacca; border-radius: 0.25rem;height: 40px; width: 190px">
         <a style="font-size: 1.5rem; font-weight: bold; color: #5b5555;
         border-color: #3cacca; border-radius: 0.25rem; text-decoration: none"
-           th:href="${confirmationLink}">click here</a>
+           th:href="${confirmationLink}"><span th:text="#{email.click.here}"></span></a>
     </div>
-
 
 </div>
 </body>

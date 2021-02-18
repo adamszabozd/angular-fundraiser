@@ -14,6 +14,7 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.util.Locale;
 
 @Service
 @EnableAsync
@@ -53,10 +54,10 @@ public class EmailSendingService {
     }
 
     @Async
-    public void sendConfirmationEmail(String to, String confirmationCode, String goalName, double amount) {
+    public void sendConfirmationEmail(String to, String confirmationCode, String goalName, double amount, Locale locale) {
         String confirmationLink = frontendUrl + "/transfer-confirmation/" + confirmationCode;
 
-        Context ctx = new Context();
+        Context ctx = new Context(locale);
         ctx.setVariable("goalName", goalName);
         ctx.setVariable("amount", amount);
         ctx.setVariable("confirmationCode", confirmationCode);
