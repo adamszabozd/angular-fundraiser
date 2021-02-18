@@ -37,9 +37,6 @@ export class TransferConfirmationComponent implements OnInit {
                     this.accountService.loggedInStatusUpdate.next(false);
                     this.router.navigate(['/login']);
                 } else {
-                    if (this.state == 'invisible') {
-                        setTimeout(() => this.state = 'visible');
-                    }
                     this.route.paramMap.subscribe(
                         paramMap => {
                             const confirmationCode = paramMap.get('code');
@@ -50,8 +47,16 @@ export class TransferConfirmationComponent implements OnInit {
                                     error => console.warn(error),
                                 );
                             }
+                            if (this.state == 'invisible') {
+                                setTimeout(() => this.state = 'visible');
+                            }
                         },
-                        error => console.warn(error),
+                        error => {
+                            console.warn(error);
+                            if (this.state == 'invisible') {
+                                setTimeout(() => this.state = 'visible');
+                            }
+                        }
                     );
                 }
             }
