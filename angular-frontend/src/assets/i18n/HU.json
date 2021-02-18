@@ -33,7 +33,8 @@
         "END_DATE": "Gyűjtés vége: ",
         "CREATOR": "Kezdeményező: ",
         "MODIFY": "Módosítás",
-        "READ_MORE": "Részletek"
+        "READ_MORE": "Részletek",
+        "NO_FUNDS": "Sajnáljuk, de ebben a kategóriában még nincsen gyűjtés"
     },
     "FUND": {
         "NEW_FUND": "Új gyűjtés",
@@ -48,6 +49,7 @@
         "LONG_DESCRIPTION_PLACEHOLDER": "A gyűjtés céljának hosszú, részletes leírása",
         "IMAGE_URL": "Kép URL-je:",
         "IMAGE_URL_PLACEHOLDER": "legfeljebb 1000 karakter",
+        "IMAGE_URL_ERROR": "Válasszon egy 1000 karakternél rövidebb url-t",
         "CATEGORY": "Kategória:",
         "CHOOSE_A_CATEGORY": "-- Válasszon egy kategóriát --",
         "CATEGORY_ERROR": "Válassza ki, hogy melyik kategóriába tartozik a gyűjtése!",
@@ -110,7 +112,7 @@
         "EXPIRATION_DATE": "Gyűjtés vége: "
     },
     "HOME": {
-        "H1": "Üdvözül a KickStarter!",
+        "H1": "Üdvözöl a KickStarter!",
         "H4": "A KickStarter piacvezető az online adománygyűjtésben. Jó hírünk annak köszönhető, hogy minden lehetséges módon támogatjuk partnereinket.",
         "H5": "Segítünk Neked abban, hogy minél könnyebben es minél szélesebb közönséghez eljusson a történeted email-en és közösségi médián keresztül, ezáltal el tudd érni a célod. Mindezen felül lelkes csapatunk folyamatosan olyan történetek után kutat, amelyeket a médiában meg tud jeleníteni",
         "P1": "1. Indítsd el az adománygyűjtést.",
