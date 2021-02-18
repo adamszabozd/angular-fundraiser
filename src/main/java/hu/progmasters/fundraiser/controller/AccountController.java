@@ -15,10 +15,12 @@ import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.dto.account.AccountDetails;
 import hu.progmasters.fundraiser.dto.account.AccountRegistrationCommand;
 import hu.progmasters.fundraiser.dto.account.AuthenticatedAccountDetails;
+import hu.progmasters.fundraiser.dto.account.BalanceFormCommand;
 import hu.progmasters.fundraiser.dto.exchange.CurrencyOption;
 import hu.progmasters.fundraiser.service.AccountService;
 import hu.progmasters.fundraiser.service.ExchangeService;
 import hu.progmasters.fundraiser.validation.AccountRegistrationCommandValidator;
+import hu.progmasters.fundraiser.validation.BalanceFormCommandValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,20 +46,28 @@ public class AccountController {
     private final AccountService accountService;
     private final ExchangeService exchangeService;
     private final AccountRegistrationCommandValidator accountRegistrationCommandValidator;
+    private final BalanceFormCommandValidator balanceFormCommandValidator;
 
     @Autowired
     public AccountController(
             AccountService accountService,
-            ExchangeService exchangeService, AccountRegistrationCommandValidator accountRegistrationCommandValidator
+            ExchangeService exchangeService, AccountRegistrationCommandValidator accountRegistrationCommandValidator,
+            BalanceFormCommandValidator balanceFormCommandValidator
     ) {
         this.accountService = accountService;
         this.exchangeService = exchangeService;
         this.accountRegistrationCommandValidator = accountRegistrationCommandValidator;
+        this.balanceFormCommandValidator = balanceFormCommandValidator;
     }
 
-    @InitBinder
+    @InitBinder("accountRegistrationCommand")
     protected void initBinder(WebDataBinder binder) {
         binder.addValidators(accountRegistrationCommandValidator);
+    }
+
+    @InitBinder("balanceFormCommand")
+    protected void initBinderForAmount(WebDataBinder binder) {
+        binder.addValidators(balanceFormCommandValidator);
     }
 
     @PostMapping
@@ -87,6 +97,15 @@ public class AccountController {
     @GetMapping("/loggedIn")
     public ResponseEntity<Boolean> isLoggedIn(Principal principal) {
         return new ResponseEntity<>(principal != null, HttpStatus.OK);
+    }
+
+    @PutMapping("/change/balance")
+    public ResponseEntity<AccountDetails> fillMyBalance(@RequestBody @Valid BalanceFormCommand balanceFormCommand,
+                                                        Principal principal
+    ) {
+        AccountDetails myAccountDetails = accountService.fillMyBalance(balanceFormCommand, principal.getName());
+        logger.info("Balance  successfully filled with" + balanceFormCommand.getAddAmount());
+        return new ResponseEntity(myAccountDetails, HttpStatus.CREATED);
     }
 
     @GetMapping("/currency")

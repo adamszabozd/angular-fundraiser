@@ -74,8 +74,9 @@ export class AccountPageComponent implements OnInit {
         };
         this.setBalance = false;
         this.accountService.fillMyBalance(data).subscribe(
-            () => {
+            (newData) => {
                 this.setBalance = false;
+                this.accountDetails = newData;
             },
             error => console.log(error),
         );

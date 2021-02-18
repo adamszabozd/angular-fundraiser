@@ -14,6 +14,7 @@ package hu.progmasters.fundraiser.service;
 import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.dto.account.AccountDetails;
 import hu.progmasters.fundraiser.dto.account.AccountRegistrationCommand;
+import hu.progmasters.fundraiser.dto.account.BalanceFormCommand;
 import hu.progmasters.fundraiser.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -59,6 +60,14 @@ public class AccountService {
 
     public AccountDetails getAccountDetails(Long userId) {
         return new AccountDetails(findById(userId));
+    }
+
+    public AccountDetails fillMyBalance(BalanceFormCommand balanceFormCommand, String email) {
+        Account account = accountRepository.findByEmail(email);
+        double newBalance = account.getBalance() + balanceFormCommand.getAddAmount();
+        account.setBalance(newBalance);
+        AccountDetails myAccountDetails = new AccountDetails(accountRepository.save(account));;
+        return myAccountDetails;
     }
 
 }
