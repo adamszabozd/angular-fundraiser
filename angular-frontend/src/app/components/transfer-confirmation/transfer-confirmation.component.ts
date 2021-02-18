@@ -43,12 +43,19 @@ export class TransferConfirmationComponent implements OnInit {
                             if (confirmationCode) {
                                 this.urlCode = true;
                                 this.transferService.confirmTransfer({'confirmationCode': confirmationCode}).subscribe(
-                                    () => this.confirmed = true,
-                                    error => console.warn(error),
+                                    () => {
+                                        this.confirmed = true;
+                                        if (this.state == 'invisible') {
+                                            setTimeout(() => this.state = 'visible');
+                                        }
+                                    },
+                                    error => {
+                                        console.warn(error);
+                                        if (this.state == 'invisible') {
+                                            setTimeout(() => this.state = 'visible');
+                                        }
+                                    }
                                 );
-                            }
-                            if (this.state == 'invisible') {
-                                setTimeout(() => this.state = 'visible');
                             }
                         },
                         error => {
