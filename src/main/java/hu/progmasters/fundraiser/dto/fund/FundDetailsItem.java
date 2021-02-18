@@ -5,7 +5,7 @@ import hu.progmasters.fundraiser.domain.Fund;
 
 import java.time.LocalDate;
 
-public class FundListItem {
+public class FundDetailsItem {
 
     private Long id;
 
@@ -15,9 +15,9 @@ public class FundListItem {
 
     private String shortDescription;
 
-    private Double targetAmount;
+    private String longDescription;
 
-    private String currency;
+    private Double targetAmount;
 
     private Double raisedAmount;
 
@@ -28,17 +28,20 @@ public class FundListItem {
 
     private String category;
 
-    public FundListItem(Fund fund, String categoryDisplayName) {
+    private Long numberOfBackers;
+
+    public FundDetailsItem(Fund fund, Long numberOfBackers, String categoryDisplayName) {
         this.id = fund.getId();
         this.imageUrl = fund.getImageUrl();
         this.title = fund.getFundTitle();
         this.shortDescription = fund.getShortDescription();
+        this.longDescription = fund.getLongDescription();
         this.targetAmount = fund.getTargetAmount();
-        this.currency = fund.getCurrency().name();
         this.raisedAmount = fund.getRaisedAmount();
         this.endDate = fund.getEndDate();
         this.creatorName = fund.getCreator().getUsername();
         this.category = categoryDisplayName;
+        this.numberOfBackers = numberOfBackers;
     }
 
     public Long getId() {
@@ -55,6 +58,10 @@ public class FundListItem {
 
     public String getShortDescription() {
         return shortDescription;
+    }
+
+    public String getLongDescription() {
+        return longDescription;
     }
 
     public Double getTargetAmount() {
@@ -77,8 +84,7 @@ public class FundListItem {
         return category;
     }
 
-    public String getCurrency() {
-        return currency;
+    public Long getNumberOfBackers() {
+        return numberOfBackers;
     }
-
 }

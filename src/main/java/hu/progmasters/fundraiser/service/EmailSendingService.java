@@ -46,6 +46,8 @@ public class EmailSendingService {
             javaMailSender.send(msg);
             logger.info("Email successfully sent to {}", to);
         } catch (MessagingException e) {
+            //TODO - Review: Ez csak ötletelés, de lehet hogy nem ártana tárolni az üzenetet,
+            // ha esetleg nem tudjuk elküldeni, majd később újra próbálni ;)
             logger.error("Email sending FAILED to {}", to, e);
         }
     }

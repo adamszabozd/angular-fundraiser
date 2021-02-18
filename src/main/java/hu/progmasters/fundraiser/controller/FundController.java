@@ -17,6 +17,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("/api/funds")
@@ -41,45 +42,48 @@ public class FundController {
         webDataBinder.addValidators(validator);
     }
 
+    //TODO - Review: Nagyon kreatív a metódusnév...
     @InitBinder(value = "modifyFundFormCommand")
     protected void init2(WebDataBinder webDataBinder){
         webDataBinder.addValidators(modifyFundFormCommandValidator);
     }
 
-
-
     @GetMapping
-    public ResponseEntity<List<FundListItem>> fetchAllFunds() {
-        ResponseEntity<List<FundListItem>> response = new ResponseEntity<>(fundService.fetchAllForList(), HttpStatus.OK);
+    public ResponseEntity<List<FundListItem>> fetchAllFunds(Locale locale) {
+        ResponseEntity<List<FundListItem>> response = new ResponseEntity<>(fundService.fetchAllForList(locale), HttpStatus.OK);
         logger.info("Fund list requested");
         return response;
     }
 
     @GetMapping("/myFunds")
-    public ResponseEntity<List<FundListItem>> fetchMyFunds(Principal principal) {
-        return new ResponseEntity<>(fundService.fetchMyFunds(principal.getName()), HttpStatus.OK);
+    public ResponseEntity<List<FundListItem>> fetchMyFunds(Principal principal, Locale locale) {
+        return new ResponseEntity<>(fundService.fetchMyFunds(principal.getName(), locale), HttpStatus.OK);
     }
-
 
     @GetMapping("/initData")
-    public ResponseEntity<FundFormInitData> fetchFundFormInitData() {
+    public ResponseEntity<FundFormInitData> fetchFundFormInitData(Locale locale) {
         logger.info("Category list and currency list requested");
-        return new ResponseEntity(fundService.fetchFundFormInitData(), HttpStatus.OK);
+        return new ResponseEntity(fundService.fetchFundFormInitData(locale), HttpStatus.OK);
     }
     @GetMapping("/categories")
-    public ResponseEntity<List<CategoryOption>> fetchCategoryOptions() {
+    public ResponseEntity<List<CategoryOption>> fetchCategoryOptions(Locale locale) {
         logger.info("Category list requested");
-        return new ResponseEntity(fundService.getCategoryOptionList(), HttpStatus.OK);
+        return new ResponseEntity(fundService.getCategoryOptions(locale), HttpStatus.OK); //getCategoryOptions
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FundListItem> getFundDetails(@PathVariable Long id) {
-        return new ResponseEntity<>(fundService.fetchFundDetails(id), HttpStatus.OK);
+    public ResponseEntity<FundDetailsItem> getFundDetails(@PathVariable Long id, Locale locale) {
+        return new ResponseEntity<>(fundService.fetchFundDetails(id, locale), HttpStatus.OK);
+    }
+
+    @GetMapping("/modify/{id}")
+    public ResponseEntity<FundDetailsItem> modifyFund(@PathVariable Long id, Locale locale) {
+        return new ResponseEntity<>(fundService.fetchFundDetails(id, locale), HttpStatus.OK);
     }
 
     @GetMapping("/categories/{category}")
-    public ResponseEntity<List<FundListItem>> getFundsByCategory(@PathVariable String category) {
-        return new ResponseEntity<>(fundService.fetchFundsByCategory(category), HttpStatus.OK);
+    public ResponseEntity<List<FundListItem>> getFundsByCategory(@PathVariable String category, Locale locale) {
+        return new ResponseEntity<>(fundService.fetchFundsByCategory(category, locale), HttpStatus.OK);
     }
 
     @PostMapping

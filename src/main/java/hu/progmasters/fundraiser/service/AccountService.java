@@ -28,7 +28,6 @@ import java.util.List;
 @Transactional
 public class AccountService {
 
-
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
 

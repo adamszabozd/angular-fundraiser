@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+//TODO - Review: Nem vittétek túlzásba a teszt írást :D
 @SpringBootTest
 @Transactional
 @Rollback

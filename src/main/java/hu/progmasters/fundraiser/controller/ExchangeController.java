@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 public class ExchangeController {
 
     private static final Logger logger = LoggerFactory.getLogger(ExchangeController.class);
+    //TODO - Review: Ezeket is szebb kirakni az application.yaml-be, legalább a változó értékeket belőle
     private static final String EXCHANGE_API_URL = "http://data.fixer.io/api/latest";
     private static final String ACCESS_KEY = "?access_key=ccbcdaedbc16e8cbc37bd02fb523823a";
     private static final String BASE_CURRENCY = "&base=EUR";

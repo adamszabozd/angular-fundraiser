@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
 public class TransferService {
 
     Logger logger = LoggerFactory.getLogger(TransferService.class);
-
+    //TODO - Review: Ne hívjuk "keresztbe" a rétegeket. Ugyanaz mint a FundServiceben
     private final TransferRepository transferRepository;
     private final AccountRepository accountRepository;
     private final FundRepository fundRepository;
@@ -61,6 +61,7 @@ public class TransferService {
     }
 
     private Transfer getPendingTransfer(TransferCreationCommand transferCreationCommand, Account source, Fund goal) {
+        //TODO - Review: Ezt az inicializálást nem lehetne valahogy átszervezni?
         Transfer pendingTransfer;
         pendingTransfer = new Transfer();
         pendingTransfer.setAmount(transferCreationCommand.getAmount());
@@ -68,6 +69,7 @@ public class TransferService {
         pendingTransfer.setSource(source);
         String code = getCode();
         logger.info("Confirmation code generated.");
+        //TODO - Review: Miért tároljátok mind a két kódot? Így semmi értelme :D
         pendingTransfer.setConfirmationCode(passwordEncoder.encode(code));
         pendingTransfer.setUnencryptedConfirmationCode(code);
         pendingTransfer.setConfirmed(false);
@@ -106,7 +108,7 @@ public class TransferService {
             }
         }
         if (transfer == null) {
-            throw new InvalidConfirmationCodeException("No pending transfer exists with this confirmation code!", email);
+            throw new InvalidConfirmationCodeException(email);
         }
 
         transfer.setTimeStamp(LocalDateTime.now());
@@ -122,15 +124,15 @@ public class TransferService {
     public void deleteTransfer(Long id, String email) {
         Optional<Transfer> transferOptional = transferRepository.findById(id);
         if (transferOptional.isEmpty()) {
-            throw new TransferNotFoundException("Transfer not found with the given id", email);
+            throw new TransferNotFoundException(email);
         }
         Transfer transfer = transferOptional.get();
         if (transfer.getConfirmed()) {
-            throw new ConfirmedTransferDeleteException("Confirmed transfer cannot be deleted", email);
+            throw new ConfirmedTransferDeleteException(email);
         } else if (transfer.getSource().getEmail().equals(email)) {
             transferRepository.delete(transfer);
         } else {
-            throw new NotOwnTransferException("Not own transfer", email);
+            throw new NotOwnTransferException(email);
         }
     }
 
@@ -149,15 +151,15 @@ public class TransferService {
     public Transfer getPendingTransferByIdAndEmail(Long id, String email) {
         Optional<Transfer> transferOptional = transferRepository.findById(id);
         if (transferOptional.isEmpty()) {
-            throw new TransferNotFoundException("Transfer not found with the given id", email);
+            throw new TransferNotFoundException(email);
         }
         Transfer transfer = transferOptional.get();
         if (transfer.getConfirmed()) {
-            throw new AlreadyConfirmedTransferException("Transfer is already confirmed", email);
+            throw new AlreadyConfirmedTransferException(email);
         } else if (transfer.getSource().getEmail().equals(email)) {
             return transfer;
         } else {
-            throw new NotOwnTransferException("Not own transfer", email);
+            throw new NotOwnTransferException(email);
         }
     }
 

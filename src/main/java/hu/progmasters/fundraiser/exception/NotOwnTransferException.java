@@ -4,13 +4,16 @@ public class NotOwnTransferException extends RuntimeException {
 
     private final String accountEmail;
 
-    public NotOwnTransferException(String message, String accountEmail) {
-        super(message);
+    public NotOwnTransferException(String accountEmail) {
         this.accountEmail = accountEmail;
     }
 
     public String getAccountEmail() {
         return accountEmail;
+    }
+
+    public String getCode() {
+        return "not.own.transfer.error";
     }
 
 }

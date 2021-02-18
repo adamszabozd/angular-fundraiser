@@ -23,7 +23,9 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.LocaleResolver;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Locale;
 
@@ -32,101 +34,105 @@ public class GlobalExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
     private final MessageSource messageSource;
+    private final LocaleResolver localeResolver;
 
     @Autowired
-    public GlobalExceptionHandler(MessageSource messageSource) {
+    public GlobalExceptionHandler(MessageSource messageSource, LocaleResolver localeResolver) {
         this.messageSource = messageSource;
+        this.localeResolver = localeResolver;
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    protected ResponseEntity<ValidationError> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+    protected ResponseEntity<ValidationError> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex, HttpServletRequest request) {
         logger.error("A validation error occurred: ", ex);
         BindingResult result = ex.getBindingResult();
         List<FieldError> fieldErrors = result.getFieldErrors();
-
-        return new ResponseEntity<>(processFieldErrors(fieldErrors), HttpStatus.BAD_REQUEST);
+        System.out.println("handler: " + localeResolver.resolveLocale(request));
+        return new ResponseEntity<>(processFieldErrors(fieldErrors, localeResolver.resolveLocale(request)), HttpStatus.BAD_REQUEST);
     }
 
-    private ValidationError processFieldErrors(List<FieldError> fieldErrors) {
+    private ValidationError processFieldErrors(List<FieldError> fieldErrors, Locale locale) {
         ValidationError validationError = new ValidationError();
 
         for (FieldError fieldError: fieldErrors) {
-            validationError.addFieldError(fieldError.getField(), messageSource.getMessage(fieldError, Locale.getDefault()));
+            validationError.addFieldError(fieldError.getField(), messageSource.getMessage(fieldError, locale));
         }
 
         return validationError;
     }
 
     @ExceptionHandler(JsonParseException.class)
-    public ResponseEntity<ApiError> handleJsonParseException(JsonParseException ex) {
+    public ResponseEntity<ApiError> handleJsonParseException(JsonParseException ex, HttpServletRequest request) {
         logger.error("Request JSON could no be parsed: ", ex);
         HttpStatus status = HttpStatus.BAD_REQUEST;
-
-        ApiError body = new ApiError("JSON_PARSE_ERROR","The request could not be parsed as a valid JSON.", ex.getLocalizedMessage());
-
+        Locale locale = localeResolver.resolveLocale(request);
+        ApiError body = new ApiError("JSON_PARSE_ERROR",messageSource.getMessage("json.parse.error", null, locale), ex.getLocalizedMessage());
         return new ResponseEntity<>(body, status);
 
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ApiError> handleIllegalArgumentException(IllegalArgumentException ex) {
+    public ResponseEntity<ApiError> handleIllegalArgumentException(IllegalArgumentException ex, HttpServletRequest request) {
         logger.error("Illegal argument error: ", ex);
         HttpStatus status = HttpStatus.BAD_REQUEST;
-
-        ApiError body = new ApiError("ILLEGAL_ARGUMENT_ERROR", "An illegal argument has been passed to the method.", ex.getLocalizedMessage());
-
+        Locale locale = localeResolver.resolveLocale(request);
+        ApiError body = new ApiError("ILLEGAL_ARGUMENT_ERROR", messageSource.getMessage("illegal.argument.error", null, locale), ex.getLocalizedMessage());
         return new ResponseEntity<>(body, status);
     }
 
     @ExceptionHandler(Throwable.class)
-    public ResponseEntity<ApiError> defaultErrorHandler(Throwable t) {
+    public ResponseEntity<ApiError> defaultErrorHandler(Throwable t, HttpServletRequest request) {
         logger.error("An unexpected error occurred: ", t);
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-
-        ApiError body = new ApiError("UNCLASSIFIED_ERROR", "Oh, snap! Something really unexpected occurred.", t.getLocalizedMessage());
-
+        Locale locale = localeResolver.resolveLocale(request);
+        ApiError body = new ApiError("UNCLASSIFIED_ERROR", messageSource.getMessage("unclassified.error", null, locale), t.getLocalizedMessage());
         return new ResponseEntity<>(body, status);
     }
 
     //TODO - Review: Ilyen ExceptionHandler osztályokból szerintem lehet berakni akár többet is,
     // és akkor a logikailag összetartozóakat egy helyre lehet csoportosítani
     @ExceptionHandler(NotOwnTransferException.class)
-    public ResponseEntity<ApiError> notOwnTransferExceptionHandler(NotOwnTransferException e) {
+    public ResponseEntity<ApiError> notOwnTransferExceptionHandler(NotOwnTransferException e, HttpServletRequest request) {
         logger.error("User {} tried to delete a transfer belonging to another account", e.getAccountEmail());
         HttpStatus status = HttpStatus.UNAUTHORIZED;
-        ApiError body = new ApiError("NOT_OWN_TRANSFER_ERROR", "You cannot delete a transfer belonging to another account", e.getLocalizedMessage());
+        Locale locale = localeResolver.resolveLocale(request);
+        ApiError body = new ApiError("NOT_OWN_TRANSFER_ERROR", messageSource.getMessage(e.getCode(), null, locale), e.getLocalizedMessage());
         return new ResponseEntity<>(body, status);
     }
 
     @ExceptionHandler(ConfirmedTransferDeleteException.class)
-    public ResponseEntity<ApiError> confirmedTransferDeleteExceptionHandler(ConfirmedTransferDeleteException e) {
+    public ResponseEntity<ApiError> confirmedTransferDeleteExceptionHandler(ConfirmedTransferDeleteException e, HttpServletRequest request) {
         logger.error("User {} tried to delete a confirmed transfer", e.getAccountEmail());
         HttpStatus status = HttpStatus.UNAUTHORIZED;
-        ApiError body = new ApiError("CONFIRMED_TRANSFER_DELETION_ERROR", "You cannot delete a confirmed transfer", e.getLocalizedMessage());
+        Locale locale = localeResolver.resolveLocale(request);
+        ApiError body = new ApiError("CONFIRMED_TRANSFER_DELETION_ERROR", messageSource.getMessage(e.getCode(), null, locale), e.getLocalizedMessage());
         return new ResponseEntity<>(body, status);
     }
 
     @ExceptionHandler(AlreadyConfirmedTransferException.class)
-    public ResponseEntity<ApiError> alreadyConfirmedTransferExceptionHandler(AlreadyConfirmedTransferException e) {
+    public ResponseEntity<ApiError> alreadyConfirmedTransferExceptionHandler(AlreadyConfirmedTransferException e, HttpServletRequest request) {
         logger.error("User {} tried to resend email for a confirmed transfer", e.getAccountEmail());
         HttpStatus status = HttpStatus.BAD_REQUEST;
-        ApiError body = new ApiError("ALREADY_CONFIRMED_TRANSFER_CONFIRMATION", "You cannot send a confirmation email for a confirmed transfer", e.getLocalizedMessage());
+        Locale locale = localeResolver.resolveLocale(request);
+        ApiError body = new ApiError("ALREADY_CONFIRMED_TRANSFER_CONFIRMATION", messageSource.getMessage(e.getCode(), null, locale), e.getLocalizedMessage());
         return new ResponseEntity<>(body, status);
     }
 
     @ExceptionHandler(InvalidConfirmationCodeException.class)
-    public ResponseEntity<ApiError> invalidConfirmationCodeExceptionHandler(InvalidConfirmationCodeException e) {
+    public ResponseEntity<ApiError> invalidConfirmationCodeExceptionHandler(InvalidConfirmationCodeException e, HttpServletRequest request) {
         logger.error("Confirmation failed, no pending transfer exists with this confirmation code! User: " + e.getAccountEmail());
         HttpStatus status = HttpStatus.BAD_REQUEST;
-        ApiError body = new ApiError("INVALID_CONFIRMATION_CODE", "There is no pending transfer with this confirmation code", e.getLocalizedMessage());
+        Locale locale = localeResolver.resolveLocale(request);
+        ApiError body = new ApiError("INVALID_CONFIRMATION_CODE", messageSource.getMessage(e.getCode(), null, locale), e.getLocalizedMessage());
         return new ResponseEntity<>(body, status);
     }
 
     @ExceptionHandler(TransferNotFoundException.class)
-    public ResponseEntity<ApiError> transferNotFoundExceptionHandler(TransferNotFoundException e) {
+    public ResponseEntity<ApiError> transferNotFoundExceptionHandler(TransferNotFoundException e, HttpServletRequest request) {
         logger.error(e.getMessage() + " User: " + e.getAccountEmail());
         HttpStatus status = HttpStatus.BAD_REQUEST;
-        ApiError body = new ApiError("TRANSFER_NOT_FOUND", e.getMessage(), e.getLocalizedMessage());
+        Locale locale = localeResolver.resolveLocale(request);
+        ApiError body = new ApiError("TRANSFER_NOT_FOUND", messageSource.getMessage(e.getCode(), null, locale), e.getLocalizedMessage());
         return new ResponseEntity<>(body, status);
     }
 

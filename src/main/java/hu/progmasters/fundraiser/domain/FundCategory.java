@@ -1,18 +1,18 @@
 package hu.progmasters.fundraiser.domain;
 
 public enum FundCategory {
-    MEDICAL("Medical"),
-    EDUCATION("Education"),
-    EMERGENCY("Emergency"),
-    NONPROFIT("Non-profit");
+    MEDICAL("category.medical"),
+    EDUCATION("category.education"),
+    EMERGENCY("category.emergency"),
+    NONPROFIT("category.nonprofit");
 
-    private final String displayName;
+    private final String code;
 
-    FundCategory(String displayName) {
-        this.displayName = displayName;
+    FundCategory(String code) {
+        this.code = code;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public String getCode() {
+        return code;
     }
 }

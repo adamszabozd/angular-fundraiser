@@ -14,7 +14,13 @@ export class TransferService {
     constructor(private http: HttpClient) {}
 
     getNewTransferData(): Observable<TransferFormInitDataModel> {
-        return this.http.get<TransferFormInitDataModel>(BASE_URL + '/' + 'newTransferData');
+
+            return this.http.get<TransferFormInitDataModel>(BASE_URL + '/' + 'newTransferData');
+
+    }
+
+    getConcreteTransferData(id: string): Observable<TransferFormInitDataModel> {
+        return this.http.get<TransferFormInitDataModel>(BASE_URL + "/" + id);
     }
 
     submitTransfer(data: TransferCreationModel): Observable<any> {

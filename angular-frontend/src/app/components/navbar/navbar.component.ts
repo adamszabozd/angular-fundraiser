@@ -19,7 +19,7 @@ export class NavbarComponent implements OnInit {
     loggedIn = false;
     categories: CategoryOptionModel[];
 
-    constructor(private accountService: AccountService, private router: Router, private fundService: FundsService, private translate: TranslateService) {
+    constructor(private accountService: AccountService, private router: Router, private fundService: FundsService, public translate: TranslateService) {
         this.accountService.loggedInStatusUpdate.subscribe(
             status => this.loggedIn = status
         );
@@ -37,6 +37,7 @@ export class NavbarComponent implements OnInit {
             (data) => this.categories = data,
             (error) => console.log(error)
         );
+        this.fundService.languageStatusUpdate.next(true);
     }
 
     logout() {
@@ -45,5 +46,13 @@ export class NavbarComponent implements OnInit {
             this.router.navigate(['']);
         });
     }
+
+    // getCategories() {
+    //     this.fundService.getInitialFormData().subscribe(
+    //         (data) => this.categories = data,
+    //         (error) => console.log(error)
+    //     );
+    //
+    // }
 
 }

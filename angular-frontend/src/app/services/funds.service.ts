@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../environments/environment";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {HttpClient, HttpParams} from "@angular/common/http";
+import {Observable, Subject} from "rxjs";
 import {FundListItemModel} from "../models/FundListItem.model";
 import {CategoryOptionModel} from "../models/categoryOption.model";
 import {FundFormCommandModel} from "../models/fundFormCommand.model";
 import {FundFormInitModel} from '../models/fundFormInit.model';
+import {FundDetailsItemModel} from "../models/fundDetailsItem.model";
+import {TranslateService} from "@ngx-translate/core";
 
 const host = environment.BASE_URL;
 const BASE_URL = host+'/api/funds';
@@ -15,7 +17,9 @@ const BASE_URL = host+'/api/funds';
 })
 export class FundsService {
 
-  constructor(private http: HttpClient) { }
+    languageStatusUpdate = new Subject<boolean>();
+
+    constructor(private http: HttpClient, public translate: TranslateService) { }
 
   fetchAllFunds(): Observable<Array<FundListItemModel>> {
       return this.http.get<Array<FundListItemModel>>(BASE_URL);
@@ -23,6 +27,13 @@ export class FundsService {
 
     fetchMyFunds(): Observable<Array<FundListItemModel>> {
       return this.http.get<Array<FundListItemModel>>(BASE_URL+"/myFunds")
+    }
+
+    getCategories(): Observable<CategoryOptionModel[]>  {
+        return this.http.get<CategoryOptionModel[]>(BASE_URL + "/categories",  {
+            params: new HttpParams()
+                .set('lang', this.translate.currentLang)
+        });
     }
 
     getInitialFormData(): Observable<FundFormInitModel> {
@@ -38,15 +49,15 @@ export class FundsService {
     }
 
 
-    fetchSingleFund(id: number): Observable<FundListItemModel> {
-        return this.http.get<FundListItemModel>(BASE_URL + "/" + id);
+    fetchFundForModify(id: number): Observable<FundFormCommandModel> {
+        return this.http.get<FundFormCommandModel>(BASE_URL + "/modify/" + id);
+    }
+
+    fetchFundDetails(id: number): Observable<FundDetailsItemModel> {
+        return this.http.get<FundDetailsItemModel>(BASE_URL + "/" + id);
     }
 
     fetchFundsByCategory(category: string): Observable<Array<FundListItemModel>> {
         return this.http.get<Array<FundListItemModel>>(BASE_URL+"/categories/" + category);
-    }
-
-    getCategories(): Observable<CategoryOptionModel[]>  {
-        return this.http.get<CategoryOptionModel[]>(BASE_URL + "/categories");
     }
 }

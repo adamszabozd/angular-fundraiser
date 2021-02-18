@@ -7,7 +7,7 @@ import {RegistrationService} from '../../services/registration.service';
 import {validationHandler} from '../../utils/validationHandler';
 import {formAppearAnimation} from '../../animations';
 import {AccountRegistrationDataModel} from '../../models/accountRegistrationData.model';
-import {mustMatch} from "../../validator";
+import {mustMatch} from '../../validator';
 
 @Component({
                selector   : 'app-registration',
@@ -51,6 +51,7 @@ export class RegistrationComponent implements OnInit {
         );
     }
 
+    //TODO - Review: Nagyon beszédes metódusnév...
     get f() {
         return this.form.controls;
     }
@@ -58,8 +59,11 @@ export class RegistrationComponent implements OnInit {
     register() {
         this.submitted = true;
         if (this.form.invalid) {
+            //TODO - Review: Azért valamit kezdjünk azzal, ha invalid a form, erre tuti kaptok majd bug-ticketet :D
             return;
         }
+        //TODO - Review: Ez a kettő ugyanazt fogja eredményezni...
+        // const data: AccountRegistrationDataModel = this.form.value;
         const data: AccountRegistrationDataModel = {
             email   : this.form.value.email,
             username: this.form.value.username,

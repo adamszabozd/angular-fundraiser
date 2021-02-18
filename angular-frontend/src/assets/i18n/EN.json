@@ -82,7 +82,52 @@
         "CATEGORY": "Category: ",
         "AMOUNT": "raised of {{ targetAmount }} HUF goal",
         "NUMBER_OF_BACKERS": "Number of backers: ",
+        "EXPIRATION_DATE": "Expiration date: ",
+        "FUND_THIS_PROJECT": "Fund this project"
+    },
+    "REGISTRATION": {
+        "EMAIL": "Email:",
+        "EMAIL_PLACEHOLDER": "example@mail.tld",
+        "EMAIL_ERROR": "Please enter a valid email address",
+        "USERNAME": "Nickname:",
+        "USERNAME_ERROR": "Please enter a valid username (between 4 and 20 characters)",
+        "PASSWORD": "Password:",
+        "PASSWORD_ERROR": "Please give a valid password",
+        "CONFIRM_PASSWORD": "Confirm password:",
+        "CONFIRM_PASSWORD_REQUIRED_ERROR": "Confirm Password is required",
+        "PASSWORDS_MUST_MATCH_ERROR": "Passwords must match",
+        "REGISTER": "Register"
+    },
+    "LOGIN": {
+        "EMAIL": "Email:",
+        "EMAIL_ERROR": "Email field cannot be empty",
+        "PASSWORD": "Password:",
+        "PASSWORD_ERROR": "Password field cannot be empty",
+        "LOGIN": "Login",
+        "NOT_REGISTERED": "Aren't you registered yet?",
+        "SIGN_UP": "Sign up"
+    },
+    "PAGE_NOT_FOUND": {
+        "HOME_PAGE": "Home Page"
+    },
+    "CONFIRMATION": {
+        "CONFIRM_TRANSFER": "Confirm Transfer",
+        "CODE_SENT": "A confirmation code was sent to your email address. Please enter the code below.",
+        "CONFIRMED": "Transfer is confirmed!",
+        "LINK_ERROR": "Confirmation code is invalid",
+        "CONFIRMATION_CODE": "Confirmation code:",
+        "EMPTY_FIELD_ERROR": "Please enter the confirmation code",
+        "SEND": "Send",
         "EXPIRATION_DATE": "Expiration date: "
+    },
+    "HOME": {
+        "H1": "Welcome to KickStarter!",
+        "H4": "KickStarter is the #1 and most trusted leader in online fundraising.\n    We built our reputation by serving and supporting our community every step of the way.",
+        "H5": "We help you easily share your story far and wide over email, text, and social media to rally support for your cause.\n In addition, we have a dedicated team looking for great stories to amplify and share with the media and our community.",
+        "P1": "1. Start your donation.",
+        "P2": "2. Share with friends.",
+        "P3": "3. Manage donations.",
+        "FOOTER": "This is a demo project of 4 enthusiastic junior software developers. We hope you enjoy our presentation.\n If you require any further information, don’t hesitate to contact PROGMasters!"
     },
     "CHANGE_CURRENCY": {
         "BALANCE": "Balance:",

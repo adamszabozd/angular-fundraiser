@@ -7,6 +7,7 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "fund")
@@ -57,6 +58,9 @@ public class Fund {
     @ManyToOne
     @JoinColumn(name = "creator", nullable = false)
     private Account creator;
+
+    @OneToMany(mappedBy = "target")
+    List<Transfer> transferList;
 
     public Fund() {
     }
@@ -162,4 +166,11 @@ public class Fund {
         this.currency = currency;
     }
 
+    public List<Transfer> getTransferList() {
+        return transferList;
+    }
+
+    public void setTransferList(List<Transfer> transferList) {
+        this.transferList = transferList;
+    }
 }
