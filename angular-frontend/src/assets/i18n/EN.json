@@ -49,6 +49,7 @@
         "LONG_DESCRIPTION_PLACEHOLDER": "The long, detailed description of your fund idea",
         "IMAGE_URL": "Image URL:",
         "IMAGE_URL_PLACEHOLDER": "max 1000 characters",
+        "IMAGE_URL_ERROR": "PLease choose an url which is less than 1000 characters",
         "CATEGORY": "Category:",
         "CHOOSE_A_CATEGORY": "-- Choose a category --",
         "CATEGORY_ERROR": "Please choose a category for your fundraiser!",

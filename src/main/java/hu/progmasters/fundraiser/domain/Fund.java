@@ -68,7 +68,9 @@ public class Fund {
         this.fundTitle = fundFormCommand.getTitle();
         this.shortDescription = fundFormCommand.getShortDescription();
         this.longDescription = fundFormCommand.getLongDescription();
-        this.imageUrl = fundFormCommand.getImageUrl();
+        if(fundFormCommand.getImageUrl()==null || fundFormCommand.getImageUrl().isEmpty()){
+            this.imageUrl = "https://cdn.iconscout.com/icon/free/png-256/k-characters-character-alphabet-letter-36028.png";
+        } else this.imageUrl = fundFormCommand.getImageUrl();
         this.fundCategory = FundCategory.valueOf(fundFormCommand.getCategory());
         this.raisedAmount = 0.0;
         this.targetAmount = fundFormCommand.getTargetAmount();

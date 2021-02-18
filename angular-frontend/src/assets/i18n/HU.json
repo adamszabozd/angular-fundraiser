@@ -49,6 +49,7 @@
         "LONG_DESCRIPTION_PLACEHOLDER": "A gyűjtés céljának hosszú, részletes leírása",
         "IMAGE_URL": "Kép URL-je:",
         "IMAGE_URL_PLACEHOLDER": "legfeljebb 1000 karakter",
+        "IMAGE_URL_ERROR": "Válasszon egy 1000 karakternél rövidebb url-t",
         "CATEGORY": "Kategória:",
         "CHOOSE_A_CATEGORY": "-- Válasszon egy kategóriát --",
         "CATEGORY_ERROR": "Válassza ki, hogy melyik kategóriába tartozik a gyűjtése!",
