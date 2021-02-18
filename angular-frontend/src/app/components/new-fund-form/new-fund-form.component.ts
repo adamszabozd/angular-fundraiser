@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, Validators} from "@angular/forms";
-import {FundsService} from "../../services/funds.service";
-import {Router} from "@angular/router";
-import {CategoryOptionModel} from "../../models/categoryOption.model";
-import {validationHandler} from "../../utils/validationHandler";
-import {AccountService} from "../../services/account.service";
+import {FormBuilder, Validators} from '@angular/forms';
+import {FundsService} from '../../services/funds.service';
+import {Router} from '@angular/router';
+import {CategoryOptionModel} from '../../models/categoryOption.model';
+import {validationHandler} from '../../utils/validationHandler';
+import {AccountService} from '../../services/account.service';
 import {formAppearAnimation} from '../../animations';
 
 @Component({
@@ -35,14 +35,15 @@ export class NewFundFormComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.state == "invisible") {
-            setTimeout(() => this.state = "visible")
+        if (this.state == 'invisible') {
+            //TODO - Review: Ilyet anti-pattern csinálni... setTimeout-ot lifecycle methodban... Nincs rá szebb megoldás?
+            setTimeout(() => this.state = 'visible');
         }
         this.fundService.getInitialFormData().subscribe(
             (data) => {
                 this.categories = data;
-                },
-            (error) => console.log(error)
+            },
+            (error) => console.log(error),
         );
         this.accountService.isLoggedIn().subscribe(
             loggedIn => {
@@ -50,14 +51,14 @@ export class NewFundFormComponent implements OnInit {
                     this.accountService.loggedInStatusUpdate.next(false);
                     this.router.navigate(['/login']);
                 }
-            }
+            },
         );
     }
 
-    onSubmit(){
+    onSubmit() {
         this.fundService.saveNewFund(this.form.value).subscribe(
-            ()=> this.router.navigate(['']),
-            (error)=> validationHandler(error, this.form)
+            () => this.router.navigate(['']),
+            (error) => validationHandler(error, this.form),
         );
     }
 
