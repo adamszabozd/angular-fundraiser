@@ -5,5 +5,5 @@ export interface TransferFormInitDataModel {
     targetFundOptions: Array<TargetFundOptionModel>;
     balance: number;
     currency: string;
-    currencyOptions: CurrencyOptionModel;
+    currencyOptions: Array<CurrencyOptionModel>;
 }

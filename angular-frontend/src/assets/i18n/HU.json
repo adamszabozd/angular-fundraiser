@@ -26,11 +26,12 @@
         "MY_PENDING_TRANSFERS_RESEND_CODE": "új kód",
         "MY_PENDING_TRANSFERS_DELETE": "törlés",
         "FILL_BALANCE_BUTTON": "Befizetés",
+        "CHANGE_CURRENCY":  "Új pénznem kiválasztása",
         "CHANGE_CURRENCY_BUTTON": "Pénznem váltás",
         "FILL_BALANCE_FORM": "Egyenleg feltöltése",
         "ADD_AMOUNT": "Befizetendő összeg",
         "ADD_AMOUNT_SUBMIT": "Befizetés",
-        "ADD_AMOUNT_ERROR": "Az összeg csak 0-nál nagyobb lehet",
+        "ADD_AMOUNT_ERROR": "Az összeg csak 0-nál nagyobb lehet"
     },
     "FUNDS": {
         "BROWSE_FUNDRAISERS": "Böngészés",
@@ -58,6 +59,9 @@
         "CATEGORY": "Kategória:",
         "CHOOSE_A_CATEGORY": "-- Válasszon egy kategóriát --",
         "CATEGORY_ERROR": "Válassza ki, hogy melyik kategóriába tartozik a gyűjtése!",
+        "CURRENCY": "Valuta:",
+        "CHOOSE_A_CURRENCY": "Válassza ki a pénznemet:",
+        "CURRENCY_ERROR": "Válassza ki a pénznemet!",
         "TARGET_AMOUNT": "Elérendő összeg:",
         "TARGET_AMOUNT_ERROR": "Adja meg, mekkora összeget szeretne gyűjteni!",
         "END_DATE": "Gyűjtés vége (nem kötelező):",
@@ -81,7 +85,6 @@
         "EXPIRATION_DATE": "Gyűjtés vége: "
     },
     "CHANGE_CURRENCY": {
-        "FORM": "Pénznem Kiválasztása",
         "BALANCE": "Egyenleg:",
         "ACTUAL_CURRENCY": "Jelenlegi pénznem:",
         "NEW_CURRENCY": "Új pénznem:",

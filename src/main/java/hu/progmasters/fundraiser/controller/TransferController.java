@@ -80,7 +80,7 @@ public class TransferController {
 
     @GetMapping("/newTransferData")
     public ResponseEntity<TransferFormInitData> newTransferData(Principal principal) {
-        Account myAccount = accountService.findByEmail("nagy.katalin.linike@gmail.com");
+        Account myAccount = accountService.findByEmail(principal.getName());
         List<Fund> targetFunds = fundService.findAll();
         TransferFormInitData initData = new TransferFormInitData(targetFunds, myAccount);
         initData.setCurrencyOptions(exchangeService.fetchRates());

@@ -84,5 +84,6 @@ export class AccountPageComponent implements OnInit {
     changeCurrency() {
         this.setCurrency = true;
         this.setBalance = false;
+        this.chosenData = this.accountDetails;
     }
 }

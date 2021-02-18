@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {FundListItemModel} from "../models/FundListItem.model";
 import {CategoryOptionModel} from "../models/categoryOption.model";
 import {FundFormCommandModel} from "../models/fundFormCommand.model";
+import {FundFormInitModel} from '../models/fundFormInit.model';
 
 const host = environment.BASE_URL;
 const BASE_URL = host+'/api/funds';
@@ -24,8 +25,8 @@ export class FundsService {
       return this.http.get<Array<FundListItemModel>>(BASE_URL+"/myFunds")
     }
 
-    getInitialFormData(): Observable<CategoryOptionModel[]> {
-        return this.http.get<CategoryOptionModel[]>(BASE_URL + "/initData")
+    getInitialFormData(): Observable<FundFormInitModel> {
+        return this.http.get<FundFormInitModel>(BASE_URL + "/initData")
     }
 
     saveNewFund(data: FundFormCommandModel): Observable<any> {
@@ -43,5 +44,9 @@ export class FundsService {
 
     fetchFundsByCategory(category: string): Observable<Array<FundListItemModel>> {
         return this.http.get<Array<FundListItemModel>>(BASE_URL+"/categories/" + category);
+    }
+
+    getCategories(): Observable<CategoryOptionModel[]>  {
+        return this.http.get<CategoryOptionModel[]>(BASE_URL + "/categories");
     }
 }

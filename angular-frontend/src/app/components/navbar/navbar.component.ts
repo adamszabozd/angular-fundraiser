@@ -33,7 +33,7 @@ export class NavbarComponent implements OnInit {
         this.accountService.isLoggedIn().subscribe(
             data => this.loggedIn = data
         );
-        this.fundService.getInitialFormData().subscribe(
+        this.fundService.getCategories().subscribe(
             (data) => this.categories = data,
             (error) => console.log(error)
         );

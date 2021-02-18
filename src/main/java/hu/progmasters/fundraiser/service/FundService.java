@@ -3,15 +3,14 @@ package hu.progmasters.fundraiser.service;
 import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.domain.Fund;
 import hu.progmasters.fundraiser.domain.FundCategory;
-import hu.progmasters.fundraiser.dto.fund.FundFormCommand;
-import hu.progmasters.fundraiser.dto.fund.FundListItem;
-import hu.progmasters.fundraiser.dto.fund.ModifyFundFormCommand;
+import hu.progmasters.fundraiser.dto.fund.*;
 import hu.progmasters.fundraiser.repository.AccountRepository;
 import hu.progmasters.fundraiser.repository.FundRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,11 +21,13 @@ public class FundService {
 
     private final FundRepository fundRepository;
     private final AccountRepository accountRepository;
+    private final ExchangeService exchangeService;
 
     @Autowired
-    public FundService(FundRepository fundRepository, AccountRepository accountRepository) {
+    public FundService(FundRepository fundRepository, AccountRepository accountRepository, ExchangeService exchangeService) {
         this.fundRepository = fundRepository;
         this.accountRepository = accountRepository;
+        this.exchangeService = exchangeService;
     }
 
     public List<Fund> findAll() {
@@ -82,6 +83,22 @@ public class FundService {
             List<Fund> funds = fundRepository.findAllByCategory(category);
             return funds.stream().map(FundListItem::new).collect(Collectors.toList());
         } else throw new IllegalArgumentException();
+    }
+
+    public FundFormInitData fetchFundFormInitData() {
+        FundFormInitData fundFormInitData = new FundFormInitData();
+        List<CategoryOption> categoryOptions = getCategoryOptionList();
+        fundFormInitData.setCategoryOptions(categoryOptions);
+        fundFormInitData.setCurrencyOptions(exchangeService.fetchRates());
+        return fundFormInitData;
+    }
+
+    public List<CategoryOption> getCategoryOptionList() {
+        List<CategoryOption> categoryOptions = new ArrayList<>();
+        for (FundCategory category : FundCategory.values()) {
+            categoryOptions.add(new CategoryOption(category));
+        }
+        return categoryOptions;
     }
 
     private boolean contains(String categoryName) {

@@ -10,7 +10,7 @@
                     class="form-control my-input-field-disabled"
                     name="balance"
                     id="balance"
-                    placeholder="{{myAccount?.balance}}"
+                    placeholder="{{myAccount.balance}}"
                     disabled
                 /></div>
         </div>
@@ -29,34 +29,34 @@
         </div>
         <div class="row mb-3">
             <label class="col-sm-3 col-form-label"
-                   for="new-currency"
-                   [ngClass]="{'text-danger': (form.get('new-currency').invalid && form.get('new-currency').touched)
-                   || (form.get('new-currency').errors?.serverError)}"
+                   for="newCurrency"
+                   [ngClass]="{'text-danger': (form.get('newCurrency').invalid && form.get('newCurrency').touched)
+                   || (form.get('newCurrency').errors?.serverError)}"
             >
                 {{ 'CHANGE_CURRENCY.NEW_CURRENCY' | translate }}
             </label>
             <div class="col-sm-9">
                 <select
-                    id="new-currency"
+                    id="newCurrency"
                     class="form-control"
-                    [ngClass]="{'is-invalid': (form.get('new-currency').invalid && form.get('new-currency').touched)
-                    || (form.get('new-currency').errors?.serverError)}"
-                    name="new-currency"
-                    formControlName="new-currency"
+                    [ngClass]="{'is-invalid': (form.get('newCurrency').invalid && form.get('newCurrency').touched)
+                    || (form.get('newCurrency').errors?.serverError)}"
+                    name="newCurrency"
+                    formControlName="newCurrency"
                 >
                     <option value=null selected disabled>{{ 'CHANGE_CURRENCY.SELECT_CURRENCY' | translate }}</option>
                     <option *ngFor="let c of currencies"
                             value="{{c.exchangeRate}}">{{c.currencyName}}</option>
                 </select>
                 <small
-                    *ngIf="form.get('new-currency').invalid && form.get('new-currency').touched
-                     && !form.get('new-currency').errors?.serverError"
+                    *ngIf="form.get('newCurrency').invalid && form.get('newCurrency').touched
+                     && !form.get('newCurrency').errors?.serverError"
                     class="text-danger"
                 >
                     {{ 'CHANGE_CURRENCY.ERROR' | translate }}
                 </small>
-                <small *ngIf="form.get('new-currency').errors?.serverError" class="text-danger">
-                    {{form.get('new-currency').errors['new-currency']}}
+                <small *ngIf="form.get('newCurrency').errors?.serverError" class="text-danger">
+                    {{form.get('newCurrency').errors['newCurrency']}}
                 </small>
             </div>
         </div>

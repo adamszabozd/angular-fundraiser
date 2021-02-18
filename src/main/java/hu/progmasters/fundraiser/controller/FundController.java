@@ -1,10 +1,7 @@
 package hu.progmasters.fundraiser.controller;
 
 import hu.progmasters.fundraiser.domain.FundCategory;
-import hu.progmasters.fundraiser.dto.fund.CategoryOption;
-import hu.progmasters.fundraiser.dto.fund.FundFormCommand;
-import hu.progmasters.fundraiser.dto.fund.FundListItem;
-import hu.progmasters.fundraiser.dto.fund.ModifyFundFormCommand;
+import hu.progmasters.fundraiser.dto.fund.*;
 import hu.progmasters.fundraiser.service.FundService;
 import hu.progmasters.fundraiser.validation.FundFormCommandValidator;
 import hu.progmasters.fundraiser.validation.ModifyFundFormCommandValidator;
@@ -65,15 +62,14 @@ public class FundController {
 
 
     @GetMapping("/initData")
-    public ResponseEntity<List<CategoryOption>> fetchCategoryList() {
-        List<CategoryOption> categoryOptions = new ArrayList<>();
-        //TODO - Review: Logikát ne rakjunk a controllerbe!!!!
-        for (FundCategory category : FundCategory.values()) {
-            categoryOptions.add(new CategoryOption(category));
-        }
-        ResponseEntity<List<CategoryOption>> response = new ResponseEntity<>(categoryOptions, HttpStatus.OK);
+    public ResponseEntity<FundFormInitData> fetchFundFormInitData() {
+        logger.info("Category list and currency list requested");
+        return new ResponseEntity(fundService.fetchFundFormInitData(), HttpStatus.OK);
+    }
+    @GetMapping("/categories")
+    public ResponseEntity<List<CategoryOption>> fetchCategoryOptions() {
         logger.info("Category list requested");
-        return response;
+        return new ResponseEntity(fundService.getCategoryOptionList(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

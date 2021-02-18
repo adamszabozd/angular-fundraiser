@@ -132,7 +132,7 @@
                     formControlName="category"
                 >
                     <option value=null selected disabled>{{ 'FUND.CHOOSE_A_CATEGORY' | translate }}</option>
-                    <option *ngFor="let category of categories"
+                    <option *ngFor="let category of formInitData.categoryOptions"
                             value="{{category.name}}">{{category.displayName}}</option>
                 </select>
                 <small
@@ -172,6 +172,38 @@
                 </small>
                 <small *ngIf="form.get('targetAmount').errors?.serverError" class="text-danger">
                     {{form.get('targetAmount').errors['serverError']}}
+                </small>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label"
+                   for="currency"
+                   [ngClass]="{'text-danger': (form.get('currency').invalid && form.get('currency').touched)
+                   || (form.get('currency').errors?.serverError)}"
+            >
+                {{ 'FUND.CURRENCY' | translate }}
+            </label>
+            <div class="col-sm-9">
+                <select
+                    id="currency"
+                    class="form-control"
+                    [ngClass]="{'is-invalid': (form.get('currency').invalid && form.get('currency').touched)
+                    || (form.get('currency').errors?.serverError)}"
+                    name="currency"
+                    formControlName="currency"
+                >
+                    <option value=null selected disabled>{{ 'FUND.CHOOSE_A_CURRENCY' | translate }}</option>
+                    <option *ngFor="let currency of formInitData.currencyOptions"
+                            value="{{currency.exchangeRate}}">{{currency.currencyName}}</option>
+                </select>
+                <small
+                    *ngIf="form.get('currency').invalid && form.get('currency').touched && !form.get('currency').errors?.serverError"
+                    class="text-danger"
+                >
+                    {{ 'FUND.CURRENCY_ERROR' | translate }}
+                </small>
+                <small *ngIf="form.get('currency').errors?.serverError" class="text-danger">
+                    {{form.get('currency').errors['serverError']}}
                 </small>
             </div>
         </div>

@@ -15,7 +15,7 @@ export class ChangeCurrencyComponent implements OnInit {
 
     currencies: CurrencyOptionModel[] | undefined;
     form = this.formBuilder.group({
-                                              new_currency: ['', [Validators.required]],
+                                              newCurrency: ['', [Validators.required]],
                                           },
     );
 
