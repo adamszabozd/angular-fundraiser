@@ -42,6 +42,7 @@ public class Account {
     @Column(name = "balance", nullable = false)
     private Double balance = 5000.0;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "account_currency",
             nullable = false)
     private Currency currency = Currency.EUR;

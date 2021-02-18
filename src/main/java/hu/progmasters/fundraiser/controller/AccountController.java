@@ -15,7 +15,9 @@ import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.dto.account.AccountDetails;
 import hu.progmasters.fundraiser.dto.account.AccountRegistrationCommand;
 import hu.progmasters.fundraiser.dto.account.AuthenticatedAccountDetails;
+import hu.progmasters.fundraiser.dto.exchange.CurrencyOption;
 import hu.progmasters.fundraiser.service.AccountService;
+import hu.progmasters.fundraiser.service.ExchangeService;
 import hu.progmasters.fundraiser.validation.AccountRegistrationCommandValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,14 +42,16 @@ public class AccountController {
     private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
     private final AccountService accountService;
+    private final ExchangeService exchangeService;
     private final AccountRegistrationCommandValidator accountRegistrationCommandValidator;
 
     @Autowired
     public AccountController(
             AccountService accountService,
-            AccountRegistrationCommandValidator accountRegistrationCommandValidator
+            ExchangeService exchangeService, AccountRegistrationCommandValidator accountRegistrationCommandValidator
     ) {
         this.accountService = accountService;
+        this.exchangeService = exchangeService;
         this.accountRegistrationCommandValidator = accountRegistrationCommandValidator;
     }
 
@@ -80,6 +84,16 @@ public class AccountController {
         return new ResponseEntity<>(new AuthenticatedAccountDetails(user), HttpStatus.OK);
     }
 
+    @GetMapping("/loggedIn")
+    public ResponseEntity<Boolean> isLoggedIn(Principal principal) {
+        return new ResponseEntity<>(principal != null, HttpStatus.OK);
+    }
+
+    @GetMapping("/currency")
+    public ResponseEntity<List<CurrencyOption>> getCurrencies(Principal principal) {
+        return new ResponseEntity(exchangeService.fetchRates(), HttpStatus.OK);
+    }
+
     // Ezt max akkor fogjuk használni, ha csinálunk adminfelületet is. Mezei usereknek nem listázzuk ki az összes regisztáltat.
     @GetMapping
     public ResponseEntity<List<AccountDetails>> getAllAccounts() {
@@ -88,11 +102,6 @@ public class AccountController {
                                                             .sorted()
                                                             .collect(Collectors.toList());
         return new ResponseEntity<>(accountDetails, HttpStatus.OK);
-    }
-
-    @GetMapping("/loggedIn")
-    public ResponseEntity<Boolean> isLoggedIn(Principal principal) {
-        return new ResponseEntity<>(principal != null, HttpStatus.OK);
     }
 
 }

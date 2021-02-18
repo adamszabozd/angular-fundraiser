@@ -38,6 +38,7 @@ public class Transfer {
     @Column(name = "amount", nullable = false)
     private Double amount;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "currency")
     private Currency currency;
 

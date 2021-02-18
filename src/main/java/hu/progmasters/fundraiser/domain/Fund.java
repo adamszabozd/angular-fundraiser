@@ -45,6 +45,7 @@ public class Fund {
     @Column(name = "target_amount", nullable = false)
     private Double targetAmount;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "fund_currency",
             nullable = false)
     private Currency currency = Currency.EUR;
@@ -68,6 +69,7 @@ public class Fund {
         this.fundCategory = FundCategory.valueOf(fundFormCommand.getCategory());
         this.raisedAmount = 0.0;
         this.targetAmount = fundFormCommand.getTargetAmount();
+        this.currency = Currency.valueOf(fundFormCommand.getCurrency());
         this.endDate = fundFormCommand.getEndDate();
         this.creator = account;
     }

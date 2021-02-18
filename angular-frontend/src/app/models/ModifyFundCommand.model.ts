@@ -5,6 +5,7 @@ export interface ModifyFundCommandModel{
     longDescription: string;
     imageUrl: string;
     targetAmount: number;
+    currency: string;
     endDate: Date;
 
 }

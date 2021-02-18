@@ -15,6 +15,7 @@
         "USERNAME": "Felhasználónév:",
         "EMAIL": "E-mail cím:",
         "BALANCE": "Egyenleg:",
+        "CURRENCY": "Pénznem:",
         "MY_TRANSFERS": "Adományaim:",
         "MY_TRANSFERS_TO": "Gyűjtés",
         "MY_TRANSFERS_AMOUNT": "Összeg",
@@ -23,7 +24,13 @@
         "MY_PENDING_TRANSFERS_TO": "Gyűjtés",
         "MY_PENDING_TRANSFERS_AMOUNT": "Összeg",
         "MY_PENDING_TRANSFERS_RESEND_CODE": "új kód",
-        "MY_PENDING_TRANSFERS_DELETE": "törlés"
+        "MY_PENDING_TRANSFERS_DELETE": "törlés",
+        "FILL_BALANCE_BUTTON": "Befizetés",
+        "CHANGE_CURRENCY_BUTTON": "Pénznem váltás",
+        "FILL_BALANCE_FORM": "Egyenleg feltöltése",
+        "ADD_AMOUNT": "Befizetendő összeg",
+        "ADD_AMOUNT_SUBMIT": "Befizetés",
+        "ADD_AMOUNT_ERROR": "Az összeg csak 0-nál nagyobb lehet",
     },
     "FUNDS": {
         "BROWSE_FUNDRAISERS": "Böngészés",
@@ -72,6 +79,14 @@
         "AMOUNT": "gyűlt össze a {{ targetAmount }} HUF célból",
         "NUMBER_OF_BACKERS": "Támogatók száma: ",
         "EXPIRATION_DATE": "Gyűjtés vége: "
+    },
+    "CHANGE_CURRENCY": {
+        "FORM": "Pénznem Kiválasztása",
+        "BALANCE": "Egyenleg:",
+        "ACTUAL_CURRENCY": "Jelenlegi pénznem:",
+        "NEW_CURRENCY": "Új pénznem:",
+        "SELECT_CURRENCY": "--Válasszon egy új pénznemet--",
+        "ERROR": "Válasszon pénznemet.",
+        "SUBMIT": "Váltás"
     }
-
 }

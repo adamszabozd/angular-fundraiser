@@ -11,27 +11,48 @@
 
 package hu.progmasters.fundraiser.dto.transfer.create;
 
+import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.domain.Fund;
+import hu.progmasters.fundraiser.dto.exchange.CurrencyOption;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class TransferFormInitData {
 
     private List<TargetFundOption> targetFundOptions;
+    private List<CurrencyOption> currencyOptions;
     private double balance;
+    private String currency;
 
-    public TransferFormInitData(List<Fund> fundList, double balance) {
+    public TransferFormInitData(List<Fund> fundList, Account account) {
         this.targetFundOptions = fundList.stream().map(TargetFundOption::new).collect(Collectors.toList());
-        this.balance = balance;
+        this.currencyOptions = new ArrayList<>();
+        this.balance = account.getBalance();
+        this.currency = account.getCurrency().name();
+    }
+
+    public void setCurrencyOptions(List<CurrencyOption> currencyOptions) {
+        this.currencyOptions = currencyOptions;
     }
 
     public List<TargetFundOption> getTargetFundOptions() {
         return targetFundOptions;
     }
 
+    public List<CurrencyOption> getCurrencyOptions() {
+        return currencyOptions;
+    }
+
     public double getBalance() {
         return balance;
+    }
+
+    public String getCurrency() {
+        return currency;
     }
 
 }

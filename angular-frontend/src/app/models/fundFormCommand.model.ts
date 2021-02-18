@@ -6,6 +6,7 @@ export interface FundFormCommandModel{
     imageUrl: string;
     category: string;
     targetAmount: number;
+    currency: string;
     endDate: Date;
 
 }

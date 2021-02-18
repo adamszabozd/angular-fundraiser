@@ -14,6 +14,8 @@ public class ModifyFundFormCommand {
 
     private Double targetAmount;
 
+    private String currency;
+
     private LocalDate endDate;
 
     public Long getId() {
@@ -63,4 +65,13 @@ public class ModifyFundFormCommand {
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
 }

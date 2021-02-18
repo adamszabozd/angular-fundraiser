@@ -22,9 +22,10 @@ import java.util.stream.Collectors;
 public class AccountDetails {
 
     private Long id;
-    private String username;
     private String email;
+    private String username;
     private Double balance;
+    private String currency;
     private List<String> accountRoleList;
     private List<MyTransferListItem> confirmedTransfers;
     private List<MyTransferListPendingItem> pendingTransfers;
@@ -33,6 +34,7 @@ public class AccountDetails {
         this.id = account.getId();
         this.username = account.getUsername();
         this.email = account.getEmail();
+        this.currency = account.getCurrency().name();
         this.balance = account.getBalance();
         this.accountRoleList = account.getAccountRoleList().stream()
                 .map(String::valueOf)
@@ -74,4 +76,9 @@ public class AccountDetails {
     public String getUsername() {
         return username;
     }
+
+    public String getCurrency() {
+        return currency;
+    }
+
 }

@@ -15,6 +15,7 @@
         "USERNAME": "Username:",
         "EMAIL": "Email:",
         "BALANCE": "Balance:",
+        "CURRENCY": "Currency:",
         "MY_TRANSFERS": "My transfers:",
         "MY_TRANSFERS_TO": "To",
         "MY_TRANSFERS_AMOUNT": "Amount",
@@ -23,7 +24,14 @@
         "MY_PENDING_TRANSFERS_TO": "To",
         "MY_PENDING_TRANSFERS_AMOUNT": "Amount",
         "MY_PENDING_TRANSFERS_RESEND_CODE": "resend code",
-        "MY_PENDING_TRANSFERS_DELETE": "delete"
+        "MY_PENDING_TRANSFERS_DELETE": "delete",
+        "FILL_BALANCE_BUTTON": "Fill balance",
+        "CHANGE_CURRENCY":  "Change actual currency",
+        "CHANGE_CURRENCY_BUTTON": "Change currency",
+        "FILL_BALANCE_FORM": "Fill balance",
+        "ADD_AMOUNT": "Amount to pay",
+        "ADD_AMOUNT_SUBMIT": "Deposit",
+        "ADD_AMOUNT_ERROR": "Please choose an amount above 0"
     },
     "FUNDS": {
         "BROWSE_FUNDRAISERS": "Browse fundraisers",
@@ -72,6 +80,13 @@
         "AMOUNT": "raised of {{ targetAmount }} HUF goal",
         "NUMBER_OF_BACKERS": "Number of backers: ",
         "EXPIRATION_DATE": "Expiration date: "
+    },
+    "CHANGE_CURRENCY": {
+        "BALANCE": "Balance:",
+        "ACTUAL_CURRENCY": "Actual currency:",
+        "NEW_CURRENCY": "New currency:",
+        "SELECT_CURRENCY": "--Select a new currency--",
+        "ERROR": "Please choose a currency.",
+        "SUBMIT": "Change"
     }
-
 }

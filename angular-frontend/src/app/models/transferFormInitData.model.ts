@@ -1,6 +1,9 @@
 import {TargetFundOptionModel} from './targetFundOptionModel';
+import {CurrencyOptionModel} from './currencyOption.model';
 
 export interface TransferFormInitDataModel {
-    balance: number;
     targetFundOptions: Array<TargetFundOptionModel>;
+    balance: number;
+    currency: string;
+    currencyOptions: CurrencyOptionModel;
 }

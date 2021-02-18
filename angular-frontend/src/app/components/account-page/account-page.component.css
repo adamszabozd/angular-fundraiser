@@ -67,7 +67,7 @@ button {
     border: 1px solid #f7ae2f;
 }
 .col-sm-4 {
-    max-height: 500px;
+    max-height: 600px;
 }
 .confirmed {
     background-color: rgba(60, 172, 202, 0.7);
@@ -77,8 +77,10 @@ button {
 }
 .upper {
     padding: 15px;
-    margin-bottom: 0px;
 }
 .lower {
     padding: 15px;
+}
+.fillForm {
+    background-color: #dcdfe8 !important;
 }

@@ -18,10 +18,7 @@ import hu.progmasters.fundraiser.dto.transfer.create.TransferConfirmationCommand
 import hu.progmasters.fundraiser.dto.transfer.create.TransferCreationCommand;
 import hu.progmasters.fundraiser.dto.transfer.create.TransferFormInitData;
 import hu.progmasters.fundraiser.dto.transfer.list.MyTransferListPendingItem;
-import hu.progmasters.fundraiser.service.AccountService;
-import hu.progmasters.fundraiser.service.EmailSendingService;
-import hu.progmasters.fundraiser.service.FundService;
-import hu.progmasters.fundraiser.service.TransferService;
+import hu.progmasters.fundraiser.service.*;
 import hu.progmasters.fundraiser.validation.TransferConfirmationCommandValidator;
 import hu.progmasters.fundraiser.validation.TransferCreationCommandValidator;
 import org.slf4j.Logger;
@@ -47,6 +44,7 @@ public class TransferController {
     private final AccountService accountService;
     private final FundService fundService;
     private final EmailSendingService emailSendingService;
+    private final ExchangeService exchangeService;
 
     private final TransferCreationCommandValidator transferCreationCommandValidator;
     private final TransferConfirmationCommandValidator transferConfirmationCommandValidator;
@@ -56,6 +54,7 @@ public class TransferController {
             TransferService transferService,
             AccountService accountService,
             FundService fundService,
+            ExchangeService exchangeService,
             EmailSendingService emailSendingService,
             TransferCreationCommandValidator transferCreationCommandValidator,
             TransferConfirmationCommandValidator transferConfirmationCommandValidator
@@ -64,6 +63,7 @@ public class TransferController {
         this.accountService = accountService;
         this.fundService = fundService;
         this.emailSendingService = emailSendingService;
+        this.exchangeService = exchangeService;
         this.transferCreationCommandValidator = transferCreationCommandValidator;
         this.transferConfirmationCommandValidator = transferConfirmationCommandValidator;
     }
@@ -80,9 +80,10 @@ public class TransferController {
 
     @GetMapping("/newTransferData")
     public ResponseEntity<TransferFormInitData> newTransferData(Principal principal) {
-        Account myAccount = accountService.findByEmail(principal.getName());
+        Account myAccount = accountService.findByEmail("nagy.katalin.linike@gmail.com");
         List<Fund> targetFunds = fundService.findAll();
-        TransferFormInitData initData = new TransferFormInitData(targetFunds, myAccount.getBalance());
+        TransferFormInitData initData = new TransferFormInitData(targetFunds, myAccount);
+        initData.setCurrencyOptions(exchangeService.fetchRates());
         return new ResponseEntity<>(initData, HttpStatus.OK);
     }
 

@@ -13,10 +13,6 @@ export class TransferService {
 
     constructor(private http: HttpClient) {}
 
-    fetchAllTransfers(): Observable<any> {
-        return this.http.get(BASE_URL);
-    }
-
     getNewTransferData(): Observable<TransferFormInitDataModel> {
         return this.http.get<TransferFormInitDataModel>(BASE_URL + '/' + 'newTransferData');
     }
@@ -35,6 +31,10 @@ export class TransferService {
 
     resendConfirmationEmail(id: number): Observable<any> {
         return this.http.get(BASE_URL + '/resend/' + id);
+    }
+
+    fetchAllTransfers(): Observable<any> {
+        return this.http.get(BASE_URL);
     }
 
 }

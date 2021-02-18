@@ -14,30 +14,18 @@ public class ExchangeRate {
     @Column(name = "id",insertable = false, updatable = false)
     private Long id;
 
-    @Column(name = "date", unique = true, nullable = false, updatable = false)
+    @Column(name = "date", nullable = false, updatable = false)
     private LocalDate currentTime;
 
-    @Column(name = "base_currency", nullable = false, updatable = false)
-    private String baseCurrency;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "currency", nullable = false, updatable = false)
+    private Currency currency;
 
-    @Column(name = "USD", nullable = false, updatable = false)
-    private Double USD;
+    @Column(name = "rate", nullable = false, updatable = false)
+    private Double rate;
 
-    @Column(name = "HUF", nullable = false, updatable = false)
-    private Double HUF;
-
-    @Column(name = "GBP", nullable = false, updatable = false)
-    private Double GBP;
 
     public ExchangeRate() {
-    }
-
-    public ExchangeRate(CurrentExchangeRateCommand exchangeRateCommand) {
-        this.currentTime = exchangeRateCommand.getDate();
-        this.baseCurrency = exchangeRateCommand.getBase();
-        this.USD = exchangeRateCommand.getRates().get("USD");
-        this.HUF = exchangeRateCommand.getRates().get("HUF");
-        this.GBP = exchangeRateCommand.getRates().get("GBP");
     }
 
     public Long getId() {
@@ -56,36 +44,20 @@ public class ExchangeRate {
         this.currentTime = currentTime;
     }
 
-    public String getBaseCurrency() {
-        return baseCurrency;
+    public Currency getCurrency() {
+        return currency;
     }
 
-    public void setBaseCurrency(String baseCurrency) {
-        this.baseCurrency = baseCurrency;
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 
-    public Double getUSD() {
-        return USD;
+    public Double getRate() {
+        return rate;
     }
 
-    public void setUSD(Double USD) {
-        this.USD = USD;
-    }
-
-    public Double getHUF() {
-        return HUF;
-    }
-
-    public void setHUF(Double HUF) {
-        this.HUF = HUF;
-    }
-
-    public Double getGBP() {
-        return GBP;
-    }
-
-    public void setGDP(Double GBP) {
-        this.GBP = GBP;
+    public void setRate(Double rate) {
+        this.rate = rate;
     }
 
 }

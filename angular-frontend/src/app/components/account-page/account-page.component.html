@@ -1,16 +1,85 @@
+<app-change-currency *ngIf="setCurrency" [myAccount]="chosenData"></app-change-currency>
+<div *ngIf="setBalance" class="container jumbotron fillForm balance">
+    <h2>{{ 'MY_ACCOUNT.FILL_BALANCE_FORM' | translate }}</h2>
+    <div class="border-top mx-auto my-3"></div>
+    <br/>
+    <form class="form-horizontal" [formGroup]="form" (ngSubmit)="handleBalance()">
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label" for="currentBalance">{{ 'MY_ACCOUNT.BALANCE' | translate }}</label>
+            <div class="col-sm-9">
+                <input
+                    class="form-control my-input-field-disabled"
+                    name="currentBalance"
+                    id="currentBalance"
+                    placeholder="{{accountDetails?.balance}}"
+                    disabled
+                />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label" for="my-currency">{{ 'MY_ACCOUNT.CURRENCY' | translate }}</label>
+            <div class="col-sm-9">
+                <input
+                    id="my-currency"
+                    class="form-control my-input-field-disabled"
+                    name="my-currency"
+                    placeholder="{{accountDetails?.currency}}"
+                    disabled
+                />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label"
+                   for="add_amount"
+                   [ngClass]="{'text-danger': (form.get('add_amount').invalid && form.get('add_amount').touched)
+                            || (form.get('add_amount').errors?.serverError)}"
+            >
+                {{ 'MY_ACCOUNT.ADD_AMOUNT' | translate }}
+            </label>
+            <div class="col-sm-9">
+                <input
+                    id="add_amount"
+                    min="0"
+                    type="number"
+                    class="form-control"
+                    [ngClass]="{'is-invalid': (form.get('add_amount').invalid && form.get('add_amount').touched)
+                            || (form.get('add_amount').errors?.serverError)}"
+                    name="add_amount"
+                    formControlName="add_amount"
+                />
+
+                <small
+                    *ngIf="!form.get('add_amount').valid
+                        && form.get('add_amount').touched
+                        && !form.get('add_amount').errors?.serverError"
+                    class="text-danger"
+                >
+                    {{ 'MY_ACCOUNT.ADD_AMOUNT_ERROR' | translate }}
+                </small>
+                <small *ngIf="form.get('add_amount').errors?.serverError" class="text-danger">
+                    {{form.get('add_amount').errors.serverError}}
+                </small>
+            </div>
+        </div>
+        <br/>
+        <button type="submit"
+                class="btn btn-primary my-buttons">{{ 'MY_ACCOUNT.ADD_AMOUNT_SUBMIT' | translate }}</button>
+    </form>
+</div>
+
 <div class="account row mb-3">
     <div [@slideUp]="state" class="container  jumbotron col-sm-4">
         <h2>{{ 'NAVBAR.MY_ACCOUNT' | translate }}</h2>
         <div class="border-top mx-auto my-3"></div>
         <div class="form-group">
             <label for="email" class="input-label">{{ 'MY_ACCOUNT.EMAIL' | translate }}</label>
-                <input
-                    id="email"
-                    class="form-control my-input-field-disabled"
-                    name="email"
-                    placeholder="{{accountDetails?.email}}"
-                    disabled
-                />
+            <input
+                id="email"
+                class="form-control my-input-field-disabled"
+                name="email"
+                placeholder="{{accountDetails?.email}}"
+                disabled
+            />
         </div>
         <div class="form-group">
             <label for="username" class="input-label">{{ 'MY_ACCOUNT.USERNAME' | translate }}</label>
@@ -32,6 +101,24 @@
                 disabled
             />
         </div>
+        <div class="form-group">
+            <label for="currency">{{ 'MY_ACCOUNT.CURRENCY' | translate }}</label>
+            <input
+                id="currency"
+                class="form-control my-input-field-disabled"
+                name="currency"
+                placeholder="{{accountDetails?.currency}}"
+                disabled
+            />
+        </div>
+        <div>
+            <span class="btn-group">
+                <button (click)="fillBalance()"
+                        class="btn btn-primary">{{ 'MY_ACCOUNT.FILL_BALANCE_BUTTON' | translate }}</button>
+                <button (click)="changeCurrency()"
+                        class="btn btn-danger">{{ 'MY_ACCOUNT.CHANGE_CURRENCY_BUTTON' | translate }}</button>
+            </span>
+        </div>
     </div>
     <div [@slideUp]="state" class="col-sm-8">
         <div *ngIf="accountDetails?.pendingTransfers.length > 0" class="container jumbotron upper">
@@ -50,8 +137,10 @@
                     <td class="pending-border">{{transfer.amount}}</td>
                     <td class="pending-border">
                 <span class="btn-group">
-                    <button (click)="resendConfirmationEmail(transfer.id)" class="btn btn-primary">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS_RESEND_CODE' | translate }}</button>
-                    <button (click)="deletePendingTransfer(transfer.id)" class="btn btn-danger">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS_DELETE' | translate }}</button>
+                    <button (click)="resendConfirmationEmail(transfer.id)"
+                            class="btn btn-primary">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS_RESEND_CODE' | translate }}</button>
+                    <button (click)="deletePendingTransfer(transfer.id)"
+                            class="btn btn-danger">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS_DELETE' | translate }}</button>
                 </span>
                     </td>
                 </tr>

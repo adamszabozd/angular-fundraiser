@@ -6,6 +6,7 @@ export interface FundListItemModel{
     shortDescription: string;
     longDescription: string;
     targetAmount: number;
+    currency: string;
     raisedAmount: number;
     endDate: Date;
     creatorName: string;

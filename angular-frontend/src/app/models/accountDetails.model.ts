@@ -6,6 +6,7 @@ export interface AccountDetailsModel {
     email: string;
     username: string;
     balance: number;
+    currency: string;
     accountRoleList: Array<string>;
     confirmedTransfers: Array<MyTransferListItemModel>;
     pendingTransfers: Array<MyTransferListPendingItemModel>;

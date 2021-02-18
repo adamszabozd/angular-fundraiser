@@ -3,5 +3,6 @@ export interface MyTransferListItemModel {
     senderAccountEmail: string;
     targetFundTitle: string;
     amount: number;
+    currency: string;
     timeStamp: string;
 }

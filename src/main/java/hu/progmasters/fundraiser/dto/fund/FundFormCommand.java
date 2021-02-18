@@ -16,6 +16,8 @@ public class FundFormCommand {
 
     private Double targetAmount;
 
+    private String currency;
+
     private LocalDate endDate;
 
     public static FundFormCommand getDummyInstance(String name) {
@@ -26,6 +28,7 @@ public class FundFormCommand {
         instance.setImageUrl("image_two.jpg");
         instance.setCategory("MEDICAL");
         instance.setTargetAmount(1001.0);
+        instance.setCategory("EUR");
         instance.setEndDate(LocalDate.now());
         return instance;
     }
@@ -84,6 +87,14 @@ public class FundFormCommand {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
 }

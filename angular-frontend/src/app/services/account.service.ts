@@ -4,6 +4,8 @@ import {Observable, Subject} from 'rxjs';
 import {AccountDetailsModel} from '../models/accountDetails.model';
 import {AccountRegistrationDataModel} from '../models/accountRegistrationData.model';
 import {environment} from "../../environments/environment";
+import {BalanceFormCommandModel} from '../models/balanceFormCommand.model';
+import {CurrencyOptionModel} from '../models/currencyOption.model';
 
 const host = environment.BASE_URL;
 const BASE_URL = host + '/api/accounts';
@@ -44,5 +46,13 @@ export class AccountService {
 
     logout(): Observable<any> {
         return this.http.get(BASE_URL + "/logout");
+    }
+
+    fillMyBalance(data: BalanceFormCommandModel): Observable<any> {
+        return this.http.post(BASE_URL + "/balance", data);
+    }
+
+    getCurrencies(): Observable<CurrencyOptionModel[]> {
+        return this.http.get<CurrencyOptionModel[]>(BASE_URL + '/currency');
     }
 }
