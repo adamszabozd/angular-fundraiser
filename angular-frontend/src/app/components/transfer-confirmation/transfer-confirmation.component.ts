@@ -57,6 +57,9 @@ export class TransferConfirmationComponent implements OnInit {
                                     }
                                 );
                             }
+                            if (this.state == 'invisible') {
+                                setTimeout(() => this.state = 'visible');
+                            }
                         },
                         error => {
                             console.warn(error);
