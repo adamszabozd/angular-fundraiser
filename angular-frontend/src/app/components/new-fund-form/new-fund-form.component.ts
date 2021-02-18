@@ -23,7 +23,7 @@ export class NewFundFormComponent implements OnInit {
 
     form = this.formBuilder.group({
         title: ['', Validators.required],
-        shortDescription: ['', Validators.required, Validators.minLength(5), Validators.maxLength(250)],
+        shortDescription: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(250)]],
         longDescription: [''],
         imageUrl: ['', Validators.maxLength(1000)],
         category: [null],
@@ -58,7 +58,7 @@ export class NewFundFormComponent implements OnInit {
     onSubmit() {
         this.fundService.saveNewFund(this.form.value).subscribe(
             () => this.router.navigate(['']),
-            (error) => validationHandler(error, this.form),
+            (error) => validationHandler(error, this.form)
         );
     }
 
