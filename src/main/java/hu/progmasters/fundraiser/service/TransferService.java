@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
 public class TransferService {
 
     Logger logger = LoggerFactory.getLogger(TransferService.class);
-
+    //TODO - Review: Ne hívjuk "keresztbe" a rétegeket. Ugyanaz mint a FundServiceben
     private final TransferRepository transferRepository;
     private final AccountRepository accountRepository;
     private final FundRepository fundRepository;
@@ -61,6 +61,7 @@ public class TransferService {
     }
 
     private Transfer getPendingTransfer(TransferCreationCommand transferCreationCommand, Account source, Fund goal) {
+        //TODO - Review: Ezt az inicializálást nem lehetne valahogy átszervezni?
         Transfer pendingTransfer;
         pendingTransfer = new Transfer();
         pendingTransfer.setAmount(transferCreationCommand.getAmount());
@@ -68,6 +69,7 @@ public class TransferService {
         pendingTransfer.setSource(source);
         String code = getCode();
         logger.info("Confirmation code generated.");
+        //TODO - Review: Miért tároljátok mind a két kódot? Így semmi értelme :D
         pendingTransfer.setConfirmationCode(passwordEncoder.encode(code));
         pendingTransfer.setUnencryptedConfirmationCode(code);
         pendingTransfer.setConfirmed(false);

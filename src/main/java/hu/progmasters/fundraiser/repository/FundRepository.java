@@ -11,6 +11,9 @@ import java.util.List;
 @Repository
 public interface FundRepository extends JpaRepository<Fund, Long> {
 
+    //TODO - Review: Itt egyáltalán nem garantált, hogy Fund-ot kapsz vissza, és akkor hibára fogsz futni,
+    // érdemesebb egy Optional-ba csomagolni. Ezután rá leszünk kényszerítve, hogy kezeljük, amennyiben nincs ott érték
+    // Optional<Fund> findByFundTitle(String title);
     Fund findByFundTitle(String title);
 
     @Query("SELECT f FROM Fund f WHERE f.fundCategory = ?1")

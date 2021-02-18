@@ -1,7 +1,6 @@
 package hu.progmasters.fundraiser.exception;
 
-//TODO - Review: Bátran vegyetek fel újabb packegeket, hogy csoportosítsátok vele az összetartozó osztályokat.
-// Pl a 2 új custom exception-öd is mehetne a saját package-ébe! :)
+//TODO - Review: Bátran vegyetek fel újabb packegeket, hogy csoportosítsátok vele az összetartozó osztályokat!!
 public class ConfirmedTransferDeleteException extends RuntimeException {
 
     private final String accountEmail;

@@ -34,6 +34,9 @@ public class AccountRegistrationCommandValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         AccountRegistrationCommand registration = (AccountRegistrationCommand) target;
+        //TODO - Review: A validátorokban rengeteg a kódismétlés, illetve a SonarLint is nagyon nyafog érte
+        // Ezeket a feltétel kezeléseket gyönyörűen ki lehet emelni metódusba
+        // ÉS be lehet húzni őket egy közös absztrakt osztályba ( ha gondoljátok megmutatom mire gondolok )
         if (registration.getEmail() == null || registration.getEmail().isEmpty()) {
             errors.rejectValue("email", "email.notEmpty");
         }

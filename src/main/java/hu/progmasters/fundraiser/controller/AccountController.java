@@ -67,6 +67,8 @@ public class AccountController {
 
     @GetMapping("/myAccountDetails")
     public ResponseEntity<AccountDetails> getMyAccountDetails(Principal principal) {
+        //TODO - Review: A konverzió is üzleti logikának minősül, ne itt csináljuk ezeket
+        // Más, ha csak a SecurityContextből húzunk ki valamit, de itt lemegyünk egészen az adatbázisig
         Account myAccount = accountService.findByEmail(principal.getName());
         AccountDetails myAccountDetails = new AccountDetails(myAccount);
 

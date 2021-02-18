@@ -52,6 +52,7 @@ public class TransferController {
     private final TransferCreationCommandValidator transferCreationCommandValidator;
     private final TransferConfirmationCommandValidator transferConfirmationCommandValidator;
 
+    //TODO - Review: Ez elég sok függőségnek tűnik elsőre, biztos hogy nem lehetne ezeket valahová átrakni?
     @Autowired
     public TransferController(
             TransferService transferService,
@@ -72,6 +73,10 @@ public class TransferController {
     @InitBinder("transferCreationCommand")
     protected void initCreationBinder(WebDataBinder binder) {
         binder.addValidators(transferCreationCommandValidator);
+        //TODO - Review: Amennyiben így csináljátok, nem kell injektálni a validátort
+        // Természetesen itt mérlegelni kell, hogy milyen sűrűn van használva, mi a nagyobb "pazarlás"
+        // Mindig létrehozni, vagy folyamatosan tárolni a memóriában
+        // binder.addValidators(new TransferConfirmationCommandValidator());
     }
 
     @InitBinder("transferConfirmationCommand")
@@ -119,6 +124,8 @@ public class TransferController {
 
     @GetMapping("/resend/{id}")
     public ResponseEntity<Void> resendConfirmationEmail(@PathVariable Long id, Principal principal) {
+        //TODO - Review: Az összes ilyen logika menjen service rétegbe, semmit nem adunk vissza az eredményből,
+        // mindent be lehetne húzni egy metódus alá valamelyik service-be
         Transfer pendingTransfer = transferService.getPendingTransferByIdAndEmail(id, principal.getName());
         transferService.generateNewConfirmationCode(pendingTransfer);
         String confirmationCode = pendingTransfer.getUnencryptedConfirmationCode();

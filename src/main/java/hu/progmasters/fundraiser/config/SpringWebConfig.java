@@ -22,8 +22,6 @@ public class SpringWebConfig implements WebMvcConfigurer {
     @Value("${cors-policies}")
     private String[] corsPolicies;
 
-    public static final String SESSION_USER_ID_KEY = "userId";
-
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")

@@ -41,12 +41,11 @@ public class FundController {
         webDataBinder.addValidators(validator);
     }
 
+    //TODO - Review: Nagyon kreatív a metódusnév...
     @InitBinder(value = "modifyFundFormCommand")
     protected void init2(WebDataBinder webDataBinder){
         webDataBinder.addValidators(modifyFundFormCommandValidator);
     }
-
-
 
     @GetMapping
     public ResponseEntity<List<FundListItem>> fetchAllFunds() {
@@ -59,7 +58,6 @@ public class FundController {
     public ResponseEntity<List<FundListItem>> fetchMyFunds(Principal principal) {
         return new ResponseEntity<>(fundService.fetchMyFunds(principal.getName()), HttpStatus.OK);
     }
-
 
     @GetMapping("/initData")
     public ResponseEntity<List<CategoryOption>> fetchCategoryList() {

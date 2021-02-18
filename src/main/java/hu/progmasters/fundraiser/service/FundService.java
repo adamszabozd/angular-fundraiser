@@ -24,6 +24,8 @@ import java.util.stream.Collectors;
 public class FundService {
 
     private final FundRepository fundRepository;
+    //TODO - Review: Ne hívjuk "keresztbe" a rétegeket, ha elkerülhető, FundService a Fundokért felel,
+    // ergo FundRepositoryba nyúljon csak. Amennyiben Account v Transfer kell neki, azt a dedikált Serviceiken keresztül kérjük le inkább
     private final AccountRepository accountRepository;
     private final TransferRepository transferRepository;
 
@@ -38,10 +40,9 @@ public class FundService {
         return fundRepository.findAll();
     }
 
-    public List<FundListItem> fetchAllForList(){
+    public List<FundListItem> fetchAllForList() {
         return fundRepository.findAll().stream().map(FundListItem::new).collect(Collectors.toList());
     }
-
 
     public void saveNewFund(FundFormCommand fundFormCommand, String emailAddress) {
         Account myAccount = accountRepository.findByEmail(emailAddress);
@@ -51,24 +52,30 @@ public class FundService {
     }
 
     public FundDetailsItem fetchFundDetails(Long id) {
+        //TODO - Review: A következő két sor kb 3x ismétlődik, csak ebben az osztályban...
+        // Sok kicsi sokra megy...
+        // Az IllegalArgumentException helyett van beszédesebb: EntityNotFoundException
         Optional<Fund> fund = fundRepository.findById(id);
-        if(fund.isPresent()){
+        if (fund.isPresent()) {
             Long backers = transferRepository.numberOfBackers(id);
             return new FundDetailsItem(fund.get(), backers);
-        } else throw new IllegalArgumentException();
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
     public List<FundListItem> fetchMyFunds(String email) {
 
         Account myAccount = accountRepository.findByEmail(email);
+        //TODO - Review: Itt miért nem a FundRepository van használva??
         return myAccount.getFunds().stream().map(FundListItem::new).collect(Collectors.toList());
     }
 
     public void modifyFund(ModifyFundFormCommand modifyFundFormCommand) {
-
+        //TODO - Review: Ugyanaz a kódismétlés... ezt is ki lehet emelni
         Optional<Fund> optionalFund = fundRepository.findById(modifyFundFormCommand.getId());
 
-        if(optionalFund.isPresent()){
+        if (optionalFund.isPresent()) {
             Fund fund = optionalFund.get();
             fund.setShortDescription(modifyFundFormCommand.getShortDescription());
             fund.setLongDescription(modifyFundFormCommand.getLongDescription());
@@ -76,7 +83,7 @@ public class FundService {
             fund.setTargetAmount(modifyFundFormCommand.getTargetAmount());
             fund.setEndDate(modifyFundFormCommand.getEndDate());
             fundRepository.save(fund);
-        }else{
+        } else {
             throw new IllegalArgumentException("Fund not found by id. Modify unsuccessful");
         }
 
@@ -87,7 +94,9 @@ public class FundService {
             FundCategory category = FundCategory.valueOf(categoryName);
             List<Fund> funds = fundRepository.findAllByCategory(category);
             return funds.stream().map(FundListItem::new).collect(Collectors.toList());
-        } else throw new IllegalArgumentException();
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
     private boolean contains(String categoryName) {
@@ -101,12 +110,15 @@ public class FundService {
     }
 
     public List<Fund> findById(Long id) {
-        Optional<Fund> fundOptional= fundRepository.findById(id);
-        if(fundOptional.isPresent()){
+        Optional<Fund> fundOptional = fundRepository.findById(id);
+        if (fundOptional.isPresent()) {
             Fund fund = fundOptional.get();
             List<Fund> fundList = new ArrayList<>();
             fundList.add(fund);
             return fundList;
-        } else throw new IllegalArgumentException();
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
+
 }
