@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FundsService} from "../../services/funds.service";
 import {FundListItemModel} from "../../models/FundListItem.model";
 import {Router} from "@angular/router";
+import {AccountService} from "../../services/account.service";
 
 @Component({
   selector: 'app-my-funds',
@@ -12,12 +13,16 @@ export class MyFundsComponent implements OnInit {
 
     myFundList: Array<FundListItemModel>;
 
-  constructor(private fundService: FundsService, private router: Router) { }
+  constructor(private fundService: FundsService, private router: Router, private accountService: AccountService) { }
 
   ngOnInit() {
       this.fundService.fetchMyFunds().subscribe(
           (data)=>this.myFundList=data,
-          error => console.log(error)
+          error => {
+              this.accountService.loggedInStatusUpdate.next(false);
+              this.router.navigate(['/login']);
+              console.log(error);
+          }
       )
   }
 

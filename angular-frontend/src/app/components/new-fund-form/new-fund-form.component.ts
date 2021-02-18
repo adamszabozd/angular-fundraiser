@@ -2,20 +2,20 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {FundsService} from '../../services/funds.service';
 import {Router} from '@angular/router';
+import {CategoryOptionModel} from '../../models/categoryOption.model';
 import {validationHandler} from '../../utils/validationHandler';
 import {AccountService} from '../../services/account.service';
-import {CategoryOptionModel} from '../../models/categoryOption.model';
 import {formAppearAnimation} from '../../animations';
 import {FundFormInitModel} from '../../models/fundFormInit.model';
 
 @Component({
-               selector   : 'app-new-fund-form',
-               templateUrl: './new-fund-form.component.html',
-               styleUrls  : ['./new-fund-form.component.css'],
-               animations : [
-                   formAppearAnimation,
-               ],
-           })
+    selector: 'app-new-fund-form',
+    templateUrl: './new-fund-form.component.html',
+    styleUrls: ['./new-fund-form.component.css'],
+    animations: [
+        formAppearAnimation
+    ]
+})
 export class NewFundFormComponent implements OnInit {
 
     state = 'invisible';
@@ -60,7 +60,7 @@ export class NewFundFormComponent implements OnInit {
     onSubmit() {
         this.fundService.saveNewFund(this.form.value).subscribe(
             () => this.router.navigate(['']),
-            (error) => validationHandler(error, this.form),
+            (error) => validationHandler(error, this.form)
         );
     }
 

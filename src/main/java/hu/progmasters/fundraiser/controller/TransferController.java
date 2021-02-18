@@ -33,6 +33,7 @@ import javax.security.auth.login.AccountNotFoundException;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @RestController
@@ -101,12 +102,12 @@ public class TransferController {
         return new ResponseEntity<>(initData, HttpStatus.OK);
     }
 
-        @PostMapping
-    public ResponseEntity<Void> savePendingTransfer(@Valid @RequestBody TransferCreationCommand transferCreationCommand, Principal principal) {
+    @PostMapping
+    public ResponseEntity<Void> savePendingTransfer(@Valid @RequestBody TransferCreationCommand transferCreationCommand, Principal principal, Locale locale) {
         Transfer pendingTransfer = transferService.savePendingTransfer(transferCreationCommand, principal.getName());
         String confirmationCode = pendingTransfer.getUnencryptedConfirmationCode();
         String to = accountService.findByEmail(principal.getName()).getEmail();
-        emailSendingService.sendConfirmationEmail(to, confirmationCode, pendingTransfer.getTarget().getFundTitle(), pendingTransfer.getAmount());
+        emailSendingService.sendConfirmationEmail(to, confirmationCode, pendingTransfer.getTarget().getFundTitle(), pendingTransfer.getAmount(), locale);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -124,14 +125,14 @@ public class TransferController {
     }
 
     @GetMapping("/resend/{id}")
-    public ResponseEntity<Void> resendConfirmationEmail(@PathVariable Long id, Principal principal) {
+    public ResponseEntity<Void> resendConfirmationEmail(@PathVariable Long id, Principal principal, Locale locale) {
         //TODO - Review: Az összes ilyen logika menjen service rétegbe, semmit nem adunk vissza az eredményből,
         // mindent be lehetne húzni egy metódus alá valamelyik service-be
         Transfer pendingTransfer = transferService.getPendingTransferByIdAndEmail(id, principal.getName());
         transferService.generateNewConfirmationCode(pendingTransfer);
         String confirmationCode = pendingTransfer.getUnencryptedConfirmationCode();
         String to = principal.getName();
-        emailSendingService.sendConfirmationEmail(to, confirmationCode, pendingTransfer.getTarget().getFundTitle(), pendingTransfer.getAmount());
+        emailSendingService.sendConfirmationEmail(to, confirmationCode, pendingTransfer.getTarget().getFundTitle(), pendingTransfer.getAmount(), locale);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

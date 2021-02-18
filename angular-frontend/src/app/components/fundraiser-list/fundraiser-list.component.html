@@ -1,5 +1,6 @@
 <div class="col-12 text-center mt-5">
-    <h1 class="text-dark pt-4">{{ 'FUNDS.BROWSE_FUNDRAISERS' | translate }}</h1>
+    <h1 *ngIf="numberOfFunds > 0" class="text-dark pt-4">{{ 'FUNDS.BROWSE_FUNDRAISERS' | translate }}</h1>
+    <h1 *ngIf="numberOfFunds == 0" class="text-danger pt-4">{{ 'FUNDS.NO_FUNDS' | translate }}</h1>
     <div class="border-top mx-auto my-3"></div>
 </div>
 <div class="container">
@@ -18,11 +19,10 @@
             </ul>
             <a target="_blank" [routerLink]="['/fund-details',fund.id]" class="btn btn-outline-warning btn-md" >{{ 'FUNDS.READ_MORE' | translate }}</a>
         </div>
-        <div style="width: 50%; margin: auto">
-            <pagination-controls id="pagination" maxSize="5" directionLinks="true" (pageChange)="page= $event"></pagination-controls>
-        </div>
     </div>
-
+    <div *ngIf="numberOfFunds > 0" class=" text-center mb-4">
+        <pagination-controls id="pagination" maxSize="5" directionLinks="true" (pageChange)="page= $event"></pagination-controls>
+    </div>
 
 </div>
 

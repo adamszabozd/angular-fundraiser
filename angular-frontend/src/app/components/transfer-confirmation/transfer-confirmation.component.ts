@@ -37,21 +37,37 @@ export class TransferConfirmationComponent implements OnInit {
                     this.accountService.loggedInStatusUpdate.next(false);
                     this.router.navigate(['/login']);
                 } else {
-                    if (this.state == 'invisible') {
-                        setTimeout(() => this.state = 'visible');
-                    }
                     this.route.paramMap.subscribe(
                         paramMap => {
                             const confirmationCode = paramMap.get('code');
                             if (confirmationCode) {
                                 this.urlCode = true;
                                 this.transferService.confirmTransfer({'confirmationCode': confirmationCode}).subscribe(
-                                    () => this.confirmed = true,
-                                    error => console.warn(error),
+                                    () => {
+                                        this.confirmed = true;
+                                        if (this.state == 'invisible') {
+                                            setTimeout(() => this.state = 'visible');
+                                        }
+                                    },
+                                    error => {
+                                        console.warn(error);
+                                        if (this.state == 'invisible') {
+                                            setTimeout(() => this.state = 'visible');
+                                        }
+                                    }
                                 );
+                            } else {
+                                if (this.state == 'invisible') {
+                                    setTimeout(() => this.state = 'visible');
+                                }
                             }
                         },
-                        error => console.warn(error),
+                        error => {
+                            console.warn(error);
+                            if (this.state == 'invisible') {
+                                setTimeout(() => this.state = 'visible');
+                            }
+                        }
                     );
                 }
             }
