@@ -33,10 +33,7 @@ export class NavbarComponent implements OnInit {
         this.accountService.isLoggedIn().subscribe(
             data => this.loggedIn = data
         );
-        this.fundService.getInitialFormData().subscribe(
-            (data) => this.categories = data,
-            (error) => console.log(error)
-        );
+        this.getCategories();
     }
 
     logout() {
@@ -44,6 +41,13 @@ export class NavbarComponent implements OnInit {
             this.accountService.loggedInStatusUpdate.next(false);
             this.router.navigate(['']);
         });
+    }
+
+    getCategories() {
+        this.fundService.getInitialFormData().subscribe(
+            (data) => this.categories = data,
+            (error) => console.log(error)
+        );
     }
 
 }

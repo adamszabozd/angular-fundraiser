@@ -5,13 +5,16 @@ public class ConfirmedTransferDeleteException extends RuntimeException {
 
     private final String accountEmail;
 
-    public ConfirmedTransferDeleteException(String message, String accountEmail) {
-        super(message);
+    public ConfirmedTransferDeleteException(String accountEmail) {
         this.accountEmail = accountEmail;
     }
 
     public String getAccountEmail() {
         return accountEmail;
+    }
+
+    public String getCode() {
+        return "confirmed.transfer.deletion.error";
     }
 
 }

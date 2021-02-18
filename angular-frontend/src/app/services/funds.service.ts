@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../environments/environment";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {FundListItemModel} from "../models/FundListItem.model";
 import {CategoryOptionModel} from "../models/categoryOption.model";
 import {FundFormCommandModel} from "../models/fundFormCommand.model";
 import {FundDetailsItemModel} from "../models/fundDetailsItem.model";
+import {TranslateService} from "@ngx-translate/core";
 
 const host = environment.BASE_URL;
 const BASE_URL = host+'/api/funds';
@@ -15,7 +16,7 @@ const BASE_URL = host+'/api/funds';
 })
 export class FundsService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, public translate: TranslateService) { }
 
   fetchAllFunds(): Observable<Array<FundListItemModel>> {
       return this.http.get<Array<FundListItemModel>>(BASE_URL);
@@ -26,7 +27,10 @@ export class FundsService {
     }
 
     getInitialFormData(): Observable<CategoryOptionModel[]> {
-        return this.http.get<CategoryOptionModel[]>(BASE_URL + "/initData")
+        return this.http.get<CategoryOptionModel[]>(BASE_URL + "/initData", {
+            params: new HttpParams()
+                .set('lang', this.translate.currentLang)
+        })
     }
 
     saveNewFund(data: FundFormCommandModel): Observable<any> {

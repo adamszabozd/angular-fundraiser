@@ -108,7 +108,7 @@ public class TransferService {
             }
         }
         if (transfer == null) {
-            throw new InvalidConfirmationCodeException("No pending transfer exists with this confirmation code!", email);
+            throw new InvalidConfirmationCodeException(email);
         }
 
         transfer.setTimeStamp(LocalDateTime.now());
@@ -124,15 +124,15 @@ public class TransferService {
     public void deleteTransfer(Long id, String email) {
         Optional<Transfer> transferOptional = transferRepository.findById(id);
         if (transferOptional.isEmpty()) {
-            throw new TransferNotFoundException("Transfer not found with the given id", email);
+            throw new TransferNotFoundException(email);
         }
         Transfer transfer = transferOptional.get();
         if (transfer.getConfirmed()) {
-            throw new ConfirmedTransferDeleteException("Confirmed transfer cannot be deleted", email);
+            throw new ConfirmedTransferDeleteException(email);
         } else if (transfer.getSource().getEmail().equals(email)) {
             transferRepository.delete(transfer);
         } else {
-            throw new NotOwnTransferException("Not own transfer", email);
+            throw new NotOwnTransferException(email);
         }
     }
 
@@ -151,15 +151,15 @@ public class TransferService {
     public Transfer getPendingTransferByIdAndEmail(Long id, String email) {
         Optional<Transfer> transferOptional = transferRepository.findById(id);
         if (transferOptional.isEmpty()) {
-            throw new TransferNotFoundException("Transfer not found with the given id", email);
+            throw new TransferNotFoundException(email);
         }
         Transfer transfer = transferOptional.get();
         if (transfer.getConfirmed()) {
-            throw new AlreadyConfirmedTransferException("Transfer is already confirmed", email);
+            throw new AlreadyConfirmedTransferException(email);
         } else if (transfer.getSource().getEmail().equals(email)) {
             return transfer;
         } else {
-            throw new NotOwnTransferException("Not own transfer", email);
+            throw new NotOwnTransferException(email);
         }
     }
 

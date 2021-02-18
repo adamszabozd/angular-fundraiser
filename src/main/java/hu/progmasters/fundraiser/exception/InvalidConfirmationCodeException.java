@@ -4,12 +4,16 @@ public class InvalidConfirmationCodeException extends RuntimeException {
 
     private final String accountEmail;
 
-    public InvalidConfirmationCodeException(String message, String accountEmail) {
-        super(message);
+    public InvalidConfirmationCodeException(String accountEmail) {
         this.accountEmail = accountEmail;
     }
 
     public String getAccountEmail() {
         return accountEmail;
     }
+
+    public String getCode() {
+        return "invalid.confirmation.code";
+    }
+
 }
