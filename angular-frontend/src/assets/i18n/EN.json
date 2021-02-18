@@ -33,7 +33,8 @@
         "END_DATE": "End date: ",
         "CREATOR": "Creator: ",
         "MODIFY": "Modify",
-        "READ_MORE": "Read more"
+        "READ_MORE": "Read more",
+        "NO_FUNDS": "Sorry, there are no funds in this category yet"
     },
     "FUND": {
         "NEW_FUND": "New Fund",

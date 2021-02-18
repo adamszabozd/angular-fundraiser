@@ -33,7 +33,8 @@
         "END_DATE": "Gyűjtés vége: ",
         "CREATOR": "Kezdeményező: ",
         "MODIFY": "Módosítás",
-        "READ_MORE": "Részletek"
+        "READ_MORE": "Részletek",
+        "NO_FUNDS": "Sajnáljuk, de ebben a kategóriában még nincsen gyűjtés"
     },
     "FUND": {
         "NEW_FUND": "Új gyűjtés",
