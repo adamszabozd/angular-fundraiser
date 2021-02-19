@@ -59,17 +59,17 @@
                     {{form.get('newCurrency').errors['newCurrency']}}
                 </small>
             </div>
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label" for="newBalance">{{ 'CHANGE_CURRENCY.BALANCE' | translate }}</label>
-                <div class="col-sm-9">
-                    <input
-                        class="form-control my-input-field-disabled"
-                        name="newBalance"
-                        id="newBalance"
-                        placeholder="{{myNewBalance}}"
-                        disabled
-                    /></div>
-            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label" for="newBalance">{{ 'CHANGE_CURRENCY.BALANCE' | translate }}</label>
+            <div class="col-sm-9">
+                <input
+                    class="form-control my-input-field-disabled"
+                    name="newBalance"
+                    id="newBalance"
+                    placeholder="{{myNewBalance}}"
+                    disabled
+                /></div>
         </div>
         <br/>
         <button type="submit"
