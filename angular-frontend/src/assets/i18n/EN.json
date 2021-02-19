@@ -42,7 +42,9 @@
         "CREATOR": "Creator: ",
         "MODIFY": "Modify",
         "READ_MORE": "Read more",
-        "NO_FUNDS": "Sorry, there are no funds in this category yet"
+        "NO_FUNDS": "Sorry, there are no funds in this category yet",
+        "PREVIOUS": "Previous",
+        "NEXT": "Next"
     },
     "FUND": {
         "NEW_FUND": "New Fund",

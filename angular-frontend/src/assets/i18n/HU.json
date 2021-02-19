@@ -42,7 +42,9 @@
         "CREATOR": "Kezdeményező: ",
         "MODIFY": "Módosítás",
         "READ_MORE": "Részletek",
-        "NO_FUNDS": "Sajnáljuk, de ebben a kategóriában még nincsen gyűjtés"
+        "NO_FUNDS": "Sajnáljuk, de ebben a kategóriában még nincsen gyűjtés",
+        "PREVIOUS": "Előző",
+        "NEXT": "Következő"
     },
     "FUND": {
         "NEW_FUND": "Új gyűjtés",
