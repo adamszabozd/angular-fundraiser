@@ -46,7 +46,7 @@
             </label>
             <input
                 id="nickName"
-                autocomplete="kiscicabajsza"
+                autocomplete="new-nickName"
                 class="form-control"
                 [ngClass]="{'is-invalid': (form.get('nickName').invalid && form.get('nickName').touched)
                             || (form.get('nickName').errors?.serverError)}"
@@ -85,7 +85,7 @@
                 minlength="5"
                 maxlength="100"
                 formControlName="password"
-                autocomplete="current-password"
+                autocomplete="new-password"
             />
             <small
                 *ngIf="!form.get('password').valid && form.get('password').touched && !form.get('password').errors?.serverError"
