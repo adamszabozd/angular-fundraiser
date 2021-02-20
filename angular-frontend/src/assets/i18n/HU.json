@@ -96,7 +96,7 @@
         "USERNAME": "Felhasználónév:",
         "USERNAME_ERROR": "Adjon meg egy érvényes felhasználónevet (4 és 20 karakter között)",
         "PASSWORD": "Jelszó:",
-        "PASSWORD_ERROR": "Adjon meg egy érvényes jelszót",
+        "PASSWORD_ERROR": "A jelszó minimum 5 karakter hosszú legyen, és nem tartalmazhat szóközt",
         "CONFIRM_PASSWORD": "Jelszó még egyszer:",
         "CONFIRM_PASSWORD_REQUIRED_ERROR": "Adja meg még egyszer a jelszót",
         "PASSWORDS_MUST_MATCH_ERROR": "A két jelszónak meg kell egyeznie",

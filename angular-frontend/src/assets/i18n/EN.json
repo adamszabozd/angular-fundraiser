@@ -96,7 +96,7 @@
         "USERNAME": "Nickname:",
         "USERNAME_ERROR": "Please enter a valid username (between 4 and 20 characters)",
         "PASSWORD": "Password:",
-        "PASSWORD_ERROR": "Please give a valid password",
+        "PASSWORD_ERROR": "The password must be longer than 5 character and must not contain any whitespaces",
         "CONFIRM_PASSWORD": "Confirm password:",
         "CONFIRM_PASSWORD_REQUIRED_ERROR": "Confirm Password is required",
         "PASSWORDS_MUST_MATCH_ERROR": "Passwords must match",

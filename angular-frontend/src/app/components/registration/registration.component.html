@@ -38,32 +38,32 @@
 
         <div class="form-group">
             <label
-                for="username"
-                [ngClass]="{'text-danger': (form.get('username').invalid && form.get('username').touched)
-                            || (form.get('username').errors?.serverError)}"
+                for="nickName"
+                [ngClass]="{'text-danger': (form.get('nickName').invalid && form.get('nickName').touched)
+                            || (form.get('nickName').errors?.serverError)}"
             >
                 {{ 'REGISTRATION.USERNAME' | translate }}
             </label>
             <input
-                id="username"
+                id="nickName"
+                autocomplete="kiscicabajsza"
                 class="form-control"
-                [ngClass]="{'is-invalid': (form.get('username').invalid && form.get('username').touched)
-                            || (form.get('username').errors?.serverError)}"
-                name="username"
+                [ngClass]="{'is-invalid': (form.get('nickName').invalid && form.get('nickName').touched)
+                            || (form.get('nickName').errors?.serverError)}"
                 minlength="4"
                 maxlength="20"
-                formControlName="username"
+                formControlName="nickName"
             />
             <small
-                *ngIf="!form.get('username').valid
-                        && form.get('username').touched
-                        && !form.get('username').errors?.serverError"
+                *ngIf="!form.get('nickName').valid
+                        && form.get('nickName').touched
+                        && !form.get('nickName').errors?.serverError"
                 class="text-danger"
             >
                 {{ 'REGISTRATION.USERNAME_ERROR' | translate }}
             </small>
-            <small *ngIf="form.get('username').errors?.serverError" class="text-danger">
-                {{form.get('username').errors.serverError}}
+            <small *ngIf="form.get('nickName').errors?.serverError" class="text-danger">
+                {{form.get('nickName').errors.serverError}}
             </small>
         </div>
 
@@ -79,12 +79,13 @@
                 id="password"
                 type="password"
                 class="form-control"
-                [ngClass]="{'is-invalid': (form.get('password').invalid && form.get('password').touched)
-                            || (form.get('password').errors?.serverError)}"
+                [ngClass]="{'is-invalid': (form.get('password').invalid && (form.get('password').dirty || form.get('password').touched)
+                            || (form.get('password').errors?.serverError))}"
                 name="password"
                 minlength="5"
                 maxlength="100"
                 formControlName="password"
+                autocomplete="current-password"
             />
             <small
                 *ngIf="!form.get('password').valid && form.get('password').touched && !form.get('password').errors?.serverError"
@@ -96,6 +97,9 @@
                 {{form.get('password').errors.serverError}}
             </small>
         </div>
+        <password-strength-meter [password]="form.get('password').value" [enableFeedback]="true"
+                                 (strengthChange)="onPasswordStrengthhanged($event)">
+        </password-strength-meter>
         <div class="form-group">
             <label for="confirm">
                 {{ 'REGISTRATION.CONFIRM_PASSWORD' | translate }}
@@ -107,10 +111,10 @@
                 minlength="5"
                 maxlength="100"
                 formControlName="confirm"
-                   [ngClass]="{ 'is-invalid': submitted && f.confirm.errors }"/>
-            <div *ngIf="submitted && f.confirm.errors" class="invalid-feedback">
-                <div *ngIf="f.confirm.errors.required">{{ 'REGISTRATION.CONFIRM_PASSWORD_REQUIRED_ERROR' | translate }}</div>
-                <div *ngIf="f.confirm.errors.mustMatch">{{ 'REGISTRATION.PASSWORDS_MUST_MATCH_ERROR' | translate }}</div>
+                   [ngClass]="{ 'is-invalid': submitted && feedback.confirm.errors }"/>
+            <div *ngIf="submitted && feedback.confirm.errors" class="invalid-feedback">
+                <div *ngIf="feedback.confirm.errors.required">{{ 'REGISTRATION.CONFIRM_PASSWORD_REQUIRED_ERROR' | translate }}</div>
+                <div *ngIf="feedback.confirm.errors.mustMatch">{{ 'REGISTRATION.PASSWORDS_MUST_MATCH_ERROR' | translate }}</div>
             </div>
         </div>
         <br/>

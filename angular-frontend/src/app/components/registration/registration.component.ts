@@ -30,9 +30,14 @@ export class RegistrationComponent implements OnInit {
                 private registrationService: RegistrationService) {
         this.form = this.formBuilder.group({
                                                email   : ['', [Validators.required, Validators.email]],
-                                               username: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
-                                               password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
-                                               confirm : ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+                                               nickName: ['', [Validators.required, Validators.minLength(4),
+                                                               Validators.maxLength(20),
+                                                               Validators.pattern(/^[^\s]+(\s+[^\s]+)*$/)]],
+                                               password: ['', [Validators.required, Validators.minLength(5),
+                                                               Validators.maxLength(100),
+                                                               Validators.pattern(/^\S*$/)]],
+                                               confirm : ['', [Validators.required, Validators.minLength(5),
+                                                               Validators.maxLength(100)]],
                                            }, {
                                                validator: mustMatch('password', 'confirm'),
                                            });
@@ -51,8 +56,7 @@ export class RegistrationComponent implements OnInit {
         );
     }
 
-    //TODO - Review: Nagyon beszédes metódusnév...
-    get f() {
+    get feedback() {
         return this.form.controls;
     }
 
@@ -62,11 +66,9 @@ export class RegistrationComponent implements OnInit {
             //TODO - Review: Azért valamit kezdjünk azzal, ha invalid a form, erre tuti kaptok majd bug-ticketet :D
             return;
         }
-        //TODO - Review: Ez a kettő ugyanazt fogja eredményezni...
-        // const data: AccountRegistrationDataModel = this.form.value;
         const data: AccountRegistrationDataModel = {
             email   : this.form.value.email,
-            username: this.form.value.username,
+            username: this.form.value.nickName,
             password: this.form.value.password,
         };
         this.accountService.registerNewAccount(data).subscribe(

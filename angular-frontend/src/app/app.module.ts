@@ -25,6 +25,7 @@ import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {NgxPaginationModule} from "ngx-pagination";
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { ChangeCurrencyComponent } from './components/change-currency/change-currency.component';
+import {PasswordStrengthMeterModule} from 'angular-password-strength-meter';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -55,6 +56,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ReactiveFormsModule,
         HttpClientModule,
         NgxPaginationModule,
+        PasswordStrengthMeterModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
