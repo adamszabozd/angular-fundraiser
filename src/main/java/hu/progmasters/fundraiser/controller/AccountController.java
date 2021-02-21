@@ -11,7 +11,6 @@
 
 package hu.progmasters.fundraiser.controller;
 
-import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.dto.account.AccountDetails;
 import hu.progmasters.fundraiser.dto.account.AccountRegistrationCommand;
 import hu.progmasters.fundraiser.dto.account.AuthenticatedAccountDetails;
@@ -75,17 +74,13 @@ public class AccountController {
             @RequestBody @Valid AccountRegistrationCommand accountRegistrationCommand
     ) {
         long newAccountId = accountService.create(accountRegistrationCommand);
-        logger.info("User '" + newAccountId + "' successfully registered!");
+        logger.info("User '{}' successfully registered!", newAccountId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/myAccountDetails")
     public ResponseEntity<AccountDetails> getMyAccountDetails(Principal principal) {
-        //TODO - Review: A konverzió is üzleti logikának minősül, ne itt csináljuk ezeket
-        // Más, ha csak a SecurityContextből húzunk ki valamit, de itt lemegyünk egészen az adatbázisig
-        Account myAccount = accountService.findByEmail(principal.getName());
-        AccountDetails myAccountDetails = new AccountDetails(myAccount);
-
+        AccountDetails myAccountDetails = accountService.addDetailsByEmail(principal.getName());
         return new ResponseEntity<>(myAccountDetails, HttpStatus.OK);
     }
 
@@ -106,13 +101,13 @@ public class AccountController {
                                                         Principal principal
     ) {
         AccountDetails myAccountDetails = accountService.fillMyBalance(balanceFormCommand, principal.getName());
-        logger.info("Balance  successfully filled with" + balanceFormCommand.getAddAmount());
-        return new ResponseEntity(myAccountDetails, HttpStatus.CREATED);
+        logger.info("Balance  successfully filled with {}", balanceFormCommand.getAddAmount());
+        return new ResponseEntity<>(myAccountDetails, HttpStatus.CREATED);
     }
 
     @GetMapping("/currency")
-    public ResponseEntity<List<CurrencyOption>> getCurrencies(Principal principal) {
-        return new ResponseEntity(exchangeService.fetchRates(), HttpStatus.OK);
+    public ResponseEntity<List<CurrencyOption>> getCurrencies() {
+        return new ResponseEntity<>(exchangeService.fetchRates(), HttpStatus.OK);
     }
 
     // Ezt max akkor fogjuk használni, ha csinálunk adminfelületet is. Mezei usereknek nem listázzuk ki az összes regisztáltat.

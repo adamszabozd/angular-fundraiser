@@ -64,8 +64,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .logout()
                         .logoutUrl("/api/accounts/logout")
-                        //TODO - Review: A következő sor felesleges ez a default ( check java-docs )
-                        .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
                 .and().httpBasic();
         //@formatter:on

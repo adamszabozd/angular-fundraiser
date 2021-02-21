@@ -44,9 +44,7 @@ logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
 
-account:
-  balance:
-    default: 5000
+exchange-api-url: http://data.fixer.io/api/latest?access_key=ccbcdaedbc16e8cbc37bd02fb523823a&base=EUR&symbols=USD,HUF,GBP
 
 cors-policies: http://localhost:4200
 frontend-url: http://localhost:4200

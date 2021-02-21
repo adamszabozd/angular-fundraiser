@@ -11,8 +11,6 @@
 
 package hu.progmasters.fundraiser.repository;
 
-//TODO - Review: CTRL + ALT + L ??????
-import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.domain.Transfer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

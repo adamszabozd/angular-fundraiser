@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -51,24 +52,32 @@ public class SharedValidationService {
         }
     }
 
-    public boolean emailAlreadyExists (String email){
-        Account account = accountRepository.findByEmail(email);
-        return account != null;
+    public boolean emailAlreadyExists(String email) {
+        boolean alreadyExist = false;
+        Optional<Account> optionalAccount = accountRepository.findByEmail(email);
+        if (optionalAccount.isPresent()) {
+            alreadyExist = true;
+        }
+        return alreadyExist;
     }
 
-    public boolean usernameAlreadyExists (String username){
+    public boolean usernameAlreadyExists(String username) {
         Account account = accountRepository.findByUsername(username);
         return account != null;
     }
 
     public boolean fundTitleAlreadyExist(String title) {
-        Fund fund = fundRepository.findByFundTitle(title);
-        return fund != null;
+        boolean alreadyExist = false;
+        Optional<Fund> optionalFund = fundRepository.findByFundTitle(title);
+        if (optionalFund.isPresent()) {
+            alreadyExist = true;
+        }
+        return alreadyExist;
     }
 
     public Double checkBalance() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return accountRepository.findByEmail(authentication.getName()).getBalance();
+        return accountRepository.findByEmail(authentication.getName()).get().getBalance();
     }
 
     public boolean existsFundById(Long id) {

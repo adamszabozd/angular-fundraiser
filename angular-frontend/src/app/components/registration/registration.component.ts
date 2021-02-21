@@ -24,6 +24,8 @@ export class RegistrationComponent implements OnInit {
     form: FormGroup;
     submitted = false;
 
+    onPasswordStrengthHanged;
+
     constructor(private formBuilder: FormBuilder,
                 private router: Router,
                 private accountService: AccountService,
@@ -62,10 +64,6 @@ export class RegistrationComponent implements OnInit {
 
     register() {
         this.submitted = true;
-        if (this.form.invalid) {
-            //TODO - Review: Azért valamit kezdjünk azzal, ha invalid a form, erre tuti kaptok majd bug-ticketet :D
-            return;
-        }
         const data: AccountRegistrationDataModel = {
             email   : this.form.value.email,
             username: this.form.value.nickName,

@@ -18,8 +18,6 @@ import hu.progmasters.fundraiser.dto.transfer.list.MyTransferListPendingItem;
 import hu.progmasters.fundraiser.dto.transfer.create.TransferConfirmationCommand;
 import hu.progmasters.fundraiser.dto.transfer.create.TransferCreationCommand;
 import hu.progmasters.fundraiser.exception.*;
-import hu.progmasters.fundraiser.repository.AccountRepository;
-import hu.progmasters.fundraiser.repository.FundRepository;
 import hu.progmasters.fundraiser.repository.TransferRepository;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
@@ -42,21 +40,25 @@ public class TransferService {
     Logger logger = LoggerFactory.getLogger(TransferService.class);
     //TODO - Review: Ne hívjuk "keresztbe" a rétegeket. Ugyanaz mint a FundServiceben
     private final TransferRepository transferRepository;
-    private final AccountRepository accountRepository;
-    private final FundRepository fundRepository;
+
+    private final AccountService accountService;
+    private final FundService fundService;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public TransferService(TransferRepository transferRepository, AccountRepository accountRepository, FundRepository fundRepository, PasswordEncoder passwordEncoder) {
+    public TransferService(TransferRepository transferRepository,
+                           AccountService accountService,
+                           FundService fundService, PasswordEncoder passwordEncoder
+    ) {
         this.transferRepository = transferRepository;
-        this.accountRepository = accountRepository;
-        this.fundRepository = fundRepository;
+        this.accountService = accountService;
+        this.fundService = fundService;
         this.passwordEncoder = passwordEncoder;
     }
 
     public Transfer savePendingTransfer(TransferCreationCommand transferCreationCommand, String email) {
-        Account source = accountRepository.findByEmail(email);
-        Fund goal = fundRepository.findById(transferCreationCommand.getTargetFundId()).orElse(null);
+        Account source = accountService.findByEmail(email);
+        Fund goal = fundService.findById(transferCreationCommand.getTargetFundId());
         return getPendingTransfer(transferCreationCommand, source, goal);
     }
 
@@ -137,7 +139,7 @@ public class TransferService {
     }
 
     public List<MyTransferListPendingItem> getPendingTransfers(String email) throws AccountNotFoundException {
-        Account account = accountRepository.findByEmail(email);
+        Account account = accountService.findByEmail(email);
         if (account != null) {
             return account.getOutgoingTransfers().stream()
                     .filter(t -> !t.getConfirmed())

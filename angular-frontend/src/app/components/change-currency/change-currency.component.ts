@@ -1,11 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit} from '@angular/core';
 import {CurrencyOptionModel} from '../../models/currencyOption.model';
 import {FormBuilder, Validators} from '@angular/forms';
 import {AccountService} from '../../services/account.service';
 import {AccountDetailsModel} from '../../models/accountDetails.model';
 import {validationHandler} from '../../utils/validationHandler';
-import {FundsService} from '../../services/funds.service';
-import {Router} from '@angular/router';
+import {Event, Router} from '@angular/router';
 
 @Component({
                selector   : 'app-change-currency',
@@ -18,12 +17,13 @@ export class ChangeCurrencyComponent implements OnInit {
 
     currencies: CurrencyOptionModel[] | undefined;
     otherCurrencies: CurrencyOptionModel[] | undefined;
+    oldCurrency: number;
     form = this.formBuilder.group({
                                       newCurrency: ['', [Validators.required]],
-                                      newBalance: ['', [Validators.required]],
+                                      newBalance : ['', [Validators.required]],
                                   },
     );
-    myNewBalance: number;
+    newBalance: number;
 
     constructor(private accountService: AccountService, private formBuilder: FormBuilder, private router: Router) {
     }
@@ -36,6 +36,8 @@ export class ChangeCurrencyComponent implements OnInit {
                 for (let currency of this.currencies) {
                     if (currency.currencyName !== this.myAccount.currency) {
                         this.otherCurrencies.push(currency);
+                    } else {
+                        this.oldCurrency = currency.exchangeRate;
                     }
                 }
             },
@@ -44,7 +46,13 @@ export class ChangeCurrencyComponent implements OnInit {
 
     }
 
-
+    calculateNewBalance(event) {
+        for (let otherCurrency of this.otherCurrencies) {
+            if (event.target.value === otherCurrency.currencyName) {
+                this.newBalance = otherCurrency.exchangeRate / this.oldCurrency * this.myAccount.balance;
+            }
+        }
+    }
 
     onSubmit() {
         this.accountService.changeCurrency(this.form.value).subscribe(
@@ -52,5 +60,4 @@ export class ChangeCurrencyComponent implements OnInit {
             (error) => validationHandler(error, this.form),
         );
     }
-
 }

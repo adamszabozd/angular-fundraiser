@@ -1,8 +1,6 @@
 package hu.progmasters.fundraiser.validation;
 
-import hu.progmasters.fundraiser.dto.fund.FundFormCommand;
 import hu.progmasters.fundraiser.dto.fund.ModifyFundFormCommand;
-import hu.progmasters.fundraiser.service.SharedValidationService;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -11,11 +9,6 @@ import java.time.LocalDate;
 
 @Component
 public class ModifyFundFormCommandValidator implements Validator {
-    private final SharedValidationService validationService;
-
-    public ModifyFundFormCommandValidator(SharedValidationService validationService) {
-        this.validationService = validationService;
-    }
 
     @Override
     public boolean supports(Class<?> clazz) {

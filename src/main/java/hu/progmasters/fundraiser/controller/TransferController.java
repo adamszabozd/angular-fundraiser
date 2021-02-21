@@ -11,9 +11,9 @@
 
 package hu.progmasters.fundraiser.controller;
 
-import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.domain.Fund;
 import hu.progmasters.fundraiser.domain.Transfer;
+import hu.progmasters.fundraiser.dto.account.AccountDetails;
 import hu.progmasters.fundraiser.dto.transfer.create.TransferConfirmationCommand;
 import hu.progmasters.fundraiser.dto.transfer.create.TransferCreationCommand;
 import hu.progmasters.fundraiser.dto.transfer.create.TransferFormInitData;
@@ -34,7 +34,6 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/transfers")
@@ -47,11 +46,9 @@ public class TransferController {
     private final FundService fundService;
     private final EmailSendingService emailSendingService;
     private final ExchangeService exchangeService;
-
     private final TransferCreationCommandValidator transferCreationCommandValidator;
     private final TransferConfirmationCommandValidator transferConfirmationCommandValidator;
 
-    //TODO - Review: Ez elég sok függőségnek tűnik elsőre, biztos hogy nem lehetne ezeket valahová átrakni?
     @Autowired
     public TransferController(
             TransferService transferService,
@@ -74,10 +71,6 @@ public class TransferController {
     @InitBinder("transferCreationCommand")
     protected void initCreationBinder(WebDataBinder binder) {
         binder.addValidators(transferCreationCommandValidator);
-        //TODO - Review: Amennyiben így csináljátok, nem kell injektálni a validátort
-        // Természetesen itt mérlegelni kell, hogy milyen sűrűn van használva, mi a nagyobb "pazarlás"
-        // Mindig létrehozni, vagy folyamatosan tárolni a memóriában
-        // binder.addValidators(new TransferConfirmationCommandValidator());
     }
 
     @InitBinder("transferConfirmationCommand")
@@ -87,7 +80,7 @@ public class TransferController {
 
     @GetMapping("/newTransferData")
     public ResponseEntity<TransferFormInitData> newTransferData(Principal principal) {
-        Account myAccount = accountService.findByEmail(principal.getName());
+        AccountDetails myAccount = accountService.addDetailsByEmail(principal.getName());
         List<Fund> targetFunds = fundService.findAll();
         TransferFormInitData initData = new TransferFormInitData(targetFunds, myAccount);
         initData.setCurrencyOptions(exchangeService.fetchRates());
@@ -96,9 +89,9 @@ public class TransferController {
 
     @GetMapping("/{id}")
     public ResponseEntity<TransferFormInitData> concreteTransferData(@PathVariable Long id, Principal principal) {
-        Account myAccount = accountService.findByEmail(principal.getName());
-        List<Fund> targetFunds = fundService.findById(id);
-        TransferFormInitData initData = new TransferFormInitData(targetFunds, myAccount);
+        AccountDetails accountDetails = accountService.addDetailsByEmail(principal.getName());
+        List<Fund> targetFunds = fundService.findAllById(id);
+        TransferFormInitData initData = new TransferFormInitData(targetFunds, accountDetails);
         return new ResponseEntity<>(initData, HttpStatus.OK);
     }
 
@@ -120,7 +113,7 @@ public class TransferController {
     @DeleteMapping("/{id}")
     public ResponseEntity<List<MyTransferListPendingItem>> deletePendingTransfer(@PathVariable Long id, Principal principal) throws AccountNotFoundException {
         transferService.deleteTransfer(id, principal.getName());
-        logger.info("Pending transfer deleted with id=" + id);
+        logger.info("Pending transfer deleted with id = {}", id);
         return new ResponseEntity<>(transferService.getPendingTransfers(principal.getName()), HttpStatus.OK);
     }
 

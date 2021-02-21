@@ -203,7 +203,7 @@
                 >
                     <option value=null selected disabled>{{ 'FUND.CHOOSE_A_CURRENCY' | translate }}</option>
                     <option *ngFor="let currency of formInitData.currencyOptions"
-                            value="{{currency.exchangeRate}}">{{currency.currencyName}}</option>
+                            value="{{currency.currencyName}}">{{currency.currencyName}}</option>
                 </select>
                 <small
                     *ngIf="form.get('currency').invalid && form.get('currency').touched && !form.get('currency').errors?.serverError"

@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -47,8 +48,16 @@ public class AccountService {
         return accountRepository.findAll();
     }
 
+    public AccountDetails addDetailsByEmail(String email) {
+        return new AccountDetails(findByEmail(email));
+    }
     public Account findByEmail(String email) {
-       return accountRepository.findByEmail(email);
+        Optional<Account> optionalAccount = accountRepository.findByEmail(email);
+        if (optionalAccount.isPresent()) {
+            return optionalAccount.get();
+        } else {
+            throw new EntityNotFoundException();
+        }
     }
 
     public Account findById(Long userId) {
@@ -57,16 +66,15 @@ public class AccountService {
                 .orElseThrow(EntityNotFoundException::new);
     }
 
-    public AccountDetails getAccountDetails(Long userId) {
-        return new AccountDetails(findById(userId));
-    }
-
     public AccountDetails fillMyBalance(BalanceFormCommand balanceFormCommand, String email) {
-        Account account = accountRepository.findByEmail(email);
-        double newBalance = account.getBalance() + balanceFormCommand.getAddAmount();
-        account.setBalance(newBalance);
-        AccountDetails myAccountDetails = new AccountDetails(accountRepository.save(account));;
-        return myAccountDetails;
+        Optional<Account> optionalAccount = accountRepository.findByEmail(email);
+        if (optionalAccount.isPresent()) {
+            Account account = optionalAccount.get();
+            double newBalance = account.getBalance() + balanceFormCommand.getAddAmount();
+            account.setBalance(newBalance);
+            return new AccountDetails(accountRepository.save(account));
+        } else {
+            throw new EntityNotFoundException();
+        }
     }
-
 }

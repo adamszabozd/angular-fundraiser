@@ -43,10 +43,11 @@
                     || (form.get('newCurrency').errors?.serverError)}"
                     name="newCurrency"
                     formControlName="newCurrency"
+                    (change)="calculateNewBalance($event)"
                 >
                     <option value=null selected disabled>{{ 'CHANGE_CURRENCY.SELECT_CURRENCY' | translate }}</option>
                     <option *ngFor="let c of otherCurrencies"
-                            value="{{c.exchangeRate}}">{{c.currencyName}}</option>
+                            [value]="c.currencyName">{{c.currencyName}}</option>
                 </select>
                 <small
                     *ngIf="form.get('newCurrency').invalid && form.get('newCurrency').touched
@@ -60,17 +61,7 @@
                 </small>
             </div>
         </div>
-        <div class="row mb-3">
-            <label class="col-sm-3 col-form-label" for="newBalance">{{ 'CHANGE_CURRENCY.BALANCE' | translate }}</label>
-            <div class="col-sm-9">
-                <input
-                    class="form-control my-input-field-disabled"
-                    name="newBalance"
-                    id="newBalance"
-                    placeholder="{{myNewBalance}}"
-                    disabled
-                /></div>
-        </div>
+        <app-converted-balance [myNewBalance]="newBalance"></app-converted-balance>
         <br/>
         <button type="submit"
                 class="btn btn-primary my-buttons">{{ 'CHANGE_CURRENCY.SUBMIT' | translate }}</button>

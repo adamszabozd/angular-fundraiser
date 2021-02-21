@@ -73,8 +73,6 @@ export class TransferFundsComponent implements OnInit {
                 }
             }
         )
-
-
     }
 
     submitForm() {

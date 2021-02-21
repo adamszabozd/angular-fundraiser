@@ -7,6 +7,7 @@ import {slideInFromDown} from '../../animations';
 import {FormBuilder, Validators} from '@angular/forms';
 import {minAmount} from '../../validator';
 import {BalanceFormCommandModel} from '../../models/balanceFormCommand.model';
+import {validationHandler} from '../../utils/validationHandler';
 
 @Component({
                selector   : 'app-account-page',

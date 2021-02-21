@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -38,17 +39,16 @@ public class JPAUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Account account = accountRepository.findByEmail(email);
+    public UserDetails loadUserByUsername(String email){
+        Optional<Account> optionalAccount = accountRepository.findByEmail(email);
 
-        if (account == null) {
+        if (optionalAccount.isPresent()) {
+            String[] accountRoles = optionalAccount.get().getAccountRoleList().stream().map(AccountRole::name).toArray(String[]::new);
+            List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(accountRoles);
+            return User.withUsername(email).authorities(authorities).password(optionalAccount.get().getPassword()).build();
+        }else {
             throw new UsernameNotFoundException("No account found with email: " + email);
         }
-
-        String[] accountRoles = account.getAccountRoleList().stream().map(AccountRole::name).toArray(String[]::new);
-        List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(accountRoles);
-
-        return User.withUsername(email).authorities(authorities).password(account.getPassword()).build();
     }
 
 }

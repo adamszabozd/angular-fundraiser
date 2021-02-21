@@ -1,7 +1,5 @@
 package hu.progmasters.fundraiser.domain;
 
-import hu.progmasters.fundraiser.dto.exchange.CurrentExchangeRateCommand;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -23,10 +21,6 @@ public class ExchangeRate {
 
     @Column(name = "rate", nullable = false, updatable = false)
     private Double rate;
-
-
-    public ExchangeRate() {
-    }
 
     public Long getId() {
         return id;

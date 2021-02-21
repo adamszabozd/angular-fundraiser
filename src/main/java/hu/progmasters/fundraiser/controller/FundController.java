@@ -1,6 +1,5 @@
 package hu.progmasters.fundraiser.controller;
 
-import hu.progmasters.fundraiser.domain.FundCategory;
 import hu.progmasters.fundraiser.dto.fund.*;
 import hu.progmasters.fundraiser.service.FundService;
 import hu.progmasters.fundraiser.validation.FundFormCommandValidator;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -38,13 +36,12 @@ public class FundController {
     }
 
     @InitBinder(value = "fundFormCommand")
-    protected void init(WebDataBinder webDataBinder) {
+    protected void initFundBinder(WebDataBinder webDataBinder) {
         webDataBinder.addValidators(validator);
     }
 
-    //TODO - Review: Nagyon kreatív a metódusnév...
     @InitBinder(value = "modifyFundFormCommand")
-    protected void init2(WebDataBinder webDataBinder){
+    protected void initModifyFundBinder(WebDataBinder webDataBinder){
         webDataBinder.addValidators(modifyFundFormCommandValidator);
     }
 
@@ -63,12 +60,12 @@ public class FundController {
     @GetMapping("/initData")
     public ResponseEntity<FundFormInitData> fetchFundFormInitData(Locale locale) {
         logger.info("Category list and currency list requested");
-        return new ResponseEntity(fundService.fetchFundFormInitData(locale), HttpStatus.OK);
+        return new ResponseEntity<>(fundService.fetchFundFormInitData(locale), HttpStatus.OK);
     }
     @GetMapping("/categories")
     public ResponseEntity<List<CategoryOption>> fetchCategoryOptions(Locale locale) {
         logger.info("Category list requested");
-        return new ResponseEntity(fundService.getCategoryOptions(locale), HttpStatus.OK); //getCategoryOptions
+        return new ResponseEntity<>(fundService.getCategoryOptions(locale), HttpStatus.OK); //getCategoryOptions
     }
 
     @GetMapping("/{id}")

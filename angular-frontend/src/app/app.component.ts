@@ -1,14 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css'],
-})
-export class AppComponent implements OnInit {
+               selector   : 'app-root',
+               templateUrl: './app.component.html',
+               styleUrls  : ['./app.component.css'],
+           })
+export class AppComponent{
     //TODO - Review: Használjátok az auto-formattingot! Nekem jelenleg kb minden egyes fájlba belenyúlna valamiért...
-    //TODO - Review: Nem használt metódusok: kuka
-    constructor() {}
-
-    ngOnInit() {}
 }

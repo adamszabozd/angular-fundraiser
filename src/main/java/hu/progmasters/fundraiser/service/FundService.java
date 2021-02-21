@@ -4,7 +4,6 @@ import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.domain.Fund;
 import hu.progmasters.fundraiser.domain.FundCategory;
 import hu.progmasters.fundraiser.dto.fund.*;
-import hu.progmasters.fundraiser.repository.AccountRepository;
 import hu.progmasters.fundraiser.repository.FundRepository;
 import hu.progmasters.fundraiser.repository.TransferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,19 +24,20 @@ public class FundService {
     private final FundRepository fundRepository;
     //TODO - Review: Ne hívjuk "keresztbe" a rétegeket, ha elkerülhető, FundService a Fundokért felel,
     // ergo FundRepositoryba nyúljon csak. Amennyiben Account v Transfer kell neki, azt a dedikált Serviceiken keresztül kérjük le inkább
-    private final AccountRepository accountRepository;
+    private final AccountService accountService;
     private final TransferRepository transferRepository;
     private final MessageSource messageSource;
     private final ExchangeService exchangeService;
 
     @Autowired
     public FundService(FundRepository fundRepository,
-                       AccountRepository accountRepository,
+                       AccountService accountService,
                        TransferRepository transferRepository,
                        ExchangeService exchangeService,
-                       MessageSource messageSource) {
+                       MessageSource messageSource
+    ) {
         this.fundRepository = fundRepository;
-        this.accountRepository = accountRepository;
+        this.accountService = accountService;
         this.exchangeService = exchangeService;
         this.transferRepository = transferRepository;
         this.messageSource = messageSource;
@@ -49,15 +49,15 @@ public class FundService {
 
     public List<FundListItem> fetchAllForList(Locale locale) {
         return fundRepository.findAll().stream()
-                .map(fund -> {
-                    String categoryDisplayName = messageSource.getMessage(fund.getFundCategory().getCode(), null, locale);
-                    return new FundListItem(fund, categoryDisplayName);
-                })
-                .collect(Collectors.toList());
+                             .map(fund -> {
+                                 String categoryDisplayName = messageSource.getMessage(fund.getFundCategory().getCode(), null, locale);
+                                 return new FundListItem(fund, categoryDisplayName);
+                             })
+                             .collect(Collectors.toList());
     }
 
     public void saveNewFund(FundFormCommand fundFormCommand, String emailAddress) {
-        Account myAccount = accountRepository.findByEmail(emailAddress);
+        Account myAccount = accountService.findByEmail(emailAddress);
         Fund fund = new Fund(fundFormCommand, myAccount);
         myAccount.getFunds().add(fund);
         fundRepository.save(fund);
@@ -79,14 +79,14 @@ public class FundService {
 
     public List<FundListItem> fetchMyFunds(String email, Locale locale) {
 
-        Account myAccount = accountRepository.findByEmail(email);
+        Account myAccount = accountService.findByEmail(email);
         //TODO - Review: Itt miért nem a FundRepository van használva??
         return myAccount.getFunds().stream()
-                .map(fund -> {
-                    String categoryDisplayName = messageSource.getMessage(fund.getFundCategory().getCode(), null, locale);
-                    return new FundListItem(fund, categoryDisplayName);
-                })
-                .collect(Collectors.toList());
+                        .map(fund -> {
+                            String categoryDisplayName = messageSource.getMessage(fund.getFundCategory().getCode(), null, locale);
+                            return new FundListItem(fund, categoryDisplayName);
+                        })
+                        .collect(Collectors.toList());
     }
 
     public void modifyFund(ModifyFundFormCommand modifyFundFormCommand) {
@@ -112,11 +112,11 @@ public class FundService {
             FundCategory category = FundCategory.valueOf(categoryName);
             List<Fund> funds = fundRepository.findAllByCategory(category);
             return funds.stream()
-                    .map(fund -> {
-                        String categoryDisplayName = messageSource.getMessage(fund.getFundCategory().getCode(), null, locale);
-                        return new FundListItem(fund, categoryDisplayName);
-                    })
-                    .collect(Collectors.toList());
+                        .map(fund -> {
+                            String categoryDisplayName = messageSource.getMessage(fund.getFundCategory().getCode(), null, locale);
+                            return new FundListItem(fund, categoryDisplayName);
+                        })
+                        .collect(Collectors.toList());
         } else {
             throw new IllegalArgumentException();
         }
@@ -140,16 +140,19 @@ public class FundService {
         return false;
     }
 
-    public List<Fund> findById(Long id) {
+    public Fund findById(Long id) {
         Optional<Fund> fundOptional = fundRepository.findById(id);
         if (fundOptional.isPresent()) {
-            Fund fund = fundOptional.get();
-            List<Fund> fundList = new ArrayList<>();
-            fundList.add(fund);
-            return fundList;
+            return fundOptional.get();
         } else {
             throw new IllegalArgumentException();
         }
+    }
+
+    public List<Fund> findAllById(Long id) {
+        List<Fund> fundList = new ArrayList<>();
+        fundList.add(findById(id));
+        return fundList;
     }
 
     public List<CategoryOption> getCategoryOptions(Locale locale) {

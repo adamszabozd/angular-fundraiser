@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {FundsService} from '../../services/funds.service';
 import {Router} from '@angular/router';
-import {CategoryOptionModel} from '../../models/categoryOption.model';
 import {validationHandler} from '../../utils/validationHandler';
 import {AccountService} from '../../services/account.service';
 import {formAppearAnimation} from '../../animations';
@@ -24,7 +23,7 @@ export class NewFundFormComponent implements OnInit {
 
     form = this.formBuilder.group({
                                       title           : ['', Validators.required],
-                                      shortDescription: ['', Validators.required, Validators.maxLength(250)],
+                                      shortDescription: ['', [Validators.required, Validators.maxLength(250)]],
                                       longDescription : [''],
                                       imageUrl        : ['', Validators.maxLength(1000)],
                                       category        : [null],
