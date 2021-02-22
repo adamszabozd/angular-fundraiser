@@ -17,6 +17,8 @@ public class TransferCreationCommand {
 
     private Double amount;
 
+    private String senderCurrency;
+
     public Long getTargetFundId() {
         return targetFundId;
     }
@@ -31,6 +33,14 @@ public class TransferCreationCommand {
 
     public void setAmount(Double amount) {
         this.amount = amount;
+    }
+
+    public String getSenderCurrency() {
+        return senderCurrency;
+    }
+
+    public void setSenderCurrency(String senderCurrency) {
+        this.senderCurrency = senderCurrency;
     }
 
 }

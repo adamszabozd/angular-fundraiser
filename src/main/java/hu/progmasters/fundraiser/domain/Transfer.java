@@ -35,12 +35,20 @@ public class Transfer {
     private Fund target;
 
     @Min(0)
-    @Column(name = "amount", nullable = false)
-    private Double amount;
+    @Column(name = "sender_amount", nullable = false)
+    private Double senderAmount;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "currency")
-    private Currency currency;
+    @Column(name = "sender_currency")
+    private Currency senderCurrency;
+
+    @Min(0)
+    @Column(name = "target_amount", nullable = false)
+    private Double targetAmount;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "target_currency")
+    private Currency targetCurrency;
 
     @Column(name = "time_stamp", nullable = false)
     private LocalDateTime timeStamp;
@@ -78,20 +86,36 @@ public class Transfer {
         this.target = target;
     }
 
-    public Double getAmount() {
-        return amount;
+    public Double getSenderAmount() {
+        return senderAmount;
     }
 
-    public void setAmount(Double amount) {
-        this.amount = amount;
+    public void setSenderAmount(Double senderAmount) {
+        this.senderAmount = senderAmount;
     }
 
-    public Currency getCurrency() {
-        return currency;
+    public Currency getSenderCurrency() {
+        return senderCurrency;
     }
 
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
+    public void setSenderCurrency(Currency senderCurrency) {
+        this.senderCurrency = senderCurrency;
+    }
+
+    public Double getTargetAmount() {
+        return targetAmount;
+    }
+
+    public void setTargetAmount(Double targetAmount) {
+        this.targetAmount = targetAmount;
+    }
+
+    public Currency getTargetCurrency() {
+        return targetCurrency;
+    }
+
+    public void setTargetCurrency(Currency targetCurrency) {
+        this.targetCurrency = targetCurrency;
     }
 
     public LocalDateTime getTimeStamp() {
