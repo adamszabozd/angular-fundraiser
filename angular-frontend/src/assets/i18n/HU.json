@@ -31,7 +31,8 @@
         "FILL_BALANCE_FORM": "Egyenleg feltöltése",
         "ADD_AMOUNT": "Befizetendő összeg",
         "ADD_AMOUNT_SUBMIT": "Befizetés",
-        "ADD_AMOUNT_ERROR": "Az összeg csak 0-nál nagyobb lehet"
+        "ADD_AMOUNT_ERROR": "Az összeg csak 0-nál nagyobb lehet",
+        "PIE_CHART_TITLE": "Adományok összesítése:"
     },
     "FUNDS": {
         "BROWSE_FUNDRAISERS": "Böngészés",

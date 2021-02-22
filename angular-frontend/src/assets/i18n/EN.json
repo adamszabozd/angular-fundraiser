@@ -31,7 +31,8 @@
         "FILL_BALANCE_FORM": "Fill balance",
         "ADD_AMOUNT": "Amount to pay",
         "ADD_AMOUNT_SUBMIT": "Deposit",
-        "ADD_AMOUNT_ERROR": "Please choose an amount above 0"
+        "ADD_AMOUNT_ERROR": "Please choose an amount above 0",
+        "PIE_CHART_TITLE": "Donation summary:"
     },
     "FUNDS": {
         "BROWSE_FUNDRAISERS": "Browse fundraisers",

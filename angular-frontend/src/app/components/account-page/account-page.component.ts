@@ -7,6 +7,7 @@ import {slideInFromDown} from '../../animations';
 import {FormBuilder, Validators} from '@angular/forms';
 import {minAmount} from '../../validator';
 import {BalanceFormCommandModel} from '../../models/balanceFormCommand.model';
+import {ChartDataElementModel} from "../../models/chartDataElement.model";
 
 @Component({
                selector   : 'app-account-page',
@@ -21,6 +22,18 @@ export class AccountPageComponent implements OnInit {
     state = 'up';
 
     accountDetails: AccountDetailsModel | undefined;
+    pieChartData: Array<ChartDataElementModel> | undefined;
+
+
+    // pie chart options
+    view: any[] = [400, 250];
+    gradient: boolean = true;
+    showLegend: boolean = true;
+    showLabels: boolean = true;
+    isDoughnut: boolean = false;
+    colorScheme = {
+        domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+    };
 
     chosenData: AccountDetailsModel;
 
@@ -39,6 +52,9 @@ export class AccountPageComponent implements OnInit {
         this.accountService.getMyAccountDetails().subscribe(
             (data) => {
                 this.accountDetails = data;
+                this.pieChartData = data.donationsPerFund.map(x => {
+                    return {name: x.fundName, value: x.amount}
+                });
             },
             error => {
                 this.accountService.loggedInStatusUpdate.next(false);

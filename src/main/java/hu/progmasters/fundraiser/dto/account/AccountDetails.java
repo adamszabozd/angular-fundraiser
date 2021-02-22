@@ -16,7 +16,9 @@ import hu.progmasters.fundraiser.domain.Transfer;
 import hu.progmasters.fundraiser.dto.transfer.list.MyTransferListItem;
 import hu.progmasters.fundraiser.dto.transfer.list.MyTransferListPendingItem;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class AccountDetails {
@@ -29,6 +31,7 @@ public class AccountDetails {
     private List<String> accountRoleList;
     private List<MyTransferListItem> confirmedTransfers;
     private List<MyTransferListPendingItem> pendingTransfers;
+    private List<DonationPerFund> donationsPerFund;
 
     public AccountDetails(Account account) {
         this.id = account.getId();
@@ -46,6 +49,11 @@ public class AccountDetails {
                 .filter(t -> !t.getConfirmed())
 
                 .map(MyTransferListPendingItem::new)
+                .collect(Collectors.toList());
+        this.donationsPerFund = account.getOutgoingTransfers().stream()
+                .collect(Collectors.toMap((Transfer t) -> t.getTarget().getFundTitle(), Transfer::getAmount, Double::sum))
+                .entrySet().stream()
+                .map(entry -> new DonationPerFund(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toList());
     }
 
@@ -81,4 +89,7 @@ public class AccountDetails {
         return currency;
     }
 
+    public List<DonationPerFund> getDonationsPerFund() {
+        return donationsPerFund;
+    }
 }
