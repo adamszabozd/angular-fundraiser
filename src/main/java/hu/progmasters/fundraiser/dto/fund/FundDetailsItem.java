@@ -19,6 +19,8 @@ public class FundDetailsItem {
 
     private Double targetAmount;
 
+    private String currency;
+
     private Double raisedAmount;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -37,6 +39,7 @@ public class FundDetailsItem {
         this.shortDescription = fund.getShortDescription();
         this.longDescription = fund.getLongDescription();
         this.targetAmount = fund.getTargetAmount();
+        this.currency = fund.getCurrency().name();
         this.raisedAmount = fund.getRaisedAmount();
         this.endDate = fund.getEndDate();
         this.creatorName = fund.getCreator().getUsername();
@@ -87,4 +90,9 @@ public class FundDetailsItem {
     public Long getNumberOfBackers() {
         return numberOfBackers;
     }
+
+    public String getCurrency() {
+        return currency;
+    }
+
 }

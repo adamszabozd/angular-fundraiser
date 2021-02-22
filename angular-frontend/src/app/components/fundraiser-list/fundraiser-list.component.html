@@ -15,6 +15,7 @@
                 <li class="list-group-item">{{ 'FUNDS.CATEGORY' | translate }}{{fund.category}}</li>
                 <li class="list-group-item">{{ 'FUNDS.AMOUNT' | translate: {
                     amount: fund.raisedAmount,
+                    currency: fund.currency,
                     amountGoal: fund.targetAmount
                 } }}</li>
                 <li class="list-group-item">{{ 'FUNDS.END_DATE' | translate }}{{fund.endDate}}</li>

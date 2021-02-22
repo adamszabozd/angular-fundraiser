@@ -8,8 +8,8 @@
         <p>{{fund.longDescription}} </p>
     </div>
     <div class="fund-info">
-        <div><h3 class="raised-money">{{fund.raisedAmount}} HUF</h3>
-            <h6>{{ 'DETAILS.AMOUNT' | translate: {targetAmount: fund.targetAmount} }}</h6></div>
+        <div><h3 class="raised-money">{{fund.raisedAmount}} {{fund.currency}}</h3>
+            <h6>{{ 'DETAILS.AMOUNT' | translate: {targetAmount: fund.targetAmount, currency: fund.currency} }}</h6></div>
         <div>
             <h6>{{ 'DETAILS.NUMBER_OF_BACKERS' | translate }}{{fund.numberOfBackers}}</h6>
             <h6>{{ 'DETAILS.EXPIRATION_DATE' | translate }}{{fund.endDate}}</h6>

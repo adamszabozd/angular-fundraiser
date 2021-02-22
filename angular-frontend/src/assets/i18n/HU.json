@@ -37,7 +37,7 @@
         "BROWSE_FUNDRAISERS": "Böngészés",
         "IMAGE": "gyűjtés képe",
         "CATEGORY": "Kategória: ",
-        "AMOUNT": "Eddig összegyűlt {{ amount }} HUF, a cél {{ amountGoal }} HUF",
+        "AMOUNT": "Eddig összegyűlt {{ amount }} {{ currency }}, a cél {{ amountGoal }} {{ currency }}",
         "END_DATE": "Gyűjtés vége: ",
         "CREATOR": "Kezdeményező: ",
         "MODIFY": "Módosítás",
@@ -84,7 +84,7 @@
     },
     "DETAILS": {
         "CATEGORY": "Kategória: ",
-        "AMOUNT": "gyűlt össze a {{ targetAmount }} HUF célból",
+        "AMOUNT": "gyűlt össze a {{ targetAmount }} {{ currency }} célból",
         "NUMBER_OF_BACKERS": "Támogatók száma: ",
         "EXPIRATION_DATE": "Gyűjtés vége: ",
         "FUND_THIS_PROJECT": "Támogatom ezt a gyűjtést"

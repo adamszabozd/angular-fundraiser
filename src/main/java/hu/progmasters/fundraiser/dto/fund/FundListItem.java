@@ -7,26 +7,26 @@ import java.time.LocalDate;
 
 public class FundListItem {
 
-    private Long id;
+    private final Long id;
 
-    private String imageUrl;
+    private final String imageUrl;
 
-    private String title;
+    private final String title;
 
-    private String shortDescription;
+    private final String shortDescription;
 
-    private Double targetAmount;
+    private final Double targetAmount;
 
-    private String currency;
+    private final String currency;
 
-    private Double raisedAmount;
+    private final Double raisedAmount;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate endDate;
+    private final LocalDate endDate;
 
-    private String creatorName;
+    private final String creatorName;
 
-    private String category;
+    private final String category;
 
     public FundListItem(Fund fund, String categoryDisplayName) {
         this.id = fund.getId();

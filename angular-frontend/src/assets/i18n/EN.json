@@ -37,7 +37,7 @@
         "BROWSE_FUNDRAISERS": "Browse fundraisers",
         "IMAGE": "fund image",
         "CATEGORY": "Category: ",
-        "AMOUNT": "Raised {{ amount }} HUF with the target of {{ amountGoal }} HUF",
+        "AMOUNT": "Raised {{ amount }} {{ currency }} with the target of {{ amountGoal }} {{ currency }}",
         "END_DATE": "End date: ",
         "CREATOR": "Creator: ",
         "MODIFY": "Modify",
@@ -84,7 +84,7 @@
     },
     "DETAILS": {
         "CATEGORY": "Category: ",
-        "AMOUNT": "raised of {{ targetAmount }} HUF goal",
+        "AMOUNT": "raised of {{ targetAmount }} {{ currency }} goal",
         "NUMBER_OF_BACKERS": "Number of backers: ",
         "EXPIRATION_DATE": "Expiration date: ",
         "FUND_THIS_PROJECT": "Fund this project"
