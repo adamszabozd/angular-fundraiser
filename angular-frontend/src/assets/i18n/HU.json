@@ -53,7 +53,7 @@
     },
     "FUND": {
         "NEW_FUND": "Új gyűjtés",
-        "MODIFY_FUND": "Gyűjtés módosítása",
+        "MODIFY_FUND": "Módosítás",
         "TITLE": "Gyűjtés célja:",
         "TITLE_PLACEHOLDER": "5-100 karakter",
         "TITLE_ERROR": "Adjon meg egy 5 és 100 karakter közti hosszúságú címet a gyűjtésének",
