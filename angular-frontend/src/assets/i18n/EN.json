@@ -44,7 +44,12 @@
         "READ_MORE": "Read more",
         "NO_FUNDS": "Sorry, there are no funds in this category yet",
         "PREVIOUS": "Previous",
-        "NEXT": "Next"
+        "NEXT": "Next",
+        "SORT_BY": "Sort by",
+        "SORT_RAISED_FUNDS": "Raised funds",
+        "SORT_END_DATE": "Expiration date",
+        "SORT_ID_DESC": "Creation (latest)",
+        "SORT_CREATOR": "Creator name"
     },
     "FUND": {
         "NEW_FUND": "New Fund",

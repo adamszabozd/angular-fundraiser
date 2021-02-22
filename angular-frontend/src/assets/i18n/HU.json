@@ -44,7 +44,12 @@
         "READ_MORE": "Részletek",
         "NO_FUNDS": "Sajnáljuk, de ebben a kategóriában még nincsen gyűjtés",
         "PREVIOUS": "Előző",
-        "NEXT": "Következő"
+        "NEXT": "Következő",
+        "SORT_BY": "Rendezés",
+        "SORT_RAISED_FUNDS": "Összegyűjtött adomány",
+        "SORT_END_DATE": "Lejárati dátum",
+        "SORT_ID_DESC": "Legutóbb létrehozott",
+        "SORT_CREATOR": "Létrehozó neve szerint"
     },
     "FUND": {
         "NEW_FUND": "Új gyűjtés",
