@@ -7,7 +7,6 @@ import {slideInFromDown} from '../../animations';
 import {FormBuilder, Validators} from '@angular/forms';
 import {minAmount} from '../../validator';
 import {BalanceFormCommandModel} from '../../models/balanceFormCommand.model';
-import {validationHandler} from '../../utils/validationHandler';
 
 @Component({
                selector   : 'app-account-page',
@@ -87,5 +86,10 @@ export class AccountPageComponent implements OnInit {
         this.setCurrency = true;
         this.setBalance = false;
         this.chosenData = this.accountDetails;
+    }
+
+    showNewBalance(data: AccountDetailsModel) {
+        this.setCurrency = false;
+        this.accountDetails = data;
     }
 }

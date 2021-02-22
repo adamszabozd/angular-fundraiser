@@ -57,7 +57,7 @@ export class AccountService {
         return this.http.get<CurrencyOptionModel[]>(BASE_URL + '/currency');
     }
 
-    changeCurrency(data: CurrencyFormCommandModel): Observable<any> {
-        return this.http.post(BASE_URL + "/change/currency", data)
+    changeCurrency(data: CurrencyFormCommandModel): Observable<AccountDetailsModel> {
+        return this.http.put<AccountDetailsModel>(BASE_URL + "/change/currency", data)
     }
 }

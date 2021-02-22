@@ -12,9 +12,11 @@
 package hu.progmasters.fundraiser.service;
 
 import hu.progmasters.fundraiser.domain.Account;
+import hu.progmasters.fundraiser.domain.Currency;
 import hu.progmasters.fundraiser.dto.account.AccountDetails;
 import hu.progmasters.fundraiser.dto.account.AccountRegistrationCommand;
 import hu.progmasters.fundraiser.dto.account.BalanceFormCommand;
+import hu.progmasters.fundraiser.dto.exchange.CurrencyFormCommand;
 import hu.progmasters.fundraiser.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,11 +33,13 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ExchangeService exchangeService;
 
     @Autowired
-    public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
+    public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder, ExchangeService exchangeService) {
         this.accountRepository = accountRepository;
         this.passwordEncoder = passwordEncoder;
+        this.exchangeService = exchangeService;
     }
 
     public long create(AccountRegistrationCommand command) {
@@ -44,13 +48,12 @@ public class AccountService {
         return savedAccount.getId();
     }
 
-    public List<Account> findAll() {
-        return accountRepository.findAll();
+    public Account findById(Long userId) {
+        return accountRepository
+                .findById(userId)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
-    public AccountDetails addDetailsByEmail(String email) {
-        return new AccountDetails(findByEmail(email));
-    }
     public Account findByEmail(String email) {
         Optional<Account> optionalAccount = accountRepository.findByEmail(email);
         if (optionalAccount.isPresent()) {
@@ -60,21 +63,30 @@ public class AccountService {
         }
     }
 
-    public Account findById(Long userId) {
-        return accountRepository
-                .findById(userId)
-                .orElseThrow(EntityNotFoundException::new);
+    public AccountDetails addDetailsByEmail(String email) {
+        return new AccountDetails(findByEmail(email));
     }
 
     public AccountDetails fillMyBalance(BalanceFormCommand balanceFormCommand, String email) {
-        Optional<Account> optionalAccount = accountRepository.findByEmail(email);
-        if (optionalAccount.isPresent()) {
-            Account account = optionalAccount.get();
-            double newBalance = account.getBalance() + balanceFormCommand.getAddAmount();
-            account.setBalance(newBalance);
-            return new AccountDetails(accountRepository.save(account));
-        } else {
-            throw new EntityNotFoundException();
-        }
+        Account account = findByEmail(email);
+        double newBalance = account.getBalance() + balanceFormCommand.getAddAmount();
+        account.setBalance(newBalance);
+        return new AccountDetails(accountRepository.save(account));
     }
+
+    public AccountDetails savNewCurrency(CurrencyFormCommand currencyFormCommand, String email) {
+        Account account = findByEmail(email);
+        double oldExchangeRate = exchangeService.findRateByCurrency(account.getCurrency());
+        Currency newCurrency = Currency.valueOf(currencyFormCommand.getNewCurrency());
+        double newExchangeRate = exchangeService.findRateByCurrency(newCurrency);
+        double newBalance = newExchangeRate / oldExchangeRate * account.getBalance();
+        account.setBalance(newBalance);
+        account.setCurrency(newCurrency);
+        return new AccountDetails(accountRepository.save(account));
+    }
+
+    public List<Account> findAll() {
+        return accountRepository.findAll();
+    }
+
 }

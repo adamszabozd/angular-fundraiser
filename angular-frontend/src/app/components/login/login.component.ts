@@ -44,7 +44,6 @@ export class LoginComponent implements OnInit{
     }
 
     login() {
-        console.log('logging in', this.form.value);
         this.accountService.login(this.form.value).subscribe(
             () => {
                 this.registrationService.userRegistered.next();

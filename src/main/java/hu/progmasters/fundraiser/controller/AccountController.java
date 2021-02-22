@@ -15,6 +15,7 @@ import hu.progmasters.fundraiser.dto.account.AccountDetails;
 import hu.progmasters.fundraiser.dto.account.AccountRegistrationCommand;
 import hu.progmasters.fundraiser.dto.account.AuthenticatedAccountDetails;
 import hu.progmasters.fundraiser.dto.account.BalanceFormCommand;
+import hu.progmasters.fundraiser.dto.exchange.CurrencyFormCommand;
 import hu.progmasters.fundraiser.dto.exchange.CurrencyOption;
 import hu.progmasters.fundraiser.service.AccountService;
 import hu.progmasters.fundraiser.service.ExchangeService;
@@ -98,8 +99,7 @@ public class AccountController {
 
     @PutMapping("/change/balance")
     public ResponseEntity<AccountDetails> fillMyBalance(@RequestBody @Valid BalanceFormCommand balanceFormCommand,
-                                                        Principal principal
-    ) {
+                                                        Principal principal) {
         AccountDetails myAccountDetails = accountService.fillMyBalance(balanceFormCommand, principal.getName());
         logger.info("Balance  successfully filled with {}", balanceFormCommand.getAddAmount());
         return new ResponseEntity<>(myAccountDetails, HttpStatus.CREATED);
@@ -108,6 +108,13 @@ public class AccountController {
     @GetMapping("/currency")
     public ResponseEntity<List<CurrencyOption>> getCurrencies() {
         return new ResponseEntity<>(exchangeService.fetchRates(), HttpStatus.OK);
+    }
+
+    @PutMapping("/change/currency")
+    public ResponseEntity<AccountDetails> savNewCurrency(@RequestBody CurrencyFormCommand currencyFormCommand,
+                                               Principal principal) {
+        AccountDetails myAccountDetails = accountService.savNewCurrency(currencyFormCommand, principal.getName());
+        return new ResponseEntity<>(myAccountDetails, HttpStatus.CREATED);
     }
 
     // Ezt max akkor fogjuk használni, ha csinálunk adminfelületet is. Mezei usereknek nem listázzuk ki az összes regisztáltat.

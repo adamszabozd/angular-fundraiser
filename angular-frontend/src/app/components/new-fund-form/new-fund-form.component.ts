@@ -22,10 +22,14 @@ export class NewFundFormComponent implements OnInit {
     formInitData: FundFormInitModel;
 
     form = this.formBuilder.group({
-                                      title           : ['', [Validators.required, Validators.pattern(/^[^\s]+(\s+[^\s]+)*$/)]],
-                                      shortDescription: ['', [Validators.required, Validators.maxLength(250), Validators.pattern(/^[^\s]+(\s+[^\s]+)*$/)]],
+                                      title           : ['', [Validators.required,
+                                                              Validators.pattern(/^[^\s]+(\s+[^\s]+)*$/)]],
+                                      shortDescription: ['', [Validators.required,
+                                                              Validators.maxLength(250),
+                                                              Validators.pattern(/^[^\s]+(\s+[^\s]+)*$/)]],
                                       longDescription : [''],
-                                      imageUrl        : ['', [Validators.maxLength(1000), Validators.pattern(/^[^\s]+(\s+[^\s]+)*$/)]],
+                                      imageUrl        : ['', [Validators.maxLength(1000),
+                                                              Validators.pattern(/^[^\s]+(\s+[^\s]+)*$/)]],
                                       category        : [null],
                                       targetAmount    : [null, Validators.required],
                                       currency        : [null, Validators.required],

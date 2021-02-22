@@ -40,13 +40,17 @@ public class ExchangeService {
         exchangeRepository.save(exchangeRate);
     }
 
+    public double findRateByCurrency(Currency currency) {
+        return exchangeRepository.findLatestRateByCurrency(currency);
+    }
+
     public List<CurrencyOption> fetchRates() {
         List<CurrencyOption> rates = new ArrayList<>();
         CurrencyOption currencyOption;
         for (Currency currency : Currency.values()) {
             currencyOption  = new CurrencyOption();
             currencyOption.setCurrencyName(currency.name());
-            currencyOption.setExchangeRate(exchangeRepository.findLatestRateByCurrency(currency));
+            currencyOption.setExchangeRate(findRateByCurrency(currency));
             rates.add(currencyOption);
         }
         return rates;

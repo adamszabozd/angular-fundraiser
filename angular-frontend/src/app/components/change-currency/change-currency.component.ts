@@ -1,10 +1,10 @@
-import {Component, EventEmitter, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CurrencyOptionModel} from '../../models/currencyOption.model';
 import {FormBuilder, Validators} from '@angular/forms';
 import {AccountService} from '../../services/account.service';
 import {AccountDetailsModel} from '../../models/accountDetails.model';
 import {validationHandler} from '../../utils/validationHandler';
-import {Event, Router} from '@angular/router';
+import {Router} from '@angular/router';
 
 @Component({
                selector   : 'app-change-currency',
@@ -14,6 +14,7 @@ import {Event, Router} from '@angular/router';
 export class ChangeCurrencyComponent implements OnInit {
 
     @Input() myAccount: AccountDetailsModel;
+    @Output() currencyChanged = new EventEmitter();
 
     currencies: CurrencyOptionModel[] | undefined;
     otherCurrencies: CurrencyOptionModel[] | undefined;
@@ -56,7 +57,11 @@ export class ChangeCurrencyComponent implements OnInit {
 
     onSubmit() {
         this.accountService.changeCurrency(this.form.value).subscribe(
-            () => this.router.navigate(['/my-account']),
+            (data) => {
+                this.currencyChanged.emit(data);
+                this.router.navigate(['/my-account'],
+                );
+            },
             (error) => validationHandler(error, this.form),
         );
     }

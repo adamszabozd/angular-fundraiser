@@ -1,4 +1,4 @@
-<app-change-currency *ngIf="setCurrency" [myAccount]="chosenData"></app-change-currency>
+<app-change-currency *ngIf="setCurrency" [myAccount]="chosenData" (currencyChanged)="showNewBalance($event)"></app-change-currency>
 <div *ngIf="setBalance" class="container jumbotron fillForm balance">
     <h2>{{ 'MY_ACCOUNT.FILL_BALANCE_FORM' | translate }}</h2>
     <div class="border-top mx-auto my-3"></div>
