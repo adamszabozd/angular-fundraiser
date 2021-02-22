@@ -10,11 +10,17 @@
             <p class="description">{{fund.shortDescription}}</p>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">{{ 'FUNDS.CATEGORY' | translate }}{{fund.category}}</li>
-                <li class="list-group-item">{{ 'FUNDS.AMOUNT' | translate: { amount: fund.raisedAmount, amountGoal: fund.targetAmount } }}</li>
+                <li class="list-group-item">{{ 'FUNDS.AMOUNT' | translate: {
+                    amount: fund.raisedAmount,
+                    amountGoal: fund.targetAmount
+                } }}</li>
                 <li class="list-group-item">{{ 'FUNDS.END_DATE' | translate }}{{fund.endDate}}</li>
                 <li class="list-group-item">{{ 'FUNDS.CREATOR' | translate }}{{fund.creatorName}}</li>
             </ul>
-            <a class="btn btn-outline-warning btn-md" (click)="goToModify(fund.id)">{{ 'FUNDS.MODIFY' | translate }}</a>
+            <a target="_blank" [routerLink]="['/fund-details',fund.id]"
+               class="btn btn-outline-warning btn-md">{{ 'FUNDS.READ_MORE' | translate }}</a>
+            <a target="_blank" [routerLink]="['/modify',fund.id]"
+               class="btn btn-outline-info btn-md">{{ 'FUND.MODIFY_FUND' | translate }}</a>
         </div>
     </div>
 
