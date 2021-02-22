@@ -25,8 +25,4 @@ export class MyFundsComponent implements OnInit {
           }
       )
   }
-
-    goToModify(id: number) {
-        this.router.navigate(['modify',id]);
-    }
 }
