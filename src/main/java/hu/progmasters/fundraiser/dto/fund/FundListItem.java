@@ -2,6 +2,7 @@ package hu.progmasters.fundraiser.dto.fund;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import hu.progmasters.fundraiser.domain.Fund;
+import org.thymeleaf.expression.Numbers;
 
 import java.time.LocalDate;
 
@@ -21,6 +22,8 @@ public class FundListItem {
 
     private final Double raisedAmount;
 
+    private final Long progress;
+
     @JsonFormat(pattern = "yyyy-MM-dd")
     private final LocalDate endDate;
 
@@ -36,9 +39,18 @@ public class FundListItem {
         this.targetAmount = fund.getTargetAmount();
         this.currency = fund.getCurrency().name();
         this.raisedAmount = fund.getRaisedAmount();
+        this.progress = calculateProgress(raisedAmount, targetAmount);
         this.endDate = fund.getEndDate();
         this.creatorName = fund.getCreator().getUsername();
         this.category = categoryDisplayName;
+    }
+
+    private Long calculateProgress(Double raisedAmount, Double targetAmount){
+        long result = Math.round((raisedAmount/targetAmount)*100);
+        if (result > 100){
+            result =  (long) 100;
+        }
+        return result;
     }
 
     public Long getId() {
@@ -81,4 +93,7 @@ public class FundListItem {
         return currency;
     }
 
+    public Long getProgress() {
+        return progress;
+    }
 }
