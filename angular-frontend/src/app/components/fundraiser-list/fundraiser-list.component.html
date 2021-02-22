@@ -30,8 +30,7 @@
                     amountGoal: fund.targetAmount
                 } }}
                     <div class="progress">
-                        <div class="progress-bar" role="progressbar" [style.width]="fund.progress + '%'" [attr.aria-valuenow]="fund.progress" aria-valuemin="0" aria-valuemax="100"></div>
-                        {{fund.progress}}%
+                        <div class="progress-bar" role="progressbar" [style.width]="fund.progress + '%'" [attr.aria-valuenow]="fund.progress" aria-valuemin="0" aria-valuemax="100">{{fund.progress}}%</div>
                     </div>
                 </li>
                 <li class="list-group-item">{{ 'FUNDS.END_DATE' | translate }}{{fund.endDate}}</li>
