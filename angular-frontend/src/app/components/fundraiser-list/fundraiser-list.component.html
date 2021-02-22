@@ -3,6 +3,17 @@
     <h1 *ngIf="numberOfFunds == 0" class="text-danger pt-4">{{ 'FUNDS.NO_FUNDS' | translate }}</h1>
     <div class="border-top mx-auto my-3"></div>
 </div>
+<div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{ 'FUNDS.SORT_BY' | translate}}
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" (click)="sortByRaisedFundsDesc()" >{{ 'FUNDS.SORT_RAISED_FUNDS' | translate}}</a>
+        <a class="dropdown-item" (click)="sortByExpirationDateAsc()">{{ 'FUNDS.SORT_END_DATE' | translate}}</a>
+        <a class="dropdown-item" (click)="sortByIdDesc()" >{{ 'FUNDS.SORT_ID_DESC' | translate}}</a>
+        <a class="dropdown-item" (click)="sortBYCreatorName()">{{ 'FUNDS.SORT_CREATOR' | translate}}</a>
+    </div>
+</div>
 <div class="container">
     <div class="row my-5">
         <div [@slideUp]="state" *ngFor="let fund of fundList

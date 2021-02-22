@@ -55,4 +55,30 @@ export class FundraiserListComponent implements OnInit {
             (error) => console.log(error),
         );
     }
+
+    sortByRaisedFundsDesc() {
+        console.log ("sortByRaisedAmount() called");
+        this.fundList.sort(
+            (a, b) => (a.raisedAmount > b.raisedAmount) ? -1 : 1
+        );
+    }
+
+    sortByExpirationDateAsc() {
+        console.log("sortByEndDate() called")
+        this.fundList.sort(
+            (a, b) => (a.endDate > b.endDate) ? 1 : -1
+        );
+    }
+
+    sortByIdDesc() {
+        this.fundList.sort(
+            (a,b) => (a.id < b.id)? 1 : -1
+        );
+    }
+
+    sortBYCreatorName(){
+        this.fundList.sort(
+            (a,b) => (a.creatorName > b.creatorName) ? 1 : -1
+        );
+    }
 }

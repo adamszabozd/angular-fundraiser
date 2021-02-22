@@ -9,3 +9,6 @@ a{
     border-top: 3px solid #fabe55 !important;
     width: 40% !important;
 }
+.dropdown-item {
+    cursor: pointer;
+}
