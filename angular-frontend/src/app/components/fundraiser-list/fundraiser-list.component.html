@@ -28,7 +28,9 @@
                     amount: fund.raisedAmount,
                     currency: fund.currency,
                     amountGoal: fund.targetAmount
-                } }}</li>
+                } }}
+                    <progress [value]="fund.raisedAmount" [max]="fund.targetAmount"></progress>
+                </li>
                 <li class="list-group-item">{{ 'FUNDS.END_DATE' | translate }}{{fund.endDate}}</li>
                 <li class="list-group-item">{{ 'FUNDS.CREATOR' | translate }}{{fund.creatorName}}</li>
             </ul>

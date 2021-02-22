@@ -12,3 +12,7 @@ a{
 .dropdown-item {
     cursor: pointer;
 }
+#progress {
+    box-sizing: border-box;
+    width: 100%;
+}
