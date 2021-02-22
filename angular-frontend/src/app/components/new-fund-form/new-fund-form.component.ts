@@ -19,7 +19,7 @@ export class NewFundFormComponent implements OnInit {
 
     state = 'invisible';
 
-    formInitData: FundFormInitModel;
+    formInitData: FundFormInitModel | undefined;
 
     form = this.formBuilder.group({
                                       title           : ['', [Validators.required,
@@ -62,7 +62,7 @@ export class NewFundFormComponent implements OnInit {
 
     onSubmit() {
         this.fundService.saveNewFund(this.form.value).subscribe(
-            () => this.router.navigate(['']),
+            () => this.router.navigate(['/my-funds']),
             (error) => validationHandler(error, this.form)
         );
     }
