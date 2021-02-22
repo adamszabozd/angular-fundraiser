@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import hu.progmasters.fundraiser.domain.Fund;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class FundDetailsItem {
 
@@ -32,7 +33,9 @@ public class FundDetailsItem {
 
     private Long numberOfBackers;
 
-    public FundDetailsItem(Fund fund, Long numberOfBackers, String categoryDisplayName) {
+    private List<DailyDonation> lastWeekDonations;
+
+    public FundDetailsItem(Fund fund, Long numberOfBackers, String categoryDisplayName, List<DailyDonation> lastWeekDonations) {
         this.id = fund.getId();
         this.imageUrl = fund.getImageUrl();
         this.title = fund.getFundTitle();
@@ -45,6 +48,7 @@ public class FundDetailsItem {
         this.creatorName = fund.getCreator().getUsername();
         this.category = categoryDisplayName;
         this.numberOfBackers = numberOfBackers;
+        this.lastWeekDonations = lastWeekDonations;
     }
 
     public Long getId() {
@@ -95,4 +99,7 @@ public class FundDetailsItem {
         return currency;
     }
 
+    public List<DailyDonation> getLastWeekDonations() {
+        return lastWeekDonations;
+    }
 }

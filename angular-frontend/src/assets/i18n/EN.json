@@ -92,7 +92,8 @@
         "AMOUNT": "raised of {{ targetAmount }} {{ currency }} goal",
         "NUMBER_OF_BACKERS": "Number of backers: ",
         "EXPIRATION_DATE": "Expiration date: ",
-        "FUND_THIS_PROJECT": "Fund this project"
+        "FUND_THIS_PROJECT": "Fund this project",
+        "BARCHART_TITLE": "Donations per day during last seven days"
     },
     "REGISTRATION": {
         "EMAIL": "Email:",
