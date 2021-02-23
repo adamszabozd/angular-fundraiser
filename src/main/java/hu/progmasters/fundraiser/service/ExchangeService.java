@@ -9,6 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +48,22 @@ public class ExchangeService {
         return exchangeRepository.findLatestRateByCurrency(currency);
     }
 
+    public double findHistoricalRateByCurrency(Currency currency, LocalDateTime dateTime) {
+        ZoneOffset offset = ZoneOffset.systemDefault().getRules().getOffset(Instant.now());
+        System.out.println("OFFSET" + offset.getTotalSeconds() / 60 / 60);
+        LocalDateTime utcDateTime = dateTime.minusSeconds(offset.getTotalSeconds());
+        System.out.println("UTCDATETIME" + utcDateTime);
+        LocalDateTime utcNoon = utcDateTime.toLocalDate().atTime(12, 0);
+        System.out.println("UTCNOON" + utcNoon);
+        LocalDate dateToFindInDatabase = utcDateTime.toLocalDate();
+        if (utcDateTime.isBefore(utcNoon)) {
+            dateToFindInDatabase = dateToFindInDatabase.minusDays(1);
+        }
+        LocalDate correctedDate = offset.getTotalSeconds() > 0 ? dateToFindInDatabase.plusDays(1) : dateToFindInDatabase;
+        System.out.println("CORRECTEDDATE" + correctedDate);
+        return exchangeRepository.findLatestRateByCurrencyAndDate(currency, correctedDate);
+    }
+
     public List<CurrencyOption> fetchRates() {
         List<CurrencyOption> rates = new ArrayList<>();
         CurrencyOption currencyOption;
@@ -55,4 +75,5 @@ public class ExchangeService {
         }
         return rates;
     }
+
 }

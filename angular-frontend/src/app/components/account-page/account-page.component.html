@@ -128,13 +128,15 @@
                 <tr class="pending">
                     <th class="my-transfers__column-to">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS_TO' | translate }}</th>
                     <th class="my-transfers__column-amount">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS_AMOUNT' | translate }}</th>
+                    <th class="my-transfers__column-amount">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS_CURRENCY' | translate }}</th>
                     <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr *ngFor="let transfer of accountDetails?.pendingTransfers">
                     <td class="pending-border">{{transfer.targetFundTitle}}</td>
-                    <td class="pending-border">{{transfer.amount}}</td>
+                    <td class="pending-border">{{transfer.senderAmount}}</td>
+                    <td class="pending-border">{{transfer.senderCurrency}}</td>
                     <td class="pending-border">
                 <span class="btn-group">
                     <button (click)="resendConfirmationEmail(transfer.id)"
@@ -154,13 +156,15 @@
                 <tr class="confirmed">
                     <th class="my-transfers__column-to">{{ 'MY_ACCOUNT.MY_TRANSFERS_TO' | translate }}</th>
                     <th class="my-transfers__column-amount">{{ 'MY_ACCOUNT.MY_TRANSFERS_AMOUNT' | translate }}</th>
+                    <th class="my-transfers__column-amount">{{ 'MY_ACCOUNT.MY_TRANSFERS_CURRENCY' | translate }}</th>
                     <th class="my-transfers__column-date">{{ 'MY_ACCOUNT.MY_TRANSFERS_DATE' | translate }}</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr *ngFor="let transfer of accountDetails?.confirmedTransfers">
                     <td class="confirmed-border">{{transfer.targetFundTitle}}</td>
-                    <td class="confirmed-border">{{transfer.amount}}</td>
+                    <td class="confirmed-border">{{transfer.senderAmount}}</td>
+                    <td class="confirmed-border">{{transfer.senderCurrency}}</td>
                     <td class="confirmed-border">{{transfer.timeStamp}}</td>
                 </tr>
                 </tbody>

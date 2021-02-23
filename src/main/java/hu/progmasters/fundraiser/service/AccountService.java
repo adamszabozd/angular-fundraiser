@@ -13,9 +13,11 @@ package hu.progmasters.fundraiser.service;
 
 import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.domain.Currency;
+import hu.progmasters.fundraiser.domain.Transfer;
 import hu.progmasters.fundraiser.dto.account.AccountDetails;
 import hu.progmasters.fundraiser.dto.account.AccountRegistrationCommand;
 import hu.progmasters.fundraiser.dto.account.BalanceFormCommand;
+import hu.progmasters.fundraiser.dto.account.DonationPerFund;
 import hu.progmasters.fundraiser.dto.exchange.CurrencyFormCommand;
 import hu.progmasters.fundraiser.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -64,14 +67,38 @@ public class AccountService {
     }
 
     public AccountDetails addDetailsByEmail(String email) {
-        return new AccountDetails(findByEmail(email));
+        Account account = findByEmail(email);
+        return new AccountDetails(account, getDonationsPerFund(account));
+    }
+
+    public List<DonationPerFund> getDonationsPerFund(Account account) {
+        return account.getOutgoingTransfers().stream()
+                .filter(Transfer::getConfirmed)
+                .collect(Collectors.toMap((Transfer t) -> t.getTarget().getFundTitle(),
+                        (Transfer t) -> getTransferAmountByCurrency(t, account.getCurrency()),
+                        Double::sum))
+                .entrySet().stream()
+                .map(entry -> new DonationPerFund(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toList());
+    }
+
+    public double getTransferAmountByCurrency(Transfer transfer, Currency currency) {
+        if (transfer.getSenderCurrency() == currency) {
+            return transfer.getSenderAmount();
+        } else if (transfer.getTargetCurrency() == currency) {
+            return transfer.getTargetAmount();
+        } else {
+            double toRate = exchangeService.findHistoricalRateByCurrency(currency, transfer.getTimeStamp());
+            double fromRate = exchangeService.findHistoricalRateByCurrency(transfer.getSenderCurrency(), transfer.getTimeStamp());
+            return transfer.getSenderAmount() / fromRate * toRate;
+        }
     }
 
     public AccountDetails fillMyBalance(BalanceFormCommand balanceFormCommand, String email) {
         Account account = findByEmail(email);
         double newBalance = account.getBalance() + balanceFormCommand.getAddAmount();
         account.setBalance(newBalance);
-        return new AccountDetails(accountRepository.save(account));
+        return new AccountDetails(accountRepository.save(account), getDonationsPerFund(account));
     }
 
     public AccountDetails savNewCurrency(CurrencyFormCommand currencyFormCommand, String email) {
@@ -82,7 +109,7 @@ public class AccountService {
         double newBalance = newExchangeRate / oldExchangeRate * account.getBalance();
         account.setBalance(newBalance);
         account.setCurrency(newCurrency);
-        return new AccountDetails(accountRepository.save(account));
+        return new AccountDetails(accountRepository.save(account), getDonationsPerFund(account));
     }
 
     public List<Account> findAll() {
