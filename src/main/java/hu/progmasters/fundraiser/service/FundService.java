@@ -3,6 +3,7 @@ package hu.progmasters.fundraiser.service;
 import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.domain.Fund;
 import hu.progmasters.fundraiser.domain.FundCategory;
+import hu.progmasters.fundraiser.domain.Transfer;
 import hu.progmasters.fundraiser.dto.fund.*;
 import hu.progmasters.fundraiser.repository.FundRepository;
 import hu.progmasters.fundraiser.repository.TransferRepository;
@@ -11,10 +12,10 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -71,10 +72,34 @@ public class FundService {
         if (fund.isPresent()) {
             Long backers = transferRepository.numberOfBackers(id);
             String categoryDisplayName = messageSource.getMessage(fund.get().getFundCategory().getCode(), null, locale);
-            return new FundDetailsItem(fund.get(), backers, categoryDisplayName);
+            return new FundDetailsItem(fund.get(), backers, categoryDisplayName, getLastWeekDonations(fund.get().getTransferList()));
         } else {
             throw new IllegalArgumentException();
         }
+    }
+
+    public List<DailyDonation> getLastWeekDonations(List<Transfer> transferList) {
+        LocalDate startDate = LocalDate.now().minusDays(6);
+        LocalDate date = startDate;
+        Map<String, Double> dailyDonationMap = new HashMap<>();
+        for (int i = 0; i < 7; i++) {
+            String dateString = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            dailyDonationMap.put(dateString, 0.0);
+            date = date.plusDays(1);
+        }
+        LocalDateTime startDateTime = startDate.atStartOfDay();
+        for (Transfer transfer : transferList) {
+            if (transfer.getTimeStamp().isAfter(startDateTime)) {
+                String dateString = transfer.getTimeStamp().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                dailyDonationMap.put(dateString, dailyDonationMap.getOrDefault(dateString, 0.0) + transfer.getAmount());
+            }
+        }
+        List<DailyDonation> result = new ArrayList<>();
+        for (Map.Entry<String, Double> entry : dailyDonationMap.entrySet()) {
+            result.add(new DailyDonation(entry.getKey(), entry.getValue()));
+        }
+        result.sort(Comparator.comparing(DailyDonation::getDate));
+        return result;
     }
 
     public List<FundListItem> fetchMyFunds(String email, Locale locale) {

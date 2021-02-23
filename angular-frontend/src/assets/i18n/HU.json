@@ -31,7 +31,8 @@
         "FILL_BALANCE_FORM": "Egyenleg feltöltése",
         "ADD_AMOUNT": "Befizetendő összeg",
         "ADD_AMOUNT_SUBMIT": "Befizetés",
-        "ADD_AMOUNT_ERROR": "Az összeg csak 0-nál nagyobb lehet"
+        "ADD_AMOUNT_ERROR": "Az összeg csak 0-nál nagyobb lehet",
+        "PIE_CHART_TITLE": "Adományok összesítése:"
     },
     "FUNDS": {
         "BROWSE_FUNDRAISERS": "Böngészés",
@@ -93,7 +94,8 @@
         "AMOUNT": "gyűlt össze a {{ targetAmount }} {{ currency }} célból",
         "NUMBER_OF_BACKERS": "Támogatók száma: ",
         "EXPIRATION_DATE": "Gyűjtés vége: ",
-        "FUND_THIS_PROJECT": "Támogatom ezt a gyűjtést"
+        "FUND_THIS_PROJECT": "Támogatom ezt a gyűjtést",
+        "BARCHART_TITLE": "Adományok napi alakulása az utolsó egy hétben"
     },
     "REGISTRATION": {
         "EMAIL": "E-mail cím:",

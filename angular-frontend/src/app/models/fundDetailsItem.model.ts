@@ -1,3 +1,5 @@
+import {DailyDonationModel} from "./dailyDonation.model";
+
 export interface FundDetailsItemModel{
     id: number;
     imageUrl: string;
@@ -10,5 +12,5 @@ export interface FundDetailsItemModel{
     creatorName: string;
     category: string;
     numberOfBackers: number;
-
+    lastWeekDonations: Array<DailyDonationModel>
 }

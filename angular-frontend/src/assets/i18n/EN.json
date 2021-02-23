@@ -31,7 +31,8 @@
         "FILL_BALANCE_FORM": "Fill balance",
         "ADD_AMOUNT": "Amount to pay",
         "ADD_AMOUNT_SUBMIT": "Deposit",
-        "ADD_AMOUNT_ERROR": "Please choose an amount above 0"
+        "ADD_AMOUNT_ERROR": "Please choose an amount above 0",
+        "PIE_CHART_TITLE": "Donation summary:"
     },
     "FUNDS": {
         "BROWSE_FUNDRAISERS": "Browse fundraisers",
@@ -93,7 +94,8 @@
         "AMOUNT": "raised of {{ targetAmount }} {{ currency }} goal",
         "NUMBER_OF_BACKERS": "Number of backers: ",
         "EXPIRATION_DATE": "Expiration date: ",
-        "FUND_THIS_PROJECT": "Fund this project"
+        "FUND_THIS_PROJECT": "Fund this project",
+        "BARCHART_TITLE": "Donations per day during last seven days"
     },
     "REGISTRATION": {
         "EMAIL": "Email:",
