@@ -23,12 +23,10 @@ export function minAmount(amount: string) {
         if (control.errors && !control.errors.minAmount) {
             return;
         }
-
         if (control.value <= 0) {
             control.setErrors({minAmount: true});
         } else {
             control.setErrors(null);
         }
-
     }
 }

@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-
 import {AccountService} from '../../services/account.service';
 import {RegistrationService} from '../../services/registration.service';
 import {validationHandler} from '../../utils/validationHandler';
@@ -64,6 +63,9 @@ export class RegistrationComponent implements OnInit {
 
     register() {
         this.submitted = true;
+        if (this.form.invalid) {
+            return;
+        }
         const data: AccountRegistrationDataModel = {
             email   : this.form.value.email,
             username: this.form.value.nickName,
