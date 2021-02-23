@@ -97,7 +97,8 @@
         "NUMBER_OF_BACKERS": "Támogatók száma: ",
         "EXPIRATION_DATE": "Gyűjtés vége: ",
         "FUND_THIS_PROJECT": "Támogatom ezt a gyűjtést",
-        "BARCHART_TITLE": "Adományok napi alakulása az utolsó egy hétben"
+        "BARCHART_TITLE": "Adományok napi alakulása az utolsó egy hétben",
+        "LINECHART_TITLE": "Összegyűlt összeg alakulása"
     },
     "REGISTRATION": {
         "EMAIL": "E-mail cím:",
