@@ -12,11 +12,12 @@
 package hu.progmasters.fundraiser.service;
 
 import hu.progmasters.fundraiser.domain.Account;
+import hu.progmasters.fundraiser.domain.Currency;
 import hu.progmasters.fundraiser.domain.Fund;
 import hu.progmasters.fundraiser.domain.Transfer;
-import hu.progmasters.fundraiser.dto.transfer.list.MyTransferListPendingItem;
 import hu.progmasters.fundraiser.dto.transfer.create.TransferConfirmationCommand;
 import hu.progmasters.fundraiser.dto.transfer.create.TransferCreationCommand;
+import hu.progmasters.fundraiser.dto.transfer.list.MyTransferListPendingItem;
 import hu.progmasters.fundraiser.exception.*;
 import hu.progmasters.fundraiser.repository.TransferRepository;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -40,17 +41,18 @@ public class TransferService {
     Logger logger = LoggerFactory.getLogger(TransferService.class);
     //TODO - Review: Ne hívjuk "keresztbe" a rétegeket. Ugyanaz mint a FundServiceben
     private final TransferRepository transferRepository;
-
+    private final ExchangeService exchangeService;
     private final AccountService accountService;
     private final FundService fundService;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public TransferService(TransferRepository transferRepository,
-                           AccountService accountService,
+                           ExchangeService exchangeService, AccountService accountService,
                            FundService fundService, PasswordEncoder passwordEncoder
     ) {
         this.transferRepository = transferRepository;
+        this.exchangeService = exchangeService;
         this.accountService = accountService;
         this.fundService = fundService;
         this.passwordEncoder = passwordEncoder;
@@ -63,19 +65,12 @@ public class TransferService {
     }
 
     private Transfer getPendingTransfer(TransferCreationCommand transferCreationCommand, Account source, Fund goal) {
-        //TODO - Review: Ezt az inicializálást nem lehetne valahogy átszervezni?
-        Transfer pendingTransfer;
-        pendingTransfer = new Transfer();
-        pendingTransfer.setAmount(transferCreationCommand.getAmount());
-        pendingTransfer.setTarget(goal);
-        pendingTransfer.setSource(source);
+        Transfer pendingTransfer = new Transfer(transferCreationCommand, source, goal);
+        pendingTransfer.setTargetAmount(calculateExchangedAmount(findCurrencyRate(source, goal), transferCreationCommand.getSenderAmount()));
         String code = getCode();
         logger.info("Confirmation code generated.");
-        //TODO - Review: Miért tároljátok mind a két kódot? Így semmi értelme :D
-        pendingTransfer.setConfirmationCode(passwordEncoder.encode(code));
+        pendingTransfer.setConfirmationCode(passwordEncoder.encode(getCode()));
         pendingTransfer.setUnencryptedConfirmationCode(code);
-        pendingTransfer.setConfirmed(false);
-        pendingTransfer.setTimeStamp(LocalDateTime.now());
         pendingTransfer = transferRepository.save(pendingTransfer);
         return pendingTransfer;
     }
@@ -99,6 +94,16 @@ public class TransferService {
         transferRepository.save(transfer);
     }
 
+    private Double findCurrencyRate(Account sender, Fund receiver) {
+        Double senderCurrencyRate = exchangeService.findRateByCurrency(sender.getCurrency());
+        Double receiverCurrencyRate = exchangeService.findRateByCurrency(receiver.getCurrency());
+        return receiverCurrencyRate / senderCurrencyRate;
+    }
+
+    private Double calculateExchangedAmount(Double exchangeRate, Double senderAmount) {
+        return (exchangeRate * senderAmount);
+    }
+
     public void confirmTransfer(TransferConfirmationCommand transferConfirmationCommand, String email) {
         String rawCode = transferConfirmationCommand.getConfirmationCode();
         List<Transfer> pendingTransfers = transferRepository.getPendingTransfers();
@@ -112,15 +117,23 @@ public class TransferService {
         if (transfer == null) {
             throw new InvalidConfirmationCodeException(email);
         }
-
-        transfer.setTimeStamp(LocalDateTime.now());
         Fund goal = transfer.getTarget();
-        goal.setRaisedAmount(goal.getRaisedAmount() + transfer.getAmount());
-        Account source = transfer.getSource();
-        source.setBalance(source.getBalance() - transfer.getAmount());
-        transfer.setSource(source);
-        transfer.setConfirmed(true);
-        transferRepository.save(transfer);
+        Currency senderCurrency = transfer.getSource().getCurrency();
+        if (!senderCurrency.name().equals(transfer.getSenderCurrency().name())) {
+            transfer.setSenderAmount(calculateExchangedAmount(findCurrencyRate(transfer.getSource(), goal), transfer.getSenderAmount()));
+            transfer.setSenderCurrency(senderCurrency);
+        }
+        if (goal.getCurrency().name().equals(transfer.getTargetCurrency().name())) {
+            transfer.setTargetAmount(calculateExchangedAmount(findCurrencyRate(transfer.getSource(), goal), transfer.getSenderAmount()));
+            goal.setRaisedAmount(goal.getRaisedAmount() + transfer.getTargetAmount());
+            Account source = transfer.getSource();
+            source.setBalance(source.getBalance() - transfer.getSenderAmount());
+            transfer.setTimeStamp(LocalDateTime.now());
+            transfer.setConfirmed(true);
+            transferRepository.save(transfer);
+        } else {
+            throw new InvalidTargetFundException(email);
+        }
     }
 
     public void deleteTransfer(Long id, String email) {
@@ -142,9 +155,9 @@ public class TransferService {
         Account account = accountService.findByEmail(email);
         if (account != null) {
             return account.getOutgoingTransfers().stream()
-                    .filter(t -> !t.getConfirmed())
-                    .map(MyTransferListPendingItem::new)
-                    .collect(Collectors.toList());
+                          .filter(t -> !t.getConfirmed())
+                          .map(MyTransferListPendingItem::new)
+                          .collect(Collectors.toList());
         } else {
             throw new AccountNotFoundException();
         }
@@ -174,4 +187,5 @@ public class TransferService {
         }
         return false;
     }
+
 }

@@ -59,7 +59,7 @@ public class TransferServiceIT {
     void testSavePendingTransfer() {
         init();
         TransferCreationCommand transferCreationCommand = new TransferCreationCommand();
-        transferCreationCommand.setAmount(200.00);
+        transferCreationCommand.setSenderAmount(200.00);
         transferCreationCommand.setTargetFundId(fundId);
         Transfer t = transferService.savePendingTransfer(transferCreationCommand, "test@gmail.com");
         assertEquals(1, transferRepository.count());

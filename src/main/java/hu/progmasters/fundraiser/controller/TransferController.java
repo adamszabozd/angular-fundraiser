@@ -100,7 +100,7 @@ public class TransferController {
         Transfer pendingTransfer = transferService.savePendingTransfer(transferCreationCommand, principal.getName());
         String confirmationCode = pendingTransfer.getUnencryptedConfirmationCode();
         String to = accountService.findByEmail(principal.getName()).getEmail();
-        emailSendingService.sendConfirmationEmail(to, confirmationCode, pendingTransfer.getTarget().getFundTitle(), pendingTransfer.getAmount(), locale);
+        emailSendingService.sendConfirmationEmail(to, confirmationCode, pendingTransfer.getTarget().getFundTitle(), pendingTransfer.getSenderAmount(), pendingTransfer.getSenderCurrency().name(), locale);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -125,7 +125,7 @@ public class TransferController {
         transferService.generateNewConfirmationCode(pendingTransfer);
         String confirmationCode = pendingTransfer.getUnencryptedConfirmationCode();
         String to = principal.getName();
-        emailSendingService.sendConfirmationEmail(to, confirmationCode, pendingTransfer.getTarget().getFundTitle(), pendingTransfer.getAmount(), locale);
+        emailSendingService.sendConfirmationEmail(to, confirmationCode, pendingTransfer.getTarget().getFundTitle(), pendingTransfer.getSenderAmount(), pendingTransfer.getSenderCurrency().name(), locale);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

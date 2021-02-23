@@ -18,7 +18,8 @@
                 name="targetFundId"
                 formControlName="targetFundId"
             >
-                <option  *ngIf="!showOnlyOneOption" value=null selected disabled>{{ 'TRANSFER.CHOOSE_A_GOAL' | translate }}</option>
+                <option *ngIf="!showOnlyOneOption" value=null selected
+                        disabled>{{ 'TRANSFER.CHOOSE_A_GOAL' | translate }}</option>
                 <option *ngFor="let fund of transferFormInitDataModel?.targetFundOptions"
                         value="{{fund.id}}">{{fund.title}}</option>
             </select>
@@ -36,29 +37,70 @@
 
         <div class="form-group">
             <label
-                for="amount"
-                [ngClass]="{'text-danger': (form.get('amount').invalid && form.get('amount').touched) || (form.get('amount').errors?.serverError)}"
+                for="senderAmount"
+                [ngClass]="{'text-danger': (form.get('senderAmount').invalid && form.get('senderAmount').touched)
+                || (form.get('senderAmount').errors?.serverError)}"
             >
                 {{ 'TRANSFER.AMOUNT' | translate }}
             </label>
-            <input
-                id="amount"
-                min="0"
-                type="number"
-                class="form-control"
-                [ngClass]="{'is-invalid': (form.get('amount').invalid && form.get('amount').touched) || (form.get('amount').errors?.serverError)}"
-                name="amount"
-                formControlName="amount"
-            />
-            <small
-                *ngIf="form.get('amount').invalid && form.get('amount').touched && !form.get('amount').errors?.serverError"
-                class="text-danger"
-            >
-                {{ 'TRANSFER.AMOUNT_ERROR' | translate }}
-            </small>
-            <small *ngIf="form.get('amount').errors?.serverError" class="text-danger">
-                {{form.get('amount').errors['serverError']}}
-            </small>
+            <div class="row mb-3">
+                <div class="col-sm-9">
+                    <input
+                        id="senderAmount"
+                        min="0"
+                        type="number"
+                        class="form-control"
+                        [ngClass]="{'is-invalid': (form.get('senderAmount').invalid && form.get('senderAmount').touched)
+                        || (form.get('senderAmount').errors?.serverError)}"
+                        name="senderAmount"
+                        formControlName="senderAmount"
+                    />
+                    <small
+                        *ngIf="form.get('senderAmount').invalid && form.get('senderAmount').touched
+                        && !form.get('senderAmount').errors?.serverError"
+                        class="text-danger"
+                    >
+                        {{ 'TRANSFER.AMOUNT_ERROR' | translate }}
+                    </small>
+                    <small *ngIf="form.get('senderAmount').errors?.serverError" class="text-danger">
+                        {{form.get('senderAmount').errors['serverError']}}
+                    </small>
+                </div>
+                <div class="col-sm-3">
+                    <input
+                        id="myCurrency"
+                        class="form-control my-input-field-disabled"
+                        name="myCurrency"
+                        placeholder="{{transferFormInitDataModel?.currency}}"
+                        disabled
+                    />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="fundAmount">
+                {{ 'TRANSFER.EXCHANGED_AMOUNT' | translate }}
+            </label>
+            <div class="row mb-3">
+                <div class="col-sm-9">
+                    <input
+                        id="fundAmount"
+                        class="form-control my-input-field-disabled"
+                        name="fundAmount"
+                        placeholder="ide jön a gyűjtő pénznemében az összeg"
+                        disabled
+                    />
+                </div>
+                <div class="col-sm-3">
+                    <input
+                        id="fundCurrency"
+                        class="form-control my-input-field-disabled"
+                        name="fundCurrency"
+                        placeholder="gyűjtő pénzneme"
+                        disabled
+                    />
+                </div>
+            </div>
         </div>
         <div>
             <div class="form-group">

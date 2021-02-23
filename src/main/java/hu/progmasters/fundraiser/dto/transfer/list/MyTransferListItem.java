@@ -6,21 +6,30 @@ import java.time.format.DateTimeFormatter;
 
 public class MyTransferListItem {
 
-    private Long id;
+    private final Long id;
 
-    private String senderAccountEmail;
+    private final String senderAccountEmail;
 
-    private String targetFundTitle;
+    private final String targetFundTitle;
 
-    private Double amount;
+    private final Double senderAmount;
 
-    private String timeStamp;
+    private final String senderCurrency;
+
+    private final Double targetAmount;
+
+    private final String targetCurrency;
+
+    private final String timeStamp;
 
     public MyTransferListItem(Transfer transfer) {
         this.id = transfer.getId();
         this.senderAccountEmail = transfer.getSource().getEmail();
         this.targetFundTitle = transfer.getTarget().getFundTitle();
-        this.amount = transfer.getAmount();
+        this.senderAmount = transfer.getSenderAmount();
+        this.senderCurrency = transfer.getSenderCurrency().name();
+        this.targetAmount = transfer.getTargetAmount();
+        this.targetCurrency = transfer.getTargetCurrency().name();
         this.timeStamp = transfer.getTimeStamp().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
@@ -36,8 +45,20 @@ public class MyTransferListItem {
         return targetFundTitle;
     }
 
-    public Double getAmount() {
-        return amount;
+    public Double getSenderAmount() {
+        return senderAmount;
+    }
+
+    public String getSenderCurrency() {
+        return senderCurrency;
+    }
+
+    public Double getTargetAmount() {
+        return targetAmount;
+    }
+
+    public String getTargetCurrency() {
+        return targetCurrency;
     }
 
     public String getTimeStamp() {

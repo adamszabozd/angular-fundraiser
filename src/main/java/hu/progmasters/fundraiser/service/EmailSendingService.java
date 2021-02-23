@@ -54,12 +54,13 @@ public class EmailSendingService {
     }
 
     @Async
-    public void sendConfirmationEmail(String to, String confirmationCode, String goalName, double amount, Locale locale) {
+    public void sendConfirmationEmail(String to, String confirmationCode, String goalName, double amount, String currency, Locale locale) {
         String confirmationLink = frontendUrl + "/transfer-confirmation/" + confirmationCode;
 
         Context ctx = new Context(locale);
         ctx.setVariable("goalName", goalName);
         ctx.setVariable("amount", amount);
+        ctx.setVariable("currency", currency);
         ctx.setVariable("confirmationCode", confirmationCode);
         ctx.setVariable("confirmationLink", confirmationLink);
         String htmlContent = thymeleafTemplateEngine.process("transfer-confirmation.html", ctx);

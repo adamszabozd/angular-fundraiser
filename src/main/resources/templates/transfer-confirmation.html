@@ -18,7 +18,7 @@
         <span style="color: #323232" th:text="#{email.your.code}"></span><br>
         <b th:align="center" th:text="${confirmationCode}"></b><br>
         <span style="color: #323232" th:text="#{email.want}"></span><strong><span th:text="${goalName}"></span></strong><span style="color: #323232" th:text="#{email.with}"></span>
-        <strong><span th:text="${amount}"></span> HUF</strong><span style="color: #323232" th:text="#{email.please.type}"></span>
+        <strong><span th:text="${amount}"></span> <span th:text="${currency}"></span></strong><span style="color: #323232" th:text="#{email.please.type}"></span>
         </p>
     </div>
     <br>

@@ -13,16 +13,17 @@ export class MyFundsComponent implements OnInit {
 
     myFundList: Array<FundListItemModel>;
 
-  constructor(private fundService: FundsService, private router: Router, private accountService: AccountService) { }
+    constructor(private fundService: FundsService, private router: Router, private accountService: AccountService) {
+    }
 
-  ngOnInit() {
-      this.fundService.fetchMyFunds().subscribe(
-          (data)=>this.myFundList=data,
-          error => {
-              this.accountService.loggedInStatusUpdate.next(false);
-              this.router.navigate(['/login']);
-              console.log(error);
-          }
-      )
-  }
+    ngOnInit() {
+        this.fundService.fetchMyFunds().subscribe(
+            (data) => this.myFundList = data,
+            error => {
+                this.accountService.loggedInStatusUpdate.next(false);
+                this.router.navigate(['/login']);
+                console.log(error);
+            }
+        )
+    }
 }

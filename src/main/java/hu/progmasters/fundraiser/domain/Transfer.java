@@ -11,6 +11,8 @@
 
 package hu.progmasters.fundraiser.domain;
 
+import hu.progmasters.fundraiser.dto.transfer.create.TransferCreationCommand;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
@@ -61,6 +63,19 @@ public class Transfer {
 
     @Column(name = "confirmed", nullable = false)
     private Boolean confirmed;
+
+    public Transfer() {
+    }
+
+    public Transfer(TransferCreationCommand transferCreationCommand, Account source, Fund target) {
+        this.source = source;
+        this.target = target;
+        this.senderAmount = transferCreationCommand.getSenderAmount();
+        this.senderCurrency = source.getCurrency();
+        this.targetCurrency = target.getCurrency();
+        this.timeStamp = LocalDateTime.now();
+        this.confirmed = false;
+    }
 
     public Long getId() {
         return id;

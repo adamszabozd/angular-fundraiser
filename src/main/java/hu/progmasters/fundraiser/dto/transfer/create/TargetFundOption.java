@@ -4,8 +4,8 @@ import hu.progmasters.fundraiser.domain.Fund;
 
 public class TargetFundOption {
 
-    private long id;
-    private String title;
+    private final long id;
+    private final String title;
     private String targetCurrency;
 
     public TargetFundOption(Fund fund) {

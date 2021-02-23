@@ -39,10 +39,10 @@ public class TransferCreationCommandValidator implements Validator {
         } else if (!validationService.existsFundById(transfer.getTargetFundId())) {
             errors.rejectValue("targetFundId", "transfer.invalidFundId");
         }
-        if (transfer.getAmount() > validationService.checkBalance()) {
+        if (transfer.getSenderAmount() > validationService.checkBalance()) {
             errors.rejectValue("amount", "transfer.notEnough.balance");
         }
-        if (transfer.getAmount() != null && transfer.getAmount() < 0) {
+        if (transfer.getSenderAmount() != null && transfer.getSenderAmount() < 0) {
             errors.rejectValue("amount", "transfer.amountMin");
         }
     }

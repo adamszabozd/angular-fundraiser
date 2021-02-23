@@ -83,6 +83,7 @@
         "CHOOSE_A_GOAL": "-- Choose a goal to support --",
         "TO_ERROR": "Please choose an account to send money to",
         "AMOUNT": "Amount:",
+        "EXCHANGED_AMOUNT": "Exchanged amount",
         "AMOUNT_ERROR": "Please choose an amount above 0",
         "MY_BALANCE": "My Balance:",
         "TRANSFER": "Transfer"

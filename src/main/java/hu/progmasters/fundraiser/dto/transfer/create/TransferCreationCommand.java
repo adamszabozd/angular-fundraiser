@@ -15,32 +15,22 @@ public class TransferCreationCommand {
 
     private Long targetFundId;
 
-    private Double amount;
-
-    private String senderCurrency;
+    private Double senderAmount;
 
     public Long getTargetFundId() {
         return targetFundId;
-    }
-
-    public Double getAmount() {
-        return amount;
     }
 
     public void setTargetFundId(Long targetFundId) {
         this.targetFundId = targetFundId;
     }
 
-    public void setAmount(Double amount) {
-        this.amount = amount;
+    public Double getSenderAmount() {
+        return senderAmount;
     }
 
-    public String getSenderCurrency() {
-        return senderCurrency;
-    }
-
-    public void setSenderCurrency(String senderCurrency) {
-        this.senderCurrency = senderCurrency;
+    public void setSenderAmount(Double senderAmount) {
+        this.senderAmount = senderAmount;
     }
 
 }

@@ -1,6 +1,7 @@
 package hu.progmasters.fundraiser.exception;
 
 public class AlreadyConfirmedTransferException extends RuntimeException {
+
     private final String accountEmail;
 
     public AlreadyConfirmedTransferException(String accountEmail) {
@@ -14,4 +15,5 @@ public class AlreadyConfirmedTransferException extends RuntimeException {
     public String getCode() {
         return "already.confirmed.transfer.confirmation";
     }
+
 }

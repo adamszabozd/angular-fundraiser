@@ -19,21 +19,21 @@ import java.time.format.DateTimeFormatter;
 // ezt max admin jogokkal rendelkező user fogja használni.
 public class TransferListItem {
 
-    private Long id;
+    private final Long id;
 
-    private String senderAccountEmail;
+    private final String senderAccountEmail;
 
-    private Long targetFundId;
+    private final Long targetFundId;
 
-    private Double amount;
+    private final Double amount;
 
-    private String timeStamp;
+    private final String timeStamp;
 
     public TransferListItem(Transfer transfer) {
         this.id = transfer.getId();
         this.senderAccountEmail = transfer.getSource().getEmail();
         this.targetFundId = transfer.getTarget().getId();
-        this.amount = transfer.getAmount();
+        this.amount = transfer.getSenderAmount();
         this.timeStamp = transfer.getTimeStamp().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
