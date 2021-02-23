@@ -69,7 +69,7 @@ public class TransferService {
         pendingTransfer.setTargetAmount(calculateExchangedAmount(findCurrencyRate(source, goal), transferCreationCommand.getSenderAmount()));
         String code = getCode();
         logger.info("Confirmation code generated.");
-        pendingTransfer.setConfirmationCode(passwordEncoder.encode(getCode()));
+        pendingTransfer.setConfirmationCode(passwordEncoder.encode(code));
         pendingTransfer.setUnencryptedConfirmationCode(code);
         pendingTransfer = transferRepository.save(pendingTransfer);
         return pendingTransfer;
