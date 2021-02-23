@@ -51,7 +51,7 @@ public class AccountDetails {
                 .map(MyTransferListPendingItem::new)
                 .collect(Collectors.toList());
         this.donationsPerFund = account.getOutgoingTransfers().stream()
-                .collect(Collectors.toMap((Transfer t) -> t.getTarget().getFundTitle(), Transfer::getAmount, Double::sum))
+                .collect(Collectors.toMap((Transfer t) -> t.getTarget().getFundTitle(), Transfer::getSenderAmount, Double::sum))
                 .entrySet().stream()
                 .map(entry -> new DonationPerFund(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toList());

@@ -91,7 +91,7 @@ public class FundService {
         for (Transfer transfer : transferList) {
             if (transfer.getTimeStamp().isAfter(startDateTime)) {
                 String dateString = transfer.getTimeStamp().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                dailyDonationMap.put(dateString, dailyDonationMap.getOrDefault(dateString, 0.0) + transfer.getAmount());
+                dailyDonationMap.put(dateString, dailyDonationMap.getOrDefault(dateString, 0.0) + transfer.getSenderAmount());
             }
         }
         List<DailyDonation> result = new ArrayList<>();
