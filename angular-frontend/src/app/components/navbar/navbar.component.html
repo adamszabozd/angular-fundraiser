@@ -23,7 +23,7 @@
                 <li [@slideIn]="slideInState"  *ngIf="!loggedIn" class="nav-item"><a class="nav-link" routerLink="/login">{{ 'NAVBAR.LOGIN' | translate }}</a></li>
                 <li [@slideIn]="slideInState"  *ngIf="loggedIn" class="nav-item"><a class="nav-link" (click)="logout()" routerLink="/">{{ 'NAVBAR.LOGOUT' | translate }}</a></li>
                 <li [@slideIn]="slideInState" class="nav-item">
-                    <select class="nav-link" #langSelect (change)="translate.use(langSelect.value);getCategories();">
+                    <select class="nav-link" #langSelect (change)="getCategories(langSelect.value);">
                         <option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{ lang }}</option>
                     </select>
                 </li>

@@ -58,9 +58,6 @@ public class Transfer {
     @Column(name = "confirmation_code", nullable = false)
     private String confirmationCode;
 
-    @Transient
-    private String unencryptedConfirmationCode;
-
     @Column(name = "confirmed", nullable = false)
     private Boolean confirmed;
 
@@ -157,11 +154,4 @@ public class Transfer {
         this.confirmed = confirmed;
     }
 
-    public String getUnencryptedConfirmationCode() {
-        return unencryptedConfirmationCode;
-    }
-
-    public void setUnencryptedConfirmationCode(String unencryptedConfirmationCode) {
-        this.unencryptedConfirmationCode = unencryptedConfirmationCode;
-    }
 }

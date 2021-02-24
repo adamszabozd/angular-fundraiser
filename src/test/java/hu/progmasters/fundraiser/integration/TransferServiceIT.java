@@ -15,6 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Locale;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -61,7 +63,7 @@ public class TransferServiceIT {
         TransferCreationCommand transferCreationCommand = new TransferCreationCommand();
         transferCreationCommand.setSenderAmount(200.00);
         transferCreationCommand.setTargetFundId(fundId);
-        Transfer t = transferService.savePendingTransfer(transferCreationCommand, "test@gmail.com");
+        Transfer t = transferService.savePendingTransfer(transferCreationCommand, "fenny26@gmail.com", Locale.getDefault());
         assertEquals(1, transferRepository.count());
         assertFalse(t.getConfirmed());
     }

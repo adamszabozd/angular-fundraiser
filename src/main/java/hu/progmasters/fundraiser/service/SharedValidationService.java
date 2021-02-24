@@ -8,6 +8,7 @@ import hu.progmasters.fundraiser.repository.AccountRepository;
 import hu.progmasters.fundraiser.repository.FundRepository;
 import hu.progmasters.fundraiser.repository.TransferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,6 +34,11 @@ public class SharedValidationService {
 
     private final RestTemplate restTemplate;
 
+    @Value("${captcha-url}")
+    private String captchaUrl;
+
+    @Value("${captcha-secret}")
+    private String captchaSecret;
 
     @Autowired
     public SharedValidationService(AccountRepository accountRepository, TransferRepository transferRepository, FundRepository fundRepository, PasswordEncoder passwordEncoder, RestTemplate restTemplate) {
@@ -84,7 +90,7 @@ public class SharedValidationService {
 
     public Double checkBalance() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return accountRepository.findByEmail(authentication.getName()).get().getBalance();
+        return accountRepository.findByEmail(authentication.getName()).orElseThrow().getBalance();
     }
 
     public boolean existsFundById(Long id) {
@@ -92,9 +98,8 @@ public class SharedValidationService {
     }
 
     public boolean validateCaptcha(String captcha) {
-        String url = "https://www.google.com/recaptcha/api/siteverify";
-        String params = "?secret=6LeIKWQaAAAAAH0ok5g2-wWn7U2AE69oHgz4lOOQ\n&response=" + captcha;
-        ReCaptchaResponse reCaptchaResponse = restTemplate.exchange(url + params, HttpMethod.POST, null, ReCaptchaResponse.class).getBody();
+        String params = "?secret=" + captchaSecret + "\n&response=" + captcha;
+        ReCaptchaResponse reCaptchaResponse = restTemplate.exchange(captchaUrl + params, HttpMethod.POST, null, ReCaptchaResponse.class).getBody();
         return reCaptchaResponse != null && reCaptchaResponse.isSuccess();
     }
 }

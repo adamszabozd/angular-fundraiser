@@ -47,12 +47,15 @@ export class NavbarComponent implements OnInit {
         });
     }
 
-    getCategories() {
-        this.fundService.getCategories().subscribe(
-            (data) => this.categories = data,
+    getCategories(lang: string) {
+        this.translate.use(lang).subscribe(
+            () => {
+                this.fundService.getCategories().subscribe(
+                    (data) => this.categories = data,
+                    (error) => console.log(error));
+            },
             (error) => console.log(error)
-        );
-
+            );
     }
 
 }

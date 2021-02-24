@@ -1,17 +1,12 @@
 package hu.progmasters.fundraiser.exception;
 
-public class InvalidTargetFundException extends RuntimeException {
+public class InvalidTargetFundException extends CustomRuntimeException {
 
-    private final String senderEmail;
-
-    public InvalidTargetFundException(String senderEmail) {
-        this.senderEmail = senderEmail;
+    public InvalidTargetFundException(String accountEmail) {
+        super(accountEmail);
     }
 
-    public String getSenderEmail() {
-        return senderEmail;
-    }
-
+    @Override
     public String getCode() {
         return "invalid.target.currency";
     }

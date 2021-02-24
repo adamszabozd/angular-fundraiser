@@ -44,7 +44,6 @@ public class TransferController {
     private final TransferService transferService;
     private final AccountService accountService;
     private final FundService fundService;
-    private final EmailSendingService emailSendingService;
     private final ExchangeService exchangeService;
     private final TransferCreationCommandValidator transferCreationCommandValidator;
     private final TransferConfirmationCommandValidator transferConfirmationCommandValidator;
@@ -55,14 +54,12 @@ public class TransferController {
             AccountService accountService,
             FundService fundService,
             ExchangeService exchangeService,
-            EmailSendingService emailSendingService,
             TransferCreationCommandValidator transferCreationCommandValidator,
             TransferConfirmationCommandValidator transferConfirmationCommandValidator
     ) {
         this.transferService = transferService;
         this.accountService = accountService;
         this.fundService = fundService;
-        this.emailSendingService = emailSendingService;
         this.exchangeService = exchangeService;
         this.transferCreationCommandValidator = transferCreationCommandValidator;
         this.transferConfirmationCommandValidator = transferConfirmationCommandValidator;
@@ -98,10 +95,7 @@ public class TransferController {
 
     @PostMapping
     public ResponseEntity<Void> savePendingTransfer(@Valid @RequestBody TransferCreationCommand transferCreationCommand, Principal principal, Locale locale) {
-        Transfer pendingTransfer = transferService.savePendingTransfer(transferCreationCommand, principal.getName());
-        String confirmationCode = pendingTransfer.getUnencryptedConfirmationCode();
-        String to = accountService.findByEmail(principal.getName()).getEmail();
-        emailSendingService.sendConfirmationEmail(to, confirmationCode, pendingTransfer.getTarget().getFundTitle(), pendingTransfer.getSenderAmount(), pendingTransfer.getSenderCurrency().name(), locale);
+        transferService.savePendingTransfer(transferCreationCommand, principal.getName(), locale);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -120,13 +114,7 @@ public class TransferController {
 
     @GetMapping("/resend/{id}")
     public ResponseEntity<Void> resendConfirmationEmail(@PathVariable Long id, Principal principal, Locale locale) {
-        //TODO - Review: Az összes ilyen logika menjen service rétegbe, semmit nem adunk vissza az eredményből,
-        // mindent be lehetne húzni egy metódus alá valamelyik service-be
-        Transfer pendingTransfer = transferService.getPendingTransferByIdAndEmail(id, principal.getName());
-        transferService.generateNewConfirmationCode(pendingTransfer);
-        String confirmationCode = pendingTransfer.getUnencryptedConfirmationCode();
-        String to = principal.getName();
-        emailSendingService.sendConfirmationEmail(to, confirmationCode, pendingTransfer.getTarget().getFundTitle(), pendingTransfer.getSenderAmount(), pendingTransfer.getSenderCurrency().name(), locale);
+        transferService.resendConfirmationEmail(id, principal.getName(), locale);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
