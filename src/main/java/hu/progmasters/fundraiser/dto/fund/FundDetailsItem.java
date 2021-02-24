@@ -31,6 +31,8 @@ public class FundDetailsItem {
 
     private final String category;
 
+    private final String status;
+
     private final Long numberOfBackers;
 
     private List<DailyDonation> dailyDonations;
@@ -48,6 +50,7 @@ public class FundDetailsItem {
         this.creatorName = fund.getCreator().getUsername();
         this.category = categoryDisplayName;
         this.numberOfBackers = numberOfBackers;
+        this.status = fund.getStatus().name();
         this.dailyDonations = dailyDonations;
     }
 
@@ -101,5 +104,9 @@ public class FundDetailsItem {
 
     public List<DailyDonation> getDailyDonations() {
         return dailyDonations;
+    }
+
+    public String getStatus() {
+        return status;
     }
 }

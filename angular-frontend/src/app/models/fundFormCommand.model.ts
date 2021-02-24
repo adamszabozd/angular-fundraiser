@@ -8,5 +8,6 @@ export interface FundFormCommandModel{
     targetAmount: number;
     currency: string;
     endDate: Date;
+    status: string;
 
 }

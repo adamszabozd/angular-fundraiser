@@ -14,6 +14,8 @@ public class FundFormCommand {
 
     private String category;
 
+    private String status;
+
     private Double targetAmount;
 
     private String currency;
@@ -30,6 +32,7 @@ public class FundFormCommand {
         instance.setTargetAmount(1001.0);
         instance.setCategory("EUR");
         instance.setEndDate(LocalDate.now());
+        instance.setStatus("Active");
         return instance;
     }
 
@@ -97,4 +100,11 @@ public class FundFormCommand {
         this.currency = currency;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

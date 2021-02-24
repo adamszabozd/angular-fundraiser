@@ -59,7 +59,7 @@ public class FundController {
 
     @GetMapping("/initData")
     public ResponseEntity<FundFormInitData> fetchFundFormInitData(Locale locale) {
-        logger.info("Category list and currency list requested");
+        logger.info("Category list, status list and currency list requested");
         return new ResponseEntity<>(fundService.fetchFundFormInitData(locale), HttpStatus.OK);
     }
     @GetMapping("/categories")
