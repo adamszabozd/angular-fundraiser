@@ -1,7 +1,7 @@
 package hu.progmasters.fundraiser.controller;
 
 import hu.progmasters.fundraiser.dto.fund.*;
-import hu.progmasters.fundraiser.service.cloudinary.FundService;
+import hu.progmasters.fundraiser.service.FundService;
 import hu.progmasters.fundraiser.validation.FundFormCommandValidator;
 import hu.progmasters.fundraiser.validation.ModifyFundFormCommandValidator;
 import org.slf4j.Logger;

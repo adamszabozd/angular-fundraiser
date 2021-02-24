@@ -103,38 +103,6 @@
                 >
             </div>
         </div>
-
-        <div class="row mb-3">
-            <label class="col-sm-3 col-form-label"
-                   for="imageUrl"
-            >
-                {{ 'FUND.IMAGE_URL' | translate }}
-            </label>
-            <div class="col-sm-9">
-                <input
-                    id="imageUrl"
-                    class="form-control"
-                    [ngClass]="{'text-danger': (form.get('imageUrl').invalid && form.get('imageUrl').touched)
-                            || (form.get('imageUrl').errors?.serverError)}"
-                    type="text"
-                    name="imageUrl"
-                    formControlName="imageUrl"
-                    [placeholder]="'FUND.IMAGE_URL_PLACEHOLDER' | translate"
-                />
-                <small
-                    *ngIf="!form.get('imageUrl').valid
-                        && form.get('imageUrl').touched
-                        && !form.get('imageUrl').errors?.serverError"
-                    class="text-danger"
-                >
-                    {{ 'FUND.IMAGE_URL_ERROR' | translate }}
-                </small>
-                <small *ngIf="form.get('imageUrl').errors?.serverError" class="text-danger">
-                    {{form.get('imageUrl').errors.serverError}}
-                </small>
-            </div>
-        </div>
-
         <div class="row mb-3">
             <label class="col-sm-3 col-form-label"
                    for="category"

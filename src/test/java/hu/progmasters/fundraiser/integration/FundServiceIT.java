@@ -6,7 +6,7 @@ import hu.progmasters.fundraiser.dto.fund.FundFormCommand;
 import hu.progmasters.fundraiser.dto.fund.FundListItem;
 import hu.progmasters.fundraiser.repository.FundRepository;
 import hu.progmasters.fundraiser.service.AccountService;
-import hu.progmasters.fundraiser.service.cloudinary.FundService;
+import hu.progmasters.fundraiser.service.FundService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

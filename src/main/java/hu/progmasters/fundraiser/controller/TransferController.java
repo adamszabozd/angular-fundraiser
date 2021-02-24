@@ -18,7 +18,7 @@ import hu.progmasters.fundraiser.dto.transfer.create.TransferCreationCommand;
 import hu.progmasters.fundraiser.dto.transfer.create.TransferFormInitData;
 import hu.progmasters.fundraiser.dto.transfer.list.MyTransferListPendingItem;
 import hu.progmasters.fundraiser.service.*;
-import hu.progmasters.fundraiser.service.cloudinary.FundService;
+import hu.progmasters.fundraiser.service.FundService;
 import hu.progmasters.fundraiser.validation.TransferConfirmationCommandValidator;
 import hu.progmasters.fundraiser.validation.TransferCreationCommandValidator;
 import org.slf4j.Logger;

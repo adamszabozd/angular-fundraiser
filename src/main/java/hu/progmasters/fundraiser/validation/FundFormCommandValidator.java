@@ -49,12 +49,10 @@ public class FundFormCommandValidator implements Validator {
             errors.rejectValue("targetAmount", "target.amount.wrong");
         }
 
-        if (fund.getEndDate() != null && fund.getEndDate().isBefore(LocalDate.now())) {
+        if (fund.getEndDate() != null && LocalDate.parse(fund.getEndDate()).isBefore(LocalDate.now())) {
             errors.rejectValue("endDate", "end.date.wrong");
         }
-        if (fund.getImageUrl() != null && fund.getImageUrl().length() > 1000) {
-            errors.rejectValue("imageUrl", "url.too.long");
-        }
+
 
     }
 }

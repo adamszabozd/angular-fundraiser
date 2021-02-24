@@ -1,4 +1,4 @@
-package hu.progmasters.fundraiser.service.cloudinary;
+package hu.progmasters.fundraiser.service;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
@@ -7,8 +7,6 @@ import hu.progmasters.fundraiser.domain.*;
 import hu.progmasters.fundraiser.dto.fund.*;
 import hu.progmasters.fundraiser.repository.FundRepository;
 import hu.progmasters.fundraiser.repository.TransferRepository;
-import hu.progmasters.fundraiser.service.AccountService;
-import hu.progmasters.fundraiser.service.ExchangeService;
 import hu.progmasters.fundraiser.service.cloudinary.CloudinaryUploadException;
 import hu.progmasters.fundraiser.service.cloudinary.UploadResponse;
 import org.springframework.beans.factory.annotation.Autowired;

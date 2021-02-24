@@ -87,7 +87,7 @@ public class Fund {
         this.raisedAmount = 0.0;
         this.targetAmount = fundFormCommand.getTargetAmount();
         this.currency = Currency.valueOf(fundFormCommand.getCurrency());
-        this.endDate = fundFormCommand.getEndDate();
+        this.endDate = LocalDate.parse(fundFormCommand.getEndDate());
         this.creator = account;
         this.status = Status.valueOf(fundFormCommand.getStatus());
         this.timeStamp = LocalDateTime.now();

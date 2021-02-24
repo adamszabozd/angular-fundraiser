@@ -2,8 +2,6 @@ package hu.progmasters.fundraiser.dto.fund;
 
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import java.time.LocalDate;
-
 public class FundFormCommand {
 
     private String title;
@@ -14,8 +12,6 @@ public class FundFormCommand {
 
     private CommonsMultipartFile imageFile;
 
-    private String imageUrl;
-
     private String category;
 
     private String status;
@@ -24,18 +20,18 @@ public class FundFormCommand {
 
     private String currency;
 
-    private LocalDate endDate;
+    private String endDate;
 
     public static FundFormCommand getDummyInstance(String name) {
         FundFormCommand instance = new FundFormCommand();
         instance.setTitle(name);
         instance.setShortDescription("Short description two");
         instance.setLongDescription("Long Descripton tow");
-        instance.setImageUrl("");
+        instance.setImageFile(null);
         instance.setCategory("MEDICAL");
         instance.setTargetAmount(1001.0);
         instance.setCategory("EUR");
-        instance.setEndDate(LocalDate.now());
+        instance.setEndDate("2025-01-01");
         instance.setStatus("Active");
         return instance;
     }
@@ -52,10 +48,6 @@ public class FundFormCommand {
         return longDescription;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
     public String getCategory() {
         return category;
     }
@@ -64,7 +56,7 @@ public class FundFormCommand {
         return targetAmount;
     }
 
-    public LocalDate getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
@@ -80,10 +72,6 @@ public class FundFormCommand {
         this.longDescription = longDescription;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
     public void setCategory(String category) {
         this.category = category;
     }
@@ -92,7 +80,7 @@ public class FundFormCommand {
         this.targetAmount = targetAmount;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 

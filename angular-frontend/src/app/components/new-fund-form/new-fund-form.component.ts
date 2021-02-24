@@ -26,7 +26,6 @@ export class NewFundFormComponent implements OnInit {
         shortDescription: ['', [Validators.required, Validators.maxLength(250), Validators.pattern(/^[^\s]+(\s+[^\s]+)*$/)]],
         longDescription: [''],
         imageFile: [null],
-        imageUrl: ['', [Validators.maxLength(1000), Validators.pattern(/^[^\s]+(\s+[^\s]+)*$/)]],
         category: [null],
         targetAmount: [null, Validators.required],
         currency: [null, Validators.required],
@@ -65,7 +64,6 @@ export class NewFundFormComponent implements OnInit {
         formData.append('shortDescription', this.form.get('shortDescription').value);
         formData.append('longDescription', this.form.get('longDescription').value);
         formData.append('imageFile', this.form.get('imageFile').value);
-        formData.append('imageUrl', this.form.get('imageUrl').value);
         formData.append('category', this.form.get('category').value);
         formData.append('targetAmount', this.form.get('targetAmount').value);
         formData.append('currency', this.form.get('currency').value);
@@ -84,13 +82,13 @@ export class NewFundFormComponent implements OnInit {
             // @ts-ignore
             const file: File = event.target.files[0];
 
-            if (file.name.match("/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i")) {
+            // if (file.name.match("/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i")) {
                 this.form.patchValue({
                     imageFile: file
                 });
-            } else {
-                alert("You must upload a valid picture format")
-            }
+            // } else {
+            //     alert("You must upload a valid picture format")
+            // }
         }
     }
 }
