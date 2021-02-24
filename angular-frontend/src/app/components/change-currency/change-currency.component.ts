@@ -5,6 +5,7 @@ import {AccountService} from '../../services/account.service';
 import {AccountDetailsModel} from '../../models/accountDetails.model';
 import {validationHandler} from '../../utils/validationHandler';
 import {Router} from '@angular/router';
+import {numberToString} from "../../utils/numberFormatter";
 
 @Component({
                selector   : 'app-change-currency',
@@ -25,6 +26,7 @@ export class ChangeCurrencyComponent implements OnInit {
                                   },
     );
     newBalance: number;
+    numberToString = numberToString;
 
     constructor(private accountService: AccountService, private formBuilder: FormBuilder, private router: Router) {
     }

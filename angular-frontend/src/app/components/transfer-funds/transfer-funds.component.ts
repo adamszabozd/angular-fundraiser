@@ -8,6 +8,7 @@ import {TransferFormInitDataModel} from '../../models/transferFormInitData.model
 import {AccountService} from '../../services/account.service';
 import {formAppearAnimation} from '../../animations';
 import {minAmount} from '../../validator';
+import {numberToString} from "../../utils/numberFormatter";
 
 @Component({
                selector   : 'app-transfer-funds',
@@ -22,6 +23,7 @@ export class TransferFundsComponent implements OnInit {
     state = 'invisible';
     showOnlyOneOption: boolean = false;
     transferFormInitDataModel: TransferFormInitDataModel | undefined;
+    numberToString = numberToString;
 
     targetCurrency: string = '---';
     targetAmount: number = 0.00;

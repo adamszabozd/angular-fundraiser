@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {FundDetailsItemModel} from "../../models/fundDetailsItem.model";
 import {ChartDataElementModel} from "../../models/chartDataElement.model";
 import {LineChartDataElementModel} from "../../models/lineChartDataElement.model";
+import {numberToString} from "../../utils/numberFormatter";
 
 @Component({
     selector: 'app-fundraiser-details',
@@ -39,6 +40,8 @@ export class FundraiserDetailsComponent implements OnInit {
     xAxis: boolean = true;
     yAxis: boolean = true;
     timeline: boolean = false;
+
+    numberToString = numberToString;
 
     constructor(private fundService: FundsService, private activatedRoute: ActivatedRoute, private router: Router) {
     }
