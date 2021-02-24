@@ -28,6 +28,7 @@ import { ChangeCurrencyComponent } from './components/change-currency/change-cur
 import {PasswordStrengthMeterModule} from 'angular-password-strength-meter';
 import { ConvertedBalanceComponent } from './components/converted-balance/converted-balance.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { ConvertedTransferAmountComponent } from './components/converted-transfer-amount/converted-transfer-amount.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -51,6 +52,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         HomePageComponent,
         ChangeCurrencyComponent,
         ConvertedBalanceComponent,
+        ConvertedTransferAmountComponent,
     ],
     imports: [
         BrowserModule,

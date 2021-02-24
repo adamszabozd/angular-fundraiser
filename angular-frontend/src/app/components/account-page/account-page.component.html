@@ -1,4 +1,5 @@
-<app-change-currency *ngIf="setCurrency" [myAccount]="chosenData" (currencyChanged)="showNewBalance($event)"></app-change-currency>
+<app-change-currency *ngIf="setCurrency" [myAccount]="chosenData"
+                     (currencyChanged)="showNewBalance($event)"></app-change-currency>
 <div *ngIf="setBalance" class="container jumbotron fillForm balance">
     <h2>{{ 'MY_ACCOUNT.FILL_BALANCE_FORM' | translate }}</h2>
     <div class="border-top mx-auto my-3"></div>
@@ -11,7 +12,7 @@
                     class="form-control my-input-field-disabled"
                     name="currentBalance"
                     id="currentBalance"
-                    placeholder="{{accountDetails?.balance}}"
+                    placeholder="{{accountDetails?.balance.toFixed(2)}}"
                     disabled
                 />
             </div>
@@ -67,8 +68,8 @@
     </form>
 </div>
 
-<div class="account row mb-3">
-    <div [@slideUp]="state" class="container  jumbotron col-sm-4">
+<div class="row">
+    <div [@slideUp]="state" class="container jumbotron col">
         <h2>{{ 'NAVBAR.MY_ACCOUNT' | translate }}</h2>
         <div class="border-top mx-auto my-3"></div>
         <div class="form-group">
@@ -97,7 +98,7 @@
                 id="balance"
                 class="form-control my-input-field-disabled"
                 name="balance"
-                placeholder="{{accountDetails?.balance}}"
+                placeholder="{{accountDetails?.balance.toFixed(2)}}"
                 disabled
             />
         </div>
@@ -120,59 +121,7 @@
             </span>
         </div>
     </div>
-    <div [@slideUp]="state" class="col-sm-8">
-        <div *ngIf="accountDetails?.pendingTransfers.length > 0" class="container jumbotron upper">
-            <h4 class="my-transfers__table-label">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS' | translate }}</h4>
-            <table class="table-pending table table-bordered table-striped">
-                <thead>
-                <tr class="pending">
-                    <th class="my-transfers__column-to">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS_TO' | translate }}</th>
-                    <th class="my-transfers__column-amount">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS_AMOUNT' | translate }}</th>
-                    <th scope="col"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let transfer of accountDetails?.pendingTransfers">
-                    <td class="pending-border">{{transfer.targetFundTitle}}</td>
-                    <td class="pending-border">{{transfer.amount}}</td>
-                    <td class="pending-border">
-                <span class="btn-group">
-                    <button (click)="resendConfirmationEmail(transfer.id)"
-                            class="btn btn-primary">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS_RESEND_CODE' | translate }}</button>
-                    <button (click)="deletePendingTransfer(transfer.id)"
-                            class="btn btn-danger">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS_DELETE' | translate }}</button>
-                </span>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div [@slideUp]="state" *ngIf="accountDetails?.confirmedTransfers.length > 0" class="container jumbotron lower">
-            <h4 class="my-transfers__table-label">{{ 'MY_ACCOUNT.MY_TRANSFERS' | translate }}</h4>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr class="confirmed">
-                    <th class="my-transfers__column-to">{{ 'MY_ACCOUNT.MY_TRANSFERS_TO' | translate }}</th>
-                    <th class="my-transfers__column-amount">{{ 'MY_ACCOUNT.MY_TRANSFERS_AMOUNT' | translate }}</th>
-                    <th class="my-transfers__column-date">{{ 'MY_ACCOUNT.MY_TRANSFERS_DATE' | translate }}</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let transfer of accountDetails?.confirmedTransfers">
-                    <td class="confirmed-border">{{transfer.targetFundTitle}}</td>
-                    <td class="confirmed-border">{{transfer.amount}}</td>
-                    <td class="confirmed-border">{{transfer.timeStamp}}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
-    </div>
-
-</div>
-
-<div class="row mb-3">
-    <div class="container jumbotron col-sm-4">
+    <div [@slideUp]="state" class="container jumbotron col">
         <h4>
             {{ 'MY_ACCOUNT.PIE_CHART_TITLE' | translate }}
         </h4>
@@ -184,3 +133,51 @@
         </ngx-charts-advanced-pie-chart>
     </div>
 </div>
+<div *ngIf="accountDetails?.pendingTransfers.length > 0" class="container jumbotron upper">
+    <h4 class="my-transfers__table-label">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS' | translate }}</h4>
+    <table class="table-pending table table-bordered table-striped">
+        <thead>
+        <tr class="pending">
+            <th class="my-transfers__column-to">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS_TO' | translate }}</th>
+            <th class="my-transfers__column-amount">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS_AMOUNT' | translate }}</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let transfer of accountDetails?.pendingTransfers">
+            <td class="pending-border">{{transfer.targetFundTitle}}</td>
+            <td class="pending-border">{{transfer.senderAmount}}</td>
+            <td class="pending-border">
+                <span class="btn-group">
+                    <button (click)="resendConfirmationEmail(transfer.id)"
+                            class="btn btn-primary">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS_RESEND_CODE' | translate }}</button>
+                    <button (click)="deletePendingTransfer(transfer.id)"
+                            class="btn btn-danger">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS_DELETE' | translate }}</button>
+                </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div [@slideUp]="state" *ngIf="accountDetails?.confirmedTransfers.length > 0" class="container jumbotron lower">
+    <h4 class="my-transfers__table-label">{{ 'MY_ACCOUNT.MY_TRANSFERS' | translate }}</h4>
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr class="confirmed">
+            <th class="my-transfers__column-to">{{ 'MY_ACCOUNT.MY_TRANSFERS_TO' | translate }}</th>
+            <th class="my-transfers__column-amount">{{ 'MY_ACCOUNT.MY_TRANSFERS_AMOUNT' | translate }}</th>
+            <th class="my-transfers__column-date">{{ 'MY_ACCOUNT.MY_TRANSFERS_DATE' | translate }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let transfer of accountDetails?.confirmedTransfers">
+            <td class="confirmed-border">{{transfer.targetFundTitle}}</td>
+            <td class="confirmed-border">{{transfer.amount}}</td>
+            <td class="confirmed-border">{{transfer.timeStamp}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+

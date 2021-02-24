@@ -66,7 +66,7 @@ public class TransferService {
 
     private Transfer getPendingTransfer(TransferCreationCommand transferCreationCommand, Account source, Fund goal) {
         Transfer pendingTransfer = new Transfer(transferCreationCommand, source, goal);
-        pendingTransfer.setTargetAmount(calculateExchangedAmount(findCurrencyRate(source, goal), transferCreationCommand.getSenderAmount()));
+        pendingTransfer.setTargetAmount(findCurrencyRate(source, goal) * transferCreationCommand.getSenderAmount());
         String code = getCode();
         logger.info("Confirmation code generated.");
         pendingTransfer.setConfirmationCode(passwordEncoder.encode(code));
@@ -100,11 +100,24 @@ public class TransferService {
         return receiverCurrencyRate / senderCurrencyRate;
     }
 
-    private Double calculateExchangedAmount(Double exchangeRate, Double senderAmount) {
-        return (exchangeRate * senderAmount);
+    public void confirmTransfer(TransferConfirmationCommand transferConfirmationCommand, String email) {
+        Transfer transfer = findTransferToPend(transferConfirmationCommand, email);
+        Fund targetFund = transfer.getTarget();
+        checkActualSenderCurrency(transfer);
+        if (targetFund.getCurrency().name().equals(transfer.getTargetCurrency().name())) {
+            transfer.setTargetAmount(findCurrencyRate(transfer.getSource(), targetFund) * transfer.getSenderAmount());
+            targetFund.setRaisedAmount(targetFund.getRaisedAmount() + transfer.getTargetAmount());
+            Account source = transfer.getSource();
+            source.setBalance(source.getBalance() - transfer.getSenderAmount());
+            transfer.setTimeStamp(LocalDateTime.now());
+            transfer.setConfirmed(true);
+            transferRepository.save(transfer);
+        } else {
+            throw new InvalidTargetFundException(email);
+        }
     }
 
-    public void confirmTransfer(TransferConfirmationCommand transferConfirmationCommand, String email) {
+    private Transfer findTransferToPend(TransferConfirmationCommand transferConfirmationCommand, String email) {
         String rawCode = transferConfirmationCommand.getConfirmationCode();
         List<Transfer> pendingTransfers = transferRepository.getPendingTransfers();
         Transfer transfer = null;
@@ -117,22 +130,16 @@ public class TransferService {
         if (transfer == null) {
             throw new InvalidConfirmationCodeException(email);
         }
-        Fund goal = transfer.getTarget();
-        Currency senderCurrency = transfer.getSource().getCurrency();
-        if (!senderCurrency.name().equals(transfer.getSenderCurrency().name())) {
-            transfer.setSenderAmount(calculateExchangedAmount(findCurrencyRate(transfer.getSource(), goal), transfer.getSenderAmount()));
-            transfer.setSenderCurrency(senderCurrency);
-        }
-        if (goal.getCurrency().name().equals(transfer.getTargetCurrency().name())) {
-            transfer.setTargetAmount(calculateExchangedAmount(findCurrencyRate(transfer.getSource(), goal), transfer.getSenderAmount()));
-            goal.setRaisedAmount(goal.getRaisedAmount() + transfer.getTargetAmount());
-            Account source = transfer.getSource();
-            source.setBalance(source.getBalance() - transfer.getSenderAmount());
-            transfer.setTimeStamp(LocalDateTime.now());
-            transfer.setConfirmed(true);
-            transferRepository.save(transfer);
-        } else {
-            throw new InvalidTargetFundException(email);
+        return transfer;
+    }
+
+    private void checkActualSenderCurrency(Transfer transfer) {
+        Currency senderRealCurrency = transfer.getSource().getCurrency();
+        if (!senderRealCurrency.name().equals(transfer.getSenderCurrency().name())) {
+            Double senderRealAmount = exchangeService.findRateByCurrency(senderRealCurrency)
+                    / exchangeService.findRateByCurrency(transfer.getSenderCurrency()) * transfer.getSenderAmount();
+            transfer.setSenderAmount(senderRealAmount);
+            transfer.setSenderCurrency(senderRealCurrency);
         }
     }
 

@@ -17,11 +17,12 @@
                 [ngClass]="{'is-invalid': (form.get('targetFundId').invalid && form.get('targetFundId').touched) || (form.get('targetFundId').errors?.serverError)}"
                 name="targetFundId"
                 formControlName="targetFundId"
+                (change)="getTargetCurrency($event)"
             >
-                <option *ngIf="!showOnlyOneOption" value=null selected
+                <option *ngIf="!showOnlyOneOption" value="null" selected
                         disabled>{{ 'TRANSFER.CHOOSE_A_GOAL' | translate }}</option>
                 <option *ngFor="let fund of transferFormInitDataModel?.targetFundOptions"
-                        value="{{fund.id}}">{{fund.title}}</option>
+                        [value]="fund.title">{{fund.title}}</option>
             </select>
 
             <small
@@ -54,6 +55,7 @@
                         || (form.get('senderAmount').errors?.serverError)}"
                         name="senderAmount"
                         formControlName="senderAmount"
+                        (change)="getTargetAmount($event)"
                     />
                     <small
                         *ngIf="form.get('senderAmount').invalid && form.get('senderAmount').touched
@@ -77,31 +79,7 @@
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="fundAmount">
-                {{ 'TRANSFER.EXCHANGED_AMOUNT' | translate }}
-            </label>
-            <div class="row mb-3">
-                <div class="col-sm-9">
-                    <input
-                        id="fundAmount"
-                        class="form-control my-input-field-disabled"
-                        name="fundAmount"
-                        placeholder="ide jön a gyűjtő pénznemében az összeg"
-                        disabled
-                    />
-                </div>
-                <div class="col-sm-3">
-                    <input
-                        id="fundCurrency"
-                        class="form-control my-input-field-disabled"
-                        name="fundCurrency"
-                        placeholder="gyűjtő pénzneme"
-                        disabled
-                    />
-                </div>
-            </div>
-        </div>
+<app-converted-transfer-amount [targetCurrency]="targetCurrency" [targetAmount]="targetAmount" ></app-converted-transfer-amount>
         <div>
             <div class="form-group">
                 <label for="balance">{{ 'TRANSFER.MY_BALANCE' | translate }}</label>
@@ -109,7 +87,7 @@
                     id="balance"
                     class="form-control my-input-field-disabled"
                     name="balance"
-                    placeholder="{{transferFormInitDataModel?.balance}}"
+                    placeholder="{{transferFormInitDataModel?.balance.toFixed(2)}}"
                     disabled
                 />
             </div>

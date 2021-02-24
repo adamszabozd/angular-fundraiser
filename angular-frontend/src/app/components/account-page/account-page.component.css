@@ -1,9 +1,6 @@
-.account {
-    max-width: 100%;
-}
 
 .container {
-    margin-top: 23px;
+    margin: 18px;
     max-width: 98%;
     text-align: center;
     box-shadow: 0 .5rem .5rem rgba(0, 0, 0, .2);
@@ -66,7 +63,7 @@ button {
 .pending-border {
     border: 1px solid #f7ae2f;
 }
-.col-sm-4 {
+.col-sm-6 {
     max-height: 600px;
 }
 .confirmed {

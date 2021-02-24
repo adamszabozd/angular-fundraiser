@@ -7,27 +7,31 @@ import {validationHandler} from '../../utils/validationHandler';
 import {TransferFormInitDataModel} from '../../models/transferFormInitData.model';
 import {AccountService} from '../../services/account.service';
 import {formAppearAnimation} from '../../animations';
-import {minAmount} from "../../validator";
+import {minAmount} from '../../validator';
 
 @Component({
-    selector: 'app-transfer-funds',
-    templateUrl: './transfer-funds.component.html',
-    styleUrls: ['./transfer-funds.component.css'],
-    animations: [
-        formAppearAnimation,
-    ],
-})
+               selector   : 'app-transfer-funds',
+               templateUrl: './transfer-funds.component.html',
+               styleUrls  : ['./transfer-funds.component.css'],
+               animations : [
+                   formAppearAnimation,
+               ],
+           })
 export class TransferFundsComponent implements OnInit {
 
     state = 'invisible';
     showOnlyOneOption: boolean = false;
     transferFormInitDataModel: TransferFormInitDataModel | undefined;
 
+    targetCurrency: string = '---';
+    targetAmount: number = 0.00;
+
     form = this.formBuilder.group({
-        targetFundId: [null, Validators.required],
-        senderAmount: [null, [Validators.required]],
-    }, {validator: minAmount('senderAmount'),
-    });
+                                      targetFundId: [null, Validators.required],
+                                      senderAmount: [null, [Validators.required]],
+                                  }, {
+                                      validator: minAmount('senderAmount'),
+                                  });
 
     constructor(private formBuilder: FormBuilder,
                 private transferService: TransferService,
@@ -42,22 +46,22 @@ export class TransferFundsComponent implements OnInit {
         }
 
         this.route.paramMap.subscribe(
-            (paraMap)=> {
+            (paraMap) => {
                 const id = paraMap.get('id');
-                if(id){
+                if (id) {
                     this.transferService.getConcreteTransferData(id).subscribe(
-                        (data)=> {
+                        (data) => {
                             this.showOnlyOneOption = true;
                             this.transferFormInitDataModel = data;
                             this.form.patchValue({
-                                targetFundId: data.targetFundOptions[0].id
-                            })
+                                                     targetFundId: data.targetFundOptions[0].id,
+                                                 });
                         },
-                        (error)=> {
+                        (error) => {
                             this.accountService.loggedInStatusUpdate.next(false);
                             this.router.navigate(['/login']);
-                            console.log(error)
-                        }
+                            console.log(error);
+                        },
                     );
                 } else {
                     this.transferService.getNewTransferData().subscribe(
@@ -71,15 +75,38 @@ export class TransferFundsComponent implements OnInit {
                         },
                     );
                 }
-            }
-        )
+            },
+        );
     }
 
     submitForm() {
-        this.transferService.submitTransfer(this.form.value).subscribe(
+        const myPendingTransfer = {
+            targetFundId: this.getTargetId(this.form.value.targetFundId),
+            senderAmount: this.form.value.senderAmount,
+        };
+        this.transferService.submitTransfer(myPendingTransfer).subscribe(
             () => this.router.navigate(['/transfer-confirmation']),
             error => validationHandler(error, this.form),
         );
     }
 
+    getTargetCurrency(title) {
+        for (let targetFundOption of this.transferFormInitDataModel.targetFundOptions) {
+            if (title.target.value === targetFundOption.title) {
+                this.targetCurrency = targetFundOption.targetCurrency;
+            }
+        }
+    }
+
+    getTargetAmount(senderAmount) {
+        this.targetAmount = senderAmount.target.value;
+    }
+
+    getTargetId(title: string) {
+        for (let targetFundOption of this.transferFormInitDataModel.targetFundOptions) {
+            if (title === targetFundOption.title) {
+                return targetFundOption.id;
+            }
+        }
+    }
 }
