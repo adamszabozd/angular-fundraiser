@@ -54,8 +54,9 @@ export class TransferFundsComponent implements OnInit {
                             this.showOnlyOneOption = true;
                             this.transferFormInitDataModel = data;
                             this.form.patchValue({
-                                                     targetFundId: data.targetFundOptions[0].id,
+                                                     targetFundId: data.targetFundOptions[0].title,
                                                  });
+                            this.targetCurrency = data.targetFundOptions[0].targetCurrency;
                         },
                         (error) => {
                             this.accountService.loggedInStatusUpdate.next(false);
@@ -99,7 +100,17 @@ export class TransferFundsComponent implements OnInit {
     }
 
     getTargetAmount(senderAmount) {
-        this.targetAmount = senderAmount.target.value;
+        let senderCurrencyRate: number;
+        let fundCurrencyRate: number;
+        for (let currencyOption of this.transferFormInitDataModel.currencyOptions) {
+            if (currencyOption.currencyName === this.transferFormInitDataModel.currency) {
+                senderCurrencyRate = currencyOption.exchangeRate
+            }
+            if (currencyOption.currencyName === this.targetCurrency) {
+                fundCurrencyRate = currencyOption.exchangeRate;
+            }
+        }
+        this.targetAmount = fundCurrencyRate / senderCurrencyRate * senderAmount.target.value;
     }
 
     getTargetId(title: string) {

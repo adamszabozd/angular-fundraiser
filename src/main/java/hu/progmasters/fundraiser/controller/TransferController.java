@@ -92,6 +92,7 @@ public class TransferController {
         AccountDetails accountDetails = accountService.addDetailsByEmail(principal.getName());
         List<Fund> targetFunds = fundService.findAllById(id);
         TransferFormInitData initData = new TransferFormInitData(targetFunds, accountDetails);
+        initData.setCurrencyOptions(exchangeService.fetchRates());
         return new ResponseEntity<>(initData, HttpStatus.OK);
     }
 

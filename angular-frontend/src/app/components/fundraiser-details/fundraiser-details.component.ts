@@ -13,6 +13,7 @@ import {LineChartDataElementModel} from "../../models/lineChartDataElement.model
 export class FundraiserDetailsComponent implements OnInit {
 
     id: number;
+    title: string;
     fund: FundDetailsItemModel | undefined;
     barChartData: Array<ChartDataElementModel> | undefined;
     lineChartData: Array<LineChartDataElementModel> | undefined;
