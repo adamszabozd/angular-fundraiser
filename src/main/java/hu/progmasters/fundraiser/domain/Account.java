@@ -40,7 +40,7 @@ public class Account {
 
     @Min(0)
     @Column(name = "balance", nullable = false)
-    private Double balance = 5000.0;
+    private Double balance = 0.0;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "account_currency",
