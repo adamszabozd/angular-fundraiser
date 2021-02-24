@@ -1,7 +1,4 @@
-img {
-    height:250px;
-    object-fit:cover;
-}
+
 a{
     box-shadow: none!important;
 }
@@ -13,6 +10,12 @@ a{
     cursor: pointer;
 }
 #progress {
-    box-sizing: border-box;
     width: 100%;
+}
+h5 {
+    color: #3cacca;
+}
+h6 {
+    color: #f7ae2f;
+    text-align: left!important;
 }

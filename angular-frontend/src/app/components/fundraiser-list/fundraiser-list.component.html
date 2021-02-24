@@ -18,26 +18,29 @@
     <div class="row my-5">
         <div [@slideUp]="state" *ngFor="let fund of fundList
          | paginate: {id: 'pagination', itemsPerPage: 6, currentPage: page, totalItems: numberOfFunds}"
-             class="col-md-4 my-4">
-            <img [src]="fund.imageUrl" [alt]="'FUNDS.IMAGE' | translate" class="w-100">
-            <h4 class="my-4">{{fund.title}}</h4>
-            <p class="description">{{fund.shortDescription}}</p>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">{{ 'FUNDS.CATEGORY' | translate }}{{fund.category}}</li>
-                <li class="list-group-item">{{ 'FUNDS.AMOUNT' | translate: {
+             class="col-md-4 card">
+            <img [src]="fund.imageUrl" [alt]="'FUNDS.IMAGE' | translate" class="card-img-top">
+            <div class="card-body">
+            <h5 class="card-title">{{fund.title}}</h5>
+            <h6 class="card-subtitle mb-2 ">{{ 'FUNDS.CREATOR' | translate }}{{fund.creatorName}}</h6>
+            <p class="card-text">{{fund.shortDescription}}</p>
+
+            <p class="card-text">{{ 'FUNDS.CATEGORY' | translate }}{{fund.category}}</p>
+            <p class="card-text">{{ 'FUNDS.AMOUNT' | translate: {
                     amount: fund.raisedAmount.toFixed(2),
                     currency: fund.currency,
                     amountGoal: fund.targetAmount.toFixed(2)
                 } }}
-                    <div class="progress">
+                </p>
+            <p class="card-text">{{ 'FUNDS.END_DATE' | translate }}{{fund.endDate}}</p>
+            <div class="progress">
                         <div class="progress-bar" role="progressbar" [style.width]="fund.progress + '%'" [attr.aria-valuenow]="fund.progress" aria-valuemin="0" aria-valuemax="100">{{fund.progress}}%</div>
                     </div>
-                </li>
-                <li class="list-group-item">{{ 'FUNDS.END_DATE' | translate }}{{fund.endDate}}</li>
-                <li class="list-group-item">{{ 'FUNDS.CREATOR' | translate }}{{fund.creatorName}}</li>
-            </ul>
+
+
             <a target="_blank" [routerLink]="['/fund-details',fund.id]"
                class="btn btn-outline-warning btn-md">{{ 'FUNDS.READ_MORE' | translate }}</a>
+            </div>
         </div>
     </div>
     <div *ngIf="numberOfFunds > 0" class=" text-center mb-4">
