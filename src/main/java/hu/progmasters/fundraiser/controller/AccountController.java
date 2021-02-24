@@ -51,7 +51,8 @@ public class AccountController {
     @Autowired
     public AccountController(
             AccountService accountService,
-            ExchangeService exchangeService, AccountRegistrationCommandValidator accountRegistrationCommandValidator,
+            ExchangeService exchangeService,
+            AccountRegistrationCommandValidator accountRegistrationCommandValidator,
             BalanceFormCommandValidator balanceFormCommandValidator
     ) {
         this.accountService = accountService;

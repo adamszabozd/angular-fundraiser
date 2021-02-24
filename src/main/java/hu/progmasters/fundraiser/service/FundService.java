@@ -47,7 +47,7 @@ public class FundService {
     }
 
     public List<FundListItem> fetchAllForList(Locale locale) {
-        return fundRepository.findAll().stream()
+        return fundRepository.findAllActiveFunds().stream()
                 .map(fund -> {
                     String categoryDisplayName = messageSource.getMessage(fund.getFundCategory().getCode(), null, locale);
                     return new FundListItem(fund, categoryDisplayName);
@@ -60,6 +60,21 @@ public class FundService {
         Fund fund = new Fund(fundFormCommand, myAccount);
         myAccount.getFunds().add(fund);
         fundRepository.save(fund);
+    }
+
+    public Fund findById(Long id) {
+        Optional<Fund> optionalFund = fundRepository.findById(id);
+        if (optionalFund.isPresent()) {
+            return optionalFund.get();
+        } else {
+            throw new EntityNotFoundException();
+        }
+    }
+
+    public FundModifyItem fetchModifyFund(Long id, Locale locale) {
+        Fund fund = findById(id);
+        List<StatusOption> statusOptions = getStatusOptions(locale);
+        return new FundModifyItem(fund, statusOptions);
     }
 
     public FundDetailsItem fetchFundDetails(Long id, Locale locale) {
@@ -110,21 +125,15 @@ public class FundService {
     }
 
     public void modifyFund(ModifyFundFormCommand modifyFundFormCommand) {
-        //TODO - Review: Ugyanaz a kódismétlés... ezt is ki lehet emelni
-        Optional<Fund> optionalFund = fundRepository.findById(modifyFundFormCommand.getId());
 
-        if (optionalFund.isPresent()) {
-            Fund fund = optionalFund.get();
-            fund.setShortDescription(modifyFundFormCommand.getShortDescription());
-            fund.setLongDescription(modifyFundFormCommand.getLongDescription());
-            fund.setImageUrl(modifyFundFormCommand.getImageUrl());
-            fund.setTargetAmount(modifyFundFormCommand.getTargetAmount());
-            fund.setEndDate(modifyFundFormCommand.getEndDate());
-            fundRepository.save(fund);
-        } else {
-            throw new IllegalArgumentException("Fund not found by id. Modify unsuccessful");
-        }
-
+        Fund fund = findById(modifyFundFormCommand.getId());
+        fund.setShortDescription(modifyFundFormCommand.getShortDescription());
+        fund.setLongDescription(modifyFundFormCommand.getLongDescription());
+        fund.setImageUrl(modifyFundFormCommand.getImageUrl());
+        fund.setTargetAmount(modifyFundFormCommand.getTargetAmount());
+        fund.setEndDate(modifyFundFormCommand.getEndDate());
+        fund.setStatus(Status.valueOf(modifyFundFormCommand.getStatus()));
+        fundRepository.save(fund);
     }
 
     public List<FundListItem> fetchFundsByCategory(String categoryName, Locale locale) {
@@ -162,15 +171,6 @@ public class FundService {
         return false;
     }
 
-    public Fund findById(Long id) {
-        Optional<Fund> fundOptional = fundRepository.findById(id);
-        if (fundOptional.isPresent()) {
-            return fundOptional.get();
-        } else {
-            throw new IllegalArgumentException();
-        }
-    }
-
     public List<Fund> findAllById(Long id) {
         List<Fund> fundList = new ArrayList<>();
         fundList.add(findById(id));
@@ -192,5 +192,6 @@ public class FundService {
         }
         return statusOptions;
     }
+
 
 }

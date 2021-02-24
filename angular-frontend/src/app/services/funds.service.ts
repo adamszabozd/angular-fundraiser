@@ -8,6 +8,7 @@ import {FundFormCommandModel} from "../models/fundFormCommand.model";
 import {FundFormInitModel} from '../models/fundFormInit.model';
 import {FundDetailsItemModel} from "../models/fundDetailsItem.model";
 import {TranslateService} from "@ngx-translate/core";
+import {ModifyFormInitModel} from "../models/ModifyFormInit.model";
 
 const host = environment.BASE_URL;
 const BASE_URL = host+'/api/funds';
@@ -49,8 +50,8 @@ export class FundsService {
     }
 
 
-    fetchFundForModify(id: number): Observable<FundFormCommandModel> {
-        return this.http.get<FundFormCommandModel>(BASE_URL + "/modify/" + id);
+    fetchFundForModify(id: number): Observable<ModifyFormInitModel> {
+        return this.http.get<ModifyFormInitModel>(BASE_URL + "/modify/" + id);
     }
 
     fetchFundDetails(id: number): Observable<FundDetailsItemModel> {

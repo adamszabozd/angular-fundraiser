@@ -27,9 +27,9 @@
 
             <p class="card-text">{{ 'FUNDS.CATEGORY' | translate }}{{fund.category}}</p>
             <p class="card-text">{{ 'FUNDS.AMOUNT' | translate: {
-                    amount: fund.raisedAmount.toFixed(2),
+                    amount: numberToString(fund.raisedAmount),
                     currency: fund.currency,
-                    amountGoal: fund.targetAmount.toFixed(2)
+                    amountGoal: numberToString(fund.targetAmount)
                 } }}
                 </p>
             <p class="card-text">{{ 'FUNDS.END_DATE' | translate }}{{fund.endDate}}</p>

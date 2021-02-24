@@ -3,6 +3,7 @@ import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {FundsService} from '../../services/funds.service';
 import {FundListItemModel} from '../../models/FundListItem.model';
 import {slideInFromDown} from '../../animations';
+import {numberToString} from "../../utils/numberFormatter";
 
 @Component({
                selector   : 'app-summary-page',
@@ -20,6 +21,8 @@ export class FundraiserListComponent implements OnInit {
     numberOfFunds: number;
     page: number = 1;
     paramMap: ParamMap;
+
+    numberToString = numberToString;
 
     constructor(private router: Router, private fundsService: FundsService, private route: ActivatedRoute) {
     }
@@ -81,4 +84,5 @@ export class FundraiserListComponent implements OnInit {
             (a,b) => (a.creatorName > b.creatorName) ? 1 : -1
         );
     }
+
 }

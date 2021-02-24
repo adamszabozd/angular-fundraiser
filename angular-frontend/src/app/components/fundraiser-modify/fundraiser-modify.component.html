@@ -168,6 +168,41 @@
                 </small>
             </div>
         </div>
+
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label"
+                   for="status"
+                   [ngClass]="{'text-danger': (form.get('status').invalid && form.get('status').touched) ||
+                   (form.get('status').errors?.serverError)}"
+            >
+                {{ 'FUND.STATUS' | translate }}
+            </label>
+            <div class="col-sm-9">
+                <select
+                    id="status"
+                    class="form-control"
+                    [ngClass]="{'is-invalid': (form.get('status').invalid && form.get('status').touched) ||
+                    (form.get('status').errors?.serverError)}"
+                    name="status"
+                    formControlName="status"
+                >
+                    <option *ngFor="let status of formData.statusOptions"
+                            value="{{status.name}}">{{status.displayName}}</option>
+                </select>
+                <small
+                    *ngIf="form.get('status').invalid && form.get('status').touched &&
+                    !form.get('status').errors?.serverError"
+                    class="text-danger"
+                >
+                    {{ 'STATUS.CATEGORY_ERROR' | translate }}
+                </small>
+                <small *ngIf="form.get('status').errors?.serverError" class="text-danger">
+                    {{form.get('status').errors['serverError']}}
+                </small>
+            </div>
+        </div>
+
         <br/>
         <button type="submit" class="btn btn-primary my-buttons">{{ 'FUND.SAVE' | translate }}</button>
     </form>

@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {numberToString} from "../../utils/numberFormatter";
 
 @Component({
                selector   : 'app-converted-balance',
@@ -8,5 +9,5 @@ import {Component, Input} from '@angular/core';
 export class ConvertedBalanceComponent{
 
     @Input() myNewBalance: number;
-
+    numberToString = numberToString;
 }

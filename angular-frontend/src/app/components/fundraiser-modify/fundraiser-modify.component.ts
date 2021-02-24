@@ -5,6 +5,8 @@ import {FundListItemModel} from "../../models/FundListItem.model";
 import {FormBuilder, Validators} from "@angular/forms";
 import {validationHandler} from "../../utils/validationHandler";
 import {FundFormCommandModel} from "../../models/fundFormCommand.model";
+import {ModifyFormInitModel} from "../../models/ModifyFormInit.model";
+import {StatusOptionModel} from "../../models/StatusOption.model";
 
 @Component({
     selector: 'app-fundraiser-modify',
@@ -15,6 +17,7 @@ export class FundraiserModifyComponent implements OnInit {
 
     state = "invisible";
     id: number;
+    formData: ModifyFormInitModel;
 
     form = this.FormBuilder.group({
         title: ['', Validators.required],
@@ -23,7 +26,8 @@ export class FundraiserModifyComponent implements OnInit {
         imageUrl: ['', Validators.maxLength(1000)],
         category: [''],
         targetAmount: ['', Validators.required],
-        endDate: ['']
+        endDate: [''],
+        status: ['']
     })
 
     constructor(private activatedRoute: ActivatedRoute, private fundService: FundsService, private router: Router, private FormBuilder: FormBuilder) {
@@ -34,7 +38,10 @@ export class FundraiserModifyComponent implements OnInit {
             (paraMap) => {
                 this.id = Number.parseInt(paraMap.get("id"));
                 this.fundService.fetchFundForModify(this.id).subscribe(
-                    (data) => this.fillForm(data),
+                    (data) => {
+                        this.fillForm(data);
+                        this.formData = data;
+                    },
                     (error) => {
                         console.log(error);
                         this.router.navigate(['page-not-found']);
@@ -44,7 +51,7 @@ export class FundraiserModifyComponent implements OnInit {
         )
     }
 
-    fillForm(data: FundFormCommandModel){
+    fillForm(data: ModifyFormInitModel) {
         this.form.get("title").setValue(data.title);
         this.form.get("shortDescription").setValue(data.shortDescription);
         this.form.get("longDescription").setValue(data.longDescription);
@@ -52,6 +59,7 @@ export class FundraiserModifyComponent implements OnInit {
         this.form.get("category").setValue(data.category);
         this.form.get("targetAmount").setValue(data.targetAmount);
         this.form.get("endDate").setValue(data.endDate);
+        this.form.get("status").setValue(data.status);
     }
 
     onSubmit() {
@@ -59,8 +67,8 @@ export class FundraiserModifyComponent implements OnInit {
             ...this.form.value,
             id: this.id
         }).subscribe(
-            ()=> this.router.navigate(['']),
-            (error)=> validationHandler(error, this.form)
+            () => this.router.navigate(['my-funds']),
+            (error) => validationHandler(error, this.form)
         );
     }
 }
