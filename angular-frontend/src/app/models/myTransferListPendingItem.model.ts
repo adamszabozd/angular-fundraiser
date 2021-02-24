@@ -2,6 +2,8 @@ export interface MyTransferListPendingItemModel {
     id: number;
     senderAccountEmail: string;
     targetFundTitle: string;
-    amount: number;
-    currency: string;
+    senderAmount: number;
+    senderCurrency: string;
+    targetAmount: number;
+    targetCurrency: string;
 }

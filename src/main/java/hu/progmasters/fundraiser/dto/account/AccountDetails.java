@@ -33,7 +33,7 @@ public class AccountDetails {
     private List<MyTransferListPendingItem> pendingTransfers;
     private List<DonationPerFund> donationsPerFund;
 
-    public AccountDetails(Account account) {
+    public AccountDetails(Account account, List<DonationPerFund> donationsPerFund) {
         this.id = account.getId();
         this.username = account.getUsername();
         this.email = account.getEmail();
@@ -50,11 +50,7 @@ public class AccountDetails {
 
                 .map(MyTransferListPendingItem::new)
                 .collect(Collectors.toList());
-        this.donationsPerFund = account.getOutgoingTransfers().stream()
-                .collect(Collectors.toMap((Transfer t) -> t.getTarget().getFundTitle(), Transfer::getSenderAmount, Double::sum))
-                .entrySet().stream()
-                .map(entry -> new DonationPerFund(entry.getKey(), entry.getValue()))
-                .collect(Collectors.toList());
+        this.donationsPerFund = donationsPerFund;
     }
 
     public Long getId() {

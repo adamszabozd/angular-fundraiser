@@ -121,7 +121,7 @@ public class AccountController {
     @GetMapping
     public ResponseEntity<List<AccountDetails>> getAllAccounts() {
         List<AccountDetails> accountDetails = accountService.findAll().stream()
-                                                            .map(AccountDetails::new)
+                                                            .map(a -> new AccountDetails(a, accountService.getDonationsPerFund(a)))
                                                             .sorted()
                                                             .collect(Collectors.toList());
         return new ResponseEntity<>(accountDetails, HttpStatus.OK);

@@ -12,5 +12,5 @@ export interface FundDetailsItemModel{
     creatorName: string;
     category: string;
     numberOfBackers: number;
-    lastWeekDonations: Array<DailyDonationModel>
+    dailyDonations: Array<DailyDonationModel>
 }

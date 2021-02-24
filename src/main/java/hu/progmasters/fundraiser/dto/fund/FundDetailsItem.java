@@ -35,9 +35,9 @@ public class FundDetailsItem {
 
     private final Long numberOfBackers;
 
-    private List<DailyDonation> lastWeekDonations;
+    private List<DailyDonation> dailyDonations;
 
-    public FundDetailsItem(Fund fund, Long numberOfBackers, String categoryDisplayName, List<DailyDonation> lastWeekDonations) {
+    public FundDetailsItem(Fund fund, Long numberOfBackers, String categoryDisplayName, List<DailyDonation> dailyDonations) {
         this.id = fund.getId();
         this.imageUrl = fund.getImageUrl();
         this.title = fund.getFundTitle();
@@ -50,8 +50,8 @@ public class FundDetailsItem {
         this.creatorName = fund.getCreator().getUsername();
         this.category = categoryDisplayName;
         this.numberOfBackers = numberOfBackers;
-        this.lastWeekDonations = lastWeekDonations;
         this.status = fund.getStatus().name();
+        this.dailyDonations = dailyDonations;
     }
 
     public Long getId() {
@@ -102,8 +102,8 @@ public class FundDetailsItem {
         return currency;
     }
 
-    public List<DailyDonation> getLastWeekDonations() {
-        return lastWeekDonations;
+    public List<DailyDonation> getDailyDonations() {
+        return dailyDonations;
     }
 
     public String getStatus() {

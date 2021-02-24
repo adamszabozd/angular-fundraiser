@@ -39,6 +39,7 @@ export class RegistrationComponent implements OnInit {
                                                                Validators.pattern(/^\S*$/)]],
                                                confirm : ['', [Validators.required, Validators.minLength(5),
                                                                Validators.maxLength(100)]],
+                                               captcha: ['']
                                            }, {
                                                validator: mustMatch('password', 'confirm'),
                                            });
@@ -70,6 +71,7 @@ export class RegistrationComponent implements OnInit {
             email   : this.form.value.email,
             username: this.form.value.nickName,
             password: this.form.value.password,
+            captcha: this.form.value.captcha
         };
         this.accountService.registerNewAccount(data).subscribe(
             () => {

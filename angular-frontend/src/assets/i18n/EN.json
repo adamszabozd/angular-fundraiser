@@ -19,10 +19,12 @@
         "MY_TRANSFERS": "My transfers:",
         "MY_TRANSFERS_TO": "To",
         "MY_TRANSFERS_AMOUNT": "Amount",
+        "MY_TRANSFERS_CURRENCY": "Currency",
         "MY_TRANSFERS_DATE": "Date",
         "MY_PENDING_TRANSFERS": "My pending transfers:",
         "MY_PENDING_TRANSFERS_TO": "To",
         "MY_PENDING_TRANSFERS_AMOUNT": "Amount",
+        "MY_PENDING_TRANSFERS_CURRENCY": "Currency",
         "MY_PENDING_TRANSFERS_RESEND_CODE": "resend code",
         "MY_PENDING_TRANSFERS_DELETE": "delete",
         "FILL_BALANCE_BUTTON": "Fill balance",
@@ -98,7 +100,8 @@
         "NUMBER_OF_BACKERS": "Number of backers: ",
         "EXPIRATION_DATE": "Expiration date: ",
         "FUND_THIS_PROJECT": "Fund this project",
-        "BARCHART_TITLE": "Donations per day during last seven days"
+        "BARCHART_TITLE": "Donations per day during last seven days",
+        "LINECHART_TITLE": "Total raised amount"
     },
     "REGISTRATION": {
         "EMAIL": "Email:",

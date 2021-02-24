@@ -17,6 +17,7 @@
 
         <button type="button" class="btn btn-success btn-lg" [routerLink]="['/transfer-funds', id]">{{'DETAILS.FUND_THIS_PROJECT' | translate}}</button>
     </div>
+    <br/>
     <div style="display: inline-block;text-align: center;">
         <span style="display: block">
             {{ 'DETAILS.BARCHART_TITLE' | translate }}
@@ -34,5 +35,24 @@
             [xAxisLabel]="xAxisLabel"
             [yAxisLabel]="yAxisLabel">
         </ngx-charts-bar-vertical>
+    </div>
+    <div style="display: inline-block;text-align: center;">
+        <span style="display: block">
+            {{ 'DETAILS.LINECHART_TITLE' | translate }}
+        </span>
+        <ngx-charts-line-chart
+            [view]="view"
+            [scheme]="colorScheme"
+            [legend]="legend"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [xAxis]="xAxis"
+            [yAxis]="yAxis"
+            [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel"
+            [timeline]="timeline"
+            [results]="lineChartData"
+        >
+        </ngx-charts-line-chart>
     </div>
 </div>

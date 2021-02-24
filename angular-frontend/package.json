@@ -25,6 +25,7 @@
     "angular-password-strength-meter": "^3.0.1",
     "bootstrap": "^4.6.0",
     "jquery": "^3.5.1",
+    "ng-recaptcha": "^5.0.0",
     "ngx-pagination": "^5.0.0",
     "popper.js": "^1.16.1",
     "rxjs": "~6.4.0",
