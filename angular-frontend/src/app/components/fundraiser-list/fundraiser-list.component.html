@@ -25,9 +25,9 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">{{ 'FUNDS.CATEGORY' | translate }}{{fund.category}}</li>
                 <li class="list-group-item">{{ 'FUNDS.AMOUNT' | translate: {
-                    amount: fund.raisedAmount,
+                    amount: fund.raisedAmount.toFixed(2),
                     currency: fund.currency,
-                    amountGoal: fund.targetAmount
+                    amountGoal: fund.targetAmount.toFixed(2)
                 } }}
                     <div class="progress">
                         <div class="progress-bar" role="progressbar" [style.width]="fund.progress + '%'" [attr.aria-valuenow]="fund.progress" aria-valuemin="0" aria-valuemax="100">{{fund.progress}}%</div>

@@ -136,7 +136,7 @@
                 <tbody>
                 <tr *ngFor="let transfer of accountDetails?.pendingTransfers">
                     <td class="pending-border">{{transfer.targetFundTitle}}</td>
-                    <td class="pending-border">{{transfer.senderAmount}}</td>
+                    <td class="pending-border">{{transfer.senderAmount.toFixed(2)}}</td>
                     <td class="pending-border">{{transfer.senderCurrency}}</td>
                     <td class="pending-border">
                 <span class="btn-group">
@@ -164,7 +164,7 @@
                 <tbody>
                 <tr *ngFor="let transfer of accountDetails?.confirmedTransfers">
                     <td class="confirmed-border">{{transfer.targetFundTitle}}</td>
-                    <td class="confirmed-border">{{transfer.senderAmount}}</td>
+                    <td class="confirmed-border">{{transfer.senderAmount.toFixed(2)}}</td>
                     <td class="confirmed-border">{{transfer.senderCurrency}}</td>
                     <td class="confirmed-border">{{transfer.timeStamp}}</td>
                 </tr>

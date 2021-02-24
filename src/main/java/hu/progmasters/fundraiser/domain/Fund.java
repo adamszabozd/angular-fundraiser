@@ -63,7 +63,7 @@ public class Fund {
     @OneToMany(mappedBy = "target")
     List<Transfer> transferList;
 
-    @Column(name = "time_stamp", nullable = false)
+    @Column(name = "time_stamp")
     private LocalDateTime timeStamp;
 
     public Fund() {
