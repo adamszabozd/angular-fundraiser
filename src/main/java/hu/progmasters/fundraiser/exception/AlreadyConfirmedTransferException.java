@@ -1,17 +1,12 @@
 package hu.progmasters.fundraiser.exception;
 
-public class AlreadyConfirmedTransferException extends RuntimeException {
-
-    private final String accountEmail;
+public class AlreadyConfirmedTransferException extends CustomRuntimeException {
 
     public AlreadyConfirmedTransferException(String accountEmail) {
-        this.accountEmail = accountEmail;
+        super(accountEmail);
     }
 
-    public String getAccountEmail() {
-        return accountEmail;
-    }
-
+    @Override
     public String getCode() {
         return "already.confirmed.transfer.confirmation";
     }

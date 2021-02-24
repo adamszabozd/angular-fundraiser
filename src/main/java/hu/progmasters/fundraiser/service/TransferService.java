@@ -31,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.security.auth.login.AccountNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -39,39 +40,37 @@ import java.util.stream.Collectors;
 public class TransferService {
 
     Logger logger = LoggerFactory.getLogger(TransferService.class);
-    //TODO - Review: Ne hívjuk "keresztbe" a rétegeket. Ugyanaz mint a FundServiceben
     private final TransferRepository transferRepository;
     private final ExchangeService exchangeService;
     private final AccountService accountService;
     private final FundService fundService;
     private final PasswordEncoder passwordEncoder;
+    private final EmailSendingService emailSendingService;
 
     @Autowired
     public TransferService(TransferRepository transferRepository,
                            ExchangeService exchangeService, AccountService accountService,
-                           FundService fundService, PasswordEncoder passwordEncoder
+                           FundService fundService, PasswordEncoder passwordEncoder,
+                           EmailSendingService emailSendingService
     ) {
         this.transferRepository = transferRepository;
         this.exchangeService = exchangeService;
         this.accountService = accountService;
         this.fundService = fundService;
         this.passwordEncoder = passwordEncoder;
+        this.emailSendingService = emailSendingService;
     }
 
-    public Transfer savePendingTransfer(TransferCreationCommand transferCreationCommand, String email) {
+    public Transfer savePendingTransfer(TransferCreationCommand transferCreationCommand, String email, Locale locale) {
         Account source = accountService.findByEmail(email);
         Fund goal = fundService.findById(transferCreationCommand.getTargetFundId());
-        return getPendingTransfer(transferCreationCommand, source, goal);
-    }
-
-    private Transfer getPendingTransfer(TransferCreationCommand transferCreationCommand, Account source, Fund goal) {
         Transfer pendingTransfer = new Transfer(transferCreationCommand, source, goal);
         pendingTransfer.setTargetAmount(findCurrencyRate(source, goal) * transferCreationCommand.getSenderAmount());
         String code = getCode();
         logger.info("Confirmation code generated.");
         pendingTransfer.setConfirmationCode(passwordEncoder.encode(code));
-        pendingTransfer.setUnencryptedConfirmationCode(code);
         pendingTransfer = transferRepository.save(pendingTransfer);
+        emailSendingService.sendConfirmationEmail(email, code, pendingTransfer.getTarget().getFundTitle(), pendingTransfer.getSenderAmount(), pendingTransfer.getSenderCurrency().name(), locale);
         return pendingTransfer;
     }
 
@@ -87,11 +86,12 @@ public class TransferService {
         return code;
     }
 
-    public void generateNewConfirmationCode(Transfer transfer) {
+    public void resendConfirmationEmail(Long id, String email, Locale locale) {
+        Transfer pendingTransfer = getPendingTransferByIdAndEmail(id, email);
         String code = getCode();
-        transfer.setConfirmationCode(passwordEncoder.encode(code));
-        transfer.setUnencryptedConfirmationCode(code);
-        transferRepository.save(transfer);
+        pendingTransfer.setConfirmationCode(passwordEncoder.encode(code));
+        transferRepository.save(pendingTransfer);
+        emailSendingService.sendConfirmationEmail(email, code, pendingTransfer.getTarget().getFundTitle(), pendingTransfer.getSenderAmount(), pendingTransfer.getSenderCurrency().name(), locale);
     }
 
     private Double findCurrencyRate(Account sender, Fund receiver) {
@@ -150,7 +150,7 @@ public class TransferService {
         }
         Transfer transfer = transferOptional.get();
         if (transfer.getConfirmed()) {
-            throw new ConfirmedTransferDeleteException(email);
+            throw new ConfirmedTransferDeletionException(email);
         } else if (transfer.getSource().getEmail().equals(email)) {
             transferRepository.delete(transfer);
         } else {

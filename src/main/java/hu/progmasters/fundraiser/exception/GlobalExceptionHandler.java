@@ -88,50 +88,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(body, status);
     }
 
-    //TODO - Review: Ilyen ExceptionHandler osztályokból szerintem lehet berakni akár többet is,
-    // és akkor a logikailag összetartozóakat egy helyre lehet csoportosítani
-    @ExceptionHandler(NotOwnTransferException.class)
-    public ResponseEntity<ApiError> notOwnTransferExceptionHandler(NotOwnTransferException e, HttpServletRequest request) {
-        logger.error("User {} tried to delete a transfer belonging to another account", e.getAccountEmail());
-        HttpStatus status = HttpStatus.UNAUTHORIZED;
-        Locale locale = localeResolver.resolveLocale(request);
-        ApiError body = new ApiError("NOT_OWN_TRANSFER_ERROR", messageSource.getMessage(e.getCode(), null, locale), e.getLocalizedMessage());
-        return new ResponseEntity<>(body, status);
-    }
-
-    @ExceptionHandler(ConfirmedTransferDeleteException.class)
-    public ResponseEntity<ApiError> confirmedTransferDeleteExceptionHandler(ConfirmedTransferDeleteException e, HttpServletRequest request) {
-        logger.error("User {} tried to delete a confirmed transfer", e.getAccountEmail());
-        HttpStatus status = HttpStatus.UNAUTHORIZED;
-        Locale locale = localeResolver.resolveLocale(request);
-        ApiError body = new ApiError("CONFIRMED_TRANSFER_DELETION_ERROR", messageSource.getMessage(e.getCode(), null, locale), e.getLocalizedMessage());
-        return new ResponseEntity<>(body, status);
-    }
-
-    @ExceptionHandler(AlreadyConfirmedTransferException.class)
-    public ResponseEntity<ApiError> alreadyConfirmedTransferExceptionHandler(AlreadyConfirmedTransferException e, HttpServletRequest request) {
-        logger.error("User {} tried to resend email for a confirmed transfer", e.getAccountEmail());
+    @ExceptionHandler(CustomRuntimeException.class)
+    public ResponseEntity<ApiError> customRuntimeExceptionHandler(TransferNotFoundException e, HttpServletRequest request) {
+        logger.error(e.getMessage() + " --- User: " + e.getAccountEmail());
         HttpStatus status = HttpStatus.BAD_REQUEST;
         Locale locale = localeResolver.resolveLocale(request);
-        ApiError body = new ApiError("ALREADY_CONFIRMED_TRANSFER_CONFIRMATION", messageSource.getMessage(e.getCode(), null, locale), e.getLocalizedMessage());
-        return new ResponseEntity<>(body, status);
-    }
-
-    @ExceptionHandler(InvalidConfirmationCodeException.class)
-    public ResponseEntity<ApiError> invalidConfirmationCodeExceptionHandler(InvalidConfirmationCodeException e, HttpServletRequest request) {
-        logger.error("Confirmation failed, no pending transfer exists with this confirmation code! User: " + e.getAccountEmail());
-        HttpStatus status = HttpStatus.BAD_REQUEST;
-        Locale locale = localeResolver.resolveLocale(request);
-        ApiError body = new ApiError("INVALID_CONFIRMATION_CODE", messageSource.getMessage(e.getCode(), null, locale), e.getLocalizedMessage());
-        return new ResponseEntity<>(body, status);
-    }
-
-    @ExceptionHandler(TransferNotFoundException.class)
-    public ResponseEntity<ApiError> transferNotFoundExceptionHandler(TransferNotFoundException e, HttpServletRequest request) {
-        logger.error(e.getMessage() + " User: " + e.getAccountEmail());
-        HttpStatus status = HttpStatus.BAD_REQUEST;
-        Locale locale = localeResolver.resolveLocale(request);
-        ApiError body = new ApiError("TRANSFER_NOT_FOUND", messageSource.getMessage(e.getCode(), null, locale), e.getLocalizedMessage());
+        ApiError body = new ApiError(e.getCode().toUpperCase().replace('.', '_'), messageSource.getMessage(e.getCode(), null, locale), e.getLocalizedMessage());
         return new ResponseEntity<>(body, status);
     }
 

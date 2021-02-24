@@ -1,17 +1,12 @@
 package hu.progmasters.fundraiser.exception;
 
-public class NotOwnTransferException extends RuntimeException {
-
-    private final String accountEmail;
+public class NotOwnTransferException extends CustomRuntimeException {
 
     public NotOwnTransferException(String accountEmail) {
-        this.accountEmail = accountEmail;
+        super(accountEmail);
     }
 
-    public String getAccountEmail() {
-        return accountEmail;
-    }
-
+    @Override
     public String getCode() {
         return "not.own.transfer.error";
     }

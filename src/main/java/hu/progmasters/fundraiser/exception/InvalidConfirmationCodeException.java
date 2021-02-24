@@ -1,17 +1,12 @@
 package hu.progmasters.fundraiser.exception;
 
-public class InvalidConfirmationCodeException extends RuntimeException {
-
-    private final String accountEmail;
+public class InvalidConfirmationCodeException extends CustomRuntimeException {
 
     public InvalidConfirmationCodeException(String accountEmail) {
-        this.accountEmail = accountEmail;
+        super(accountEmail);
     }
 
-    public String getAccountEmail() {
-        return accountEmail;
-    }
-
+    @Override
     public String getCode() {
         return "invalid.confirmation.code";
     }

@@ -48,3 +48,5 @@ exchange-api-url: http://data.fixer.io/api/latest?access_key=ccbcdaedbc16e8cbc37
 
 cors-policies: http://localhost:4200
 frontend-url: http://localhost:4200
+captcha-url: https://www.google.com/recaptcha/api/siteverify
+captcha-secret: 6LeIKWQaAAAAAH0ok5g2-wWn7U2AE69oHgz4lOOQ

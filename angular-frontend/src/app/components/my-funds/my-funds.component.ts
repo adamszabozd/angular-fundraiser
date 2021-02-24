@@ -3,6 +3,7 @@ import {FundsService} from "../../services/funds.service";
 import {FundListItemModel} from "../../models/FundListItem.model";
 import {Router} from "@angular/router";
 import {AccountService} from "../../services/account.service";
+import {numberToString} from "../../utils/numberFormatter";
 
 @Component({
   selector: 'app-my-funds',
@@ -12,6 +13,7 @@ import {AccountService} from "../../services/account.service";
 export class MyFundsComponent implements OnInit {
 
     myFundList: Array<FundListItemModel>;
+    numberToString = numberToString;
 
     constructor(private fundService: FundsService, private router: Router, private accountService: AccountService) {
     }

@@ -8,6 +8,7 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {minAmount} from '../../validator';
 import {BalanceFormCommandModel} from '../../models/balanceFormCommand.model';
 import {ChartDataElementModel} from "../../models/chartDataElement.model";
+import {numberToString} from "../../utils/numberFormatter";
 
 @Component({
                selector   : 'app-account-page',
@@ -44,6 +45,8 @@ export class AccountPageComponent implements OnInit {
                                   }, {
                                       validator: minAmount('add_amount'),
                                   });
+
+    numberToString = numberToString;
 
     constructor(private accountService: AccountService, private transferService: TransferService, private router: Router, private formBuilder: FormBuilder) {
     }

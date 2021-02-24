@@ -55,7 +55,7 @@
                         || (form.get('senderAmount').errors?.serverError)}"
                         name="senderAmount"
                         formControlName="senderAmount"
-                        (change)="getTargetAmount($event)"
+                        (input)="getTargetAmount($event)"
                     />
                     <small
                         *ngIf="form.get('senderAmount').invalid && form.get('senderAmount').touched
@@ -87,12 +87,12 @@
                     id="balance"
                     class="form-control my-input-field-disabled"
                     name="balance"
-                    placeholder="{{transferFormInitDataModel?.balance.toFixed(2)}}"
+                    placeholder="{{numberToString(transferFormInitDataModel?.balance)}}"
                     disabled
                 />
             </div>
         </div>
         <br/>
-        <button class="btn btn-primary my-buttons">{{ 'TRANSFER.TRANSFER' | translate }}</button>
+        <button type="submit" class="btn btn-primary my-buttons">{{ 'TRANSFER.TRANSFER' | translate }}</button>
     </form>
 </div>

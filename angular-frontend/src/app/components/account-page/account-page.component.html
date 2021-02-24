@@ -12,7 +12,7 @@
                     class="form-control my-input-field-disabled"
                     name="currentBalance"
                     id="currentBalance"
-                    placeholder="{{accountDetails?.balance.toFixed(2)}}"
+                    placeholder="{{numberToString(accountDetails?.balance)}}"
                     disabled
                 />
             </div>
@@ -98,7 +98,7 @@
                 id="balance"
                 class="form-control my-input-field-disabled"
                 name="balance"
-                placeholder="{{accountDetails?.balance.toFixed(2)}}"
+                placeholder="{{numberToString(accountDetails?.balance)}}"
                 disabled
             />
         </div>
@@ -136,7 +136,7 @@
                 <tbody>
                 <tr *ngFor="let transfer of accountDetails?.pendingTransfers">
                     <td class="pending-border">{{transfer.targetFundTitle}}</td>
-                    <td class="pending-border">{{transfer.senderAmount.toFixed(2)}}</td>
+                    <td class="pending-border">{{numberToString(transfer.senderAmount)}}</td>
                     <td class="pending-border">{{transfer.senderCurrency}}</td>
                     <td class="pending-border">
                 <span class="btn-group">
@@ -164,7 +164,7 @@
                 <tbody>
                 <tr *ngFor="let transfer of accountDetails?.confirmedTransfers">
                     <td class="confirmed-border">{{transfer.targetFundTitle}}</td>
-                    <td class="confirmed-border">{{transfer.senderAmount.toFixed(2)}}</td>
+                    <td class="confirmed-border">{{numberToString(transfer.senderAmount)}}</td>
                     <td class="confirmed-border">{{transfer.senderCurrency}}</td>
                     <td class="confirmed-border">{{transfer.timeStamp}}</td>
                 </tr>
