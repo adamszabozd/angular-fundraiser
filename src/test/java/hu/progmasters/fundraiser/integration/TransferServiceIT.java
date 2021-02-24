@@ -6,7 +6,7 @@ import hu.progmasters.fundraiser.dto.fund.FundFormCommand;
 import hu.progmasters.fundraiser.dto.transfer.create.TransferCreationCommand;
 import hu.progmasters.fundraiser.repository.TransferRepository;
 import hu.progmasters.fundraiser.service.AccountService;
-import hu.progmasters.fundraiser.service.FundService;
+import hu.progmasters.fundraiser.service.cloudinary.FundService;
 import hu.progmasters.fundraiser.service.TransferService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

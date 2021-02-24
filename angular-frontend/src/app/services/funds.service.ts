@@ -40,7 +40,7 @@ export class FundsService {
         return this.http.get<FundFormInitModel>(BASE_URL + "/initData")
     }
 
-    saveNewFund(data: FundFormCommandModel): Observable<any> {
+    saveNewFund(data: FormData): Observable<any> {
         return this.http.post(BASE_URL, data);
     }
 

@@ -20,6 +20,7 @@ import hu.progmasters.fundraiser.dto.transfer.create.TransferCreationCommand;
 import hu.progmasters.fundraiser.dto.transfer.list.MyTransferListPendingItem;
 import hu.progmasters.fundraiser.exception.*;
 import hu.progmasters.fundraiser.repository.TransferRepository;
+import hu.progmasters.fundraiser.service.cloudinary.FundService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

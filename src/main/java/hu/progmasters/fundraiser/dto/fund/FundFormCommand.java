@@ -1,5 +1,7 @@
 package hu.progmasters.fundraiser.dto.fund;
 
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
 import java.time.LocalDate;
 
 public class FundFormCommand {
@@ -9,6 +11,8 @@ public class FundFormCommand {
     private String shortDescription;
 
     private String longDescription;
+
+    private CommonsMultipartFile imageFile;
 
     private String imageUrl;
 
@@ -27,7 +31,7 @@ public class FundFormCommand {
         instance.setTitle(name);
         instance.setShortDescription("Short description two");
         instance.setLongDescription("Long Descripton tow");
-        instance.setImageUrl("image_two.jpg");
+        instance.setImageUrl("");
         instance.setCategory("MEDICAL");
         instance.setTargetAmount(1001.0);
         instance.setCategory("EUR");
@@ -106,5 +110,13 @@ public class FundFormCommand {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public CommonsMultipartFile getImageFile() {
+        return imageFile;
+    }
+
+    public void setImageFile(CommonsMultipartFile imageFile) {
+        this.imageFile = imageFile;
     }
 }
