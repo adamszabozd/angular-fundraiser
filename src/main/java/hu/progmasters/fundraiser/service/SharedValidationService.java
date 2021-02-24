@@ -3,15 +3,18 @@ package hu.progmasters.fundraiser.service;
 import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.domain.Fund;
 import hu.progmasters.fundraiser.domain.Transfer;
+import hu.progmasters.fundraiser.dto.ReCaptchaResponse;
 import hu.progmasters.fundraiser.repository.AccountRepository;
 import hu.progmasters.fundraiser.repository.FundRepository;
 import hu.progmasters.fundraiser.repository.TransferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,12 +31,16 @@ public class SharedValidationService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final RestTemplate restTemplate;
+
+
     @Autowired
-    public SharedValidationService(AccountRepository accountRepository, TransferRepository transferRepository, FundRepository fundRepository, PasswordEncoder passwordEncoder) {
+    public SharedValidationService(AccountRepository accountRepository, TransferRepository transferRepository, FundRepository fundRepository, PasswordEncoder passwordEncoder, RestTemplate restTemplate) {
         this.accountRepository = accountRepository;
         this.transferRepository = transferRepository;
         this.fundRepository = fundRepository;
         this.passwordEncoder = passwordEncoder;
+        this.restTemplate = restTemplate;
     }
 
     public boolean pendingTransferExistsAndSourceIsRight(String confirmationCode) {
@@ -84,4 +91,10 @@ public class SharedValidationService {
         return fundRepository.existsById(id);
     }
 
+    public boolean validateCaptcha(String captcha) {
+        String url = "https://www.google.com/recaptcha/api/siteverify";
+        String params = "?secret=6LeIKWQaAAAAAH0ok5g2-wWn7U2AE69oHgz4lOOQ\n&response=" + captcha;
+        ReCaptchaResponse reCaptchaResponse = restTemplate.exchange(url + params, HttpMethod.POST, null, ReCaptchaResponse.class).getBody();
+        return reCaptchaResponse != null && reCaptchaResponse.isSuccess();
+    }
 }

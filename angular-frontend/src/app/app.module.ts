@@ -28,6 +28,7 @@ import { ChangeCurrencyComponent } from './components/change-currency/change-cur
 import {PasswordStrengthMeterModule} from 'angular-password-strength-meter';
 import { ConvertedBalanceComponent } from './components/converted-balance/converted-balance.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import {RecaptchaFormsModule, RecaptchaModule} from "ng-recaptcha";
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -67,7 +68,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
                 deps: [HttpClient]
             }
         }),
-        NgxChartsModule
+        NgxChartsModule,
+        RecaptchaModule,
+        RecaptchaFormsModule
     ],
     providers: [
         // Http Interceptor(s) -  adds with Client Credentials

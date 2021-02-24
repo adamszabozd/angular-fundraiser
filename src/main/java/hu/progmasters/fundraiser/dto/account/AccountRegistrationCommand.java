@@ -24,6 +24,8 @@ public class AccountRegistrationCommand {
 
     private String username;
 
+    private String captcha;
+
     public String getPassword() {
         return password;
     }
@@ -46,5 +48,13 @@ public class AccountRegistrationCommand {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getCaptcha() {
+        return captcha;
+    }
+
+    public void setCaptcha(String captcha) {
+        this.captcha = captcha;
     }
 }
