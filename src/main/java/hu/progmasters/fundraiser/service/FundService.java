@@ -1,9 +1,6 @@
 package hu.progmasters.fundraiser.service;
 
-import hu.progmasters.fundraiser.domain.Account;
-import hu.progmasters.fundraiser.domain.Fund;
-import hu.progmasters.fundraiser.domain.FundCategory;
-import hu.progmasters.fundraiser.domain.Transfer;
+import hu.progmasters.fundraiser.domain.*;
 import hu.progmasters.fundraiser.dto.fund.*;
 import hu.progmasters.fundraiser.repository.FundRepository;
 import hu.progmasters.fundraiser.repository.TransferRepository;
@@ -12,6 +9,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -50,11 +48,11 @@ public class FundService {
 
     public List<FundListItem> fetchAllForList(Locale locale) {
         return fundRepository.findAll().stream()
-                             .map(fund -> {
-                                 String categoryDisplayName = messageSource.getMessage(fund.getFundCategory().getCode(), null, locale);
-                                 return new FundListItem(fund, categoryDisplayName);
-                             })
-                             .collect(Collectors.toList());
+                .map(fund -> {
+                    String categoryDisplayName = messageSource.getMessage(fund.getFundCategory().getCode(), null, locale);
+                    return new FundListItem(fund, categoryDisplayName);
+                })
+                .collect(Collectors.toList());
     }
 
     public void saveNewFund(FundFormCommand fundFormCommand, String emailAddress) {
@@ -67,14 +65,13 @@ public class FundService {
     public FundDetailsItem fetchFundDetails(Long id, Locale locale) {
         //TODO - Review: A következő két sor kb 3x ismétlődik, csak ebben az osztályban...
         // Sok kicsi sokra megy...
-        // Az IllegalArgumentException helyett van beszédesebb: EntityNotFoundException
         Optional<Fund> fund = fundRepository.findById(id);
         if (fund.isPresent()) {
             Long backers = transferRepository.numberOfBackers(id);
             String categoryDisplayName = messageSource.getMessage(fund.get().getFundCategory().getCode(), null, locale);
             return new FundDetailsItem(fund.get(), backers, categoryDisplayName, getLastWeekDonations(fund.get().getTransferList()));
         } else {
-            throw new IllegalArgumentException();
+            throw new EntityNotFoundException();
         }
     }
 
@@ -107,11 +104,11 @@ public class FundService {
         Account myAccount = accountService.findByEmail(email);
         //TODO - Review: Itt miért nem a FundRepository van használva??
         return myAccount.getFunds().stream()
-                        .map(fund -> {
-                            String categoryDisplayName = messageSource.getMessage(fund.getFundCategory().getCode(), null, locale);
-                            return new FundListItem(fund, categoryDisplayName);
-                        })
-                        .collect(Collectors.toList());
+                .map(fund -> {
+                    String categoryDisplayName = messageSource.getMessage(fund.getFundCategory().getCode(), null, locale);
+                    return new FundListItem(fund, categoryDisplayName);
+                })
+                .collect(Collectors.toList());
     }
 
     public void modifyFund(ModifyFundFormCommand modifyFundFormCommand) {
@@ -137,11 +134,11 @@ public class FundService {
             FundCategory category = FundCategory.valueOf(categoryName);
             List<Fund> funds = fundRepository.findAllByCategory(category);
             return funds.stream()
-                        .map(fund -> {
-                            String categoryDisplayName = messageSource.getMessage(fund.getFundCategory().getCode(), null, locale);
-                            return new FundListItem(fund, categoryDisplayName);
-                        })
-                        .collect(Collectors.toList());
+                    .map(fund -> {
+                        String categoryDisplayName = messageSource.getMessage(fund.getFundCategory().getCode(), null, locale);
+                        return new FundListItem(fund, categoryDisplayName);
+                    })
+                    .collect(Collectors.toList());
         } else {
             throw new IllegalArgumentException();
         }
@@ -150,8 +147,10 @@ public class FundService {
     public FundFormInitData fetchFundFormInitData(Locale locale) {
         FundFormInitData fundFormInitData = new FundFormInitData();
         List<CategoryOption> categoryOptions = getCategoryOptions(locale);
+        List<StatusOption> statusOptions = getStatusOptions(locale);
         fundFormInitData.setCategoryOptions(categoryOptions);
         fundFormInitData.setCurrencyOptions(exchangeService.fetchRates());
+        fundFormInitData.setStatusOptions(statusOptions);
         return fundFormInitData;
     }
 
@@ -186,6 +185,14 @@ public class FundService {
             categoryOptions.add(new CategoryOption(category.toString(), messageSource.getMessage(category.getCode(), null, locale)));
         }
         return categoryOptions;
+    }
+
+    private List<StatusOption> getStatusOptions(Locale locale) {
+        List<StatusOption> statusOptions = new ArrayList<>();
+        for (Status status : Status.values()) {
+            statusOptions.add(new StatusOption(status.toString(), messageSource.getMessage(status.getCode(), null, locale)));
+        }
+        return statusOptions;
     }
 
 }

@@ -34,6 +34,7 @@ export class NewFundFormComponent implements OnInit {
                                       targetAmount    : [null, Validators.required],
                                       currency        : [null, Validators.required],
                                       endDate         : [null],
+                                      status          : ["ACTIVE"],
                                   });
 
     constructor(private formBuilder: FormBuilder, private fundService: FundsService, private router: Router, private accountService: AccountService) {

@@ -31,6 +31,8 @@ public class FundDetailsItem {
 
     private final String category;
 
+    private final String status;
+
     private final Long numberOfBackers;
 
     private List<DailyDonation> lastWeekDonations;
@@ -49,6 +51,7 @@ public class FundDetailsItem {
         this.category = categoryDisplayName;
         this.numberOfBackers = numberOfBackers;
         this.lastWeekDonations = lastWeekDonations;
+        this.status = fund.getStatus().name();
     }
 
     public Long getId() {
@@ -101,5 +104,9 @@ public class FundDetailsItem {
 
     public List<DailyDonation> getLastWeekDonations() {
         return lastWeekDonations;
+    }
+
+    public String getStatus() {
+        return status;
     }
 }

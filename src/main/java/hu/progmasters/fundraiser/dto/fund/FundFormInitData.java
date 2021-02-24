@@ -9,10 +9,13 @@ public class FundFormInitData {
 
     private List<CategoryOption> categoryOptions;
     private List<CurrencyOption> currencyOptions;
+    private List<StatusOption> statusOptions;
+
 
     public FundFormInitData() {
         this.currencyOptions = new ArrayList<>();
         this.categoryOptions = new ArrayList<>();
+        this.statusOptions = new ArrayList<>();
     }
 
     public List<CategoryOption> getCategoryOptions() {
@@ -31,4 +34,11 @@ public class FundFormInitData {
         this.currencyOptions = currencyOptions;
     }
 
+    public List<StatusOption> getStatusOptions() {
+        return statusOptions;
+    }
+
+    public void setStatusOptions(List<StatusOption> statusOptions) {
+        this.statusOptions = statusOptions;
+    }
 }

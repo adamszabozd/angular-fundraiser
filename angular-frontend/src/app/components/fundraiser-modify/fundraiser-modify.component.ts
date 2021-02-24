@@ -51,7 +51,7 @@ export class FundraiserModifyComponent implements OnInit {
         this.form.get("imageUrl").setValue(data.imageUrl);
         this.form.get("category").setValue(data.category);
         this.form.get("targetAmount").setValue(data.targetAmount);
-        this.form.get("endDate").setValue(data.endDate)
+        this.form.get("endDate").setValue(data.endDate);
     }
 
     onSubmit() {

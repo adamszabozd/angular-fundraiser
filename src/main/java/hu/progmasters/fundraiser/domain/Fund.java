@@ -18,11 +18,11 @@ public class Fund {
     @Column(name = "id", insertable = false, updatable = false)
     private Long id;
 
-    @Size(min=5, max=100)
+    @Size(min = 5, max = 100)
     @Column(name = "fund_title", unique = true, nullable = false)
     private String fundTitle;
 
-    @Size(min=5, max=250)
+    @Size(min = 5, max = 250)
     @Column(name = "short_description", nullable = false)
     private String shortDescription;
 
@@ -30,7 +30,7 @@ public class Fund {
             columnDefinition = "TEXT")
     private String longDescription;
 
-    @Size(min = 5, max=1000)
+    @Size(min = 5, max = 1000)
     @Column(name = "image_url")
     private String imageUrl;
 
@@ -51,6 +51,11 @@ public class Fund {
             nullable = false)
     private Currency currency = Currency.EUR;
 
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private Status status;
+
     @Future
     @Column(name = "end_date")
     private LocalDate endDate;
@@ -69,7 +74,7 @@ public class Fund {
         this.fundTitle = fundFormCommand.getTitle();
         this.shortDescription = fundFormCommand.getShortDescription();
         this.longDescription = fundFormCommand.getLongDescription();
-        if(fundFormCommand.getImageUrl()==null || fundFormCommand.getImageUrl().isEmpty()){
+        if (fundFormCommand.getImageUrl() == null || fundFormCommand.getImageUrl().isEmpty()) {
             this.imageUrl = "https://cdn.iconscout.com/icon/free/png-256/k-characters-character-alphabet-letter-36028.png";
         } else this.imageUrl = fundFormCommand.getImageUrl();
         this.fundCategory = FundCategory.valueOf(fundFormCommand.getCategory());
@@ -78,6 +83,7 @@ public class Fund {
         this.currency = Currency.valueOf(fundFormCommand.getCurrency());
         this.endDate = fundFormCommand.getEndDate();
         this.creator = account;
+        this.status = Status.valueOf(fundFormCommand.getStatus());
     }
 
     public Long getId() {
@@ -174,5 +180,13 @@ public class Fund {
 
     public void setTransferList(List<Transfer> transferList) {
         this.transferList = transferList;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }
