@@ -74,8 +74,8 @@ public class FundController {
     }
 
     @GetMapping("/modify/{id}")
-    public ResponseEntity<FundDetailsItem> modifyFund(@PathVariable Long id, Locale locale) {
-        return new ResponseEntity<>(fundService.fetchFundDetails(id, locale), HttpStatus.OK);
+    public ResponseEntity<FundModifyItem> modifyFund(@PathVariable Long id, Locale locale) {
+        return new ResponseEntity<>(fundService.fetchModifyFund(id, locale), HttpStatus.OK);
     }
 
     @GetMapping("/categories/{category}")
