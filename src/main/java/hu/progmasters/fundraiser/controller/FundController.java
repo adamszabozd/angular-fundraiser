@@ -1,7 +1,7 @@
 package hu.progmasters.fundraiser.controller;
 
 import hu.progmasters.fundraiser.dto.fund.*;
-import hu.progmasters.fundraiser.service.FundService;
+import hu.progmasters.fundraiser.service.cloudinary.FundService;
 import hu.progmasters.fundraiser.validation.FundFormCommandValidator;
 import hu.progmasters.fundraiser.validation.ModifyFundFormCommandValidator;
 import org.slf4j.Logger;
@@ -26,6 +26,8 @@ public class FundController {
     private final FundService fundService;
     private final FundFormCommandValidator validator;
     private final ModifyFundFormCommandValidator modifyFundFormCommandValidator;
+
+
 
     @Autowired
     public FundController(FundService fundService, FundFormCommandValidator fundFormCommandValidator, ModifyFundFormCommandValidator modifyFundFormCommandValidator) {
@@ -84,7 +86,7 @@ public class FundController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> saveNewFund(@RequestBody @Valid FundFormCommand fundFormCommand, Principal principal) {
+    public ResponseEntity<Void> saveNewFund(@ModelAttribute @Valid FundFormCommand fundFormCommand, Principal principal) {
         String emailAddress = principal.getName();
         fundService.saveNewFund(fundFormCommand, emailAddress);
         return new ResponseEntity<>(HttpStatus.CREATED);

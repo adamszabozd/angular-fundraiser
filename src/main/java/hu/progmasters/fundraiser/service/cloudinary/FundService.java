@@ -1,15 +1,25 @@
-package hu.progmasters.fundraiser.service;
+package hu.progmasters.fundraiser.service.cloudinary;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.progmasters.fundraiser.domain.*;
 import hu.progmasters.fundraiser.dto.fund.*;
 import hu.progmasters.fundraiser.repository.FundRepository;
 import hu.progmasters.fundraiser.repository.TransferRepository;
+import hu.progmasters.fundraiser.service.AccountService;
+import hu.progmasters.fundraiser.service.ExchangeService;
+import hu.progmasters.fundraiser.service.cloudinary.CloudinaryUploadException;
+import hu.progmasters.fundraiser.service.cloudinary.UploadResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.persistence.EntityNotFoundException;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -27,19 +37,22 @@ public class FundService {
     private final TransferRepository transferRepository;
     private final MessageSource messageSource;
     private final ExchangeService exchangeService;
+    private final Cloudinary cloudinary;
 
     @Autowired
     public FundService(FundRepository fundRepository,
                        AccountService accountService,
                        TransferRepository transferRepository,
                        ExchangeService exchangeService,
-                       MessageSource messageSource
+                       MessageSource messageSource,
+                       Cloudinary cloudinary
     ) {
         this.fundRepository = fundRepository;
         this.accountService = accountService;
         this.exchangeService = exchangeService;
         this.transferRepository = transferRepository;
         this.messageSource = messageSource;
+        this.cloudinary = cloudinary;
     }
 
     public List<Fund> findAll() {
@@ -57,8 +70,8 @@ public class FundService {
 
     public void saveNewFund(FundFormCommand fundFormCommand, String emailAddress) {
         Account myAccount = accountService.findByEmail(emailAddress);
-        Fund fund = new Fund(fundFormCommand, myAccount);
-        myAccount.getFunds().add(fund);
+        String uploadedImageUrl = storeFile(fundFormCommand.getImageFile());
+        Fund fund = new Fund(fundFormCommand, myAccount, uploadedImageUrl);
         fundRepository.save(fund);
     }
 
@@ -75,6 +88,27 @@ public class FundService {
         Fund fund = findById(id);
         List<StatusOption> statusOptions = getStatusOptions(locale);
         return new FundModifyItem(fund, statusOptions);
+    }
+
+    public String storeFile(CommonsMultipartFile commonsMultipartFile) {
+
+        Map params = ObjectUtils.asMap(
+                "access_mode", "authenticated",
+//                "access_type", "token",
+                "overwrite", false,
+                "type", "authenticated",
+                "resource_type", "auto",
+                "use_filename", true);
+        UploadResponse uploadResponse;
+        File fileToUpload = new File(System.getProperty("java.io.tmpdir") + '/' + commonsMultipartFile.getOriginalFilename());
+        try {
+            commonsMultipartFile.transferTo(fileToUpload);
+            uploadResponse = new ObjectMapper()
+                    .convertValue(cloudinary.uploader().upload(fileToUpload, params), UploadResponse.class);
+        } catch (IOException e) {
+            throw new CloudinaryUploadException();
+        }
+        return uploadResponse.getSecureUrl();
     }
 
     public FundDetailsItem fetchFundDetails(Long id, Locale locale) {
@@ -192,6 +226,5 @@ public class FundService {
         }
         return statusOptions;
     }
-
 
 }
