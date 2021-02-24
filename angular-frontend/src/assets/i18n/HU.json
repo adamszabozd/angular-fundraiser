@@ -19,10 +19,12 @@
         "MY_TRANSFERS": "Adományaim:",
         "MY_TRANSFERS_TO": "Gyűjtés",
         "MY_TRANSFERS_AMOUNT": "Összeg",
+        "MY_TRANSFERS_CURRENCY": "Pénznem",
         "MY_TRANSFERS_DATE": "Dátum",
         "MY_PENDING_TRANSFERS": "Megerősítésre váró adományaim:",
         "MY_PENDING_TRANSFERS_TO": "Gyűjtés",
         "MY_PENDING_TRANSFERS_AMOUNT": "Összeg",
+        "MY_PENDING_TRANSFERS_CURRENCY": "Pénznem",
         "MY_PENDING_TRANSFERS_RESEND_CODE": "új kód",
         "MY_PENDING_TRANSFERS_DELETE": "törlés",
         "FILL_BALANCE_BUTTON": "Befizetés",
@@ -95,7 +97,8 @@
         "NUMBER_OF_BACKERS": "Támogatók száma: ",
         "EXPIRATION_DATE": "Gyűjtés vége: ",
         "FUND_THIS_PROJECT": "Támogatom ezt a gyűjtést",
-        "BARCHART_TITLE": "Adományok napi alakulása az utolsó egy hétben"
+        "BARCHART_TITLE": "Adományok napi alakulása az utolsó egy hétben",
+        "LINECHART_TITLE": "Összegyűlt összeg alakulása"
     },
     "REGISTRATION": {
         "EMAIL": "E-mail cím:",

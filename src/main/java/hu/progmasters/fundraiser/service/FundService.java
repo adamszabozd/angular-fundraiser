@@ -72,26 +72,24 @@ public class FundService {
         if (fund.isPresent()) {
             Long backers = transferRepository.numberOfBackers(id);
             String categoryDisplayName = messageSource.getMessage(fund.get().getFundCategory().getCode(), null, locale);
-            return new FundDetailsItem(fund.get(), backers, categoryDisplayName, getLastWeekDonations(fund.get().getTransferList()));
+            return new FundDetailsItem(fund.get(), backers, categoryDisplayName, getDailyDonations(fund.get().getTransferList(), fund.get().getTimeStamp()));
         } else {
             throw new IllegalArgumentException();
         }
     }
 
-    public List<DailyDonation> getLastWeekDonations(List<Transfer> transferList) {
-        LocalDate startDate = LocalDate.now().minusDays(6);
-        LocalDate date = startDate;
+    public List<DailyDonation> getDailyDonations(List<Transfer> transferList, LocalDateTime startDateTime) {
+        LocalDate date = startDateTime.toLocalDate();
         Map<String, Double> dailyDonationMap = new HashMap<>();
-        for (int i = 0; i < 7; i++) {
+        while (!date.isAfter(LocalDate.now())) {
             String dateString = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             dailyDonationMap.put(dateString, 0.0);
             date = date.plusDays(1);
         }
-        LocalDateTime startDateTime = startDate.atStartOfDay();
         for (Transfer transfer : transferList) {
-            if (transfer.getTimeStamp().isAfter(startDateTime)) {
+            if (transfer.getConfirmed() && !transfer.getTimeStamp().isBefore(startDateTime)) {
                 String dateString = transfer.getTimeStamp().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                dailyDonationMap.put(dateString, dailyDonationMap.getOrDefault(dateString, 0.0) + transfer.getSenderAmount());
+                dailyDonationMap.put(dateString, dailyDonationMap.getOrDefault(dateString, 0.0) + transfer.getTargetAmount());
             }
         }
         List<DailyDonation> result = new ArrayList<>();

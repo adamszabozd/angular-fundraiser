@@ -7,6 +7,7 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -62,6 +63,9 @@ public class Fund {
     @OneToMany(mappedBy = "target")
     List<Transfer> transferList;
 
+    @Column(name = "time_stamp", nullable = false)
+    private LocalDateTime timeStamp;
+
     public Fund() {
     }
 
@@ -78,6 +82,7 @@ public class Fund {
         this.currency = Currency.valueOf(fundFormCommand.getCurrency());
         this.endDate = fundFormCommand.getEndDate();
         this.creator = account;
+        this.timeStamp = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -174,5 +179,13 @@ public class Fund {
 
     public void setTransferList(List<Transfer> transferList) {
         this.transferList = transferList;
+    }
+
+    public LocalDateTime getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(LocalDateTime timeStamp) {
+        this.timeStamp = timeStamp;
     }
 }

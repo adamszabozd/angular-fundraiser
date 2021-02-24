@@ -8,6 +8,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -53,4 +54,9 @@ public class AngularFundraiserApplication implements WebMvcConfigurer {
         interceptorRegistry.addInterceptor(localeChangeInterceptor());
     }
 
+    // for reCaptcha
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
 }

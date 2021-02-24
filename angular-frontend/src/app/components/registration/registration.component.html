@@ -118,6 +118,16 @@
             </div>
         </div>
         <br/>
+        <div class="form-group">
+            <re-captcha
+                formControlName="captcha"
+                siteKey="6LeIKWQaAAAAADLnzB5UfFrgWMrEpiCKP2M4bnRR"
+            ></re-captcha>
+            <small *ngIf="form.get('captcha').errors?.serverError" class="text-danger">
+                {{form.get('captcha').errors.serverError}}
+            </small>
+        </div>
+        <br/>
         <button type="submit" class="btn btn-primary my-buttons">{{ 'REGISTRATION.REGISTER' | translate }}</button>
     </form>
 </div>

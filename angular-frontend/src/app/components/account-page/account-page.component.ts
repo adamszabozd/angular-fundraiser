@@ -107,5 +107,8 @@ export class AccountPageComponent implements OnInit {
     showNewBalance(data: AccountDetailsModel) {
         this.setCurrency = false;
         this.accountDetails = data;
+
+        // refresh chart data
+        this.ngOnInit();
     }
 }

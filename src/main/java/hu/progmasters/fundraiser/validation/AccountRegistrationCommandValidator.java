@@ -64,6 +64,8 @@ public class AccountRegistrationCommandValidator implements Validator {
         if (registration.getPassword() != null && registration.getPassword().length() > 100) {
             errors.rejectValue("password","password.TooLong");
         }
-
+        if (!validationService.validateCaptcha(registration.getCaptcha())) {
+            errors.rejectValue("captcha", "captcha.missing");
+        }
     }
 }
