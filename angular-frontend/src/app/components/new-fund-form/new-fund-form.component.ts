@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, Validators} from '@angular/forms';
+import {FormBuilder, Validators} from '@angular/forms';
 import {FundsService} from '../../services/funds.service';
 import {Router} from '@angular/router';
 import {validationHandler} from '../../utils/validationHandler';
@@ -27,7 +27,7 @@ export class NewFundFormComponent implements OnInit {
         title: ['', [Validators.required, Validators.pattern(/^[^\s]+(\s+[^\s]+)*$/)]],
         shortDescription: ['', [Validators.required, Validators.maxLength(250), Validators.pattern(/^[^\s]+(\s+[^\s]+)*$/)]],
         longDescription: [''],
-        imageFile: [null, Validators.required],
+        imageFile: [null],
         category: [null],
         targetAmount: [null, Validators.required],
         currency: [null, Validators.required],
@@ -65,11 +65,15 @@ export class NewFundFormComponent implements OnInit {
         formData.append('title', this.form.get('title').value);
         formData.append('shortDescription', this.form.get('shortDescription').value);
         formData.append('longDescription', this.form.get('longDescription').value);
-        formData.append('imageFile', this.form.get('imageFile').value);
+        if (this.form.get('imageFile').value !== null) {
+            formData.append('imageFile', this.form.get('imageFile').value);
+        }
         formData.append('category', this.form.get('category').value);
         formData.append('targetAmount', this.form.get('targetAmount').value);
         formData.append('currency', this.form.get('currency').value);
-        formData.append('endDate', this.form.get('endDate').value);
+        if (this.form.get('endDate').value !== null) {
+            formData.append('endDate', this.form.get('endDate').value);
+        }
         formData.append('status', this.form.get('status').value);
 
         this.fundService.saveNewFund(formData).subscribe(

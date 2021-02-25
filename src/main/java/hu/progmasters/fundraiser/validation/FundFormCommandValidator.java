@@ -28,7 +28,7 @@ public class FundFormCommandValidator implements Validator {
         if (fund.getTitle() == null || fund.getTitle().isEmpty()) {
             errors.rejectValue("title", "title.missing");
         }
-        if (fund.getTitle().replaceAll("\\s","").length() < 5 || fund.getTitle().length() > 100) {
+        if (fund.getTitle().replaceAll("\\s", "").length() < 5 || fund.getTitle().length() > 100) {
             errors.rejectValue("title", "title.length.wrong");
         }
         if (validationService.fundTitleAlreadyExist(fund.getTitle())) {
@@ -37,7 +37,7 @@ public class FundFormCommandValidator implements Validator {
         if (fund.getShortDescription() == null || fund.getShortDescription().isEmpty()) {
             errors.rejectValue("shortDescription", "short.description.missing");
         }
-        if (fund.getShortDescription().replaceAll("\\s","").length() < 5 || fund.getShortDescription().length() > 250) {
+        if (fund.getShortDescription().replaceAll("\\s", "").length() < 5 || fund.getShortDescription().length() > 250) {
             errors.rejectValue("shortDescription", "short.description.length.wrong");
         }
         if (fund.getCategory() == null) {
@@ -49,10 +49,15 @@ public class FundFormCommandValidator implements Validator {
             errors.rejectValue("targetAmount", "target.amount.wrong");
         }
 
-        if (fund.getEndDate() != null && LocalDate.parse(fund.getEndDate()).isBefore(LocalDate.now())) {
-            errors.rejectValue("endDate", "end.date.wrong");
+        if (fund.getEndDate() != null) {
+
+            LocalDate date = LocalDate.parse(fund.getEndDate());
+            if (date.isBefore(LocalDate.now())) {
+                errors.rejectValue("endDate", "end.date.wrong");
+            }
         }
 
 
     }
 }
+

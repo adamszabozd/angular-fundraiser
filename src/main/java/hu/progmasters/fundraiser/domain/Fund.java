@@ -78,16 +78,16 @@ public class Fund {
         this.fundTitle = fundFormCommand.getTitle();
         this.shortDescription = fundFormCommand.getShortDescription();
         this.longDescription = fundFormCommand.getLongDescription();
-        if (imageUrl == null) {
-            this.imageUrl = "https://cdn.iconscout.com/icon/free/png-256/k-characters-character-alphabet-letter-36028.png";
-        } else {
-            this.imageUrl = imageUrl;
-        }
+        this.imageUrl = imageUrl;
         this.fundCategory = FundCategory.valueOf(fundFormCommand.getCategory());
         this.raisedAmount = 0.0;
         this.targetAmount = fundFormCommand.getTargetAmount();
         this.currency = Currency.valueOf(fundFormCommand.getCurrency());
-        this.endDate = LocalDate.parse(fundFormCommand.getEndDate());
+        if (fundFormCommand.getEndDate() != null) {
+            this.endDate = LocalDate.parse(fundFormCommand.getEndDate());
+        } else {
+            this.endDate = null;
+        }
         this.creator = account;
         this.status = Status.valueOf(fundFormCommand.getStatus());
         this.timeStamp = LocalDateTime.now();

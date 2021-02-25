@@ -1,6 +1,9 @@
 package hu.progmasters.fundraiser.dto.fund;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+import java.time.LocalDate;
 
 public class FundFormCommand {
 
@@ -10,6 +13,7 @@ public class FundFormCommand {
 
     private String longDescription;
 
+    @JsonIgnoreProperties
     private CommonsMultipartFile imageFile;
 
     private String category;

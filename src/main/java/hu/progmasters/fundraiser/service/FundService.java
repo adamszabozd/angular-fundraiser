@@ -68,7 +68,12 @@ public class FundService {
 
     public void saveNewFund(FundFormCommand fundFormCommand, String emailAddress) {
         Account myAccount = accountService.findByEmail(emailAddress);
-        String uploadedImageUrl = storeFile(fundFormCommand.getImageFile());
+        String uploadedImageUrl;
+        if (fundFormCommand.getImageFile() != null) {
+           uploadedImageUrl = storeFile(fundFormCommand.getImageFile());
+        } else {
+            uploadedImageUrl = "https://cdn.iconscout.com/icon/free/png-256/k-characters-character-alphabet-letter-36028.png";
+        }
         Fund fund = new Fund(fundFormCommand, myAccount, uploadedImageUrl);
         fundRepository.save(fund);
     }
