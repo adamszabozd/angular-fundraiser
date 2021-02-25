@@ -34,7 +34,8 @@
         "ADD_AMOUNT": "Amount to pay",
         "ADD_AMOUNT_SUBMIT": "Deposit",
         "ADD_AMOUNT_ERROR": "Please choose an amount above 0",
-        "PIE_CHART_TITLE": "Donation summary:"
+        "PIE_CHART_TITLE": "Donation summary:",
+        "LEGEND": "Legend"
     },
     "FUNDS": {
         "BROWSE_FUNDRAISERS": "Browse fundraisers",

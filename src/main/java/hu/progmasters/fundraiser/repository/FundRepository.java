@@ -15,7 +15,7 @@ public interface FundRepository extends JpaRepository<Fund, Long> {
 
     Optional<Fund> findByFundTitle(String title);
 
-    @Query("SELECT f FROM Fund f WHERE f.fundCategory = ?1")
+    @Query("SELECT f FROM Fund f WHERE f.fundCategory = ?1 AND f.status = 'ACTIVE'")
     List<Fund> findAllByCategory(FundCategory category);
 
     @Query("SELECT f FROM Fund f WHERE f.creator = :account")

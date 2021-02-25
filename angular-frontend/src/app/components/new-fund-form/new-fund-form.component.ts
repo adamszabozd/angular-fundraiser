@@ -91,4 +91,18 @@ export class NewFundFormComponent implements OnInit {
             // }
         }
     }
+
+    reduceSpaces(s: string) {
+        return s.trim().replace(/\s+/g, ' ');
+    }
+
+    reduceSpacesInTitle() {
+        let title = this.form.get('title');
+        title.setValue(this.reduceSpaces(title.value));
+    }
+
+    reduceSpacesInShortDescription() {
+        let shortDescription = this.form.get('shortDescription');
+        shortDescription.setValue(this.reduceSpaces(shortDescription.value));
+    }
 }
