@@ -1,128 +1,149 @@
-<app-change-currency *ngIf="setCurrency" [myAccount]="chosenData"
-                     (currencyChanged)="showNewBalance($event)"></app-change-currency>
-<div *ngIf="setBalance" class="container jumbotron fillForm balance">
-    <h2>{{ 'MY_ACCOUNT.FILL_BALANCE_FORM' | translate }}</h2>
-    <div class="border-top mx-auto my-3"></div>
-    <br/>
-    <form class="form-horizontal" [formGroup]="form" (ngSubmit)="handleBalance()">
-        <div class="row mb-3">
-            <label class="col-sm-3 col-form-label" for="currentBalance">{{ 'MY_ACCOUNT.BALANCE' | translate }}</label>
-            <div class="col-sm-9">
+<div class="container my-5">
+    <app-change-currency *ngIf="setCurrency" [myAccount]="chosenData"
+                         (currencyChanged)="showNewBalance($event)"></app-change-currency>
+    <div *ngIf="setBalance" class="container jumbotron fillForm balance">
+        <h2>{{ 'MY_ACCOUNT.FILL_BALANCE_FORM' | translate }}</h2>
+        <div class="border-top mx-auto my-3"></div>
+        <br/>
+        <form class="form-horizontal" [formGroup]="form" (ngSubmit)="handleBalance()">
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label"
+                       for="currentBalance">{{ 'MY_ACCOUNT.BALANCE' | translate }}</label>
+                <div class="col-sm-9">
+                    <input
+                        class="form-control my-input-field-disabled"
+                        name="currentBalance"
+                        id="currentBalance"
+                        placeholder="{{numberToString(accountDetails?.balance)}}"
+                        disabled
+                    />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label" for="my-currency">{{ 'MY_ACCOUNT.CURRENCY' | translate }}</label>
+                <div class="col-sm-9">
+                    <input
+                        id="my-currency"
+                        class="form-control my-input-field-disabled"
+                        name="my-currency"
+                        placeholder="{{accountDetails?.currency}}"
+                        disabled
+                    />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label"
+                       for="add_amount"
+                       [ngClass]="{'text-danger': (form.get('add_amount').invalid && form.get('add_amount').touched)
+                            || (form.get('add_amount').errors?.serverError)}"
+                >
+                    {{ 'MY_ACCOUNT.ADD_AMOUNT' | translate }}
+                </label>
+                <div class="col-sm-9">
+                    <input
+                        id="add_amount"
+                        min="0"
+                        type="number"
+                        class="form-control"
+                        [ngClass]="{'is-invalid': (form.get('add_amount').invalid && form.get('add_amount').touched)
+                            || (form.get('add_amount').errors?.serverError)}"
+                        name="add_amount"
+                        formControlName="add_amount"
+                    />
+
+                    <small
+                        *ngIf="!form.get('add_amount').valid
+                        && form.get('add_amount').touched
+                        && !form.get('add_amount').errors?.serverError"
+                        class="text-danger"
+                    >
+                        {{ 'MY_ACCOUNT.ADD_AMOUNT_ERROR' | translate }}
+                    </small>
+                    <small *ngIf="form.get('add_amount').errors?.serverError" class="text-danger">
+                        {{form.get('add_amount').errors.serverError}}
+                    </small>
+                </div>
+            </div>
+            <br/>
+            <button type="submit"
+                    class="btn btn-primary my-buttons">{{ 'MY_ACCOUNT.ADD_AMOUNT_SUBMIT' | translate }}</button>
+        </form>
+    </div>
+
+    <div class="row py-4">
+        <div [@slideUp]="state" class="col-lg-6 mb-4 my-lg-auto">
+            <h2>{{ 'NAVBAR.MY_ACCOUNT' | translate }}</h2>
+            <div class="border-top mx-auto my-3"></div>
+            <div class="form-group">
+                <label for="email" class="input-label">{{ 'MY_ACCOUNT.EMAIL' | translate }}</label>
                 <input
+                    id="email"
                     class="form-control my-input-field-disabled"
-                    name="currentBalance"
-                    id="currentBalance"
+                    name="email"
+                    placeholder="{{accountDetails?.email}}"
+                    disabled
+                />
+            </div>
+            <div class="form-group">
+                <label for="username" class="input-label">{{ 'MY_ACCOUNT.USERNAME' | translate }}</label>
+                <input
+                    id="username"
+                    class="form-control my-input-field-disabled"
+                    name="username"
+                    placeholder="{{accountDetails?.username}}"
+                    disabled
+                />
+            </div>
+            <div class="form-group">
+                <label for="balance">{{ 'MY_ACCOUNT.BALANCE' | translate }}</label>
+                <input
+                    id="balance"
+                    class="form-control my-input-field-disabled"
+                    name="balance"
                     placeholder="{{numberToString(accountDetails?.balance)}}"
                     disabled
                 />
             </div>
-        </div>
-        <div class="row mb-3">
-            <label class="col-sm-3 col-form-label" for="my-currency">{{ 'MY_ACCOUNT.CURRENCY' | translate }}</label>
-            <div class="col-sm-9">
+            <div class="form-group">
+                <label for="currency">{{ 'MY_ACCOUNT.CURRENCY' | translate }}</label>
                 <input
-                    id="my-currency"
+                    id="currency"
                     class="form-control my-input-field-disabled"
-                    name="my-currency"
+                    name="currency"
                     placeholder="{{accountDetails?.currency}}"
                     disabled
                 />
             </div>
-        </div>
-        <div class="row mb-3">
-            <label class="col-sm-3 col-form-label"
-                   for="add_amount"
-                   [ngClass]="{'text-danger': (form.get('add_amount').invalid && form.get('add_amount').touched)
-                            || (form.get('add_amount').errors?.serverError)}"
-            >
-                {{ 'MY_ACCOUNT.ADD_AMOUNT' | translate }}
-            </label>
-            <div class="col-sm-9">
-                <input
-                    id="add_amount"
-                    min="0"
-                    type="number"
-                    class="form-control"
-                    [ngClass]="{'is-invalid': (form.get('add_amount').invalid && form.get('add_amount').touched)
-                            || (form.get('add_amount').errors?.serverError)}"
-                    name="add_amount"
-                    formControlName="add_amount"
-                />
-
-                <small
-                    *ngIf="!form.get('add_amount').valid
-                        && form.get('add_amount').touched
-                        && !form.get('add_amount').errors?.serverError"
-                    class="text-danger"
-                >
-                    {{ 'MY_ACCOUNT.ADD_AMOUNT_ERROR' | translate }}
-                </small>
-                <small *ngIf="form.get('add_amount').errors?.serverError" class="text-danger">
-                    {{form.get('add_amount').errors.serverError}}
-                </small>
-            </div>
-        </div>
-        <br/>
-        <button type="submit"
-                class="btn btn-primary my-buttons">{{ 'MY_ACCOUNT.ADD_AMOUNT_SUBMIT' | translate }}</button>
-    </form>
-</div>
-
-<div class="row">
-    <div [@slideUp]="state" class="container jumbotron col">
-        <h2>{{ 'NAVBAR.MY_ACCOUNT' | translate }}</h2>
-        <div class="border-top mx-auto my-3"></div>
-        <div class="form-group">
-            <label for="email" class="input-label">{{ 'MY_ACCOUNT.EMAIL' | translate }}</label>
-            <input
-                id="email"
-                class="form-control my-input-field-disabled"
-                name="email"
-                placeholder="{{accountDetails?.email}}"
-                disabled
-            />
-        </div>
-        <div class="form-group">
-            <label for="username" class="input-label">{{ 'MY_ACCOUNT.USERNAME' | translate }}</label>
-            <input
-                id="username"
-                class="form-control my-input-field-disabled"
-                name="username"
-                placeholder="{{accountDetails?.username}}"
-                disabled
-            />
-        </div>
-        <div class="form-group">
-            <label for="balance">{{ 'MY_ACCOUNT.BALANCE' | translate }}</label>
-            <input
-                id="balance"
-                class="form-control my-input-field-disabled"
-                name="balance"
-                placeholder="{{numberToString(accountDetails?.balance)}}"
-                disabled
-            />
-        </div>
-        <div class="form-group">
-            <label for="currency">{{ 'MY_ACCOUNT.CURRENCY' | translate }}</label>
-            <input
-                id="currency"
-                class="form-control my-input-field-disabled"
-                name="currency"
-                placeholder="{{accountDetails?.currency}}"
-                disabled
-            />
-        </div>
-        <div>
+            <div>
             <span class="btn-group">
                 <button (click)="fillBalance()"
                         class="btn btn-primary">{{ 'MY_ACCOUNT.FILL_BALANCE_BUTTON' | translate }}</button>
                 <button (click)="changeCurrency()"
                         class="btn btn-danger">{{ 'MY_ACCOUNT.CHANGE_CURRENCY_BUTTON' | translate }}</button>
             </span>
+            </div>
+        </div>
+        <div [@slideUp]="state" class="col-lg-6">
+            <h4>
+                {{ 'MY_ACCOUNT.PIE_CHART_TITLE' | translate }}
+            </h4>
+            <ngx-charts-pie-chart
+                [view]="view"
+                [scheme]="colorScheme"
+                [results]="pieChartData"
+                [gradient]="gradient"
+                [legend]="showLegend"
+                [legendPosition]="legendPosition"
+                [labels]="showLabels"
+                [doughnut]="isDoughnut"
+                [legendTitle]="'MY_ACCOUNT.LEGEND' | translate"
+            >
+            </ngx-charts-pie-chart>
         </div>
     </div>
-    <div [@slideUp]="state" class="col-sm-8">
-        <div *ngIf="accountDetails?.pendingTransfers.length > 0" class="container jumbotron upper">
+
+    <div>
+        <div  [@slideUp]="state" *ngIf="accountDetails?.pendingTransfers.length > 0" class="container jumbotron upper">
             <h4 class="my-transfers__table-label">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS' | translate }}</h4>
             <table class="table-pending table table-bordered table-striped">
                 <thead>
@@ -171,27 +192,5 @@
                 </tbody>
             </table>
         </div>
-
-    </div>
-
-</div>
-
-<div class="row mb-3">
-    <div class="container jumbotron col-sm-4">
-        <h4>
-            {{ 'MY_ACCOUNT.PIE_CHART_TITLE' | translate }}
-        </h4>
-        <ngx-charts-pie-chart
-            [view]="view"
-            [scheme]="colorScheme"
-            [results]="pieChartData"
-            [gradient]="gradient"
-            [legend]="showLegend"
-            [legendPosition]="legendPosition"
-            [labels]="showLabels"
-            [doughnut]="isDoughnut"
-            [legendTitle]="'MY_ACCOUNT.LEGEND' | translate"
-        >
-        </ngx-charts-pie-chart>
     </div>
 </div>

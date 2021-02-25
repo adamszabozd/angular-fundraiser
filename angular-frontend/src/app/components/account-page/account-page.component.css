@@ -3,8 +3,7 @@
     margin: 18px;
     max-width: 98%;
     text-align: center;
-    box-shadow: 0 .5rem .5rem rgba(0, 0, 0, .2);
-    background-color: #eee8cc;
+    background-color: #ffffff;
 }
 
 input::-webkit-input-placeholder {

@@ -12,10 +12,12 @@ export const formAppearAnimation = trigger('formAppear', [
 
 export const slideRight = trigger('slideIn', [
     state('*', style({
-                         transform: 'translateX(-600%)',
+                         transform: 'translateX(-300%)',
+                         opacity: '0',
                      })),
     state('in', style({
                           transform: 'translateX(0%)',
+                          opacity: '1',
                       })),
     state('out',   style({
                              transform: 'translateX(100%)',

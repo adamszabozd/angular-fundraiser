@@ -41,7 +41,7 @@
         "BROWSE_FUNDRAISERS": "Böngészés",
         "IMAGE": "gyűjtés képe",
         "CATEGORY": "Kategória: ",
-        "AMOUNT": "Eddig összegyűlt {{ amount }} {{ currency }}, a cél {{ amountGoal }} {{ currency }}",
+        "AMOUNT": "Elért: {{ amount }} {{ currency }}   Cél: {{ amountGoal }} {{ currency }}",
         "END_DATE": "Gyűjtés vége: ",
         "CREATOR": "Kezdeményező: ",
         "MODIFY": "Módosítás",

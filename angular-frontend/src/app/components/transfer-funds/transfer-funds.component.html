@@ -55,7 +55,7 @@
                         || (form.get('senderAmount').errors?.serverError)}"
                         name="senderAmount"
                         formControlName="senderAmount"
-                        (input)="getTargetAmount($event)"
+                        (input)="getSenderAmount($event)"
                     />
                     <small
                         *ngIf="form.get('senderAmount').invalid && form.get('senderAmount').touched

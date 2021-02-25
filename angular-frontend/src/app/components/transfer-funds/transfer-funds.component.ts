@@ -8,7 +8,7 @@ import {TransferFormInitDataModel} from '../../models/transferFormInitData.model
 import {AccountService} from '../../services/account.service';
 import {formAppearAnimation} from '../../animations';
 import {minAmount} from '../../validator';
-import {numberToString} from "../../utils/numberFormatter";
+import {numberToString} from '../../utils/numberFormatter';
 
 @Component({
                selector   : 'app-transfer-funds',
@@ -99,20 +99,25 @@ export class TransferFundsComponent implements OnInit {
                 this.targetCurrency = targetFundOption.targetCurrency;
             }
         }
+        this.getTargetAmount(this.form.value.senderAmount);
     }
 
-    getTargetAmount(senderAmount) {
+    getTargetAmount(senderAmount: number) {
         let senderCurrencyRate: number;
         let fundCurrencyRate: number;
         for (let currencyOption of this.transferFormInitDataModel.currencyOptions) {
             if (currencyOption.currencyName === this.transferFormInitDataModel.currency) {
-                senderCurrencyRate = currencyOption.exchangeRate
+                senderCurrencyRate = currencyOption.exchangeRate;
             }
             if (currencyOption.currencyName === this.targetCurrency) {
                 fundCurrencyRate = currencyOption.exchangeRate;
             }
         }
-        this.targetAmount = fundCurrencyRate / senderCurrencyRate * senderAmount.target.value;
+        this.targetAmount = fundCurrencyRate / senderCurrencyRate * senderAmount;
+    }
+
+    getSenderAmount(senderAmount) {
+        this.getTargetAmount(senderAmount.target.value);
     }
 
     getTargetId(title: string) {

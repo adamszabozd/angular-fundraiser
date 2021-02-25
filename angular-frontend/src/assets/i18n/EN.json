@@ -41,7 +41,7 @@
         "BROWSE_FUNDRAISERS": "Browse fundraisers",
         "IMAGE": "fund image",
         "CATEGORY": "Category: ",
-        "AMOUNT": "Raised {{ amount }} {{ currency }} with the target of {{ amountGoal }} {{ currency }}",
+        "AMOUNT": "Raised: {{ amount }} {{ currency }}   Target: {{ amountGoal }} {{ currency }}",
         "END_DATE": "End date: ",
         "CREATOR": "Creator: ",
         "MODIFY": "Modify",
