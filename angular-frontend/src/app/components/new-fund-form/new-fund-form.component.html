@@ -96,13 +96,28 @@
             </div>
         </div>
         <div class="row mb-3">
-            <label class="col-sm-3 col-form-label" for="imageFile">Please upload an image file</label>
+            <label class="col-sm-3 col-form-label"
+                   for="imageFile"
+                   [ngClass]="{'text-danger': (form.get('imageFile').invalid && form.get('imageFile').touched)
+                            || (form.get('imageFile').errors?.serverError) || wrongImageFile}"
+            >{{ 'FUND.IMAGE_FILE' | translate }}</label>
             <div class="col-sm-9">
                 <input
                     id="imageFile"
                     type="file"
+                    [ngClass]="{'is-invalid': (form.get('imageFile').invalid && form.get('imageFile').touched)
+                            || (form.get('imageFile').errors?.serverError) || wrongImageFile}"
                 (change)="onFileChange($event)"
+                > <br>
+                <small
+                    *ngIf="(form.get('category').invalid && form.get('category').touched && !form.get('category').errors?.serverError) || wrongImageFile"
+                    class="text-danger"
                 >
+                    {{ 'FUND.IMAGE_FILE_ERROR' | translate }}
+                </small>
+                <small *ngIf="form.get('imageFile').errors?.serverError" class="text-danger">
+                    {{form.get('imageFile').errors.serverError}}
+                </small>
             </div>
         </div>
         <div class="row mb-3">

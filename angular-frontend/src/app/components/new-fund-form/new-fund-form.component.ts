@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import {FundsService} from '../../services/funds.service';
 import {Router} from '@angular/router';
 import {validationHandler} from '../../utils/validationHandler';
@@ -19,13 +19,15 @@ export class NewFundFormComponent implements OnInit {
 
     state = 'invisible';
 
+    wrongImageFile = false;
+
     formInitData: FundFormInitModel | undefined;
 
     form = this.formBuilder.group({
         title: ['', [Validators.required, Validators.pattern(/^[^\s]+(\s+[^\s]+)*$/)]],
         shortDescription: ['', [Validators.required, Validators.maxLength(250), Validators.pattern(/^[^\s]+(\s+[^\s]+)*$/)]],
         longDescription: [''],
-        imageFile: [null],
+        imageFile: [null, Validators.required],
         category: [null],
         targetAmount: [null, Validators.required],
         currency: [null, Validators.required],
@@ -82,13 +84,14 @@ export class NewFundFormComponent implements OnInit {
             // @ts-ignore
             const file: File = event.target.files[0];
 
-            // if (file.name.match("/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i")) {
+            if (file.name.match(/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i) !== null) {
                 this.form.patchValue({
                     imageFile: file
                 });
-            // } else {
-            //     alert("You must upload a valid picture format")
-            // }
+                this.wrongImageFile = false;
+            } else {
+                this.wrongImageFile = true;
+            }
         }
     }
 
