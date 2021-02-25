@@ -181,11 +181,17 @@
         <h4>
             {{ 'MY_ACCOUNT.PIE_CHART_TITLE' | translate }}
         </h4>
-        <ngx-charts-advanced-pie-chart
+        <ngx-charts-pie-chart
             [view]="view"
             [scheme]="colorScheme"
             [results]="pieChartData"
-            [gradient]="gradient">
-        </ngx-charts-advanced-pie-chart>
+            [gradient]="gradient"
+            [legend]="showLegend"
+            [legendPosition]="legendPosition"
+            [labels]="showLabels"
+            [doughnut]="isDoughnut"
+            [legendTitle]="'MY_ACCOUNT.LEGEND' | translate"
+        >
+        </ngx-charts-pie-chart>
     </div>
 </div>
