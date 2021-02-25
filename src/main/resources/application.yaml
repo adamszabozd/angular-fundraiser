@@ -50,3 +50,10 @@ cors-policies: http://localhost:4200
 frontend-url: http://localhost:4200
 captcha-url: https://www.google.com/recaptcha/api/siteverify
 captcha-secret: 6LeIKWQaAAAAAH0ok5g2-wWn7U2AE69oHgz4lOOQ
+
+multipart:
+  enabled: true
+
+cloudinary.cloud_name: progmastersfundraiser
+cloudinary.api_key: 788279986168178
+cloudinary.api_secret: ybdAY3eJgi3iakpyw6NY07cv1WI

@@ -74,18 +74,20 @@ public class Fund {
     public Fund() {
     }
 
-    public Fund(FundFormCommand fundFormCommand, Account account) {
+    public Fund(FundFormCommand fundFormCommand, Account account, String imageUrl) {
         this.fundTitle = fundFormCommand.getTitle();
         this.shortDescription = fundFormCommand.getShortDescription();
         this.longDescription = fundFormCommand.getLongDescription();
-        if (fundFormCommand.getImageUrl() == null || fundFormCommand.getImageUrl().isEmpty()) {
+        if (imageUrl == null) {
             this.imageUrl = "https://cdn.iconscout.com/icon/free/png-256/k-characters-character-alphabet-letter-36028.png";
-        } else this.imageUrl = fundFormCommand.getImageUrl();
+        } else {
+            this.imageUrl = imageUrl;
+        }
         this.fundCategory = FundCategory.valueOf(fundFormCommand.getCategory());
         this.raisedAmount = 0.0;
         this.targetAmount = fundFormCommand.getTargetAmount();
         this.currency = Currency.valueOf(fundFormCommand.getCurrency());
-        this.endDate = fundFormCommand.getEndDate();
+        this.endDate = LocalDate.parse(fundFormCommand.getEndDate());
         this.creator = account;
         this.status = Status.valueOf(fundFormCommand.getStatus());
         this.timeStamp = LocalDateTime.now();
@@ -202,4 +204,5 @@ public class Fund {
     public void setTimeStamp(LocalDateTime timeStamp) {
         this.timeStamp = timeStamp;
     }
+
 }

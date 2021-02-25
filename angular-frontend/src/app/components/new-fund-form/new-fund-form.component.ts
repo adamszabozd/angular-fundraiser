@@ -22,20 +22,16 @@ export class NewFundFormComponent implements OnInit {
     formInitData: FundFormInitModel | undefined;
 
     form = this.formBuilder.group({
-                                      title           : ['', [Validators.required,
-                                                              Validators.pattern(/^[^\s]+(\s+[^\s]+)*$/)]],
-                                      shortDescription: ['', [Validators.required,
-                                                              Validators.maxLength(250),
-                                                              Validators.pattern(/^[^\s]+(\s+[^\s]+)*$/)]],
-                                      longDescription : [''],
-                                      imageUrl        : ['', [Validators.maxLength(1000),
-                                                              Validators.pattern(/^[^\s]+(\s+[^\s]+)*$/)]],
-                                      category        : [null],
-                                      targetAmount    : [null, Validators.required],
-                                      currency        : [null, Validators.required],
-                                      endDate         : [null],
-                                      status          : ["ACTIVE"],
-                                  });
+        title: ['', [Validators.required, Validators.pattern(/^[^\s]+(\s+[^\s]+)*$/)]],
+        shortDescription: ['', [Validators.required, Validators.maxLength(250), Validators.pattern(/^[^\s]+(\s+[^\s]+)*$/)]],
+        longDescription: [''],
+        imageFile: [null],
+        category: [null],
+        targetAmount: [null, Validators.required],
+        currency: [null, Validators.required],
+        endDate: [null],
+        status: ["ACTIVE"],
+    });
 
     constructor(private formBuilder: FormBuilder, private fundService: FundsService, private router: Router, private accountService: AccountService) {
     }
@@ -62,10 +58,37 @@ export class NewFundFormComponent implements OnInit {
     }
 
     onSubmit() {
-        this.fundService.saveNewFund(this.form.value).subscribe(
+
+        const formData = new FormData();
+        formData.append('title', this.form.get('title').value);
+        formData.append('shortDescription', this.form.get('shortDescription').value);
+        formData.append('longDescription', this.form.get('longDescription').value);
+        formData.append('imageFile', this.form.get('imageFile').value);
+        formData.append('category', this.form.get('category').value);
+        formData.append('targetAmount', this.form.get('targetAmount').value);
+        formData.append('currency', this.form.get('currency').value);
+        formData.append('endDate', this.form.get('endDate').value);
+        formData.append('status', this.form.get('status').value);
+
+        this.fundService.saveNewFund(formData).subscribe(
             () => this.router.navigate(['/my-funds']),
             (error) => validationHandler(error, this.form)
         );
     }
 
+    onFileChange($event: Event) {
+        // @ts-ignore
+        if (event.target.files.length > 0) {
+            // @ts-ignore
+            const file: File = event.target.files[0];
+
+            // if (file.name.match("/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i")) {
+                this.form.patchValue({
+                    imageFile: file
+                });
+            // } else {
+            //     alert("You must upload a valid picture format")
+            // }
+        }
+    }
 }

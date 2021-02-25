@@ -1,6 +1,6 @@
 package hu.progmasters.fundraiser.dto.fund;
 
-import java.time.LocalDate;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 public class FundFormCommand {
 
@@ -10,7 +10,7 @@ public class FundFormCommand {
 
     private String longDescription;
 
-    private String imageUrl;
+    private CommonsMultipartFile imageFile;
 
     private String category;
 
@@ -20,18 +20,18 @@ public class FundFormCommand {
 
     private String currency;
 
-    private LocalDate endDate;
+    private String endDate;
 
     public static FundFormCommand getDummyInstance(String name) {
         FundFormCommand instance = new FundFormCommand();
         instance.setTitle(name);
         instance.setShortDescription("Short description two");
         instance.setLongDescription("Long Descripton tow");
-        instance.setImageUrl("image_two.jpg");
+        instance.setImageFile(null);
         instance.setCategory("MEDICAL");
         instance.setTargetAmount(1001.0);
         instance.setCategory("EUR");
-        instance.setEndDate(LocalDate.now());
+        instance.setEndDate("2025-01-01");
         instance.setStatus("Active");
         return instance;
     }
@@ -48,10 +48,6 @@ public class FundFormCommand {
         return longDescription;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
     public String getCategory() {
         return category;
     }
@@ -60,7 +56,7 @@ public class FundFormCommand {
         return targetAmount;
     }
 
-    public LocalDate getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
@@ -76,10 +72,6 @@ public class FundFormCommand {
         this.longDescription = longDescription;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
     public void setCategory(String category) {
         this.category = category;
     }
@@ -88,7 +80,7 @@ public class FundFormCommand {
         this.targetAmount = targetAmount;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
@@ -106,5 +98,13 @@ public class FundFormCommand {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public CommonsMultipartFile getImageFile() {
+        return imageFile;
+    }
+
+    public void setImageFile(CommonsMultipartFile imageFile) {
+        this.imageFile = imageFile;
     }
 }

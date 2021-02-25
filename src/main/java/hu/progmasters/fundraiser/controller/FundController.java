@@ -27,6 +27,8 @@ public class FundController {
     private final FundFormCommandValidator validator;
     private final ModifyFundFormCommandValidator modifyFundFormCommandValidator;
 
+
+
     @Autowired
     public FundController(FundService fundService, FundFormCommandValidator fundFormCommandValidator, ModifyFundFormCommandValidator modifyFundFormCommandValidator) {
         this.fundService = fundService;
@@ -84,7 +86,7 @@ public class FundController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> saveNewFund(@RequestBody @Valid FundFormCommand fundFormCommand, Principal principal) {
+    public ResponseEntity<Void> saveNewFund(@ModelAttribute @Valid FundFormCommand fundFormCommand, Principal principal) {
         String emailAddress = principal.getName();
         fundService.saveNewFund(fundFormCommand, emailAddress);
         return new ResponseEntity<>(HttpStatus.CREATED);

@@ -50,7 +50,6 @@ public class TransferServiceIT {
         FundFormCommand fundFormCommand = new FundFormCommand();
         fundFormCommand.setTitle("Save Forests");
         fundFormCommand.setShortDescription("They are in danger!!!");
-        fundFormCommand.setImageUrl("www.forest.com/forest.jpg");
         fundFormCommand.setCategory("NONPROFIT");
         fundFormCommand.setTargetAmount(1000000.00);
         fundService.saveNewFund(fundFormCommand, email);

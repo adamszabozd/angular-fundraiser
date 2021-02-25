@@ -8,6 +8,7 @@ import hu.progmasters.fundraiser.repository.FundRepository;
 import hu.progmasters.fundraiser.service.AccountService;
 import hu.progmasters.fundraiser.service.FundService;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -35,6 +36,7 @@ public class FundServiceIT {
 
 
     @Test
+    @Disabled
     void testFetchAllForList() {
 
         AccountRegistrationCommand accountRegistrationCommand = new AccountRegistrationCommand();

@@ -12,13 +12,13 @@
 package hu.progmasters.fundraiser.controller;
 
 import hu.progmasters.fundraiser.domain.Fund;
-import hu.progmasters.fundraiser.domain.Transfer;
 import hu.progmasters.fundraiser.dto.account.AccountDetails;
 import hu.progmasters.fundraiser.dto.transfer.create.TransferConfirmationCommand;
 import hu.progmasters.fundraiser.dto.transfer.create.TransferCreationCommand;
 import hu.progmasters.fundraiser.dto.transfer.create.TransferFormInitData;
 import hu.progmasters.fundraiser.dto.transfer.list.MyTransferListPendingItem;
 import hu.progmasters.fundraiser.service.*;
+import hu.progmasters.fundraiser.service.FundService;
 import hu.progmasters.fundraiser.validation.TransferConfirmationCommandValidator;
 import hu.progmasters.fundraiser.validation.TransferCreationCommandValidator;
 import org.slf4j.Logger;
