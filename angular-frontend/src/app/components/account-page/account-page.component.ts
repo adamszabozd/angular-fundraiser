@@ -30,8 +30,9 @@ export class AccountPageComponent implements OnInit {
     view: any[] = [400, 250];
     gradient: boolean = true;
     showLegend: boolean = true;
-    showLabels: boolean = true;
+    showLabels: boolean = false;
     isDoughnut: boolean = false;
+    legendPosition: string = 'below';
     colorScheme = {
         domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
     };

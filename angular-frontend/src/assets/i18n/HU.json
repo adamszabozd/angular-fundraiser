@@ -34,7 +34,8 @@
         "ADD_AMOUNT": "Befizetendő összeg",
         "ADD_AMOUNT_SUBMIT": "Befizetés",
         "ADD_AMOUNT_ERROR": "Az összeg csak 0-nál nagyobb lehet",
-        "PIE_CHART_TITLE": "Adományok összesítése:"
+        "PIE_CHART_TITLE": "Adományok összesítése:",
+        "LEGEND": "Jelmagyarázat"
     },
     "FUNDS": {
         "BROWSE_FUNDRAISERS": "Böngészés",

@@ -24,6 +24,7 @@
                             || (form.get('title').errors?.serverError)}"
                     name="title"
                     formControlName="title"
+                    (change)="reduceSpacesInTitle()"
                 />
 
                 <small
@@ -60,6 +61,7 @@
                     [ngClass]="{'is-invalid': (form.get('shortDescription').invalid && form.get('shortDescription').touched)
                             || (form.get('shortDescription').errors?.serverError)}"
                     name="shortDescription"
+                    (change)="reduceSpacesInShortDescription()"
                     formControlName="shortDescription"></textarea>
                 <small
                     *ngIf="!form.get('shortDescription').valid

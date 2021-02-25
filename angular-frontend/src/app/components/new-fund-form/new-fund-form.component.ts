@@ -6,7 +6,6 @@ import {validationHandler} from '../../utils/validationHandler';
 import {AccountService} from '../../services/account.service';
 import {formAppearAnimation} from '../../animations';
 import {FundFormInitModel} from '../../models/fundFormInit.model';
-import {invalid} from "@angular/compiler/src/render3/view/util";
 
 @Component({
     selector: 'app-new-fund-form',
@@ -96,12 +95,17 @@ export class NewFundFormComponent implements OnInit {
         }
     }
 
-    // uploadedFileValidator(control: FormControl) {
-    //     if (this.form.get('imageFile').touched) {
-    //         if (control.value.name.match(/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i) !== null) {
-    //             return {'wrongFile': true}
-    //         }
-    //     }
-    //     return null;
-    //     }
+    reduceSpaces(s: string) {
+        return s.trim().replace(/\s+/g, ' ');
+    }
+
+    reduceSpacesInTitle() {
+        let title = this.form.get('title');
+        title.setValue(this.reduceSpaces(title.value));
+    }
+
+    reduceSpacesInShortDescription() {
+        let shortDescription = this.form.get('shortDescription');
+        shortDescription.setValue(this.reduceSpaces(shortDescription.value));
+    }
 }
