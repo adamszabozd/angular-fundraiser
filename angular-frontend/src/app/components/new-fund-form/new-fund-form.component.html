@@ -102,13 +102,15 @@
                             || (form.get('imageFile').errors?.serverError) || wrongImageFile}"
             >{{ 'FUND.IMAGE_FILE' | translate }}</label>
             <div class="col-sm-9">
-                <input
+                <label for="imageFile" class="btn btn-danger"><input
                     id="imageFile"
                     type="file"
                     [ngClass]="{'is-invalid': (form.get('imageFile').invalid && form.get('imageFile').touched)
                             || (form.get('imageFile').errors?.serverError) || wrongImageFile}"
-                (change)="onFileChange($event)"
-                > <br>
+                    (change)="onFileChange($event)"
+                >{{ 'FUND.IMAGE_CHOOSE' | translate }}</label>
+                <p *ngIf="chosenImage">{{'FUND.IMAGE_CHOSEN' | translate }}</p>
+
                 <small
                     *ngIf="(form.get('category').invalid && form.get('category').touched && !form.get('category').errors?.serverError) || wrongImageFile"
                     class="text-danger"

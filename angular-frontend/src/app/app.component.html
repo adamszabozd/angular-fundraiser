@@ -11,3 +11,8 @@
 <div class="container">
     <router-outlet></router-outlet>
 </div>
+<div *ngIf="pageYOffset > 0" class="scroll-to-top my-5">
+    <button (click)="scrollToTop()" class="btn btn-primary scroll" >
+        Up
+    </button>
+</div>

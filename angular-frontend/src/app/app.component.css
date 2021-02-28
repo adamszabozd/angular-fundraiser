@@ -9,3 +9,12 @@
     font-size: 1.1rem;
     font-weight: 400;
 }
+.scroll-to-top {
+    float: right;
+    margin-right: 20px;
+}
+
+.scroll {
+    background-color: #3cacca!important;
+    border-color: #009cc6;
+}

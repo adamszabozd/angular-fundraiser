@@ -9,7 +9,9 @@
         "LOGOUT": "Logout",
         "REGISTRATION": "Registration",
         "LOGIN": "Login",
-        "ALL": "All"
+        "ALL": "All",
+        "RATES": "Exchange rates",
+        "OWN_CURRENCY": "Own currency: "
     },
     "MY_ACCOUNT": {
         "USERNAME": "Username:",
@@ -67,6 +69,8 @@
         "LONG_DESCRIPTION": "Long description (optional):",
         "LONG_DESCRIPTION_PLACEHOLDER": "The long, detailed description of your fund idea",
         "IMAGE_FILE": "Please upload an image file",
+        "IMAGE_CHOOSE": "Choose an image",
+        "IMAGE_CHOSEN": "Image is ready to upload",
         "IMAGE_FILE_ERROR": "Please upload a valid image file (JPG, JPEG, BMP, PNG, WEBP, TIF)",
         "CATEGORY": "Category:",
         "CHOOSE_A_CATEGORY": "-- Choose a category --",
@@ -96,12 +100,15 @@
     },
     "DETAILS": {
         "CATEGORY": "Category: ",
-        "AMOUNT": "raised of {{ targetAmount }} {{ currency }} goal",
+        "GOAL_AMOUNT": "Goal: {{ targetAmount }} {{ currency }}",
+        "RAISED_AMOUNT": "Raised: {{ raisedAmount }} {{ currency }}",
         "NUMBER_OF_BACKERS": "Number of backers: ",
         "EXPIRATION_DATE": "Expiration date: ",
-        "FUND_THIS_PROJECT": "Fund this project",
+        "FUND_THIS_PROJECT": "Fund",
         "BARCHART_TITLE": "Donations per day during last seven days",
-        "LINECHART_TITLE": "Total raised amount"
+        "LINECHART_TITLE": "Total raised amount",
+        "FIRST": "Be the first to donate",
+        "BACK": "Back"
     },
     "REGISTRATION": {
         "EMAIL": "Email:",

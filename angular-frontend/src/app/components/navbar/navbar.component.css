@@ -1,19 +1,19 @@
 .navbar-brand img {
- height: 3rem;
+    height: 3rem;
 }
 .navbar {
     font-size: 1.1rem;
     font-weight: 600;
     letter-spacing: .1rem;
     background-color: #fabe55 !important;
-    box-shadow: 0 .5rem .5rem rgba(0, 0, 0, .2);
+    box-shadow: 0 .5rem .5rem rgba(0, 0, 0, .1);
     z-index: 1;
 }
 .nav-item {
     padding: .5rem;
 }
 .nav-link {
-    color: #5b5555!important;
+    color: #5b5555 !important;
 }
 .nav-link.active,
 .nav-link:hover{
@@ -27,4 +27,33 @@
 select {
     background-color: #fabe55 !important;
     font-weight: bold;
+}
+.btn {
+    margin-left: 10%;
+    color: #5b5555 !important;
+    font-weight: 500;
+    background-color: #fabe55 !important;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: none;
+}
+.navbar2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    background-color: #fabe55 !important;
+    box-shadow: 0 .5rem .5rem rgba(0, 0, 0, .1);
+    z-index: 1;
+}
+
+#own {
+    color: #019AC2;
+    font-size: 1.2rem;
+    margin-right: 30px;
+}
+
+.others {
+    margin-right: 20px;
 }

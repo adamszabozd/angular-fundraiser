@@ -7,8 +7,8 @@ import {slideInFromDown} from '../../animations';
 import {FormBuilder, Validators} from '@angular/forms';
 import {minAmount} from '../../validator';
 import {BalanceFormCommandModel} from '../../models/balanceFormCommand.model';
-import {ChartDataElementModel} from "../../models/chartDataElement.model";
-import {numberToString} from "../../utils/numberFormatter";
+import {ChartDataElementModel} from '../../models/chartDataElement.model';
+import {numberToString} from '../../utils/numberFormatter';
 
 @Component({
                selector   : 'app-account-page',
@@ -25,7 +25,6 @@ export class AccountPageComponent implements OnInit {
     accountDetails: AccountDetailsModel | undefined;
     pieChartData: Array<ChartDataElementModel> | undefined;
 
-
     // pie chart options
     view: any[] = [400, 250];
     gradient: boolean = true;
@@ -34,7 +33,7 @@ export class AccountPageComponent implements OnInit {
     isDoughnut: boolean = false;
     legendPosition: string = 'below';
     colorScheme = {
-        domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+        domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA'],
     };
 
     chosenData: AccountDetailsModel;
@@ -49,7 +48,10 @@ export class AccountPageComponent implements OnInit {
 
     numberToString = numberToString;
 
-    constructor(private accountService: AccountService, private transferService: TransferService, private router: Router, private formBuilder: FormBuilder) {
+    constructor(private accountService: AccountService,
+                private transferService: TransferService,
+                private router: Router,
+                private formBuilder: FormBuilder) {
     }
 
     ngOnInit(): void {
@@ -57,7 +59,7 @@ export class AccountPageComponent implements OnInit {
             (data) => {
                 this.accountDetails = data;
                 this.pieChartData = data.donationsPerFund.map(x => {
-                    return {name: x.fundName, value: x.amount}
+                    return {name: x.fundName, value: x.amount};
                 });
             },
             error => {
@@ -65,6 +67,12 @@ export class AccountPageComponent implements OnInit {
                 this.router.navigate(['/login']);
                 console.log(error);
             },
+        );
+        this.accountService.getExchangeRate().subscribe(
+            (exchangeData) => {
+                this.accountService.accountExchangeRates.next(exchangeData);
+            },
+            error => console.log(error),
         );
     }
 

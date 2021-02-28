@@ -3,30 +3,33 @@
     <div class="border-top mx-auto my-3"></div>
 </div>
 <div class="container">
-    <div class="row my-5">
-        <div *ngFor="let fund of myFundList" class="col-md-4 my-4">
+    <div *ngFor="let fund of myFundList" class="row py-4 fund">
+        <div class="col-lg-4 mb-4 my-lg-auto">
             <img [src]="fund.imageUrl" [alt]="'FUNDS.IMAGE' | translate" class="w-100">
+        </div>
+        <div class="col-lg-8">
             <h4 class="my-4">{{fund.title}}</h4>
             <p class="description">{{fund.shortDescription}}</p>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">{{ 'FUNDS.CATEGORY' | translate }}{{fund.category}}</li>
-                <li class="list-group-item">{{ 'FUNDS.AMOUNT' | translate: {
-                    amount: numberToString(fund.raisedAmount),
-                    amountGoal: numberToString(fund.targetAmount),
-                    currency: fund.currency
-                } }}</li>
-                <li class="list-group-item">{{ 'FUNDS.END_DATE' | translate }}{{fund.endDate}}</li>
-                <li class="list-group-item">{{ 'FUNDS.CREATOR' | translate }}{{fund.creatorName}}</li>
-            </ul>
+            <h6>{{ 'FUNDS.CATEGORY' | translate }}{{fund.category}}</h6>
+            <h6>{{ 'FUNDS.AMOUNT' | translate: {
+                amount: numberToString(fund.raisedAmount),
+                amountGoal: numberToString(fund.targetAmount),
+                currency: fund.currency
+            } }}</h6>
+            <div class="progress my-3">
+                <div class="progress-bar" role="progressbar" [style.width]="fund.progress + '%'"
+                     [attr.aria-valuenow]="fund.progress" aria-valuemin="0" aria-valuemax="100">{{fund.progress}}%
+                </div>
+            </div>
+            <h6 *ngIf="fund.endDate != null">{{ 'FUNDS.END_DATE' | translate }}{{fund.endDate}}</h6>
             <span class="btn-group">
-            <a target="_blank" [routerLink]="['/fund-details',fund.id]"
+            <a [routerLink]="['/my-funds-details',fund.id]"
                class="btn btn-outline-warning btn-md">{{ 'FUNDS.READ_MORE' | translate }}</a>
             <a [routerLink]="['/modify',fund.id]"
                class="btn btn-outline-info btn-md">{{ 'FUND.MODIFY_FUND' | translate }}</a>
             </span>
         </div>
     </div>
-
 </div>
 
 

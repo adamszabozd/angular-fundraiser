@@ -9,7 +9,9 @@
         "LOGOUT": "Kilépés",
         "REGISTRATION": "Regisztráció",
         "LOGIN": "Bejelentkezés",
-        "ALL": "Mind"
+        "ALL": "Mind",
+        "RATES": "Árfolyamok",
+        "OWN_CURRENCY": "Saját pénznem: "
     },
     "MY_ACCOUNT": {
         "USERNAME": "Felhasználónév:",
@@ -66,7 +68,9 @@
         "SHORT_DESCRIPTION_ERROR": "Adjon meg egy rövid leírást a gyűjtéséről (legfeljebb 250 karakter)",
         "LONG_DESCRIPTION": "Hosszú leírás (nem kötelező):",
         "LONG_DESCRIPTION_PLACEHOLDER": "A gyűjtés céljának hosszú, részletes leírása",
-        "IMAGE_FILE": "Kép file",
+        "IMAGE_FILE": "Kép fájl",
+        "IMAGE_CHOOSE": "Kép kiválasztása",
+        "IMAGE_CHOSEN": "Kép kiválasztva",
         "IMAGE_FILE_ERROR": "Töltsön fel egy megfelelő formátumú file-t (JPG, JPEG, BMP, PNG, WEBP, TIF)",
         "CATEGORY": "Kategória:",
         "CHOOSE_A_CATEGORY": "-- Válasszon egy kategóriát --",
@@ -96,12 +100,15 @@
     },
     "DETAILS": {
         "CATEGORY": "Kategória: ",
-        "AMOUNT": "gyűlt össze a {{ targetAmount }} {{ currency }} célból",
+        "GOAL_AMOUNT": "Cél: {{ targetAmount }} {{ currency }}",
+        "RAISED_AMOUNT": "Összegyűlt: {{ raisedAmount }} {{ currency }}",
         "NUMBER_OF_BACKERS": "Támogatók száma: ",
         "EXPIRATION_DATE": "Gyűjtés vége: ",
-        "FUND_THIS_PROJECT": "Támogatom ezt a gyűjtést",
+        "FUND_THIS_PROJECT": "Támogatom",
         "BARCHART_TITLE": "Adományok napi alakulása az utolsó egy hétben",
-        "LINECHART_TITLE": "Összegyűlt összeg alakulása"
+        "LINECHART_TITLE": "Összegyűlt összeg alakulása",
+        "FIRST": "Legyél az első támogató",
+        "BACK": "Vissza"
     },
     "REGISTRATION": {
         "EMAIL": "E-mail cím:",

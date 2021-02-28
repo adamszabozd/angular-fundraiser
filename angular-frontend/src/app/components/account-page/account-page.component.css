@@ -1,9 +1,7 @@
-
 .container {
     margin: 18px;
     max-width: 98%;
     text-align: center;
-    background-color: #ffffff;
 }
 
 input::-webkit-input-placeholder {
@@ -78,5 +76,5 @@ button {
     padding: 15px;
 }
 .fillForm {
-    background-color: #dcdfe8 !important;
+    background-color: rgba(60, 172, 202, 0.2) !important;
 }

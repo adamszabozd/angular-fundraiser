@@ -7,6 +7,7 @@ import {environment} from "../../environments/environment";
 import {BalanceFormCommandModel} from '../models/balanceFormCommand.model';
 import {CurrencyOptionModel} from '../models/currencyOption.model';
 import {CurrencyFormCommandModel} from '../models/currencyFormCommand.model';
+import {ExchangeRateInfoCommandModel} from '../models/exchangeRateInfoCommand.model';
 
 const host = environment.BASE_URL;
 const BASE_URL = host + '/api/accounts';
@@ -15,6 +16,7 @@ const BASE_URL = host + '/api/accounts';
 export class AccountService {
 
     loggedInStatusUpdate = new Subject<boolean>();
+    accountExchangeRates  = new Subject<ExchangeRateInfoCommandModel>();
 
     constructor(private http: HttpClient) {
     }
@@ -36,11 +38,6 @@ export class AccountService {
         return this.http.get<AccountDetailsModel>(BASE_URL + '/myAccountDetails');
     }
 
-    // Ezt max akkor fogjuk használni, ha csinálunk adminfelületet is. Mezei usereknek nem listázzuk ki az összes regisztáltat.
-    fetchAllAccounts(): Observable<any> {
-        return this.http.get(BASE_URL);
-    }
-
     isLoggedIn(): Observable<any> {
         return this.http.get(BASE_URL + "/loggedIn");
     }
@@ -59,5 +56,14 @@ export class AccountService {
 
     changeCurrency(data: CurrencyFormCommandModel): Observable<AccountDetailsModel> {
         return this.http.put<AccountDetailsModel>(BASE_URL + "/change/currency", data)
+    }
+
+    getExchangeRate(): Observable<ExchangeRateInfoCommandModel> {
+        return this.http.get<ExchangeRateInfoCommandModel>(BASE_URL + "/exchange")
+    }
+
+    // Ezt max akkor fogjuk használni, ha csinálunk adminfelületet is. Mezei usereknek nem listázzuk ki az összes regisztáltat.
+    fetchAllAccounts(): Observable<any> {
+        return this.http.get(BASE_URL);
     }
 }

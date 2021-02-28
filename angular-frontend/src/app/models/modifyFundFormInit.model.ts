@@ -1,6 +1,6 @@
-import {StatusOptionModel} from "./StatusOption.model";
+import {StatusOptionModel} from "./statusOption.model";
 
-export interface ModifyFormInitModel{
+export interface ModifyFundFormInitModel {
 
     title: string;
     shortDescription: string;
@@ -9,6 +9,6 @@ export interface ModifyFormInitModel{
     category: string;
     targetAmount: number;
     endDate: Date;
-    status: String;
+    status: string;
     statusOptions: Array<StatusOptionModel>;
 }

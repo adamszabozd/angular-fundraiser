@@ -1,4 +1,5 @@
 import {DailyDonationModel} from "./dailyDonation.model";
+import {CategoryOptionModel} from './categoryOption.model';
 
 export interface FundDetailsItemModel{
     id: number;
@@ -10,7 +11,7 @@ export interface FundDetailsItemModel{
     raisedAmount: number;
     endDate: Date;
     creatorName: string;
-    category: string;
+    category: CategoryOptionModel;
     numberOfBackers: number;
     dailyDonations: Array<DailyDonationModel>
 }

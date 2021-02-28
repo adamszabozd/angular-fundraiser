@@ -32,9 +32,37 @@ h6 {
 .funds {
     box-shadow: 1px 4px 4px 0 rgba(30,30,30, 0.2);
     border-radius: 15px;
+    background: rgba(255, 255, 255, 0.5);
+    max-width: 31%;
+    margin-left: 2%;
+    padding: 0;
+
 }
 .fund-amount {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+.btn-primary {
+    background-color: #3cacca;
+    border-color: #3cacca;
+}
+
+.btn-primary:hover {
+    background-color: #1d7e97;
+    border-color: #1d7e97;
+}
+
+.btn-primary:focus, .btn-primary.focus, .btn-primary:active {
+    background-color: #009cc6 !important;
+    border-color: #009cc6 !important;
+    box-shadow: 0 0 0 0.2rem rgba(1, 154, 194, 0.5) !important;
+}
+
+.progress-bar {
+    background-color: #009cc6;
+}
+.my-md-3 {
+    padding: 15px;
 }

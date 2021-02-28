@@ -8,32 +8,33 @@ import {formAppearAnimation} from '../../animations';
 import {FundFormInitModel} from '../../models/fundFormInit.model';
 
 @Component({
-    selector: 'app-new-fund-form',
-    templateUrl: './new-fund-form.component.html',
-    styleUrls: ['./new-fund-form.component.css'],
-    animations: [
-        formAppearAnimation
-    ]
-})
+               selector   : 'app-new-fund-form',
+               templateUrl: './new-fund-form.component.html',
+               styleUrls  : ['./new-fund-form.component.css'],
+               animations : [
+                   formAppearAnimation,
+               ],
+           })
 export class NewFundFormComponent implements OnInit {
 
     state = 'invisible';
 
-    wrongImageFile = false;
+    wrongImageFile: boolean = false;
+    chosenImage: boolean = false;
 
     formInitData: FundFormInitModel | undefined;
 
     form = this.formBuilder.group({
-        title: ['', [Validators.required, Validators.pattern(/^[^\s]+(\s+[^\s]+)*$/)]],
-        shortDescription: ['', [Validators.required, Validators.maxLength(250), Validators.pattern(/^[^\s]+(\s+[^\s]+)*$/)]],
-        longDescription: [''],
-        imageFile: [null],
-        category: [null],
-        targetAmount: [null, Validators.required],
-        currency: [null, Validators.required],
-        endDate: [null],
-        status: ["ACTIVE"],
-    });
+                                      title           : ['', [Validators.required, Validators.pattern(/^[^\s]+(\s+[^\s]+)*$/)]],
+                                      shortDescription: ['', [Validators.required, Validators.maxLength(250), Validators.pattern(/^[^\s]+(\s+[^\s]+)*$/)]],
+                                      longDescription : [''],
+                                      imageFile       : [null],
+                                      category        : [null],
+                                      targetAmount    : [null, Validators.required],
+                                      currency        : [null, Validators.required],
+                                      endDate         : [null],
+                                      status          : ['ACTIVE'],
+                                  });
 
     constructor(private formBuilder: FormBuilder, private fundService: FundsService, private router: Router, private accountService: AccountService) {
     }
@@ -78,7 +79,7 @@ export class NewFundFormComponent implements OnInit {
 
         this.fundService.saveNewFund(formData).subscribe(
             () => this.router.navigate(['/my-funds']),
-            (error) => validationHandler(error, this.form)
+            (error) => validationHandler(error, this.form),
         );
     }
 
@@ -90,9 +91,10 @@ export class NewFundFormComponent implements OnInit {
 
             if (file.name.match(/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i) !== null) {
                 this.form.patchValue({
-                    imageFile: file
-                });
+                                         imageFile: file,
+                                     });
                 this.wrongImageFile = false;
+                this.chosenImage = true;
             } else {
                 this.wrongImageFile = true;
             }

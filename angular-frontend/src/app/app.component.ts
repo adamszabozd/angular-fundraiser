@@ -1,10 +1,22 @@
-import {Component} from '@angular/core';
+import {Component, HostListener} from '@angular/core';
+import {ViewportScroller} from '@angular/common';
 
 @Component({
                selector   : 'app-root',
                templateUrl: './app.component.html',
                styleUrls  : ['./app.component.css'],
            })
-export class AppComponent{
-    //TODO - Review: Használjátok az auto-formattingot! Nekem jelenleg kb minden egyes fájlba belenyúlna valamiért...
+export class AppComponent {
+    pageYOffset = 0;
+
+    @HostListener('window:scroll', ['$event']) onScroll(event) {
+        this.pageYOffset = window.pageYOffset;
+    }
+
+    constructor(private scroll: ViewportScroller) {
+    }
+
+    scrollToTop() {
+        this.scroll.scrollToPosition([0, 0]);
+    }
 }

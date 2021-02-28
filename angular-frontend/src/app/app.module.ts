@@ -30,6 +30,7 @@ import { ConvertedBalanceComponent } from './components/converted-balance/conver
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ConvertedTransferAmountComponent } from './components/converted-transfer-amount/converted-transfer-amount.component';
 import {RecaptchaFormsModule, RecaptchaModule} from "ng-recaptcha";
+import { MyFundDetailsComponent } from './components/my-fund-details/my-fund-details.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -54,6 +55,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ChangeCurrencyComponent,
         ConvertedBalanceComponent,
         ConvertedTransferAmountComponent,
+        MyFundDetailsComponent,
     ],
     imports: [
         BrowserModule,

@@ -35,3 +35,21 @@ button {
     color: #3cacca !important;
     font-weight: 500;
 }
+input[type="file"] {
+    display: none;
+}
+.btn-danger {
+    background-color: #fabe55;
+    border-color: #fabe55;
+}
+
+.btn-danger:hover {
+    background-color: #f7ae2f;
+    border-color: #f7ae2f;
+}
+
+.btn-danger:focus, .btn-danger.focus, .btn-danger:active {
+    background-color: #f7ae2f !important;
+    border-color: #f7ae2f !important;
+    box-shadow: 0 0 0 0.2rem rgba(238, 155, 9, 0.5) !important;
+}
