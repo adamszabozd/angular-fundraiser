@@ -17,6 +17,7 @@ import hu.progmasters.fundraiser.dto.account.AuthenticatedAccountDetails;
 import hu.progmasters.fundraiser.dto.account.BalanceFormCommand;
 import hu.progmasters.fundraiser.dto.exchange.CurrencyFormCommand;
 import hu.progmasters.fundraiser.dto.exchange.CurrencyOption;
+import hu.progmasters.fundraiser.dto.exchange.ExchangeRateInfoCommand;
 import hu.progmasters.fundraiser.service.AccountService;
 import hu.progmasters.fundraiser.service.ExchangeService;
 import hu.progmasters.fundraiser.validation.AccountRegistrationCommandValidator;
@@ -117,6 +118,13 @@ public class AccountController {
         AccountDetails myAccountDetails = accountService.savNewCurrency(currencyFormCommand, principal.getName());
         return new ResponseEntity<>(myAccountDetails, HttpStatus.CREATED);
     }
+
+    @GetMapping("/exchange")
+    public ResponseEntity<ExchangeRateInfoCommand> getExchangeRate(Principal principal) {
+        ExchangeRateInfoCommand rateInfoCommand = accountService.getExchangeRate(principal.getName());
+        return new ResponseEntity<>(rateInfoCommand, HttpStatus.OK);
+    }
+
 
     // Ezt max akkor fogjuk használni, ha csinálunk adminfelületet is. Mezei usereknek nem listázzuk ki az összes regisztáltat.
     @GetMapping

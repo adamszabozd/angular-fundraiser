@@ -19,6 +19,7 @@ import hu.progmasters.fundraiser.dto.account.AccountRegistrationCommand;
 import hu.progmasters.fundraiser.dto.account.BalanceFormCommand;
 import hu.progmasters.fundraiser.dto.account.DonationPerFund;
 import hu.progmasters.fundraiser.dto.exchange.CurrencyFormCommand;
+import hu.progmasters.fundraiser.dto.exchange.ExchangeRateInfoCommand;
 import hu.progmasters.fundraiser.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -114,6 +115,10 @@ public class AccountService {
 
     public List<Account> findAll() {
         return accountRepository.findAll();
+    }
+
+    public ExchangeRateInfoCommand getExchangeRate(String email) {
+        return new ExchangeRateInfoCommand(findByEmail(email).getCurrency().name(), exchangeService.fetchRates());
     }
 
 }

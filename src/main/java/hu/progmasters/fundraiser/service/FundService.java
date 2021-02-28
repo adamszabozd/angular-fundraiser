@@ -120,8 +120,12 @@ public class FundService {
         Optional<Fund> fund = fundRepository.findById(id);
         if (fund.isPresent()) {
             Long backers = transferRepository.numberOfBackers(id);
-            String categoryDisplayName = messageSource.getMessage(fund.get().getFundCategory().getCode(), null, locale);
-            return new FundDetailsItem(fund.get(), backers, categoryDisplayName, getDailyDonations(fund.get().getTransferList(), fund.get().getTimeStamp()));
+            CategoryOption category = new CategoryOption(fund.get().getFundCategory().toString(),
+                                                         messageSource.getMessage(fund.get().getFundCategory().getCode(),
+                                                                                  null, locale));
+            return new FundDetailsItem(fund.get(), backers, category,
+                                       getDailyDonations(fund.get().getTransferList(),
+                                                         fund.get().getTimeStamp()));
         } else {
             throw new EntityNotFoundException();
         }
