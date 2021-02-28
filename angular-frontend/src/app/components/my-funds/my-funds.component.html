@@ -1,9 +1,9 @@
-<div class="col-12 text-center mt-5">
+<div [@slideUp]="state" class="col-12 text-center mt-5">
     <h1 class="text-dark pt-4">{{ 'NAVBAR.MY_FUNDS' | translate }}</h1>
     <div class="border-top mx-auto my-3"></div>
 </div>
 <div class="container">
-    <div *ngFor="let fund of myFundList" class="row py-4 fund">
+    <div [@slideUp]="state" *ngFor="let fund of myFundList" class="row py-4 fund">
         <div class="col-lg-4 mb-4 my-lg-auto">
             <img [src]="fund.imageUrl" [alt]="'FUNDS.IMAGE' | translate" class="w-100">
         </div>
