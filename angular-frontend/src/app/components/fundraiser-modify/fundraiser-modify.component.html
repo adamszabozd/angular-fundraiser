@@ -3,7 +3,6 @@
     <div class="border-top mx-auto my-3"></div>
     <br>
     <form class="form-horizontal" [formGroup]="form" (ngSubmit)="onSubmit()">
-
         <div class="row mb-3">
             <label class="col-sm-3 col-form-label"
                    for="title"
@@ -15,7 +14,6 @@
                     id="title"
                     class="form-control"
                     type="text"
-                    [placeholder]="'FUND.TITLE_PLACEHOLDER' | translate"
                     minlength="5"
                     maxlength="100"
                     name="title"
@@ -45,6 +43,7 @@
                     [ngClass]="{'is-invalid': (form.get('shortDescription').invalid && form.get('shortDescription').touched)
                             || (form.get('shortDescription').errors?.serverError)}"
                     name="shortDescription"
+                    (change)="reduceSpacesInShortDescription()"
                     formControlName="shortDescription"></textarea>
                 <small
                     *ngIf="form.get('shortDescription').invalid
@@ -81,28 +80,6 @@
 
         <div class="row mb-3">
             <label class="col-sm-3 col-form-label"
-                   for="imageUrl"
-            >
-                {{ 'FUND.IMAGE_URL' | translate }}
-            </label>
-            <div class="col-sm-9">
-                <input
-                    id="imageUrl"
-                    class="form-control"
-                    [ngClass]="{'is-invalid':(form.get('imageUrl').errors?.serverError)}"
-                    type="text"
-                    name="imageUrl"
-                    formControlName="imageUrl"
-                    [placeholder]="'FUND.IMAGE_URL_PLACEHOLDER' | translate"
-                />
-                <small *ngIf="form.get('imageUrl').errors?.serverError" class="text-danger">
-                    {{form.get('imageUrl').errors.serverError}}
-                </small>
-            </div>
-        </div>
-
-        <div class="row mb-3">
-            <label class="col-sm-3 col-form-label"
                    for="category"
             >
                 {{ 'FUND.CATEGORY' | translate }}
@@ -127,24 +104,37 @@
                 {{ 'FUND.TARGET_AMOUNT' | translate }}
             </label>
             <div class="col-sm-9">
-                <input
-                    id="targetAmount"
-                    type="number"
-                    min="1"
-                    class="form-control"
-                    [ngClass]="{'is-invalid': (form.get('targetAmount').invalid && form.get('targetAmount').touched) || (form.get('targetAmount').errors?.serverError)}"
-                    name="targetAmount"
-                    formControlName="targetAmount"
-                />
-                <small
-                    *ngIf="form.get('targetAmount').invalid && form.get('targetAmount').touched && !form.get('targetAmount').errors?.serverError"
-                    class="text-danger"
-                >
-                    {{ 'FUND.TARGET_AMOUNT_ERROR' | translate }}
-                </small>
-                <small *ngIf="form.get('targetAmount').errors?.serverError" class="text-danger">
-                    {{form.get('targetAmount').errors['serverError']}}
-                </small>
+                <div class="row mb-3">
+                    <div class="col-sm-9">
+                        <input
+                            id="targetAmount"
+                            type="number"
+                            min="1"
+                            class="form-control"
+                            [ngClass]="{'is-invalid': (form.get('targetAmount').invalid && form.get('targetAmount').touched) || (form.get('targetAmount').errors?.serverError)}"
+                            name="targetAmount"
+                            formControlName="targetAmount"
+                        />
+                        <small
+                            *ngIf="form.get('targetAmount').invalid && form.get('targetAmount').touched && !form.get('targetAmount').errors?.serverError"
+                            class="text-danger"
+                        >
+                            {{ 'FUND.TARGET_AMOUNT_ERROR' | translate }}
+                        </small>
+                        <small *ngIf="form.get('targetAmount').errors?.serverError" class="text-danger">
+                            {{form.get('targetAmount').errors['serverError']}}
+                        </small>
+                    </div>
+                    <div class="col-sm-3">
+                        <input
+                            id="myCurrency"
+                            class="form-control my-input-field-disabled"
+                            name="myCurrency"
+                            disabled
+                            formControlName="currency"
+                        />
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -168,7 +158,6 @@
                 </small>
             </div>
         </div>
-
 
         <div class="row mb-3">
             <label class="col-sm-3 col-form-label"

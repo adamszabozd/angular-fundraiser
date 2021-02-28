@@ -10,23 +10,11 @@ public class ModifyFundFormCommand {
 
     private String longDescription;
 
-    private String imageUrl;
-
     private Double targetAmount;
-
-    private String currency;
 
     private LocalDate endDate;
 
     private String status;
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     public Long getId() {
         return id;
@@ -52,14 +40,6 @@ public class ModifyFundFormCommand {
         this.longDescription = longDescription;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
     public Double getTargetAmount() {
         return targetAmount;
     }
@@ -76,12 +56,12 @@ public class ModifyFundFormCommand {
         this.endDate = endDate;
     }
 
-    public String getCurrency() {
-        return currency;
+    public String getStatus() {
+        return status;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 }

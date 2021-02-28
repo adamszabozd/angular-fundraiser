@@ -4,11 +4,11 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {FundListItemModel} from '../models/fundListItem.model';
 import {CategoryOptionModel} from '../models/categoryOption.model';
-import {FundFormCommandModel} from '../models/fundFormCommand.model';
 import {FundFormInitModel} from '../models/fundFormInit.model';
 import {FundDetailsItemModel} from '../models/fundDetailsItem.model';
 import {TranslateService} from '@ngx-translate/core';
 import {ModifyFundFormInitModel} from '../models/modifyFundFormInit.model';
+import {ModifyFundCommandModel} from '../models/modifyFundCommand.model';
 
 const host = environment.BASE_URL;
 const BASE_URL = host + '/api/funds';
@@ -43,8 +43,8 @@ export class FundsService {
         return this.http.get<ModifyFundFormInitModel>(BASE_URL + '/modify/' + id);
     }
 
-    modifyFund(data: FundFormCommandModel): Observable<any> {
-        return this.http.put(BASE_URL + '/modify/', data);
+    modifyFund(data: ModifyFundCommandModel): Observable<any> {
+        return this.http.put(BASE_URL + '/modify', data);
     }
 
     saveNewFund(data: FormData): Observable<any> {

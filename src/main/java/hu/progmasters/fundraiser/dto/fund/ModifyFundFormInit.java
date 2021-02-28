@@ -4,10 +4,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import hu.progmasters.fundraiser.domain.Fund;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
-public class FundModifyItem {
+public class ModifyFundFormInit {
 
     private final String title;
 
@@ -15,31 +14,30 @@ public class FundModifyItem {
 
     private final String longDescription;
 
-    private final String imageUrl;
-
     private final String category;
 
     private final Double targetAmount;
+
+    private final String currency;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private final LocalDate endDate;
 
     private final String status;
 
-    private List<StatusOption> statusOptions;
+    private final List<StatusOption> statusOptions;
 
-    public FundModifyItem(Fund fund, List<StatusOption> statusOptions) {
+    public ModifyFundFormInit(Fund fund, List<StatusOption> statusOptions) {
         this.title = fund.getFundTitle();
         this.shortDescription = fund.getShortDescription();
         this.longDescription = fund.getLongDescription();
-        this.imageUrl = fund.getImageUrl();
         this.category = fund.getFundCategory().name();
         this.targetAmount = fund.getTargetAmount();
+        this.currency = fund.getCurrency().name();
         this.endDate = fund.getEndDate();
         this.status = fund.getStatus().name();
         this.statusOptions = statusOptions;
     }
-
 
     public String getTitle() {
         return title;
@@ -53,8 +51,8 @@ public class FundModifyItem {
         return longDescription;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getCurrency() {
+        return currency;
     }
 
     public String getCategory() {
@@ -76,4 +74,5 @@ public class FundModifyItem {
     public List<StatusOption> getStatusOptions() {
         return statusOptions;
     }
+
 }

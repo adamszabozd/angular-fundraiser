@@ -29,13 +29,11 @@ import java.util.stream.Collectors;
 public class FundService {
 
     private final FundRepository fundRepository;
-    //TODO - Review: Ne hívjuk "keresztbe" a rétegeket, ha elkerülhető, FundService a Fundokért felel,
-    // ergo FundRepositoryba nyúljon csak. Amennyiben Account v Transfer kell neki, azt a dedikált Serviceiken keresztül kérjük le inkább
     private final AccountService accountService;
-    private final TransferRepository transferRepository;
     private final MessageSource messageSource;
     private final ExchangeService exchangeService;
     private final Cloudinary cloudinary;
+    private final TransferRepository transferRepository;
 
     @Autowired
     public FundService(FundRepository fundRepository,
@@ -53,85 +51,38 @@ public class FundService {
         this.cloudinary = cloudinary;
     }
 
-    public List<Fund> findAll() {
-        return fundRepository.findAll();
+    public List<FundListItem> fetchActiveFundsForList(Locale locale) {
+        return fetchFundsToList(fundRepository.findAllActiveFunds(), locale);
     }
 
-    public List<FundListItem> fetchAllForList(Locale locale) {
-        return fundRepository.findAllActiveFunds().stream()
-                .map(fund -> {
-                    String categoryDisplayName = messageSource.getMessage(fund.getFundCategory().getCode(), null, locale);
-                    return new FundListItem(fund, categoryDisplayName);
-                })
-                .collect(Collectors.toList());
-    }
-
-    public void saveNewFund(FundFormCommand fundFormCommand, String emailAddress) {
-        Account myAccount = accountService.findByEmail(emailAddress);
-        String uploadedImageUrl;
-        if (fundFormCommand.getImageFile() != null) {
-           uploadedImageUrl = storeFile(fundFormCommand.getImageFile());
-        } else {
-            uploadedImageUrl = "https://cdn.iconscout.com/icon/free/png-256/k-characters-character-alphabet-letter-36028.png";
-        }
-        Fund fund = new Fund(fundFormCommand, myAccount, uploadedImageUrl);
-        fundRepository.save(fund);
-    }
-
-    public Fund findById(Long id) {
-        Optional<Fund> optionalFund = fundRepository.findById(id);
-        if (optionalFund.isPresent()) {
-            return optionalFund.get();
-        } else {
-            throw new EntityNotFoundException();
-        }
-    }
-
-    public FundModifyItem fetchModifyFund(Long id, Locale locale) {
-        Fund fund = findById(id);
-        List<StatusOption> statusOptions = getStatusOptions(locale);
-        return new FundModifyItem(fund, statusOptions);
-    }
-
-    public String storeFile(CommonsMultipartFile commonsMultipartFile) {
-
-        Map params = ObjectUtils.asMap(
-                "access_mode", "authenticated",
-//                "access_type", "token",
-                "overwrite", false,
-                "type", "authenticated",
-                "resource_type", "auto",
-                "use_filename", true);
-        UploadResponse uploadResponse;
-        File fileToUpload = new File(System.getProperty("java.io.tmpdir") + '/' + commonsMultipartFile.getOriginalFilename());
-        try {
-            commonsMultipartFile.transferTo(fileToUpload);
-            uploadResponse = new ObjectMapper()
-                    .convertValue(cloudinary.uploader().upload(fileToUpload, params), UploadResponse.class);
-        } catch (IOException e) {
-            throw new CloudinaryUploadException();
-        }
-        return uploadResponse.getSecureUrl();
+    private List<FundListItem> fetchFundsToList(List<Fund> fundList, Locale locale) {
+        return fundList.stream()
+                       .map(fund -> {
+                           String categoryDisplayName = messageSource.getMessage(fund.getFundCategory().getCode(), null, locale);
+                           return new FundListItem(fund, categoryDisplayName);
+                       })
+                       .collect(Collectors.toList());
     }
 
     public FundDetailsItem fetchFundDetails(Long id, Locale locale) {
-        //TODO - Review: A következő két sor kb 3x ismétlődik, csak ebben az osztályban...
-        // Sok kicsi sokra megy...
-        Optional<Fund> fund = fundRepository.findById(id);
-        if (fund.isPresent()) {
+        Optional<Fund> optionalFund = fundRepository.findById(id);
+        return getFundDetailsItem(locale, id, optionalFund);
+    }
+
+    private FundDetailsItem getFundDetailsItem(Locale locale, Long id, Optional<Fund> optionalFund) {
+        if (optionalFund.isPresent()) {
             Long backers = transferRepository.numberOfBackers(id);
-            CategoryOption category = new CategoryOption(fund.get().getFundCategory().toString(),
-                                                         messageSource.getMessage(fund.get().getFundCategory().getCode(),
+            CategoryOption category = new CategoryOption(optionalFund.get().getFundCategory().toString(),
+                                                         messageSource.getMessage(optionalFund.get().getFundCategory().getCode(),
                                                                                   null, locale));
-            return new FundDetailsItem(fund.get(), backers, category,
-                                       getDailyDonations(fund.get().getTransferList(),
-                                                         fund.get().getTimeStamp()));
+            return new FundDetailsItem(optionalFund.get(), backers, category, getDailyDonations(optionalFund.get().getTransferList(),
+                                                                                                optionalFund.get().getTimeStamp()));
         } else {
             throw new EntityNotFoundException();
         }
     }
 
-    public List<DailyDonation> getDailyDonations(List<Transfer> transferList, LocalDateTime startDateTime) {
+    private List<DailyDonation> getDailyDonations(List<Transfer> transferList, LocalDateTime startDateTime) {
         LocalDate date = startDateTime.toLocalDate();
         Map<String, Double> dailyDonationMap = new HashMap<>();
         while (!date.isAfter(LocalDate.now())) {
@@ -154,42 +105,78 @@ public class FundService {
     }
 
     public List<FundListItem> fetchMyFunds(String email, Locale locale) {
-
-        Account myAccount = accountService.findByEmail(email);
-        //TODO - Review: Itt miért nem a FundRepository van használva??
-        return myAccount.getFunds().stream()
-                .map(fund -> {
-                    String categoryDisplayName = messageSource.getMessage(fund.getFundCategory().getCode(), null, locale);
-                    return new FundListItem(fund, categoryDisplayName);
-                })
-                .collect(Collectors.toList());
+        return fetchFundsToList(fundRepository.findAllByCreator(accountService.findByEmail(email)), locale);
     }
 
-    public void modifyFund(ModifyFundFormCommand modifyFundFormCommand) {
-
-        Fund fund = findById(modifyFundFormCommand.getId());
-        fund.setShortDescription(modifyFundFormCommand.getShortDescription());
-        fund.setLongDescription(modifyFundFormCommand.getLongDescription());
-        fund.setImageUrl(modifyFundFormCommand.getImageUrl());
-        fund.setTargetAmount(modifyFundFormCommand.getTargetAmount());
-        fund.setEndDate(modifyFundFormCommand.getEndDate());
-        fund.setStatus(Status.valueOf(modifyFundFormCommand.getStatus()));
-        fundRepository.save(fund);
+    public FundDetailsItem fetchMyFundDetails(String email, Long id, Locale locale) {
+        Optional<Fund> optionalFund = fundRepository.findByCreatorAndId(accountService.findByEmail(email), id);
+        return getFundDetailsItem(locale, id, optionalFund);
     }
 
-    public List<FundListItem> fetchFundsByCategory(String categoryName, Locale locale) {
-        if (contains(categoryName)) {
-            FundCategory category = FundCategory.valueOf(categoryName);
-            List<Fund> funds = fundRepository.findAllByCategory(category);
-            return funds.stream()
-                    .map(fund -> {
-                        String categoryDisplayName = messageSource.getMessage(fund.getFundCategory().getCode(), null, locale);
-                        return new FundListItem(fund, categoryDisplayName);
-                    })
-                    .collect(Collectors.toList());
+    public ModifyFundFormInit fillModifyFundForm(String email, Long id, Locale locale) {
+        Optional<Fund> optionalFund = fundRepository.findByCreatorAndId(accountService.findByEmail(email), id);
+        if (optionalFund.isPresent()) {
+            List<StatusOption> statusOptions = getStatusOptions(locale);
+            return new ModifyFundFormInit(optionalFund.get(), statusOptions);
         } else {
-            throw new IllegalArgumentException();
+            throw new EntityNotFoundException();
         }
+    }
+
+    private List<StatusOption> getStatusOptions(Locale locale) {
+        List<StatusOption> statusOptions = new ArrayList<>();
+        for (Status status : Status.values()) {
+            statusOptions.add(new StatusOption(status.toString(), messageSource.getMessage(status.getCode(), null, locale)));
+        }
+        return statusOptions;
+    }
+
+    public void modifyFund(String email, ModifyFundFormCommand modifyFundFormCommand) {
+        Optional<Fund> optionalFund = fundRepository.findByCreatorAndId(accountService.findByEmail(email), modifyFundFormCommand.getId());
+        if (optionalFund.isPresent()) {
+            Fund fund = optionalFund.get();
+            fund.setShortDescription(modifyFundFormCommand.getShortDescription());
+            fund.setLongDescription(modifyFundFormCommand.getLongDescription());
+            fund.setTargetAmount(modifyFundFormCommand.getTargetAmount());
+            fund.setEndDate(modifyFundFormCommand.getEndDate());
+            fund.setStatus(Status.valueOf(modifyFundFormCommand.getStatus()));
+            fundRepository.save(fund);
+        } else {
+            throw new EntityNotFoundException();
+        }
+    }
+
+    private String storeFile(CommonsMultipartFile commonsMultipartFile) {
+
+        Map params = ObjectUtils.asMap(
+                "access_mode", "authenticated",
+//                "access_type", "token",
+                "overwrite", false,
+                "type", "authenticated",
+                "resource_type", "auto",
+                "use_filename", true);
+        UploadResponse uploadResponse;
+        File fileToUpload = new File(System.getProperty("java.io.tmpdir") + '/' + commonsMultipartFile.getOriginalFilename());
+        try {
+            commonsMultipartFile.transferTo(fileToUpload);
+            uploadResponse = new ObjectMapper()
+                    .convertValue(cloudinary.uploader().upload(fileToUpload, params), UploadResponse.class);
+        } catch (IOException e) {
+            throw new CloudinaryUploadException();
+        }
+        return uploadResponse.getSecureUrl();
+    }
+
+    public void saveNewFund(String email, FundFormCommand fundFormCommand) {
+        Account myAccount = accountService.findByEmail(email);
+        String uploadedImageUrl;
+        if (fundFormCommand.getImageFile() != null) {
+            uploadedImageUrl = storeFile(fundFormCommand.getImageFile());
+        } else {
+            uploadedImageUrl = "https://cdn.iconscout.com/icon/free/png-256/k-characters-character-alphabet-letter-36028.png";
+        }
+        Fund fund = new Fund(fundFormCommand, myAccount, uploadedImageUrl);
+        fundRepository.save(fund);
     }
 
     public FundFormInitData fetchFundFormInitData(Locale locale) {
@@ -202,22 +189,6 @@ public class FundService {
         return fundFormInitData;
     }
 
-    private boolean contains(String categoryName) {
-
-        for (FundCategory c : FundCategory.values()) {
-            if (c.name().equals(categoryName)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public List<Fund> findAllById(Long id) {
-        List<Fund> fundList = new ArrayList<>();
-        fundList.add(findById(id));
-        return fundList;
-    }
-
     public List<CategoryOption> getCategoryOptions(Locale locale) {
         List<CategoryOption> categoryOptions = new ArrayList<>();
         for (FundCategory category : FundCategory.values()) {
@@ -226,12 +197,41 @@ public class FundService {
         return categoryOptions;
     }
 
-    private List<StatusOption> getStatusOptions(Locale locale) {
-        List<StatusOption> statusOptions = new ArrayList<>();
-        for (Status status : Status.values()) {
-            statusOptions.add(new StatusOption(status.toString(), messageSource.getMessage(status.getCode(), null, locale)));
+    public List<FundListItem> fetchFundsByCategory(String categoryName, Locale locale) {
+        if (contains(categoryName)) {
+            FundCategory category = FundCategory.valueOf(categoryName);
+            return fetchFundsToList(fundRepository.findAllByCategory(category), locale);
+        } else {
+            throw new IllegalArgumentException();
         }
-        return statusOptions;
+    }
+
+    private boolean contains(String categoryName) {
+        for (FundCategory c : FundCategory.values()) {
+            if (c.name().equals(categoryName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<Fund> fetchActiveTargetFunds() {
+        return fundRepository.findAllActiveFunds();
+    }
+
+    public List<Fund> findTargetFundById(Long id) {
+        List<Fund> targetFund = new ArrayList<>();
+        targetFund.add(findById(id));
+        return targetFund;
+    }
+
+    public Fund findById(Long id) {
+        Optional<Fund> optionalFund = fundRepository.findById(id);
+        if (optionalFund.isPresent()) {
+            return optionalFund.get();
+        } else {
+            throw new EntityNotFoundException();
+        }
     }
 
 }

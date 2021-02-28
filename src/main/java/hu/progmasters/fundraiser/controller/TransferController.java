@@ -17,8 +17,10 @@ import hu.progmasters.fundraiser.dto.transfer.create.TransferConfirmationCommand
 import hu.progmasters.fundraiser.dto.transfer.create.TransferCreationCommand;
 import hu.progmasters.fundraiser.dto.transfer.create.TransferFormInitData;
 import hu.progmasters.fundraiser.dto.transfer.list.MyTransferListPendingItem;
-import hu.progmasters.fundraiser.service.*;
+import hu.progmasters.fundraiser.service.AccountService;
+import hu.progmasters.fundraiser.service.ExchangeService;
 import hu.progmasters.fundraiser.service.FundService;
+import hu.progmasters.fundraiser.service.TransferService;
 import hu.progmasters.fundraiser.validation.TransferConfirmationCommandValidator;
 import hu.progmasters.fundraiser.validation.TransferCreationCommandValidator;
 import org.slf4j.Logger;
@@ -78,7 +80,7 @@ public class TransferController {
     @GetMapping("/newTransferData")
     public ResponseEntity<TransferFormInitData> newTransferData(Principal principal) {
         AccountDetails myAccount = accountService.addDetailsByEmail(principal.getName());
-        List<Fund> targetFunds = fundService.findAll();
+        List<Fund> targetFunds = fundService.fetchActiveTargetFunds();
         TransferFormInitData initData = new TransferFormInitData(targetFunds, myAccount);
         initData.setCurrencyOptions(exchangeService.fetchRates());
         return new ResponseEntity<>(initData, HttpStatus.OK);
@@ -87,8 +89,8 @@ public class TransferController {
     @GetMapping("/{id}")
     public ResponseEntity<TransferFormInitData> concreteTransferData(@PathVariable Long id, Principal principal) {
         AccountDetails accountDetails = accountService.addDetailsByEmail(principal.getName());
-        List<Fund> targetFunds = fundService.findAllById(id);
-        TransferFormInitData initData = new TransferFormInitData(targetFunds, accountDetails);
+        List<Fund> targetFund = fundService.findTargetFundById(id);
+        TransferFormInitData initData = new TransferFormInitData(targetFund, accountDetails);
         initData.setCurrencyOptions(exchangeService.fetchRates());
         return new ResponseEntity<>(initData, HttpStatus.OK);
     }

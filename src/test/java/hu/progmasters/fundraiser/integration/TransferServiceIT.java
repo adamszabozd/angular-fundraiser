@@ -52,8 +52,8 @@ public class TransferServiceIT {
         fundFormCommand.setShortDescription("They are in danger!!!");
         fundFormCommand.setCategory("NONPROFIT");
         fundFormCommand.setTargetAmount(1000000.00);
-        fundService.saveNewFund(fundFormCommand, email);
-        fundId = fundService.findAll().get(0).getId();
+        fundService.saveNewFund(email, fundFormCommand);
+        fundId = fundService.fetchActiveTargetFunds().get(0).getId();
     }
 
     @Test

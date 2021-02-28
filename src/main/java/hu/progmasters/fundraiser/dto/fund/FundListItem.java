@@ -2,7 +2,6 @@ package hu.progmasters.fundraiser.dto.fund;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import hu.progmasters.fundraiser.domain.Fund;
-import org.thymeleaf.expression.Numbers;
 
 import java.time.LocalDate;
 
@@ -45,10 +44,10 @@ public class FundListItem {
         this.category = categoryDisplayName;
     }
 
-    private Long calculateProgress(Double raisedAmount, Double targetAmount){
-        long result = Math.round((raisedAmount/targetAmount)*100);
-        if (result > 100){
-            result =  (long) 100;
+    private Long calculateProgress(Double raisedAmount, Double targetAmount) {
+        long result = Math.round((raisedAmount / targetAmount) * 100);
+        if (result > 100) {
+            result = (long) 100;
         }
         return result;
     }
@@ -96,4 +95,5 @@ public class FundListItem {
     public Long getProgress() {
         return progress;
     }
+
 }

@@ -6,7 +6,7 @@ public class TargetFundOption {
 
     private final long id;
     private final String title;
-    private String targetCurrency;
+    private final String targetCurrency;
 
     public TargetFundOption(Fund fund) {
         this.id = fund.getId();

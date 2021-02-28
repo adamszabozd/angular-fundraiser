@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {FundsService} from '../../services/funds.service';
 import {FormBuilder, Validators} from '@angular/forms';
+import {FundsService} from '../../services/funds.service';
+import {ActivatedRoute, Router} from '@angular/router';
 import {validationHandler} from '../../utils/validationHandler';
 import {ModifyFundFormInitModel} from '../../models/modifyFundFormInit.model';
 
@@ -16,18 +16,19 @@ export class FundraiserModifyComponent implements OnInit {
     id: number;
     formData: ModifyFundFormInitModel;
 
-    form = this.FormBuilder.group({
+    form = this.formBuilder.group({
                                       title           : ['', Validators.required],
                                       shortDescription: ['', [Validators.required, Validators.maxLength(250)]],
                                       longDescription : [''],
-                                      imageUrl        : ['', Validators.maxLength(1000)],
                                       category        : [''],
                                       targetAmount    : ['', Validators.required],
+                                      currency        : [''],
                                       endDate         : [''],
                                       status          : [''],
                                   });
+    chosenImage: boolean = false;
 
-    constructor(private activatedRoute: ActivatedRoute, private fundService: FundsService, private router: Router, private FormBuilder: FormBuilder) {
+    constructor(private activatedRoute: ActivatedRoute, private fundService: FundsService, private router: Router, private formBuilder: FormBuilder) {
     }
 
     ngOnInit(): void {
@@ -52,9 +53,9 @@ export class FundraiserModifyComponent implements OnInit {
         this.form.get('title').setValue(data.title);
         this.form.get('shortDescription').setValue(data.shortDescription);
         this.form.get('longDescription').setValue(data.longDescription);
-        this.form.get('imageUrl').setValue(data.imageUrl);
         this.form.get('category').setValue(data.category);
         this.form.get('targetAmount').setValue(data.targetAmount);
+        this.form.get('currency').setValue(data.currency);
         this.form.get('endDate').setValue(data.endDate);
         this.form.get('status').setValue(data.status);
     }
@@ -67,5 +68,14 @@ export class FundraiserModifyComponent implements OnInit {
             () => this.router.navigate(['my-funds']),
             (error) => validationHandler(error, this.form),
         );
+    }
+
+    reduceSpaces(s: string) {
+        return s.trim().replace(/\s+/g, ' ');
+    }
+
+    reduceSpacesInShortDescription() {
+        let shortDescription = this.form.get('shortDescription');
+        shortDescription.setValue(this.reduceSpaces(shortDescription.value));
     }
 }

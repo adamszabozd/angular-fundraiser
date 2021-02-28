@@ -1,6 +1,5 @@
 package hu.progmasters.fundraiser.integration;
 
-
 import hu.progmasters.fundraiser.dto.account.AccountRegistrationCommand;
 import hu.progmasters.fundraiser.dto.fund.FundFormCommand;
 import hu.progmasters.fundraiser.dto.fund.FundListItem;
@@ -34,7 +33,6 @@ public class FundServiceIT {
     @Autowired
     private FundRepository fundRepository;
 
-
     @Test
     @Disabled
     void testFetchAllForList() {
@@ -48,17 +46,16 @@ public class FundServiceIT {
 
         FundFormCommand fundFormCommand = FundFormCommand.getDummyInstance("test");
 
-        fundService.saveNewFund(fundFormCommand, "email@email.com");
+        fundService.saveNewFund("email@email.com", fundFormCommand);
 
         FundFormCommand fundFormCommand2 = FundFormCommand.getDummyInstance("Test two");
 
-        fundService.saveNewFund(fundFormCommand2, "email@email.com");
+        fundService.saveNewFund("email@email.com", fundFormCommand2);
 
-        List<FundListItem> fundListItemList = fundService.fetchAllForList(Locale.getDefault());
+        List<FundListItem> fundListItemList = fundService.fetchActiveFundsForList(Locale.getDefault());
 
         Assertions.assertEquals(2, fundListItemList.size());
 
     }
-
 
 }

@@ -3,8 +3,6 @@ package hu.progmasters.fundraiser.dto.fund;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import java.time.LocalDate;
-
 public class FundFormCommand {
 
     private String title;
@@ -18,13 +16,13 @@ public class FundFormCommand {
 
     private String category;
 
-    private String status;
-
     private Double targetAmount;
 
     private String currency;
 
     private String endDate;
+
+    private String status;
 
     public static FundFormCommand getDummyInstance(String name) {
         FundFormCommand instance = new FundFormCommand();
@@ -111,4 +109,5 @@ public class FundFormCommand {
     public void setImageFile(CommonsMultipartFile imageFile) {
         this.imageFile = imageFile;
     }
+
 }
