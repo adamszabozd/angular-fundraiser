@@ -17,6 +17,13 @@ public class TransferCreationCommand {
 
     private Double senderAmount;
 
+    public static TransferCreationCommand getDummyInstance(Long id) {
+        TransferCreationCommand instance = new TransferCreationCommand();
+        instance.setSenderAmount(200.00);
+        instance.setTargetFundId(id);
+        return instance;
+    }
+
     public Long getTargetFundId() {
         return targetFundId;
     }
