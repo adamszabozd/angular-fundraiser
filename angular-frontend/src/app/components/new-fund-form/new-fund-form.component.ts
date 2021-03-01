@@ -36,6 +36,17 @@ export class NewFundFormComponent implements OnInit {
                                       status          : ['ACTIVE'],
                                   });
 
+    public tools: object = {
+        items: ['Undo', 'Redo', '|',
+            'Bold', 'Italic', 'Underline', 'StrikeThrough', '|',
+            'FontName', 'FontSize', 'FontColor', 'BackgroundColor', '|',
+            'SubScript', 'SuperScript', '|',
+            'LowerCase', 'UpperCase', '|',
+            'Formats', 'Alignments', '|', 'OrderedList', 'UnorderedList', '|',
+            'Indent', 'Outdent', '|', 'CreateLink','CreateTable',
+            '|', 'ClearFormat', 'SourceCode', '|', 'FullScreen']
+    };
+
     constructor(private formBuilder: FormBuilder, private fundService: FundsService, private router: Router, private accountService: AccountService) {
     }
 

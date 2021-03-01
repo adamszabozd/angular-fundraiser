@@ -66,7 +66,7 @@
         </div>
         <div class="col-lg-7">
             <img class="w-100" [src]="fund.imageUrl" alt="Fundraiser image">
-            <p>{{fund.longDescription}} </p>
+            <div [innerHTML]="fund.longDescription | safeHtml"></div>
         </div>
 
     </div>

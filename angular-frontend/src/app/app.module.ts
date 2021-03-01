@@ -16,7 +16,7 @@ import {LoginComponent} from './components/login/login.component';
 import { NewFundFormComponent } from './components/new-fund-form/new-fund-form.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import {HttpResponseInterceptor} from "./utils/httpResponseInterceptor";
-import { FundraiserDetailsComponent } from './components/fundraiser-details/fundraiser-details.component';
+import {FundraiserDetailsComponent, SafeHtmlPipe} from './components/fundraiser-details/fundraiser-details.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { MyFundsComponent } from './components/my-funds/my-funds.component';
 import { FundraiserModifyComponent } from './components/fundraiser-modify/fundraiser-modify.component';
@@ -31,6 +31,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ConvertedTransferAmountComponent } from './components/converted-transfer-amount/converted-transfer-amount.component';
 import {RecaptchaFormsModule, RecaptchaModule} from "ng-recaptcha";
 import { MyFundDetailsComponent } from './components/my-fund-details/my-fund-details.component';
+import {RichTextEditorAllModule, RichTextEditorModule} from "@syncfusion/ej2-angular-richtexteditor";
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -56,6 +57,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ConvertedBalanceComponent,
         ConvertedTransferAmountComponent,
         MyFundDetailsComponent,
+        SafeHtmlPipe
     ],
     imports: [
         BrowserModule,
@@ -74,7 +76,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         }),
         NgxChartsModule,
         RecaptchaModule,
-        RecaptchaFormsModule
+        RecaptchaFormsModule,
+        RichTextEditorAllModule,
+        RichTextEditorModule
     ],
     providers: [
         // Http Interceptor(s) -  adds with Client Credentials

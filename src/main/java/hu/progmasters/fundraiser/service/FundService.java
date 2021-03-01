@@ -9,6 +9,8 @@ import hu.progmasters.fundraiser.repository.FundRepository;
 import hu.progmasters.fundraiser.repository.TransferRepository;
 import hu.progmasters.fundraiser.service.cloudinary.CloudinaryUploadException;
 import hu.progmasters.fundraiser.service.cloudinary.UploadResponse;
+import org.owasp.html.PolicyFactory;
+import org.owasp.html.Sanitizers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -136,7 +138,13 @@ public class FundService {
         if (optionalFund.isPresent()) {
             Fund fund = optionalFund.get();
             fund.setShortDescription(modifyFundFormCommand.getShortDescription());
-            fund.setLongDescription(modifyFundFormCommand.getLongDescription());
+            PolicyFactory policy = Sanitizers.BLOCKS
+                    .and(Sanitizers.FORMATTING)
+                    .and(Sanitizers.LINKS)
+                    .and(Sanitizers.STYLES)
+                    .and(Sanitizers.TABLES);
+            String safeLongDescription = policy.sanitize(modifyFundFormCommand.getLongDescription());
+            fund.setLongDescription(safeLongDescription);
             fund.setTargetAmount(modifyFundFormCommand.getTargetAmount());
             fund.setEndDate(modifyFundFormCommand.getEndDate());
             fund.setStatus(Status.valueOf(modifyFundFormCommand.getStatus()));

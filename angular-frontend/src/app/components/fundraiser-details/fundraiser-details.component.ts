@@ -1,10 +1,20 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Pipe, PipeTransform} from '@angular/core';
 import {FundsService} from '../../services/funds.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FundDetailsItemModel} from '../../models/fundDetailsItem.model';
 import {ChartDataElementModel} from '../../models/chartDataElement.model';
 import {LineChartDataElementModel} from '../../models/lineChartDataElement.model';
 import {numberToString} from '../../utils/numberFormatter';
+import {DomSanitizer} from "@angular/platform-browser";
+
+@Pipe({ name: "safeHtml" })
+export class SafeHtmlPipe implements PipeTransform {
+    constructor(private sanitizer: DomSanitizer) {}
+
+    transform(value) {
+        return this.sanitizer.bypassSecurityTrustHtml(value);
+    }
+}
 
 @Component({
                selector   : 'app-fundraiser-details',

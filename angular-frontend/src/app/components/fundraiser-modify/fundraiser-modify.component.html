@@ -66,15 +66,14 @@
                 {{ 'FUND.LONG_DESCRIPTION' | translate }}
             </label><br>
             <div class="col-sm-9">
-            <textarea
-                id="longDescription"
-                class="form-control"
-                rows="8"
-                cols="60"
-                style="min-height: 40px"
-                [placeholder]="'FUND.LONG_DESCRIPTION_PLACEHOLDER' | translate"
-                name="longDescription"
-                formControlName="longDescription"></textarea>
+                <ejs-richtexteditor
+                    id="longDescription"
+                    class="form-control"
+                    style="min-height: 40px"
+                    [placeholder]="'FUND.LONG_DESCRIPTION_PLACEHOLDER' | translate"
+                    formControlName="longDescription"
+                    [toolbarSettings]='tools'>
+                </ejs-richtexteditor>
             </div>
         </div>
 

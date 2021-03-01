@@ -1,6 +1,8 @@
 package hu.progmasters.fundraiser.domain;
 
 import hu.progmasters.fundraiser.dto.fund.FundFormCommand;
+import org.owasp.html.PolicyFactory;
+import org.owasp.html.Sanitizers;
 
 import javax.persistence.*;
 import javax.validation.constraints.Future;
@@ -77,7 +79,12 @@ public class Fund {
     public Fund(FundFormCommand fundFormCommand, Account account, String imageUrl) {
         this.fundTitle = fundFormCommand.getTitle();
         this.shortDescription = fundFormCommand.getShortDescription();
-        this.longDescription = fundFormCommand.getLongDescription();
+        PolicyFactory policy = Sanitizers.BLOCKS
+                .and(Sanitizers.FORMATTING)
+                .and(Sanitizers.LINKS)
+                .and(Sanitizers.STYLES)
+                .and(Sanitizers.TABLES);
+        this.longDescription = policy.sanitize(fundFormCommand.getLongDescription());
         this.imageUrl = imageUrl;
         this.fundCategory = FundCategory.valueOf(fundFormCommand.getCategory());
         this.raisedAmount = 0.0;

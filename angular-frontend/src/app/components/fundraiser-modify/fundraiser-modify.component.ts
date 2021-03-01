@@ -28,6 +28,17 @@ export class FundraiserModifyComponent implements OnInit {
                                   });
     chosenImage: boolean = false;
 
+    public tools: object = {
+        items: ['Undo', 'Redo', '|',
+            'Bold', 'Italic', 'Underline', 'StrikeThrough', '|',
+            'FontName', 'FontSize', 'FontColor', 'BackgroundColor', '|',
+            'SubScript', 'SuperScript', '|',
+            'LowerCase', 'UpperCase', '|',
+            'Formats', 'Alignments', '|', 'OrderedList', 'UnorderedList', '|',
+            'Indent', 'Outdent', '|', 'CreateLink','CreateTable',
+            '|', 'ClearFormat', 'SourceCode', '|', 'FullScreen']
+    };
+
     constructor(private activatedRoute: ActivatedRoute, private fundService: FundsService, private router: Router, private formBuilder: FormBuilder) {
     }
 
