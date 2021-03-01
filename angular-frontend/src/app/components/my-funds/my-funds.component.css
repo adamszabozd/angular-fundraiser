@@ -5,6 +5,9 @@ img {
 a{
     box-shadow: none!important;
 }
+h4 {
+    font-weight: bold;
+}
 .border-top {
     border-top: 3px solid #fabe55 !important;
     width: 40% !important;
@@ -14,4 +17,8 @@ a{
     border-radius: 15px;
     margin: 1rem;
     background: rgba(255, 255, 255, 0.5);
+}
+.notActive {
+    background-color: lightgrey;
+    opacity: 0.8;
 }

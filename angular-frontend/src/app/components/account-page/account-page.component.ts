@@ -85,7 +85,7 @@ export class AccountPageComponent implements OnInit {
 
     resendConfirmationEmail(id: number): void {
         this.transferService.resendConfirmationEmail(id).subscribe(
-            () => this.router.navigate(['/transfer-confirmation']),
+            () => this.router.navigate(['/transfer-confirmation/' + id]),
             error => console.log(error),
         );
     }

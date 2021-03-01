@@ -142,7 +142,6 @@
         "CONFIRM_TRANSFER": "Átutalás megerősítése",
         "CODE_SENT": "Elküldtünk egy megerősítő kódot az Ön e-mail címére. Kérjük írja be a kódot az alábbi mezőbe.",
         "CONFIRMED": "Átutalás véglegesítve!",
-        "LINK_ERROR": "Érvénytelen megerősítő kód",
         "CONFIRMATION_CODE": "Megerősítő kód:",
         "EMPTY_FIELD_ERROR": "Írja be a megerősítő kódot",
         "SEND": "Küldés",

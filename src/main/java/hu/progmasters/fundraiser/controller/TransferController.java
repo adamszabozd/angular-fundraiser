@@ -12,6 +12,7 @@
 package hu.progmasters.fundraiser.controller;
 
 import hu.progmasters.fundraiser.domain.Fund;
+import hu.progmasters.fundraiser.domain.Transfer;
 import hu.progmasters.fundraiser.dto.account.AccountDetails;
 import hu.progmasters.fundraiser.dto.transfer.create.TransferConfirmationCommand;
 import hu.progmasters.fundraiser.dto.transfer.create.TransferCreationCommand;
@@ -48,7 +49,6 @@ public class TransferController {
     private final FundService fundService;
     private final ExchangeService exchangeService;
     private final TransferCreationCommandValidator transferCreationCommandValidator;
-    private final TransferConfirmationCommandValidator transferConfirmationCommandValidator;
 
     @Autowired
     public TransferController(
@@ -56,25 +56,18 @@ public class TransferController {
             AccountService accountService,
             FundService fundService,
             ExchangeService exchangeService,
-            TransferCreationCommandValidator transferCreationCommandValidator,
-            TransferConfirmationCommandValidator transferConfirmationCommandValidator
+            TransferCreationCommandValidator transferCreationCommandValidator
     ) {
         this.transferService = transferService;
         this.accountService = accountService;
         this.fundService = fundService;
         this.exchangeService = exchangeService;
         this.transferCreationCommandValidator = transferCreationCommandValidator;
-        this.transferConfirmationCommandValidator = transferConfirmationCommandValidator;
     }
 
     @InitBinder("transferCreationCommand")
     protected void initCreationBinder(WebDataBinder binder) {
         binder.addValidators(transferCreationCommandValidator);
-    }
-
-    @InitBinder("transferConfirmationCommand")
-    protected void initConfirmationBinder(WebDataBinder binder) {
-        binder.addValidators(transferConfirmationCommandValidator);
     }
 
     @GetMapping("/newTransferData")
@@ -96,15 +89,15 @@ public class TransferController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> savePendingTransfer(@Valid @RequestBody TransferCreationCommand transferCreationCommand, Principal principal, Locale locale) {
-        transferService.savePendingTransfer(transferCreationCommand, principal.getName(), locale);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<Long> savePendingTransfer(@Valid @RequestBody TransferCreationCommand transferCreationCommand, Principal principal, Locale locale) {
+        Transfer transfer = transferService.savePendingTransfer(transferCreationCommand, principal.getName(), locale);
+        return new ResponseEntity<>(transfer.getId(), HttpStatus.CREATED);
     }
 
     @PostMapping("/confirm")
-    public ResponseEntity<Void> confirmTransfer(@Valid @RequestBody TransferConfirmationCommand transferConfirmationCommand, Principal principal) {
-        transferService.confirmTransfer(transferConfirmationCommand, principal.getName());
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<Long> confirmTransfer(@RequestBody TransferConfirmationCommand transferConfirmationCommand, Principal principal) {
+        Long transferId = transferService.confirmTransfer(transferConfirmationCommand, principal.getName());
+        return new ResponseEntity<>(transferId, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
@@ -117,6 +110,12 @@ public class TransferController {
     @GetMapping("/resend/{id}")
     public ResponseEntity<Void> resendConfirmationEmail(@PathVariable Long id, Principal principal, Locale locale) {
         transferService.resendConfirmationEmail(id, principal.getName(), locale);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/confirmed/{id}")
+    public ResponseEntity<Void> checkConfirmed(@PathVariable Long id, Principal principal) {
+        transferService.getPendingTransferByIdAndEmail(id, principal.getName());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
