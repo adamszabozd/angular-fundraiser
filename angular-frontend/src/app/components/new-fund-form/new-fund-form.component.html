@@ -99,7 +99,11 @@
                    for="imageFile"
                    [ngClass]="{'text-danger': (form.get('imageFile').invalid && form.get('imageFile').touched)
                             || (form.get('imageFile').errors?.serverError) || wrongImageFile}"
-            >{{ 'FUND.IMAGE_FILE' | translate }}</label>
+            >{{ 'FUND.IMAGE_FILE' | translate }} <br>
+                <small style="font-size: smaller">{{ 'FUND.IMAGE_TYPES' | translate}}</small> <br>
+                <small style="font-size: smaller">{{ 'FUND.IMAGE_MAX_SIZE' | translate}}</small>
+            </label>
+
             <div class="col-sm-9">
                 <label for="imageFile" class="btn btn-danger"><input
                     id="imageFile"
@@ -108,7 +112,7 @@
                             || (form.get('imageFile').errors?.serverError) || wrongImageFile}"
                     (change)="onFileChange($event)"
                 >{{ 'FUND.IMAGE_CHOOSE' | translate }}</label>
-                <p *ngIf="chosenImage">{{'FUND.IMAGE_CHOSEN' | translate }}</p>
+                <p *ngIf="chosenImage">{{'FUND.IMAGE_CHOSEN' | translate }} Size = {{chosenImageSize}}</p>
 
                 <small
                     *ngIf="(form.get('category').invalid && form.get('category').touched && !form.get('category').errors?.serverError) || wrongImageFile"
