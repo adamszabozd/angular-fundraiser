@@ -11,4 +11,5 @@ export interface FundListItemModel{
     endDate: Date;
     creatorName: string;
     category: string;
+    status: string;
 }

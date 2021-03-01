@@ -30,6 +30,8 @@ public class FundListItem {
 
     private final String category;
 
+    private final String status;
+
     public FundListItem(Fund fund, String categoryDisplayName) {
         this.id = fund.getId();
         this.imageUrl = fund.getImageUrl();
@@ -42,6 +44,7 @@ public class FundListItem {
         this.endDate = fund.getEndDate();
         this.creatorName = fund.getCreator().getUsername();
         this.category = categoryDisplayName;
+        this.status = fund.getStatus().name();
     }
 
     private Long calculateProgress(Double raisedAmount, Double targetAmount) {
@@ -96,4 +99,7 @@ public class FundListItem {
         return progress;
     }
 
+    public String getStatus() {
+        return status;
+    }
 }
