@@ -100,7 +100,7 @@ export class NewFundFormComponent implements OnInit {
             // @ts-ignore
             const file: File = event.target.files[0];
 
-            if (file.name.match(/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i) !== null) {
+            if (file.name.match(/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i) !== null && file.size <= 8388608) {
                 this.form.patchValue({
                                          imageFile: file,
                                      });
@@ -108,6 +108,7 @@ export class NewFundFormComponent implements OnInit {
                 this.chosenImage = true;
             } else {
                 this.wrongImageFile = true;
+
             }
         }
     }
