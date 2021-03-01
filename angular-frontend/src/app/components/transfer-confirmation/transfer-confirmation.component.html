@@ -2,13 +2,15 @@
     <h2>{{ 'CONFIRMATION.CONFIRM_TRANSFER' | translate }}</h2>
     <div class="border-top mx-auto my-3"></div>
     <br/>
-    <p *ngIf="!urlCode && !confirmed">{{ 'CONFIRMATION.CODE_SENT' | translate }}</p>
+    <p *ngIf="!urlCode && !confirmed && !errorMessage">{{ 'CONFIRMATION.CODE_SENT' | translate }}</p>
 
-    <p class="text-success" *ngIf="confirmed">{{ 'CONFIRMATION.CONFIRMED' | translate }}</p>
+    <p class="text-success" *ngIf="confirmed && !errorMessage">{{ 'CONFIRMATION.CONFIRMED' | translate }}</p>
 
-    <p class="transfer-error" *ngIf="urlCode && !confirmed">{{ 'CONFIRMATION.LINK_ERROR' | translate }}</p>
+    <p class="text-danger" *ngIf="errorMessage">
+        {{errorMessage}}
+    </p>
 
-    <form *ngIf="!urlCode && !confirmed" [formGroup]="form" (ngSubmit)="submitForm()">
+    <form *ngIf="!urlCode && !confirmed && !errorMessage" [formGroup]="form" (ngSubmit)="submitForm()">
         <div class="form-group">
             <label
                 for="confirmationCode"

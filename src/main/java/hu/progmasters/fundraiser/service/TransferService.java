@@ -70,7 +70,7 @@ public class TransferService {
         logger.info("Confirmation code generated.");
         pendingTransfer.setConfirmationCode(passwordEncoder.encode(code));
         pendingTransfer = transferRepository.save(pendingTransfer);
-        emailSendingService.sendConfirmationEmail(email, code, pendingTransfer.getTarget().getFundTitle(), pendingTransfer.getSenderAmount(), pendingTransfer.getSenderCurrency().name(), locale);
+        emailSendingService.sendConfirmationEmail(email, pendingTransfer.getId(), code, pendingTransfer.getTarget().getFundTitle(), pendingTransfer.getSenderAmount(), pendingTransfer.getSenderCurrency().name(), locale);
         return pendingTransfer;
     }
 
@@ -91,7 +91,7 @@ public class TransferService {
         String code = getCode();
         pendingTransfer.setConfirmationCode(passwordEncoder.encode(code));
         transferRepository.save(pendingTransfer);
-        emailSendingService.sendConfirmationEmail(email, code, pendingTransfer.getTarget().getFundTitle(), pendingTransfer.getSenderAmount(), pendingTransfer.getSenderCurrency().name(), locale);
+        emailSendingService.sendConfirmationEmail(email, pendingTransfer.getId(), code, pendingTransfer.getTarget().getFundTitle(), pendingTransfer.getSenderAmount(), pendingTransfer.getSenderCurrency().name(), locale);
     }
 
     private Double findCurrencyRate(Account sender, Fund receiver) {
@@ -100,8 +100,14 @@ public class TransferService {
         return receiverCurrencyRate / senderCurrencyRate;
     }
 
-    public void confirmTransfer(TransferConfirmationCommand transferConfirmationCommand, String email) {
-        Transfer transfer = findTransferToPend(transferConfirmationCommand, email);
+    public Long confirmTransfer(TransferConfirmationCommand transferConfirmationCommand, String email) {
+        Transfer transfer = getOwnTransfer(transferConfirmationCommand.getId(), email);
+        if (transfer.getConfirmed()) {
+            throw new AlreadyConfirmedTransferException(email);
+        }
+        if (!passwordEncoder.matches(transferConfirmationCommand.getConfirmationCode(), transfer.getConfirmationCode())) {
+            throw new InvalidConfirmationCodeException(email);
+        }
         Fund targetFund = transfer.getTarget();
         checkActualSenderCurrency(transfer);
         if (targetFund.getCurrency().name().equals(transfer.getTargetCurrency().name())) {
@@ -112,25 +118,10 @@ public class TransferService {
             transfer.setTimeStamp(LocalDateTime.now());
             transfer.setConfirmed(true);
             transferRepository.save(transfer);
+            return transfer.getId();
         } else {
             throw new InvalidTargetFundException(email);
         }
-    }
-
-    private Transfer findTransferToPend(TransferConfirmationCommand transferConfirmationCommand, String email) {
-        String rawCode = transferConfirmationCommand.getConfirmationCode();
-        List<Transfer> pendingTransfers = transferRepository.getPendingTransfers();
-        Transfer transfer = null;
-        for (Transfer pendingTransfer : pendingTransfers) {
-            if (passwordEncoder.matches(rawCode, pendingTransfer.getConfirmationCode())) {
-                transfer = pendingTransfer;
-                break;
-            }
-        }
-        if (transfer == null) {
-            throw new InvalidConfirmationCodeException(email);
-        }
-        return transfer;
     }
 
     private void checkActualSenderCurrency(Transfer transfer) {
@@ -144,18 +135,24 @@ public class TransferService {
     }
 
     public void deleteTransfer(Long id, String email) {
-        Optional<Transfer> transferOptional = transferRepository.findById(id);
-        if (transferOptional.isEmpty()) {
-            throw new TransferNotFoundException(email);
-        }
-        Transfer transfer = transferOptional.get();
+        Transfer transfer = getOwnTransfer(id, email);
         if (transfer.getConfirmed()) {
             throw new ConfirmedTransferDeletionException(email);
-        } else if (transfer.getSource().getEmail().equals(email)) {
-            transferRepository.delete(transfer);
         } else {
-            throw new NotOwnTransferException(email);
+            transferRepository.delete(transfer);
         }
+    }
+
+    public Transfer getOwnTransfer(Long id, String email) {
+        Optional<Transfer> transferOptional = transferRepository.findById(id);
+        if (transferOptional.isEmpty()) {
+            throw new TransferNotFoundOrNotOwnException(email);
+        }
+        Transfer transfer = transferOptional.get();
+        if (!transfer.getSource().getEmail().equals(email)) {
+            throw new TransferNotFoundOrNotOwnException(email);
+        }
+        return transfer;
     }
 
     public List<MyTransferListPendingItem> getPendingTransfers(String email) throws AccountNotFoundException {
@@ -171,17 +168,11 @@ public class TransferService {
     }
 
     public Transfer getPendingTransferByIdAndEmail(Long id, String email) {
-        Optional<Transfer> transferOptional = transferRepository.findById(id);
-        if (transferOptional.isEmpty()) {
-            throw new TransferNotFoundException(email);
-        }
-        Transfer transfer = transferOptional.get();
+        Transfer transfer = getOwnTransfer(id, email);
         if (transfer.getConfirmed()) {
             throw new AlreadyConfirmedTransferException(email);
-        } else if (transfer.getSource().getEmail().equals(email)) {
-            return transfer;
         } else {
-            throw new NotOwnTransferException(email);
+            return transfer;
         }
     }
 

@@ -89,7 +89,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(CustomRuntimeException.class)
-    public ResponseEntity<ApiError> customRuntimeExceptionHandler(TransferNotFoundException e, HttpServletRequest request) {
+    public ResponseEntity<ApiError> customRuntimeExceptionHandler(CustomRuntimeException e, HttpServletRequest request) {
         logger.error(e.getMessage() + " --- User: " + e.getAccountEmail());
         HttpStatus status = HttpStatus.BAD_REQUEST;
         Locale locale = localeResolver.resolveLocale(request);

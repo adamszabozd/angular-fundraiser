@@ -141,7 +141,6 @@
         "CONFIRM_TRANSFER": "Confirm Transfer",
         "CODE_SENT": "A confirmation code was sent to your email address. Please enter the code below.",
         "CONFIRMED": "Transfer is confirmed!",
-        "LINK_ERROR": "Confirmation code is invalid",
         "CONFIRMATION_CODE": "Confirmation code:",
         "EMPTY_FIELD_ERROR": "Please enter the confirmation code",
         "SEND": "Send",

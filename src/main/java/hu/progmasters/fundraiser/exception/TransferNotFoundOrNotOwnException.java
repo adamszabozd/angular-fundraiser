@@ -1,8 +1,8 @@
 package hu.progmasters.fundraiser.exception;
 
-public class TransferNotFoundException extends CustomRuntimeException {
+public class TransferNotFoundOrNotOwnException extends CustomRuntimeException {
 
-    public TransferNotFoundException(String accountEmail) {
+    public TransferNotFoundOrNotOwnException(String accountEmail) {
         super(accountEmail);
     }
 
