@@ -34,7 +34,7 @@ public class FundServiceIT {
     private FundRepository fundRepository;
 
     @Test
-    @Disabled
+
     void testFetchAllForList() {
 
         AccountRegistrationCommand accountRegistrationCommand = new AccountRegistrationCommand();
@@ -44,7 +44,7 @@ public class FundServiceIT {
 
         accountService.create(accountRegistrationCommand);
 
-        FundFormCommand fundFormCommand = FundFormCommand.getDummyInstance("test");
+        FundFormCommand fundFormCommand = FundFormCommand.getDummyInstance("test1");
 
         fundService.saveNewFund("email@email.com", fundFormCommand);
 
