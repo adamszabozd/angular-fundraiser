@@ -3,6 +3,7 @@ package hu.progmasters.fundraiser.service;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.istack.Nullable;
 import hu.progmasters.fundraiser.domain.*;
 import hu.progmasters.fundraiser.dto.fund.*;
 import hu.progmasters.fundraiser.repository.FundRepository;
@@ -13,6 +14,9 @@ import org.owasp.html.PolicyFactory;
 import org.owasp.html.Sanitizers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -25,6 +29,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static hu.progmasters.fundraiser.service.FundSpecifications.fundBelongsToCategory;
+import static hu.progmasters.fundraiser.service.FundSpecifications.fundIsActive;
 
 @Service
 @Transactional
@@ -242,4 +249,20 @@ public class FundService {
         }
     }
 
+    public List<FundListItem> fetchPageableList(Pageable pageInformation, @Nullable String category, Locale locale) {
+        Page<Fund> page;
+
+        if (category != null) {
+            page = fundRepository.findAll(Specification.where(fundIsActive()).and(fundBelongsToCategory(category)), pageInformation);
+        } else {
+            page = fundRepository.findAll(fundIsActive(), pageInformation);
+        }
+
+        return page.stream()
+                .map(fund -> {
+                    String categoryDisplayName = messageSource.getMessage(fund.getFundCategory().getCode(), null, locale);
+                    return new FundListItem(fund, categoryDisplayName);
+                })
+                .collect(Collectors.toList());
+    }
 }

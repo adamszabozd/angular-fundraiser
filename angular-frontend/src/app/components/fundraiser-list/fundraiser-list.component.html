@@ -18,7 +18,7 @@
 <div class="container">
     <div class="row my-5">
         <div [@slideUp]="state" *ngFor="let fund of fundList
-         | paginate: {id: 'pagination', itemsPerPage: 6, currentPage: page, totalItems: numberOfFunds}"
+         | paginate: {id: 'pagination', itemsPerPage: 6, currentPage: page}"
              class="col-md-4 my-4 funds">
             <img [src]="fund.imageUrl" [alt]="'FUNDS.IMAGE' | translate" class="card-img-top">
             <div class="my-md-3">

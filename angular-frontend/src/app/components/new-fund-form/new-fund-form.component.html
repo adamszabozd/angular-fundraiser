@@ -54,7 +54,7 @@
                     id="shortDescription"
                     class="form-control"
                     minlength="5"
-                    maxlength="200"
+                    maxlength="250"
                     rows="3"
                     style="min-height: 40px"
                     [placeholder]="'FUND.SHORT_DESCRIPTION_PLACEHOLDER' | translate"
@@ -112,7 +112,7 @@
                             || (form.get('imageFile').errors?.serverError) || wrongImageFile}"
                     (change)="onFileChange($event)"
                 >{{ 'FUND.IMAGE_CHOOSE' | translate }}</label>
-                <p *ngIf="chosenImage">{{'FUND.IMAGE_CHOSEN' | translate }} Size = {{chosenImageSize}}</p>
+                <p *ngIf="chosenImage">{{'FUND.IMAGE_CHOSEN' | translate }}</p>
 
                 <small
                     *ngIf="(form.get('category').invalid && form.get('category').touched && !form.get('category').errors?.serverError) || wrongImageFile"

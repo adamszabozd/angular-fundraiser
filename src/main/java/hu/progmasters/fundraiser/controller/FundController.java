@@ -7,6 +7,7 @@ import hu.progmasters.fundraiser.validation.ModifyFundFormCommandValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
@@ -50,6 +51,16 @@ public class FundController {
         ResponseEntity<List<FundListItem>> response = new ResponseEntity<>(fundService.fetchActiveFundsForList(locale), HttpStatus.OK);
         logger.info("Fund list requested");
         return response;
+    }
+
+    @GetMapping(value = {"/paginate", "/paginate/{category}"})
+    public ResponseEntity<List<FundListItem>> fetchFundsForList(
+            Pageable pageInformation,
+            @PathVariable(required = false) String category,
+            Locale locale) {
+        List<FundListItem> fetchedList = fundService.fetchPageableList(pageInformation, category, locale);
+        return new ResponseEntity<>(fetchedList, HttpStatus.OK);
+
     }
 
     @GetMapping("/{id}")
