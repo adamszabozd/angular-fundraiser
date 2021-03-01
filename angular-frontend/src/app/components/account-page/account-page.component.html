@@ -143,22 +143,25 @@
     </div>
 
     <div>
-        <div  [@slideUp]="state" *ngIf="accountDetails?.pendingTransfers.length > 0" class="container jumbotron upper">
+        <div [@slideUp]="state" *ngIf="accountDetails?.pendingTransfers.length > 0" class="container jumbotron upper">
             <h4 class="my-transfers__table-label">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS' | translate }}</h4>
             <table class="table-pending table table-bordered table-striped">
                 <thead>
                 <tr class="pending">
-                    <th class="my-transfers__column-to">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS_TO' | translate }}</th>
-                    <th class="my-transfers__column-amount">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS_AMOUNT' | translate }}</th>
-                    <th class="my-transfers__column-amount">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS_CURRENCY' | translate }}</th>
-                    <th scope="col"></th>
+                    <th rowspan="2" id="my-pending_transfers__column-to">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS_TO' | translate }}</th>
+                    <th colspan="2" id="my-pending_transfers__column-amount">{{ 'MY_ACCOUNT.MY_PENDING_TRANSFERS_AMOUNT' | translate }}</th>
+                    <th rowspan="2" scope="col"></th>
+                </tr>
+                <tr class="pending">
+                    <th id="my-pending_transfers__column-my">{{ 'MY_ACCOUNT.MY_OWN_AMOUNT' | translate }}</th>
+                    <th id="my-pending_transfers__column-fund">{{ 'MY_ACCOUNT.FUND_AMOUNT' | translate }}</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr *ngFor="let transfer of accountDetails?.pendingTransfers">
                     <td class="pending-border">{{transfer.targetFundTitle}}</td>
-                    <td class="pending-border">{{numberToString(transfer.senderAmount)}}</td>
-                    <td class="pending-border">{{transfer.senderCurrency}}</td>
+                    <td class="pending-border">{{numberToString(transfer.senderAmount)}} {{transfer.senderCurrency}}</td>
+                    <td class="pending-border">{{numberToString(transfer.targetAmount)}} {{transfer.targetCurrency}}</td>
                     <td class="pending-border">
                 <span class="btn-group">
                     <button (click)="resendConfirmationEmail(transfer.id)"
@@ -176,17 +179,20 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr class="confirmed">
-                    <th class="my-transfers__column-to">{{ 'MY_ACCOUNT.MY_TRANSFERS_TO' | translate }}</th>
-                    <th class="my-transfers__column-amount">{{ 'MY_ACCOUNT.MY_TRANSFERS_AMOUNT' | translate }}</th>
-                    <th class="my-transfers__column-amount">{{ 'MY_ACCOUNT.MY_TRANSFERS_CURRENCY' | translate }}</th>
-                    <th class="my-transfers__column-date">{{ 'MY_ACCOUNT.MY_TRANSFERS_DATE' | translate }}</th>
+                    <th rowspan="2" id="my-transfers__column-to">{{ 'MY_ACCOUNT.MY_TRANSFERS_TO' | translate }}</th>
+                    <th colspan="2" id="my-transfers__column-amount">{{ 'MY_ACCOUNT.MY_TRANSFERS_AMOUNT' | translate }}</th>
+                    <th rowspan="2" id="my-transfers__column-date">{{ 'MY_ACCOUNT.MY_TRANSFERS_DATE' | translate }}</th>
+                </tr>
+                <tr class="confirmed">
+                    <th class="my-transfers__column-amount">{{ 'MY_ACCOUNT.MY_OWN_AMOUNT' | translate }}</th>
+                    <th class="my-transfers__column-amount">{{ 'MY_ACCOUNT.FUND_AMOUNT' | translate }}</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr *ngFor="let transfer of accountDetails?.confirmedTransfers">
                     <td class="confirmed-border">{{transfer.targetFundTitle}}</td>
-                    <td class="confirmed-border">{{numberToString(transfer.senderAmount)}}</td>
-                    <td class="confirmed-border">{{transfer.senderCurrency}}</td>
+                    <td class="confirmed-border">{{numberToString(transfer.senderAmount)}} {{transfer.senderCurrency}}</td>
+                    <td class="confirmed-border">{{numberToString(transfer.targetAmount)}} {{transfer.targetCurrency}}</td>
                     <td class="confirmed-border">{{transfer.timeStamp}}</td>
                 </tr>
                 </tbody>

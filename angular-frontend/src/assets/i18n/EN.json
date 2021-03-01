@@ -21,7 +21,6 @@
         "MY_TRANSFERS": "My transfers:",
         "MY_TRANSFERS_TO": "To",
         "MY_TRANSFERS_AMOUNT": "Amount",
-        "MY_TRANSFERS_CURRENCY": "Currency",
         "MY_TRANSFERS_DATE": "Date",
         "MY_PENDING_TRANSFERS": "My pending transfers:",
         "MY_PENDING_TRANSFERS_TO": "To",
@@ -37,7 +36,9 @@
         "ADD_AMOUNT_SUBMIT": "Deposit",
         "ADD_AMOUNT_ERROR": "Please choose an amount above 0",
         "PIE_CHART_TITLE": "Donation summary:",
-        "LEGEND": "Legend"
+        "LEGEND": "Legend",
+        "MY_OWN_AMOUNT": "Own currency",
+        "FUND_AMOUNT": "Fund currency"
     },
     "FUNDS": {
         "BROWSE_FUNDRAISERS": "Browse fundraisers",

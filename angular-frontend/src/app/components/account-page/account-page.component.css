@@ -78,3 +78,7 @@ button {
 .fillForm {
     background-color: rgba(60, 172, 202, 0.2) !important;
 }
+#my-transfers__column-to, #my-transfers__column-date, #my-pending_transfers__column-to {
+padding: 33px;
+    font-size: 1.3rem;
+}

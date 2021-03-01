@@ -21,7 +21,6 @@
         "MY_TRANSFERS": "Adományaim:",
         "MY_TRANSFERS_TO": "Gyűjtés",
         "MY_TRANSFERS_AMOUNT": "Összeg",
-        "MY_TRANSFERS_CURRENCY": "Pénznem",
         "MY_TRANSFERS_DATE": "Dátum",
         "MY_PENDING_TRANSFERS": "Megerősítésre váró adományaim:",
         "MY_PENDING_TRANSFERS_TO": "Gyűjtés",
@@ -37,7 +36,9 @@
         "ADD_AMOUNT_SUBMIT": "Befizetés",
         "ADD_AMOUNT_ERROR": "Az összeg csak 0-nál nagyobb lehet",
         "PIE_CHART_TITLE": "Adományok összesítése:",
-        "LEGEND": "Jelmagyarázat"
+        "LEGEND": "Jelmagyarázat",
+        "MY_OWN_AMOUNT": "Saját pénznem",
+        "FUND_AMOUNT": "Gyűjtés pénznem"
     },
     "FUNDS": {
         "BROWSE_FUNDRAISERS": "Böngészés",
