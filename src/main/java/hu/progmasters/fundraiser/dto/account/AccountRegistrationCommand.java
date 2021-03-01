@@ -12,8 +12,6 @@
 package hu.progmasters.fundraiser.dto.account;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 public class AccountRegistrationCommand {
 
@@ -25,6 +23,15 @@ public class AccountRegistrationCommand {
     private String username;
 
     private String captcha;
+
+    public static AccountRegistrationCommand getDummyInstance(String email) {
+        AccountRegistrationCommand instance = new AccountRegistrationCommand();
+        instance.setEmail(email);
+        instance.setUsername("tester");
+        instance.setPassword("qqqq");
+        instance.setCaptcha("hrw7r");
+        return instance;
+    }
 
     public String getPassword() {
         return password;
@@ -57,4 +64,5 @@ public class AccountRegistrationCommand {
     public void setCaptcha(String captcha) {
         this.captcha = captcha;
     }
+
 }

@@ -28,13 +28,13 @@ public class FundFormCommand {
         FundFormCommand instance = new FundFormCommand();
         instance.setTitle(name);
         instance.setShortDescription("Short description two");
-        instance.setLongDescription("Long Descripton tow");
+        instance.setLongDescription("Long Description tow");
         instance.setImageFile(null);
         instance.setCategory("MEDICAL");
         instance.setTargetAmount(1001.0);
-        instance.setCategory("EUR");
+        instance.setCurrency("EUR");
         instance.setEndDate("2025-01-01");
-        instance.setStatus("Active");
+        instance.setStatus("ACTIVE");
         return instance;
     }
 
