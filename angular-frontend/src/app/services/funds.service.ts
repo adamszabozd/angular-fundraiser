@@ -72,5 +72,8 @@ export class FundsService {
         });
     }
 
+    getPdf(id: number) {
+        return this.http.get(BASE_URL + '/pdf/' + id, { responseType: 'blob' as 'json' });
+    }
 
 }

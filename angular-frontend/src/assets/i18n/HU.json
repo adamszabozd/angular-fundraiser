@@ -111,7 +111,8 @@
         "BARCHART_TITLE": "Adományok napi alakulása az utolsó egy hétben",
         "LINECHART_TITLE": "Összegyűlt összeg alakulása",
         "FIRST": "Legyél az első támogató",
-        "BACK": "Vissza"
+        "BACK": "Vissza",
+        "DOWNLOAD_PDF": "Letöltés PDF-ben"
     },
     "REGISTRATION": {
         "EMAIL": "E-mail cím:",

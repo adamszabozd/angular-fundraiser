@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -101,4 +102,13 @@ public class FundController {
         logger.info("Category list requested");
         return new ResponseEntity<>(fundService.getCategoryOptions(locale), HttpStatus.OK); //getCategoryOptions
     }
+
+    @GetMapping(
+            value = "pdf/{id}",
+            produces = MediaType.APPLICATION_PDF_VALUE
+    )
+    public @ResponseBody byte[] generatePdf(@PathVariable Long id, Locale locale) {
+        return fundService.generatePdf(id, locale);
+    }
+
 }

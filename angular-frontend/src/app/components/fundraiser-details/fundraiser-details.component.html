@@ -63,6 +63,10 @@
             <button type="button" class="btn btn-danger btn-lg my-4"
                     [routerLink]="['/transfer-funds', id]">{{'DETAILS.FUND_THIS_PROJECT' | translate}}</button>
             </span>
+            <span class="btn-group">
+            <button type="button" class="btn btn-secondary btn-sm my-4"
+                    (click)="getPdf()">{{'DETAILS.DOWNLOAD_PDF' | translate}}</button>
+            </span>
         </div>
         <div class="col-lg-7">
             <img class="w-100" [src]="fund.imageUrl" alt="Fundraiser image">

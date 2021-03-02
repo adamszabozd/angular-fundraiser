@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Fund details</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div>
+    <h1 style="text-align: center" th:text="${title}"></h1>
+    <hr>
+    <div>
+        <div style="width: 30%; float: left">
+            <h4>
+                <span th:text="#{pdf.category}"></span>
+                <br/>
+                <span th:text="${category}"></span>
+            </h4>
+            <h4>
+                <span th:text="#{pdf.goal_amount}"></span>
+                <br/>
+                <span th:text="${goalAmount}"></span>
+            </h4>
+            <h4>
+                <span th:text="#{pdf.expiration_date}"></span>
+                <br/>
+                <span th:text="${endDate}"></span>
+            </h4>
+            <img style="width: 80%" th:src="${imageUrl}" alt="Fund image">
+        </div>
+        <div style="width: 70%; float: right">
+            <div th:utext="${longDescription}"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
