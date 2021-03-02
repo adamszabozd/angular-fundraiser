@@ -46,12 +46,6 @@ public class FundController {
         webDataBinder.addValidators(modifyFundFormCommandValidator);
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<FundListItem>> fetchAllActiveFunds(Locale locale) {
-//        ResponseEntity<List<FundListItem>> response = new ResponseEntity<>(fundService.fetchActiveFundsForList(locale), HttpStatus.OK);
-//        logger.info("Fund list requested");
-//        return response;
-//    }
 
     @GetMapping(value = {"/list", "/list/{category}"})
     public ResponseEntity<FundPageData> fetchFundsForList(
@@ -107,10 +101,4 @@ public class FundController {
         logger.info("Category list requested");
         return new ResponseEntity<>(fundService.getCategoryOptions(locale), HttpStatus.OK); //getCategoryOptions
     }
-
-//    @GetMapping("/categories/{category}")
-//    public ResponseEntity<List<FundListItem>> getFundsByCategory(@PathVariable String category, Locale locale) {
-//        return new ResponseEntity<>(fundService.fetchFundsByCategory(category, locale), HttpStatus.OK);
-//    }
-
 }

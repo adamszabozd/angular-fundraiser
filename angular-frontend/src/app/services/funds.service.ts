@@ -37,10 +37,6 @@ export class FundsService {
 
 
 
-    // fetchFundsByCategory(category: string): Observable<Array<FundListItemModel>> {
-    //     return this.http.get<Array<FundListItemModel>>(BASE_URL + '/categories/' + category);
-    // }
-
     fetchFundDetails(id: number): Observable<FundDetailsItemModel> {
         return this.http.get<FundDetailsItemModel>(BASE_URL + '/' + id);
     }

@@ -60,9 +60,6 @@ public class FundService {
         this.cloudinary = cloudinary;
     }
 
-//    public List<FundListItem> fetchActiveFundsForList(Locale locale) {
-//        return fetchFundsToList(fundRepository.findAllActiveFunds(), locale);
-//    }
 
     private List<FundListItem> fetchFundsToList(List<Fund> fundList, Locale locale) {
         return fundList.stream()
@@ -211,24 +208,6 @@ public class FundService {
         }
         return categoryOptions;
     }
-
-//    public List<FundListItem> fetchFundsByCategory(String categoryName, Locale locale) {
-//        if (contains(categoryName)) {
-//            FundCategory category = FundCategory.valueOf(categoryName);
-//            return fetchFundsToList(fundRepository.findAllByCategory(category), locale);
-//        } else {
-//            throw new IllegalArgumentException();
-//        }
-//    }
-
-//    private boolean contains(String categoryName) {
-//        for (FundCategory c : FundCategory.values()) {
-//            if (c.name().equals(categoryName)) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
 
     public List<Fund> fetchActiveTargetFunds() {
         return fundRepository.findAllActiveFunds();
