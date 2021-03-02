@@ -88,7 +88,7 @@ export class TransferFundsComponent implements OnInit {
             senderAmount: this.form.value.senderAmount,
         };
         this.transferService.submitTransfer(myPendingTransfer).subscribe(
-            () => this.router.navigate(['/transfer-confirmation']),
+            id => this.router.navigate(['/transfer-confirmation/' + id]),
             error => validationHandler(error, this.form),
         );
     }

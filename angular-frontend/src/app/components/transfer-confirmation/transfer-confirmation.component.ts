@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {TransferService} from '../../services/transfer.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, Validators} from "@angular/forms";
-import {validationHandler} from "../../utils/validationHandler";
 import {formAppearAnimation} from '../../animations';
 import {AccountService} from "../../services/account.service";
 
@@ -19,6 +18,8 @@ export class TransferConfirmationComponent implements OnInit {
     state = 'invisible';
     confirmed = false;
     urlCode = false;
+    transferId: string;
+    errorMessage: string;
     form = this.formBuilder.group({
         confirmationCode: ['', Validators.required],
     });
@@ -31,6 +32,10 @@ export class TransferConfirmationComponent implements OnInit {
     }
 
     ngOnInit() {
+        const bc = new BroadcastChannel('confirmation_status_update');
+        bc.onmessage = ev => {
+            this.transferService.confirmationStatusSubject.next(ev.data);
+        };
         this.accountService.isLoggedIn().subscribe(
             loggedIn => {
                 if (!loggedIn) {
@@ -40,26 +45,46 @@ export class TransferConfirmationComponent implements OnInit {
                     this.route.paramMap.subscribe(
                         paramMap => {
                             const confirmationCode = paramMap.get('code');
+                            this.transferId = paramMap.get('id');
+                            this.transferService.confirmationStatusUpdate.subscribe(
+                                transferId => {
+                                    if (this.transferId == transferId) {
+                                        this.confirmed = true;
+                                        this.errorMessage = '';
+                                    }
+                                }
+                            );
                             if (confirmationCode) {
                                 this.urlCode = true;
-                                this.transferService.confirmTransfer({'confirmationCode': confirmationCode}).subscribe(
-                                    () => {
+                                this.transferService.confirmTransfer({'id': parseInt(this.transferId), 'confirmationCode': confirmationCode}).subscribe(
+                                    (transferId) => {
                                         this.confirmed = true;
+                                        bc.postMessage(transferId);
                                         if (this.state == 'invisible') {
                                             setTimeout(() => this.state = 'visible');
                                         }
                                     },
                                     error => {
                                         console.warn(error);
+                                        this.errorMessage = error.error.error;
                                         if (this.state == 'invisible') {
                                             setTimeout(() => this.state = 'visible');
                                         }
                                     }
                                 );
                             } else {
-                                if (this.state == 'invisible') {
-                                    setTimeout(() => this.state = 'visible');
-                                }
+                                this.transferService.transferIsConfirmed(parseInt(this.transferId)).subscribe(
+                                    () => {
+                                        if (this.state == 'invisible') {
+                                            setTimeout(() => this.state = 'visible');
+                                        }},
+                                    error => {
+                                        console.log(error);
+                                        this.errorMessage = error.error.error;
+                                        if (this.state == 'invisible') {
+                                            setTimeout(() => this.state = 'visible');
+                                        }}
+                                );
                             }
                         },
                         error => {
@@ -75,9 +100,14 @@ export class TransferConfirmationComponent implements OnInit {
     }
 
     submitForm() {
-        this.transferService.confirmTransfer(this.form.value).subscribe(
+        let data = this.form.value;
+        data.id = this.transferId;
+        this.transferService.confirmTransfer(data).subscribe(
             () => this.confirmed = true,
-            error => validationHandler(error, this.form),
+            error => {
+                console.log('nnnnnnnnnnnnnn' + error);
+                this.form.get('confirmationCode').setErrors({serverError: error.error.error});
+            }
         );
     }
 

@@ -7,7 +7,6 @@ import hu.progmasters.fundraiser.repository.FundRepository;
 import hu.progmasters.fundraiser.service.AccountService;
 import hu.progmasters.fundraiser.service.FundService;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -23,7 +22,7 @@ import java.util.Locale;
 @Transactional
 @Rollback
 @AutoConfigureTestDatabase
-public class FundServiceIT {
+class FundServiceIT {
 
     @Autowired
     private FundService fundService;
@@ -35,7 +34,6 @@ public class FundServiceIT {
     private FundRepository fundRepository;
 
     @Test
-    @Disabled
     void testFetchAllForList() {
 
         AccountRegistrationCommand accountRegistrationCommand = new AccountRegistrationCommand();
@@ -45,7 +43,7 @@ public class FundServiceIT {
 
         accountService.create(accountRegistrationCommand);
 
-        FundFormCommand fundFormCommand = FundFormCommand.getDummyInstance("test");
+        FundFormCommand fundFormCommand = FundFormCommand.getDummyInstance("test1");
 
         fundService.saveNewFund("email@email.com", fundFormCommand);
 

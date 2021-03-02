@@ -3,12 +3,14 @@
     <div class="border-top mx-auto my-3"></div>
 </div>
 <div class="container">
-    <div [@slideUp]="state" *ngFor="let fund of myFundList" class="row py-4 fund">
+    <div [@slideUp]="state" *ngFor="let fund of myFundList" class="row py-4 fund"
+         [ngClass]="{'notActive': fund.status != 'ACTIVE'}">
         <div class="col-lg-4 mb-4 my-lg-auto">
             <img [src]="fund.imageUrl" [alt]="'FUNDS.IMAGE' | translate" class="w-100">
         </div>
         <div class="col-lg-8">
             <h4 class="my-4">{{fund.title}}</h4>
+            <h4 class="my-4" *ngIf="fund.status!= 'ACTIVE'" style="color:Tomato;">{{fund.status}}</h4>
             <p class="description">{{fund.shortDescription}}</p>
             <h6>{{ 'FUNDS.CATEGORY' | translate }}{{fund.category}}</h6>
             <h6>{{ 'FUNDS.AMOUNT' | translate: {

@@ -16,22 +16,20 @@ import hu.progmasters.fundraiser.domain.Transfer;
 import hu.progmasters.fundraiser.dto.transfer.list.MyTransferListItem;
 import hu.progmasters.fundraiser.dto.transfer.list.MyTransferListPendingItem;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class AccountDetails {
 
-    private Long id;
-    private String email;
-    private String username;
-    private Double balance;
-    private String currency;
-    private List<String> accountRoleList;
-    private List<MyTransferListItem> confirmedTransfers;
-    private List<MyTransferListPendingItem> pendingTransfers;
-    private List<DonationPerFund> donationsPerFund;
+    private final Long id;
+    private final String email;
+    private final String username;
+    private final Double balance;
+    private final String currency;
+    private final List<String> accountRoleList;
+    private final List<MyTransferListItem> confirmedTransfers;
+    private final List<MyTransferListPendingItem> pendingTransfers;
+    private final List<DonationPerFund> donationsPerFund;
 
     public AccountDetails(Account account, List<DonationPerFund> donationsPerFund) {
         this.id = account.getId();
@@ -40,16 +38,16 @@ public class AccountDetails {
         this.currency = account.getCurrency().name();
         this.balance = account.getBalance();
         this.accountRoleList = account.getAccountRoleList().stream()
-                .map(String::valueOf)
-                .collect(Collectors.toList());
+                                      .map(String::valueOf)
+                                      .collect(Collectors.toList());
         this.confirmedTransfers = account.getOutgoingTransfers().stream()
-                .filter(Transfer::getConfirmed).map(MyTransferListItem::new)
-                .collect(Collectors.toList());
+                                         .filter(Transfer::getConfirmed).map(MyTransferListItem::new)
+                                         .collect(Collectors.toList());
         this.pendingTransfers = account.getOutgoingTransfers().stream()
-                .filter(t -> !t.getConfirmed())
+                                       .filter(t -> !t.getConfirmed())
 
-                .map(MyTransferListPendingItem::new)
-                .collect(Collectors.toList());
+                                       .map(MyTransferListPendingItem::new)
+                                       .collect(Collectors.toList());
         this.donationsPerFund = donationsPerFund;
     }
 
@@ -88,4 +86,5 @@ public class AccountDetails {
     public List<DonationPerFund> getDonationsPerFund() {
         return donationsPerFund;
     }
+
 }
