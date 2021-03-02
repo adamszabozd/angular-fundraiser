@@ -60,9 +60,9 @@ public class FundService {
         this.cloudinary = cloudinary;
     }
 
-    public List<FundListItem> fetchActiveFundsForList(Locale locale) {
-        return fetchFundsToList(fundRepository.findAllActiveFunds(), locale);
-    }
+//    public List<FundListItem> fetchActiveFundsForList(Locale locale) {
+//        return fetchFundsToList(fundRepository.findAllActiveFunds(), locale);
+//    }
 
     private List<FundListItem> fetchFundsToList(List<Fund> fundList, Locale locale) {
         return fundList.stream()
@@ -212,23 +212,23 @@ public class FundService {
         return categoryOptions;
     }
 
-    public List<FundListItem> fetchFundsByCategory(String categoryName, Locale locale) {
-        if (contains(categoryName)) {
-            FundCategory category = FundCategory.valueOf(categoryName);
-            return fetchFundsToList(fundRepository.findAllByCategory(category), locale);
-        } else {
-            throw new IllegalArgumentException();
-        }
-    }
+//    public List<FundListItem> fetchFundsByCategory(String categoryName, Locale locale) {
+//        if (contains(categoryName)) {
+//            FundCategory category = FundCategory.valueOf(categoryName);
+//            return fetchFundsToList(fundRepository.findAllByCategory(category), locale);
+//        } else {
+//            throw new IllegalArgumentException();
+//        }
+//    }
 
-    private boolean contains(String categoryName) {
-        for (FundCategory c : FundCategory.values()) {
-            if (c.name().equals(categoryName)) {
-                return true;
-            }
-        }
-        return false;
-    }
+//    private boolean contains(String categoryName) {
+//        for (FundCategory c : FundCategory.values()) {
+//            if (c.name().equals(categoryName)) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
     public List<Fund> fetchActiveTargetFunds() {
         return fundRepository.findAllActiveFunds();
@@ -249,20 +249,25 @@ public class FundService {
         }
     }
 
-    public List<FundListItem> fetchPageableList(Pageable pageInformation, @Nullable String category, Locale locale) {
+    public FundPageData fetchPageableList(Pageable pageInformation, @Nullable String category, Locale locale) {
         Page<Fund> page;
+        Long count;
 
         if (category != null) {
             page = fundRepository.findAll(Specification.where(fundIsActive()).and(fundBelongsToCategory(category)), pageInformation);
+            count = fundRepository.countAllByStatusByCategory(FundCategory.valueOf(category));
         } else {
             page = fundRepository.findAll(fundIsActive(), pageInformation);
+            count = fundRepository.countAllByStatus();
         }
 
-        return page.stream()
+        List<FundListItem> funds = page.stream()
                 .map(fund -> {
                     String categoryDisplayName = messageSource.getMessage(fund.getFundCategory().getCode(), null, locale);
                     return new FundListItem(fund, categoryDisplayName);
                 })
                 .collect(Collectors.toList());
+
+        return new FundPageData(count, funds);
     }
 }

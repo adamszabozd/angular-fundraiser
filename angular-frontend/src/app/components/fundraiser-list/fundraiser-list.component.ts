@@ -18,9 +18,11 @@ export class FundraiserListComponent implements OnInit {
     state = 'up';
 
     fundList: Array<FundListItemModel>;
-    numberOfFunds: number;
+    totalItems: number;
     page: number = 1;
     paramMap: ParamMap;
+    sortBy: string;
+    dir: string;
 
     numberToString = numberToString;
 
@@ -40,51 +42,59 @@ export class FundraiserListComponent implements OnInit {
 
     }
 
-    fetchData() {
+    fetchData(sortBy?: string, dir?: string) {
         const category = this.paramMap.get('category');
         if (category) {
-            this.fundsService.fetchFundsByCategory(category).subscribe(
+            this.page = 1;
+            this.fundsService.fetchFundsPage(this.page-1, sortBy, dir, category).subscribe(
                 (data) => {
-                    this.fundList = data;
-                    this.numberOfFunds = data.length;
+                    this.fundList = data.funds;
+                    this.totalItems = data.count;
                 },
                 (error) => console.log(error),
             );
         } else {
-            this.fundsService.fetchAllFunds().subscribe(
+            this.fundsService.fetchFundsPage(this.page-1, sortBy, dir).subscribe(
                 (data) => {
-                    this.fundList = data;
-                    this.numberOfFunds = data.length;
+                    this.fundList = data.funds;
+                    this.totalItems = data.count;
                 },
                 (error) => console.log(error),
             );
         }
     }
 
-    sortByRaisedFundsDesc() {
-        console.log('sortByRaisedAmount() called');
-        this.fundList.sort(
-            (a, b) => (a.raisedAmount > b.raisedAmount) ? -1 : 1,
-        );
-    }
+    // sortByRaisedFundsDesc() {
+    //     console.log('sortByRaisedAmount() called');
+    //     this.fundList.sort(
+    //         (a, b) => (a.raisedAmount > b.raisedAmount) ? -1 : 1,
+    //     );
+    // }
 
     sortByExpirationDateAsc() {
-        console.log('sortByEndDate() called');
-        this.fundList.sort(
-            (a, b) => (a.endDate > b.endDate) ? 1 : -1,
-        );
+        this.sortBy = "endDate";
+        this.dir = "asc";
+        this.page = 1;
+        this.fetchData(this.sortBy, this.dir);
     }
 
     sortByIdDesc() {
-        this.fundList.sort(
-            (a, b) => (a.id < b.id) ? 1 : -1,
-        );
+        this.sortBy = "id";
+        this.dir = "desc";
+        this.page = 1;
+        this.fetchData(this.sortBy, this.dir)
     }
 
-    sortBYCreatorName() {
-        this.fundList.sort(
-            (a, b) => (a.creatorName > b.creatorName) ? 1 : -1
-        );
+    sortByCreatorName() {
+        this.sortBy = "creator.username";
+        this.dir = "asc";
+        this.page = 1;
+        this.fetchData(this.sortBy, this.dir)
     }
 
+    pageChanged($event: number) {
+        this.page=$event;
+        this.fetchData(this.sortBy, this.dir);
+
+    }
 }
