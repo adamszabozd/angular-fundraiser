@@ -64,12 +64,12 @@ export class FundraiserListComponent implements OnInit {
         }
     }
 
-    // sortByRaisedFundsDesc() {
-    //     console.log('sortByRaisedAmount() called');
-    //     this.fundList.sort(
-    //         (a, b) => (a.raisedAmount > b.raisedAmount) ? -1 : 1,
-    //     );
-    // }
+    sortByRaisedFundsDesc() {
+        this.sortBy = undefined;
+        this.dir = undefined;
+        this.page = 1;
+        this.fetchData(this.sortBy, this.dir);
+    }
 
     sortByExpirationDateAsc() {
         this.sortBy = "endDate";

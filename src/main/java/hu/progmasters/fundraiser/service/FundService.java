@@ -240,10 +240,20 @@ public class FundService {
         Long count;
 
         if (category != null) {
-            page = fundRepository.findAll(Specification.where(fundIsActive()).and(fundBelongsToCategory(category)), pageInformation);
+            if (pageInformation.getSort().isSorted()) {
+                System.out.println("Felső fut le");
+                page = fundRepository.findAll(Specification.where(fundIsActive()).and(fundBelongsToCategory(category)), pageInformation);
+            } else {
+                System.out.println("Ez fut le");
+                page = fundRepository.findByCategoryOrderByRaised(pageInformation, FundCategory.valueOf(category));
+            }
             count = fundRepository.countAllByStatusByCategory(FundCategory.valueOf(category));
         } else {
-            page = fundRepository.findAll(fundIsActive(), pageInformation);
+            if (pageInformation.getSort().isSorted()) {
+                page = fundRepository.findAll(fundIsActive(), pageInformation);
+            } else {
+                page = fundRepository.findAllOrderByRaised(pageInformation);
+            }
             count = fundRepository.countAllByStatus();
         }
 
@@ -256,6 +266,7 @@ public class FundService {
 
         return new FundPageData(count, funds);
     }
+
     public byte[] generatePdf(Long id, Locale locale) {
         Optional<Fund> fundOptional = fundRepository.findById(id);
         if (fundOptional.isEmpty()) {

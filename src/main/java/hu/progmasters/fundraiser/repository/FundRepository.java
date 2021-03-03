@@ -3,6 +3,8 @@ package hu.progmasters.fundraiser.repository;
 import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.domain.Fund;
 import hu.progmasters.fundraiser.domain.FundCategory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -34,4 +36,9 @@ public interface FundRepository extends JpaRepository<Fund, Long>, JpaSpecificat
     @Query("SELECT f FROM Fund f WHERE f.creator = :account AND f.id = :id")
     Optional<Fund> findByCreatorAndId(Account account, Long id);
 
+    @Query("SELECT f FROM Fund f LEFT JOIN ExchangeRate e ON f.currency = e.currency WHERE e.currentTime = (SELECT MAX(e.currentTime) FROM ExchangeRate e) AND f.status = 'ACTIVE' AND f.fundCategory = :category ORDER BY f.raisedAmount / e.rate DESC")
+    Page<Fund> findByCategoryOrderByRaised(Pageable pageable, FundCategory category);
+
+    @Query("SELECT f FROM Fund f LEFT JOIN ExchangeRate e ON f.currency = e.currency WHERE e.currentTime = (SELECT MAX(e.currentTime) FROM ExchangeRate e) AND f.status = 'ACTIVE' ORDER BY f.raisedAmount / e.rate DESC")
+    Page<Fund> findAllOrderByRaised(Pageable pageable);
 }
