@@ -48,6 +48,7 @@
         "AMOUNT_GOAL": "Target: ",
         "END_DATE": "End date: ",
         "CREATOR": "Creator: ",
+        "PASSIVE": "Passive",
         "MODIFY": "Modify",
         "READ_MORE": "Read more",
         "NO_FUNDS": "Sorry, there are no funds in this category yet",
@@ -57,7 +58,8 @@
         "SORT_RAISED_FUNDS": "Raised funds",
         "SORT_END_DATE": "Expiration date",
         "SORT_ID_DESC": "Creation (latest)",
-        "SORT_CREATOR": "Creator name"
+        "SORT_CREATOR": "Creator name",
+        "SUSPENDED": "Suspended"
     },
     "FUND": {
         "NEW_FUND": "New Fund",
@@ -112,7 +114,8 @@
         "BARCHART_TITLE": "Donations per day during last seven days",
         "LINECHART_TITLE": "Total raised amount",
         "FIRST": "Be the first to donate",
-        "BACK": "Back"
+        "BACK": "Back",
+        "DOWNLOAD_PDF": "Download as PDF"
     },
     "REGISTRATION": {
         "EMAIL": "Email:",

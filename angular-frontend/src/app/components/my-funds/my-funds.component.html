@@ -10,7 +10,8 @@
         </div>
         <div class="col-lg-8">
             <h4 class="my-4">{{fund.title}}</h4>
-            <h4 class="my-4" *ngIf="fund.status!= 'ACTIVE'" style="color:Tomato;">{{fund.status}}</h4>
+            <h4 class="my-4" *ngIf="fund.status === 'PASSIVE'" style="color:Tomato;">{{'FUNDS.PASSIVE' | translate}}</h4>
+            <h4 class="my-4" *ngIf="fund.status === 'SUSPENDED'" style="color:Tomato;">{{'FUNDS.SUSPENDED' | translate}}</h4>
             <p class="description">{{fund.shortDescription}}</p>
             <h6>{{ 'FUNDS.CATEGORY' | translate }}{{fund.category}}</h6>
             <h6>{{ 'FUNDS.AMOUNT' | translate: {
@@ -25,10 +26,14 @@
             </div>
             <h6 *ngIf="fund.endDate != null">{{ 'FUNDS.END_DATE' | translate }}{{fund.endDate}}</h6>
             <span class="btn-group">
-            <a [routerLink]="['/my-funds-details',fund.id]"
+            <a *ngIf="fund.status === 'ACTIVE'" [routerLink]="['/my-funds-details',fund.id]"
                class="btn btn-outline-warning btn-md">{{ 'FUNDS.READ_MORE' | translate }}</a>
-            <a [routerLink]="['/modify',fund.id]"
+            <a *ngIf="fund.status!= 'ACTIVE'"   [routerLink]="['/my-funds-details',fund.id]"
+               class="btn btn-warning btn-md">{{ 'FUNDS.READ_MORE' | translate }}</a>
+            <a *ngIf="fund.status=== 'ACTIVE'" [routerLink]="['/modify',fund.id]"
                class="btn btn-outline-info btn-md">{{ 'FUND.MODIFY_FUND' | translate }}</a>
+            <a *ngIf="fund.status!= 'ACTIVE'" [routerLink]="['/modify',fund.id]"
+               class="btn btn-info btn-md">{{ 'FUND.MODIFY_FUND' | translate }}</a>
             </span>
         </div>
     </div>

@@ -53,6 +53,8 @@
         "NO_FUNDS": "Sajnáljuk, de ebben a kategóriában még nincsen gyűjtés",
         "PREVIOUS": "Előző",
         "NEXT": "Következő",
+        "PASSIVE": "Passzív",
+        "SUSPENDED": "Felfüggesztve",
         "SORT_BY": "Rendezés",
         "SORT_RAISED_FUNDS": "Összegyűjtött adomány",
         "SORT_END_DATE": "Lejárati dátum",
@@ -112,7 +114,8 @@
         "BARCHART_TITLE": "Adományok napi alakulása az utolsó egy hétben",
         "LINECHART_TITLE": "Összegyűlt összeg alakulása",
         "FIRST": "Legyél az első támogató",
-        "BACK": "Vissza"
+        "BACK": "Vissza",
+        "DOWNLOAD_PDF": "Letöltés PDF-ben"
     },
     "REGISTRATION": {
         "EMAIL": "E-mail cím:",
@@ -151,7 +154,7 @@
     "HOME": {
         "H1": "Üdvözöl a KickStarter!",
         "H4": "A KickStarter piacvezető az online adománygyűjtésben. Jó hírünk annak köszönhető, hogy minden lehetséges módon támogatjuk partnereinket.",
-        "H5": "Segítünk Neked abban, hogy minél könnyebben es minél szélesebb közönséghez eljusson a történeted email-en és közösségi médián keresztül, ezáltal el tudd érni a célod. Mindezen felül lelkes csapatunk folyamatosan olyan történetek után kutat, amelyeket a médiában meg tud jeleníteni",
+        "H5": "Segítünk Neked abban, hogy minél könnyebben és minél szélesebb közönséghez eljusson a történeted email-en és közösségi médián keresztül, ezáltal el tudd érni a célod. Mindezen felül lelkes csapatunk folyamatosan olyan történetek után kutat, amelyeket a médiában meg tud jeleníteni.",
         "P1": "1. Indítsd el az adománygyűjtést.",
         "P2": "2. Oszd meg a barátaiddal.",
         "P3": "3. Gondoskodj az adományok felhasználásáról.",

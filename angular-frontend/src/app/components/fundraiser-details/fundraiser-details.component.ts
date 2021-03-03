@@ -95,4 +95,13 @@ export class FundraiserDetailsComponent implements OnInit {
         );
     }
 
+    getPdf() {
+        this.fundService.getPdf(this.id).subscribe((data) => {
+            let downloadURL = window.URL.createObjectURL(data);
+            let link = document.createElement('a');
+            link.href = downloadURL;
+            link.download = 'fund' + this.id + '.pdf';
+            link.click();
+        });
+    }
 }

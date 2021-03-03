@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -50,8 +51,7 @@ class FundServiceIT {
 
         fundService.saveNewFund("email@email.com", fundFormCommand2);
 
-        List<FundListItem> fundListItemList = fundService.fetchActiveFundsForList(Locale.getDefault());
-
+        List<FundListItem> fundListItemList = new ArrayList<>();
         Assertions.assertEquals(2, fundListItemList.size());
 
     }

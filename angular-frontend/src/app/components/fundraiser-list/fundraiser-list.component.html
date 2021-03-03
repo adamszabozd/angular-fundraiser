@@ -1,6 +1,6 @@
 <div class="col-12 text-center mt-5">
-    <h1 *ngIf="numberOfFunds > 0" class="text-dark pt-4">{{ 'FUNDS.BROWSE_FUNDRAISERS' | translate }}</h1>
-    <h1 *ngIf="numberOfFunds == 0" class="text-danger pt-4">{{ 'FUNDS.NO_FUNDS' | translate }}</h1>
+    <h1 *ngIf="totalItems > 0" class="text-dark pt-4">{{ 'FUNDS.BROWSE_FUNDRAISERS' | translate }}</h1>
+    <h1 *ngIf="totalItems == 0" class="text-danger pt-4">{{ 'FUNDS.NO_FUNDS' | translate }}</h1>
     <div class="border-top mx-auto my-3"></div>
 </div>
 <div class="dropdown">
@@ -12,13 +12,13 @@
         <a class="dropdown-item" (click)="sortByRaisedFundsDesc()">{{ 'FUNDS.SORT_RAISED_FUNDS' | translate}}</a>
         <a class="dropdown-item" (click)="sortByExpirationDateAsc()">{{ 'FUNDS.SORT_END_DATE' | translate}}</a>
         <a class="dropdown-item" (click)="sortByIdDesc()">{{ 'FUNDS.SORT_ID_DESC' | translate}}</a>
-        <a class="dropdown-item" (click)="sortBYCreatorName()">{{ 'FUNDS.SORT_CREATOR' | translate}}</a>
+        <a class="dropdown-item" (click)="sortByCreatorName()">{{ 'FUNDS.SORT_CREATOR' | translate}}</a>
     </div>
 </div>
 <div class="container">
     <div class="row my-5">
         <div [@slideUp]="state" *ngFor="let fund of fundList
-         | paginate: {id: 'pagination', itemsPerPage: 6, currentPage: page, totalItems: numberOfFunds}"
+         | paginate: {id: 'pagination', itemsPerPage: 6, currentPage: page, totalItems: totalItems}"
              class="col-md-4 my-4 funds">
             <img [src]="fund.imageUrl" [alt]="'FUNDS.IMAGE' | translate" class="card-img-top">
             <div class="my-md-3">
@@ -43,11 +43,11 @@
             </div>
         </div>
     </div>
-    <div *ngIf="numberOfFunds > 0" class=" text-center mb-4">
+    <div *ngIf="totalItems > 0" class=" text-center mb-4">
         <pagination-controls id="pagination"
                              maxSize="5"
                              directionLinks="true"
-                             (pageChange)="page= $event"
+                             (pageChange)="pageChanged($event)"
                              autoHide="true"
                              [previousLabel]=" 'FUNDS.PREVIOUS' | translate"
                              [nextLabel]=" 'FUNDS.NEXT' | translate">

@@ -9,6 +9,7 @@ import {FundDetailsItemModel} from '../models/fundDetailsItem.model';
 import {TranslateService} from '@ngx-translate/core';
 import {ModifyFundFormInitModel} from '../models/modifyFundFormInit.model';
 import {ModifyFundCommandModel} from '../models/modifyFundCommand.model';
+import {FundPageDataModel} from "../models/fundPageData.model";
 
 const host = environment.BASE_URL;
 const BASE_URL = host + '/api/funds';
@@ -23,9 +24,18 @@ export class FundsService {
     constructor(private http: HttpClient, public translate: TranslateService) {
     }
 
-    fetchAllFunds(): Observable<Array<FundListItemModel>> {
-        return this.http.get<Array<FundListItemModel>>(BASE_URL);
+    fetchFundsPage(page: number, sortBy?: string, dir?: string, category?: string): Observable<FundPageDataModel> {
+        let params = new HttpParams().set("page", String(page)).set("size", "6");
+        if(sortBy) {
+            params = params.append("sort", sortBy+","+dir);
+        }
+        if(category){
+            return this.http.get<FundPageDataModel>(BASE_URL + "/list/" + category, {params: params})
+        }
+        return this.http.get<FundPageDataModel>(BASE_URL + "/list", {params: params});
     }
+
+
 
     fetchFundDetails(id: number): Observable<FundDetailsItemModel> {
         return this.http.get<FundDetailsItemModel>(BASE_URL + '/' + id);
@@ -62,7 +72,8 @@ export class FundsService {
         });
     }
 
-    fetchFundsByCategory(category: string): Observable<Array<FundListItemModel>> {
-        return this.http.get<Array<FundListItemModel>>(BASE_URL + '/categories/' + category);
+    getPdf(id: number) {
+        return this.http.get(BASE_URL + '/pdf/' + id, { responseType: 'blob' as 'json' });
     }
+
 }

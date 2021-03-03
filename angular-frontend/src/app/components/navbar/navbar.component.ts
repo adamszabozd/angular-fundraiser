@@ -46,8 +46,13 @@ export class NavbarComponent implements OnInit {
         )
         translate.addLangs(['EN', 'HU']);
         translate.setDefaultLang('EN');
-        const browserLang = translate.getBrowserLang();
-        translate.use(browserLang.match(/hu|hu-HU/) ? 'HU' : 'EN');
+        const storageLang = localStorage.getItem('lang');
+        if (storageLang == 'HU' || storageLang == 'EN') {
+            translate.use(storageLang);
+        } else {
+            const browserLang = translate.getBrowserLang();
+            translate.use(browserLang.match(/hu|hu-HU/) ? 'HU' : 'EN');
+        }
     }
 
     ngOnInit() {
@@ -80,6 +85,7 @@ export class NavbarComponent implements OnInit {
     getCategories(lang: string) {
         this.translate.use(lang).subscribe(
             () => {
+                localStorage.setItem('lang', lang);
                 this.fundService.getCategories().subscribe(
                     (data) => this.categories = data,
                     (error) => console.log(error));

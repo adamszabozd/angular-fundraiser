@@ -7,7 +7,9 @@ import hu.progmasters.fundraiser.validation.ModifyFundFormCommandValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -45,11 +47,15 @@ public class FundController {
         webDataBinder.addValidators(modifyFundFormCommandValidator);
     }
 
-    @GetMapping
-    public ResponseEntity<List<FundListItem>> fetchAllActiveFunds(Locale locale) {
-        ResponseEntity<List<FundListItem>> response = new ResponseEntity<>(fundService.fetchActiveFundsForList(locale), HttpStatus.OK);
-        logger.info("Fund list requested");
-        return response;
+
+    @GetMapping(value = {"/list", "/list/{category}"})
+    public ResponseEntity<FundPageData> fetchFundsForList(
+            Pageable pageInformation,
+            @PathVariable(required = false) String category,
+            Locale locale) {
+        FundPageData fetchedData = fundService.fetchPageableList(pageInformation, category, locale);
+        return new ResponseEntity<>(fetchedData, HttpStatus.OK);
+
     }
 
     @GetMapping("/{id}")
@@ -97,9 +103,12 @@ public class FundController {
         return new ResponseEntity<>(fundService.getCategoryOptions(locale), HttpStatus.OK); //getCategoryOptions
     }
 
-    @GetMapping("/categories/{category}")
-    public ResponseEntity<List<FundListItem>> getFundsByCategory(@PathVariable String category, Locale locale) {
-        return new ResponseEntity<>(fundService.fetchFundsByCategory(category, locale), HttpStatus.OK);
+    @GetMapping(
+            value = "pdf/{id}",
+            produces = MediaType.APPLICATION_PDF_VALUE
+    )
+    public @ResponseBody byte[] generatePdf(@PathVariable Long id, Locale locale) {
+        return fundService.generatePdf(id, locale);
     }
 
 }

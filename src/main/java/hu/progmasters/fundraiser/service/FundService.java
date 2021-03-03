@@ -3,6 +3,8 @@ package hu.progmasters.fundraiser.service;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.istack.Nullable;
+import com.itextpdf.html2pdf.HtmlConverter;
 import hu.progmasters.fundraiser.domain.*;
 import hu.progmasters.fundraiser.dto.fund.*;
 import hu.progmasters.fundraiser.repository.FundRepository;
@@ -13,18 +15,27 @@ import org.owasp.html.PolicyFactory;
 import org.owasp.html.Sanitizers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.persistence.EntityNotFoundException;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
+
+import static hu.progmasters.fundraiser.service.FundSpecifications.fundBelongsToCategory;
+import static hu.progmasters.fundraiser.service.FundSpecifications.fundIsActive;
 
 @Service
 @Transactional
@@ -36,6 +47,7 @@ public class FundService {
     private final ExchangeService exchangeService;
     private final Cloudinary cloudinary;
     private final TransferRepository transferRepository;
+    private final SpringTemplateEngine thymeleafTemplateEngine;
 
     @Autowired
     public FundService(FundRepository fundRepository,
@@ -43,7 +55,8 @@ public class FundService {
                        TransferRepository transferRepository,
                        ExchangeService exchangeService,
                        MessageSource messageSource,
-                       Cloudinary cloudinary
+                       Cloudinary cloudinary,
+                       SpringTemplateEngine thymeleafTemplateEngine
     ) {
         this.fundRepository = fundRepository;
         this.accountService = accountService;
@@ -51,11 +64,9 @@ public class FundService {
         this.transferRepository = transferRepository;
         this.messageSource = messageSource;
         this.cloudinary = cloudinary;
+        this.thymeleafTemplateEngine = thymeleafTemplateEngine;
     }
 
-    public List<FundListItem> fetchActiveFundsForList(Locale locale) {
-        return fetchFundsToList(fundRepository.findAllActiveFunds(), locale);
-    }
 
     private List<FundListItem> fetchFundsToList(List<Fund> fundList, Locale locale) {
         return fundList.stream()
@@ -205,24 +216,6 @@ public class FundService {
         return categoryOptions;
     }
 
-    public List<FundListItem> fetchFundsByCategory(String categoryName, Locale locale) {
-        if (contains(categoryName)) {
-            FundCategory category = FundCategory.valueOf(categoryName);
-            return fetchFundsToList(fundRepository.findAllByCategory(category), locale);
-        } else {
-            throw new IllegalArgumentException();
-        }
-    }
-
-    private boolean contains(String categoryName) {
-        for (FundCategory c : FundCategory.values()) {
-            if (c.name().equals(categoryName)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public List<Fund> fetchActiveTargetFunds() {
         return fundRepository.findAllActiveFunds();
     }
@@ -240,6 +233,58 @@ public class FundService {
         } else {
             throw new EntityNotFoundException();
         }
+    }
+
+    public FundPageData fetchPageableList(Pageable pageInformation, @Nullable String category, Locale locale) {
+        Page<Fund> page;
+        Long count;
+
+        if (category != null) {
+            if (pageInformation.getSort().isSorted()) {
+                System.out.println("Felső fut le");
+                page = fundRepository.findAll(Specification.where(fundIsActive()).and(fundBelongsToCategory(category)), pageInformation);
+            } else {
+                System.out.println("Ez fut le");
+                page = fundRepository.findByCategoryOrderByRaised(pageInformation, FundCategory.valueOf(category));
+            }
+            count = fundRepository.countAllByStatusByCategory(FundCategory.valueOf(category));
+        } else {
+            if (pageInformation.getSort().isSorted()) {
+                page = fundRepository.findAll(fundIsActive(), pageInformation);
+            } else {
+                page = fundRepository.findAllOrderByRaised(pageInformation);
+            }
+            count = fundRepository.countAllByStatus();
+        }
+
+        List<FundListItem> funds = page.stream()
+                .map(fund -> {
+                    String categoryDisplayName = messageSource.getMessage(fund.getFundCategory().getCode(), null, locale);
+                    return new FundListItem(fund, categoryDisplayName);
+                })
+                .collect(Collectors.toList());
+
+        return new FundPageData(count, funds);
+    }
+
+    public byte[] generatePdf(Long id, Locale locale) {
+        Optional<Fund> fundOptional = fundRepository.findById(id);
+        if (fundOptional.isEmpty()) {
+            throw new EntityNotFoundException();
+        }
+        Fund fund = fundOptional.get();
+        Context ctx = new Context(locale);
+        ctx.setVariable("title", fund.getFundTitle());
+        ctx.setVariable("category", messageSource.getMessage(fund.getFundCategory().getCode(), null, locale));
+        NumberFormat nf = NumberFormat.getInstance(locale);
+        ctx.setVariable("goalAmount", nf.format((long)(double)(fund.getTargetAmount())) + " " + fund.getCurrency().toString());
+        ctx.setVariable("endDate", fund.getEndDate());
+        ctx.setVariable("imageUrl", fund.getImageUrl());
+        ctx.setVariable("longDescription", fund.getLongDescription());
+        String htmlContent = thymeleafTemplateEngine.process("fund-details", ctx);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        HtmlConverter.convertToPdf(htmlContent, outputStream);
+        return outputStream.toByteArray();
     }
 
 }
