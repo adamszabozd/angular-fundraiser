@@ -64,7 +64,7 @@ public class FundController {
     }
 
     @GetMapping("/myFunds")
-    public ResponseEntity<List<FundListItem>> fetchMyFunds(Principal principal, Locale locale) {
+    public ResponseEntity<MyFundsData> fetchMyFunds(Principal principal, Locale locale) {
         return new ResponseEntity<>(fundService.fetchMyFunds(principal.getName(), locale), HttpStatus.OK);
     }
 
@@ -97,10 +97,10 @@ public class FundController {
         return new ResponseEntity<>(fundService.fetchFundFormInitData(locale), HttpStatus.OK);
     }
 
-    @GetMapping("/categories")
-    public ResponseEntity<List<CategoryOption>> fetchCategoryOptions(Locale locale) {
-        logger.info("Category list requested");
-        return new ResponseEntity<>(fundService.getCategoryOptions(locale), HttpStatus.OK); //getCategoryOptions
+    @GetMapping("/enumData")
+    public ResponseEntity<EnumData> fetchEnumData(Locale locale) {
+        logger.info("Enum data requested");
+        return new ResponseEntity<>(fundService.getEnumData(locale), HttpStatus.OK);
     }
 
     @GetMapping(

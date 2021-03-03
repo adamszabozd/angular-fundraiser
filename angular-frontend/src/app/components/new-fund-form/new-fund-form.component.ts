@@ -48,6 +48,12 @@ export class NewFundFormComponent implements OnInit {
     };
 
     constructor(private formBuilder: FormBuilder, private fundService: FundsService, private router: Router, private accountService: AccountService) {
+        this.fundService.languageStatusUpdate.subscribe(
+            data => {
+                this.formInitData.categoryOptions = data.categoryOptions;
+                this.formInitData.statusOptions = data.statusOptions;
+            }
+        );
     }
 
     ngOnInit() {

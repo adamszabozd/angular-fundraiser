@@ -25,7 +25,7 @@
                 <h5 class="card-title">{{fund.title}}</h5>
                 <h6 class="card-subtitle mb-2 ">{{ 'FUNDS.CREATOR' | translate }}{{fund.creatorName}}</h6>
                 <p class="my-1 short-description">{{fund.shortDescription}}</p>
-                <p class="my-1">{{ 'FUNDS.CATEGORY' | translate }}{{fund.category}}</p>
+                <p class="my-1">{{ 'FUNDS.CATEGORY' | translate }}{{fundsService.getCategoryDisplayName(fund.category, categoryOptions)}}</p>
                 <p class="card-text">{{ 'FUNDS.END_DATE' | translate }}{{fund.endDate}}</p>
                 <p class="my-1 fund-amount">{{ 'FUNDS.AMOUNT_RAISED' | translate }}
                     {{numberToString(fund.raisedAmount)}}{{fund.currency}}</p>

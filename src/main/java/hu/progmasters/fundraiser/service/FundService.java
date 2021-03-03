@@ -69,12 +69,9 @@ public class FundService {
 
 
     //Tested
-    private List<FundListItem> fetchFundsToList(List<Fund> fundList, Locale locale) {
+    private List<FundListItem> fetchFundsToList(List<Fund> fundList) {
         return fundList.stream()
-                       .map(fund -> {
-                           String categoryDisplayName = messageSource.getMessage(fund.getFundCategory().getCode(), null, locale);
-                           return new FundListItem(fund, categoryDisplayName);
-                       })
+                       .map(FundListItem::new)
                        .collect(Collectors.toList());
     }
 
@@ -121,8 +118,9 @@ public class FundService {
     }
 
     //Tested
-    public List<FundListItem> fetchMyFunds(String email, Locale locale) {
-        return fetchFundsToList(fundRepository.findAllByCreator(accountService.findByEmail(email)), locale);
+    public MyFundsData fetchMyFunds(String email, Locale locale) {
+        List<FundListItem> fundListItems = fetchFundsToList(fundRepository.findAllByCreator(accountService.findByEmail(email)));
+        return new MyFundsData(fundListItems, getCategoryOptions(locale));
     }
 
     //Tested
@@ -136,7 +134,8 @@ public class FundService {
         Optional<Fund> optionalFund = fundRepository.findByCreatorAndId(accountService.findByEmail(email), id);
         if (optionalFund.isPresent()) {
             List<StatusOption> statusOptions = getStatusOptions(locale);
-            return new ModifyFundFormInit(optionalFund.get(), statusOptions);
+            List<CategoryOption> categoryOptions = getCategoryOptions(locale);
+            return new ModifyFundFormInit(optionalFund.get(), statusOptions, categoryOptions);
         } else {
             throw new EntityNotFoundException();
         }
@@ -227,6 +226,10 @@ public class FundService {
         return categoryOptions;
     }
 
+    public EnumData getEnumData(Locale locale) {
+        return new EnumData(getCategoryOptions(locale), getStatusOptions(locale));
+    }
+
     //Tested
     public List<Fund> fetchActiveTargetFunds() {
         return fundRepository.findAllActiveFunds();
@@ -271,13 +274,10 @@ public class FundService {
         }
 
         List<FundListItem> funds = page.stream()
-                .map(fund -> {
-                    String categoryDisplayName = messageSource.getMessage(fund.getFundCategory().getCode(), null, locale);
-                    return new FundListItem(fund, categoryDisplayName);
-                })
+                .map(FundListItem::new)
                 .collect(Collectors.toList());
 
-        return new FundPageData(count, funds);
+        return new FundPageData(count, funds, getCategoryOptions(locale));
     }
 
     public byte[] generatePdf(Long id, Locale locale) {

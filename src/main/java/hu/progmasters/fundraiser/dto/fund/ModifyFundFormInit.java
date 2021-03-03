@@ -27,7 +27,9 @@ public class ModifyFundFormInit {
 
     private final List<StatusOption> statusOptions;
 
-    public ModifyFundFormInit(Fund fund, List<StatusOption> statusOptions) {
+    private final List<CategoryOption> categoryOptions;
+
+    public ModifyFundFormInit(Fund fund, List<StatusOption> statusOptions, List<CategoryOption> categoryOptions) {
         this.title = fund.getFundTitle();
         this.shortDescription = fund.getShortDescription();
         this.longDescription = fund.getLongDescription();
@@ -37,6 +39,7 @@ public class ModifyFundFormInit {
         this.endDate = fund.getEndDate();
         this.status = fund.getStatus().name();
         this.statusOptions = statusOptions;
+        this.categoryOptions = categoryOptions;
     }
 
     public String getTitle() {
@@ -75,4 +78,7 @@ public class ModifyFundFormInit {
         return statusOptions;
     }
 
+    public List<CategoryOption> getCategoryOptions() {
+        return categoryOptions;
+    }
 }

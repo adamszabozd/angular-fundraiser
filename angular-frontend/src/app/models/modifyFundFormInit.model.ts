@@ -1,4 +1,5 @@
 import {StatusOptionModel} from "./statusOption.model";
+import {CategoryOptionModel} from "./categoryOption.model";
 
 export interface ModifyFundFormInitModel {
 
@@ -11,4 +12,5 @@ export interface ModifyFundFormInitModel {
     endDate: Date;
     status: string;
     statusOptions: Array<StatusOptionModel>;
+    categoryOptions: Array<CategoryOptionModel>;
 }

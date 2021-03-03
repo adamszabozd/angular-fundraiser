@@ -6,10 +6,12 @@ public class FundPageData {
 
     private Long count;
     private List<FundListItem> funds;
+    private List<CategoryOption> categoryOptions;
 
-    public FundPageData(Long count, List<FundListItem> funds) {
+    public FundPageData(Long count, List<FundListItem> funds, List<CategoryOption> categoryOptions) {
         this.count = count;
         this.funds = funds;
+        this.categoryOptions = categoryOptions;
     }
 
     public Long getCount() {
@@ -26,5 +28,13 @@ public class FundPageData {
 
     public void setFunds(List<FundListItem> funds) {
         this.funds = funds;
+    }
+
+    public List<CategoryOption> getCategoryOptions() {
+        return categoryOptions;
+    }
+
+    public void setCategoryOptions(List<CategoryOption> categoryOptions) {
+        this.categoryOptions = categoryOptions;
     }
 }

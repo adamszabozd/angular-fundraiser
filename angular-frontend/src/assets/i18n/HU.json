@@ -44,6 +44,7 @@
         "BROWSE_FUNDRAISERS": "Böngészés",
         "IMAGE": "gyűjtés képe",
         "CATEGORY": "Kategória: ",
+        "AMOUNT": "Elért: {{ amount }} {{ currency }}   Cél: {{ amountGoal }} {{ currency }}",
         "AMOUNT_RAISED": "Elért: ",
         "AMOUNT_GOAL": "Cél: ",
         "END_DATE": "Gyűjtés vége: ",

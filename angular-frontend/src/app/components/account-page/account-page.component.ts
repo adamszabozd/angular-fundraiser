@@ -28,8 +28,8 @@ export class AccountPageComponent implements OnInit {
     // pie chart options
     view: any[] = [400, 250];
     gradient: boolean = true;
-    showLegend: boolean = true;
-    showLabels: boolean = false;
+    showLegend: boolean = false;
+    showLabels: boolean = true;
     isDoughnut: boolean = false;
     legendPosition: string = 'below';
     colorScheme = {

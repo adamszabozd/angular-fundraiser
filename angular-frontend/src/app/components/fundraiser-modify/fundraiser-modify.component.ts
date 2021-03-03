@@ -44,6 +44,13 @@ export class FundraiserModifyComponent implements OnInit {
     };
 
     constructor(private activatedRoute: ActivatedRoute, private fundService: FundsService, private router: Router, private formBuilder: FormBuilder) {
+        this.fundService.languageStatusUpdate.subscribe(
+            data => {
+                this.formData.statusOptions = data.statusOptions;
+                this.formData.categoryOptions = data.categoryOptions;
+                this.form.get('category').setValue(this.fundService.getCategoryDisplayName(this.formData.category, data.categoryOptions));
+            }
+        );
     }
 
     ngOnInit(): void {
@@ -74,7 +81,7 @@ export class FundraiserModifyComponent implements OnInit {
         this.form.get('title').setValue(data.title);
         this.form.get('shortDescription').setValue(data.shortDescription);
         this.form.get('longDescription').setValue(data.longDescription);
-        this.form.get('category').setValue(data.category);
+        this.form.get('category').setValue(this.fundService.getCategoryDisplayName(data.category, data.categoryOptions));
         this.form.get('targetAmount').setValue(data.targetAmount);
         this.form.get('currency').setValue(data.currency);
         this.form.get('endDate').setValue(data.endDate);

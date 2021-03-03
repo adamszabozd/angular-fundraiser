@@ -59,11 +59,10 @@ export class NavbarComponent implements OnInit {
         this.accountService.isLoggedIn().subscribe(
             data => this.loggedIn = data,
         );
-        this.fundService.getCategories().subscribe(
-            (data) => this.categories = data,
+        this.fundService.getEnums().subscribe(
+            (data) => this.categories = data.categoryOptions,
             (error) => console.log(error),
         );
-        this.fundService.languageStatusUpdate.next(true);
         this.accountService.accountExchangeRates.subscribe(
             (rates) => {
                 this.exchangeRates = rates;
@@ -82,12 +81,15 @@ export class NavbarComponent implements OnInit {
         });
     }
 
-    getCategories(lang: string) {
+    updateLanguage(lang: string) {
         this.translate.use(lang).subscribe(
             () => {
                 localStorage.setItem('lang', lang);
-                this.fundService.getCategories().subscribe(
-                    (data) => this.categories = data,
+                this.fundService.getEnums().subscribe(
+                    (data) => {
+                        this.categories = data.categoryOptions;
+                        this.fundService.languageStatusUpdate.next(data);
+                    },
                     (error) => console.log(error));
             },
             (error) => console.log(error),

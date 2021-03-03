@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {AccountService} from '../../services/account.service';
 import {numberToString} from '../../utils/numberFormatter';
 import {slideInFromDown} from '../../animations';
+import {CategoryOptionModel} from "../../models/categoryOption.model";
 
 @Component({
                selector   : 'app-my-funds',
@@ -18,14 +19,23 @@ export class MyFundsComponent implements OnInit {
 
     state = 'up';
     myFundList: Array<FundListItemModel>;
+    categoryOptions: Array<CategoryOptionModel>;
     numberToString = numberToString;
 
-    constructor(private fundService: FundsService, private router: Router, private accountService: AccountService) {
+    constructor(public fundService: FundsService, private router: Router, private accountService: AccountService) {
+        this.fundService.languageStatusUpdate.subscribe(
+            data => {
+                this.categoryOptions = data.categoryOptions;
+            }
+        );
     }
 
     ngOnInit() {
         this.fundService.fetchMyFunds().subscribe(
-            (data) => this.myFundList = data,
+            (data) => {
+                this.categoryOptions = data.categoryOptions;
+                this.myFundList = data.fundListItems;
+            },
             error => {
                 this.accountService.loggedInStatusUpdate.next(false);
                 this.router.navigate(['/login']);

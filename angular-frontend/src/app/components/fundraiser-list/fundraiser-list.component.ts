@@ -4,6 +4,7 @@ import {FundsService} from '../../services/funds.service';
 import {FundListItemModel} from '../../models/fundListItem.model';
 import {slideInFromDown} from '../../animations';
 import {numberToString} from '../../utils/numberFormatter';
+import {CategoryOptionModel} from "../../models/categoryOption.model";
 
 @Component({
                selector   : 'app-summary-page',
@@ -19,6 +20,7 @@ export class FundraiserListComponent implements OnInit {
 
     fundList: Array<FundListItemModel>;
     totalItems: number;
+    categoryOptions: Array<CategoryOptionModel>;
     page: number = 1;
     paramMap: ParamMap;
     sortBy: string;
@@ -26,7 +28,12 @@ export class FundraiserListComponent implements OnInit {
 
     numberToString = numberToString;
 
-    constructor(private router: Router, private fundsService: FundsService, private route: ActivatedRoute) {
+    constructor(private router: Router, public fundsService: FundsService, private route: ActivatedRoute) {
+        this.fundsService.languageStatusUpdate.subscribe(
+            data => {
+                this.categoryOptions = data.categoryOptions;
+            }
+        );
     }
 
     ngOnInit() {
@@ -36,10 +43,6 @@ export class FundraiserListComponent implements OnInit {
                 this.fetchData();
             },
         );
-        this.fundsService.languageStatusUpdate.subscribe(() => {
-            this.fetchData();
-        });
-
     }
 
     fetchData(sortBy?: string, dir?: string) {
@@ -48,6 +51,7 @@ export class FundraiserListComponent implements OnInit {
             this.page = 1;
             this.fundsService.fetchFundsPage(this.page-1, sortBy, dir, category).subscribe(
                 (data) => {
+                    this.categoryOptions = data.categoryOptions;
                     this.fundList = data.funds;
                     this.totalItems = data.count;
                 },
@@ -56,6 +60,7 @@ export class FundraiserListComponent implements OnInit {
         } else {
             this.fundsService.fetchFundsPage(this.page-1, sortBy, dir).subscribe(
                 (data) => {
+                    this.categoryOptions = data.categoryOptions;
                     this.fundList = data.funds;
                     this.totalItems = data.count;
                 },

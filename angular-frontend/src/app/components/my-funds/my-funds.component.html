@@ -13,7 +13,7 @@
             <h4 class="my-4" *ngIf="fund.status === 'PASSIVE'" style="color:Tomato;">{{'FUNDS.PASSIVE' | translate}}</h4>
             <h4 class="my-4" *ngIf="fund.status === 'SUSPENDED'" style="color:Tomato;">{{'FUNDS.SUSPENDED' | translate}}</h4>
             <p class="description">{{fund.shortDescription}}</p>
-            <h6>{{ 'FUNDS.CATEGORY' | translate }}{{fund.category}}</h6>
+            <h6>{{ 'FUNDS.CATEGORY' | translate }}{{fundService.getCategoryDisplayName(fund.category, categoryOptions)}}</h6>
             <h6>{{ 'FUNDS.AMOUNT' | translate: {
                 amount: numberToString(fund.raisedAmount),
                 amountGoal: numberToString(fund.targetAmount),

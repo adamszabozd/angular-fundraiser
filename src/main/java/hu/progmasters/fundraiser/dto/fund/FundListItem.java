@@ -32,7 +32,7 @@ public class FundListItem {
 
     private final String status;
 
-    public FundListItem(Fund fund, String categoryDisplayName) {
+    public FundListItem(Fund fund) {
         this.id = fund.getId();
         this.imageUrl = fund.getImageUrl();
         this.title = fund.getFundTitle();
@@ -43,7 +43,7 @@ public class FundListItem {
         this.progress = calculateProgress(raisedAmount, targetAmount);
         this.endDate = fund.getEndDate();
         this.creatorName = fund.getCreator().getUsername();
-        this.category = categoryDisplayName;
+        this.category = fund.getFundCategory().name();
         this.status = fund.getStatus().name();
     }
 

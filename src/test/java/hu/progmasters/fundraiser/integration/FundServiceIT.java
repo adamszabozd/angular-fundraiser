@@ -108,7 +108,7 @@ class FundServiceIT {
     void testFetchMyFunds(){
 
         assertEquals(9, fundRepository.count());
-        assertEquals(8, fundService.fetchMyFunds("tester@email.com", localeEn).size());
+        assertEquals(8, fundService.fetchMyFunds("tester@email.com", localeEn).getFundListItems().size());
 
     }
 
