@@ -2,7 +2,7 @@ export function numberToString(x: number) {
     if (x != undefined) {
         return (Number)(x.toFixed(2)).toLocaleString();
     } else {
-        return x;
+        return "";
     }
 }
 
