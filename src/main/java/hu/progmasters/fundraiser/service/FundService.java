@@ -68,6 +68,7 @@ public class FundService {
     }
 
 
+    //Tested
     private List<FundListItem> fetchFundsToList(List<Fund> fundList, Locale locale) {
         return fundList.stream()
                        .map(fund -> {
@@ -77,11 +78,13 @@ public class FundService {
                        .collect(Collectors.toList());
     }
 
+    //Tested
     public FundDetailsItem fetchFundDetails(Long id, Locale locale) {
         Optional<Fund> optionalFund = fundRepository.findById(id);
         return getFundDetailsItem(locale, id, optionalFund);
     }
 
+    //Tested
     private FundDetailsItem getFundDetailsItem(Locale locale, Long id, Optional<Fund> optionalFund) {
         if (optionalFund.isPresent()) {
             Long backers = transferRepository.numberOfBackers(id);
@@ -117,15 +120,18 @@ public class FundService {
         return result;
     }
 
+    //Tested
     public List<FundListItem> fetchMyFunds(String email, Locale locale) {
         return fetchFundsToList(fundRepository.findAllByCreator(accountService.findByEmail(email)), locale);
     }
 
+    //Tested
     public FundDetailsItem fetchMyFundDetails(String email, Long id, Locale locale) {
         Optional<Fund> optionalFund = fundRepository.findByCreatorAndId(accountService.findByEmail(email), id);
         return getFundDetailsItem(locale, id, optionalFund);
     }
 
+    //Tested
     public ModifyFundFormInit fillModifyFundForm(String email, Long id, Locale locale) {
         Optional<Fund> optionalFund = fundRepository.findByCreatorAndId(accountService.findByEmail(email), id);
         if (optionalFund.isPresent()) {
@@ -136,6 +142,7 @@ public class FundService {
         }
     }
 
+    //Tested
     private List<StatusOption> getStatusOptions(Locale locale) {
         List<StatusOption> statusOptions = new ArrayList<>();
         for (Status status : Status.values()) {
@@ -144,6 +151,7 @@ public class FundService {
         return statusOptions;
     }
 
+    //Tested
     public void modifyFund(String email, ModifyFundFormCommand modifyFundFormCommand) {
         Optional<Fund> optionalFund = fundRepository.findByCreatorAndId(accountService.findByEmail(email), modifyFundFormCommand.getId());
         if (optionalFund.isPresent()) {
@@ -186,6 +194,7 @@ public class FundService {
         return uploadResponse.getSecureUrl();
     }
 
+    //Tested
     public void saveNewFund(String email, FundFormCommand fundFormCommand) {
         Account myAccount = accountService.findByEmail(email);
         String uploadedImageUrl;
@@ -198,6 +207,7 @@ public class FundService {
         fundRepository.save(fund);
     }
 
+    //Tested
     public FundFormInitData fetchFundFormInitData(Locale locale) {
         FundFormInitData fundFormInitData = new FundFormInitData();
         List<CategoryOption> categoryOptions = getCategoryOptions(locale);
@@ -208,6 +218,7 @@ public class FundService {
         return fundFormInitData;
     }
 
+    //Tested
     public List<CategoryOption> getCategoryOptions(Locale locale) {
         List<CategoryOption> categoryOptions = new ArrayList<>();
         for (FundCategory category : FundCategory.values()) {
@@ -216,6 +227,7 @@ public class FundService {
         return categoryOptions;
     }
 
+    //Tested
     public List<Fund> fetchActiveTargetFunds() {
         return fundRepository.findAllActiveFunds();
     }
@@ -226,6 +238,7 @@ public class FundService {
         return targetFund;
     }
 
+    //Tested
     public Fund findById(Long id) {
         Optional<Fund> optionalFund = fundRepository.findById(id);
         if (optionalFund.isPresent()) {

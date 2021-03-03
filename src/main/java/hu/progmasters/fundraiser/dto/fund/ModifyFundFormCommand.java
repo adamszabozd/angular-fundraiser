@@ -16,6 +16,18 @@ public class ModifyFundFormCommand {
 
     private String status;
 
+
+    public static ModifyFundFormCommand getDummyModifyCommand(Long id){
+        ModifyFundFormCommand instance = new ModifyFundFormCommand();
+        instance.setId(id);
+        instance.setShortDescription("Modified short description");
+        instance.setLongDescription("Long Description");
+        instance.setTargetAmount(1000.0);
+        instance.setEndDate(LocalDate.parse("2025-01-01"));
+        instance.setStatus("ACTIVE");
+        return instance;
+    }
+
     public Long getId() {
         return id;
     }
@@ -63,5 +75,7 @@ public class ModifyFundFormCommand {
     public void setStatus(String status) {
         this.status = status;
     }
+
+
 
 }

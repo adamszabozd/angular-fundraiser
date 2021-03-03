@@ -10,6 +10,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -68,7 +69,7 @@ public class Fund {
     private Account creator;
 
     @OneToMany(mappedBy = "target")
-    List<Transfer> transferList;
+    List<Transfer> transferList = new ArrayList<>();
 
     @Column(name = "time_stamp")
     private LocalDateTime timeStamp;

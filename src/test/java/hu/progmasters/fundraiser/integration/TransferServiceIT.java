@@ -47,7 +47,7 @@ class TransferServiceIT {
 
     void init() {
         String email = "test@gmail.com";
-        AccountRegistrationCommand funder = AccountRegistrationCommand.getDummyInstance(email);
+        AccountRegistrationCommand funder = AccountRegistrationCommand.getDummyInstance(email, "tester");
         accountService.create(funder);
         FundFormCommand fundFormCommand = FundFormCommand.getDummyInstance("Title test");
         fundService.saveNewFund(email, fundFormCommand);

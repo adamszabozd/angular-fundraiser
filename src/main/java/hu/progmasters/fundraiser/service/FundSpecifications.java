@@ -1,14 +1,12 @@
 package hu.progmasters.fundraiser.service;
 
+import hu.progmasters.fundraiser.domain.ExchangeRate;
 import hu.progmasters.fundraiser.domain.Fund;
 import hu.progmasters.fundraiser.domain.FundCategory;
 import hu.progmasters.fundraiser.domain.Status;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 
 public class FundSpecifications {
 
@@ -29,4 +27,5 @@ public class FundSpecifications {
             }
         };
     }
+
 }

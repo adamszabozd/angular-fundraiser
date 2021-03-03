@@ -24,10 +24,10 @@ public class AccountRegistrationCommand {
 
     private String captcha;
 
-    public static AccountRegistrationCommand getDummyInstance(String email) {
+    public static AccountRegistrationCommand getDummyInstance(String email, String username) {
         AccountRegistrationCommand instance = new AccountRegistrationCommand();
         instance.setEmail(email);
-        instance.setUsername("tester");
+        instance.setUsername(username);
         instance.setPassword("qqqq");
         instance.setCaptcha("hrw7r");
         return instance;

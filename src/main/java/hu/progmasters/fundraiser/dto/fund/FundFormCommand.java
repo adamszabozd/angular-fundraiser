@@ -24,17 +24,31 @@ public class FundFormCommand {
 
     private String status;
 
-    public static FundFormCommand getDummyInstance(String name) {
+    public static FundFormCommand getDummyInstance(String title) {
         FundFormCommand instance = new FundFormCommand();
-        instance.setTitle(name);
-        instance.setShortDescription("Short description two");
-        instance.setLongDescription("Long Description tow");
+        instance.setTitle(title);
+        instance.setShortDescription("Short description");
+        instance.setLongDescription("Long Description");
         instance.setImageFile(null);
         instance.setCategory("MEDICAL");
-        instance.setTargetAmount(1001.0);
+        instance.setTargetAmount(1000.0);
         instance.setCurrency("EUR");
         instance.setEndDate("2025-01-01");
         instance.setStatus("ACTIVE");
+        return instance;
+    }
+
+    public static FundFormCommand getDummyPassiveFund() {
+        FundFormCommand instance = new FundFormCommand();
+        instance.setTitle("Passive Fund");
+        instance.setShortDescription("Short description");
+        instance.setLongDescription("Long Description");
+        instance.setImageFile(null);
+        instance.setCategory("MEDICAL");
+        instance.setTargetAmount(1000.0);
+        instance.setCurrency("EUR");
+        instance.setEndDate("2025-01-01");
+        instance.setStatus("PASSIVE");
         return instance;
     }
 

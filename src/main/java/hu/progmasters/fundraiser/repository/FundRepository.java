@@ -3,6 +3,7 @@ package hu.progmasters.fundraiser.repository;
 import hu.progmasters.fundraiser.domain.Account;
 import hu.progmasters.fundraiser.domain.Fund;
 import hu.progmasters.fundraiser.domain.FundCategory;
+import org.hibernate.annotations.NamedNativeQuery;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,6 +24,7 @@ public interface FundRepository extends JpaRepository<Fund, Long>, JpaSpecificat
 
     @Query("SELECT  COUNT (f) FROM Fund f WHERE f.fundCategory = ?1 AND f.status = 'ACTIVE'")
     Long countAllByStatusByCategory(FundCategory category);
+
 
 //    @Query("SELECT f FROM Fund f WHERE f.fundCategory = ?1 AND f.status = 'ACTIVE'")
 //    List<Fund> findAllByCategory(FundCategory category);

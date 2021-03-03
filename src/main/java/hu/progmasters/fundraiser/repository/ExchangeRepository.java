@@ -18,4 +18,5 @@ public interface ExchangeRepository extends JpaRepository<ExchangeRate, Long> {
     @Query("SELECT e.rate FROM ExchangeRate e WHERE e.currentTime = (SELECT MAX(e.currentTime) FROM ExchangeRate e WHERE e.currentTime <= :date) AND e.currency = :currency")
     Double findLatestRateByCurrencyAndDate(Currency currency, LocalDate date);
 
+
 }
