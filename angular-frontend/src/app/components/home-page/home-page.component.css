@@ -1,11 +1,12 @@
 .container {
-    background-image: url("../../../assets/img/kickstarter.jpg");
+    background-image: url("../../../assets/img/kickstarter2.jpg");
     background-size: cover;
     color: darkblue;
     font-size: 1.1rem;
     font-weight: 600;
     border-radius: 20px;
     display: inline-block;
+
 }
 .text-left {
     width: 50%;

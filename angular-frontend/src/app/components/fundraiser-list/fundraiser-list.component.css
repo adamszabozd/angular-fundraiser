@@ -25,9 +25,12 @@ h6 {
     text-align: left!important;
 }
 .short-description {
-    overflow: hidden;
-    white-space: nowrap;
+    height: 6em;
+    display: -webkit-box;
+    overflow : hidden;
     text-overflow: ellipsis;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
 }
 .funds {
     box-shadow: 1px 4px 4px 0 rgba(30,30,30, 0.2);
@@ -66,3 +69,4 @@ h6 {
 .my-md-3 {
     padding: 15px;
 }
+

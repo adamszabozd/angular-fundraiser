@@ -44,9 +44,11 @@
         "BROWSE_FUNDRAISERS": "Browse fundraisers",
         "IMAGE": "fund image",
         "CATEGORY": "Category: ",
-        "AMOUNT": "Raised: {{ amount }} {{ currency }}   Target: {{ amountGoal }} {{ currency }}",
+        "AMOUNT_RAISED": "Raised: ",
+        "AMOUNT_GOAL": "Target: ",
         "END_DATE": "End date: ",
         "CREATOR": "Creator: ",
+        "PASSIVE": "Passive",
         "MODIFY": "Modify",
         "READ_MORE": "Read more",
         "NO_FUNDS": "Sorry, there are no funds in this category yet",
@@ -56,7 +58,8 @@
         "SORT_RAISED_FUNDS": "Raised funds",
         "SORT_END_DATE": "Expiration date",
         "SORT_ID_DESC": "Creation (latest)",
-        "SORT_CREATOR": "Creator name"
+        "SORT_CREATOR": "Creator name",
+        "SUSPENDED": "Suspended"
     },
     "FUND": {
         "NEW_FUND": "New Fund",
