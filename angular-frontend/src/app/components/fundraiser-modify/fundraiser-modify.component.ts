@@ -4,11 +4,15 @@ import {FundsService} from '../../services/funds.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {validationHandler} from '../../utils/validationHandler';
 import {ModifyFundFormInitModel} from '../../models/modifyFundFormInit.model';
+import {formAppearAnimation} from '../../animations';
 
 @Component({
                selector   : 'app-fundraiser-modify',
                templateUrl: './fundraiser-modify.component.html',
                styleUrls  : ['./fundraiser-modify.component.css'],
+               animations : [
+                   formAppearAnimation,
+               ],
            })
 export class FundraiserModifyComponent implements OnInit {
 
@@ -48,12 +52,18 @@ export class FundraiserModifyComponent implements OnInit {
                 this.id = Number.parseInt(paraMap.get('id'));
                 this.fundService.fetchFundForModify(this.id).subscribe(
                     (data) => {
+                        if (this.state == 'invisible') {
+                            setTimeout(() => this.state = 'visible');
+                        }
                         this.fillForm(data);
                         this.formData = data;
                     },
                     (error) => {
                         console.log(error);
                         this.router.navigate(['page-not-found']);
+                        if (this.state == 'invisible') {
+                            setTimeout(() => this.state = 'visible');
+                        }
                     },
                 );
             },
