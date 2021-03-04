@@ -19,18 +19,21 @@ export class FundraiserModifyComponent implements OnInit {
     state = 'invisible';
     id: number;
     formData: ModifyFundFormInitModel;
+    wrongImageFile: boolean = false;
+    chosenImage: boolean = false;
 
     form = this.formBuilder.group({
                                       title           : ['', Validators.required],
                                       shortDescription: ['', [Validators.required, Validators.maxLength(250)]],
                                       longDescription : [''],
+                                      imageFile       : [null],
+                                      oldImageUrl     : [''],
                                       category        : [''],
                                       targetAmount    : ['', Validators.required],
                                       currency        : [''],
                                       endDate         : [''],
                                       status          : [''],
                                   });
-    chosenImage: boolean = false;
 
     public tools: object = {
         items: ['Undo', 'Redo', '|',
@@ -81,6 +84,7 @@ export class FundraiserModifyComponent implements OnInit {
         this.form.get('title').setValue(data.title);
         this.form.get('shortDescription').setValue(data.shortDescription);
         this.form.get('longDescription').setValue(data.longDescription);
+        this.form.get('oldImageUrl').setValue(data.oldImageUrl);
         this.form.get('category').setValue(this.fundService.getCategoryDisplayName(data.category, data.categoryOptions));
         this.form.get('targetAmount').setValue(data.targetAmount);
         this.form.get('currency').setValue(data.currency);
@@ -88,12 +92,45 @@ export class FundraiserModifyComponent implements OnInit {
         this.form.get('status').setValue(data.status);
     }
 
+
+    onFileChange($event: Event) {
+        // @ts-ignore
+        if (event.target.files.length > 0) {
+            // @ts-ignore
+            const file: File = event.target.files[0];
+
+            if (file.name.match(/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i) !== null && file.size <= 8388608) {
+                this.form.patchValue({
+                    imageFile: file,
+                });
+                this.wrongImageFile = false;
+                this.chosenImage = true;
+            } else {
+                this.wrongImageFile = true;
+
+            }
+        }
+    }
+
     onSubmit() {
-        this.fundService.modifyFund({
-                                        ...this.form.value,
-                                        id: this.id,
-                                    }).subscribe(
-            () => this.router.navigate(['my-funds']),
+        const formData = new FormData();
+        formData.append('title', this.form.get('title').value);
+        formData.append('modifiedShortDescription', this.form.get('shortDescription').value);
+        formData.append('modifiedLongDescription', this.form.get('longDescription').value);
+        if (this.form.get('imageFile').value !== null) {
+            formData.append('modifiedImageFile', this.form.get('imageFile').value);
+        }
+        formData.append('oldImageUrl', this.form.get('oldImageUrl').value);
+        formData.append('modifiedCategory', this.form.get('category').value);
+        formData.append('modifiedTargetAmount', this.form.get('targetAmount').value);
+        formData.append('currency', this.form.get('currency').value);
+        if (this.form.get('endDate').value !== null) {
+            formData.append('modifiedEndDate', this.form.get('endDate').value);
+        }
+        formData.append('modifiedStatus', this.form.get('status').value);
+
+        this.fundService.modifyFund(formData).subscribe(
+            () => this.router.navigate(['/my-funds']),
             (error) => validationHandler(error, this.form),
         );
     }

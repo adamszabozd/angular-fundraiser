@@ -1,30 +1,40 @@
 package hu.progmasters.fundraiser.dto.fund;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
 import java.time.LocalDate;
 
 public class ModifyFundFormCommand {
 
     private Long id;
 
-    private String shortDescription;
+    private String modifiedShortDescription;
 
-    private String longDescription;
+    private String modifiedLongDescription;
 
-    private Double targetAmount;
+    @JsonIgnoreProperties
+    private CommonsMultipartFile modifiedImageFile;
 
-    private LocalDate endDate;
+    private String oldImageUrl;
 
-    private String status;
+    private Double modifiedTargetAmount;
+
+    private LocalDate modifiedEndDate;
+
+    private String modifiedStatus;
 
 
     public static ModifyFundFormCommand getDummyModifyCommand(Long id){
         ModifyFundFormCommand instance = new ModifyFundFormCommand();
         instance.setId(id);
-        instance.setShortDescription("Modified short description");
-        instance.setLongDescription("Long Description");
-        instance.setTargetAmount(1000.0);
-        instance.setEndDate(LocalDate.parse("2025-01-01"));
-        instance.setStatus("ACTIVE");
+        instance.setModifiedShortDescription("Modified short description");
+        instance.setModifiedLongDescription("Long Description");
+        instance.setModifiedImageFile(null);
+        instance.setOldImageUrl("https://cdn.iconscout.com/icon/free/png-256/k-characters-character-alphabet-letter-36028.png");
+        instance.setModifiedTargetAmount(1000.0);
+        instance.setModifiedEndDate(LocalDate.parse("2025-01-01"));
+        instance.setModifiedStatus("ACTIVE");
         return instance;
     }
 
@@ -36,46 +46,59 @@ public class ModifyFundFormCommand {
         this.id = id;
     }
 
-    public String getShortDescription() {
-        return shortDescription;
+    public String getModifiedShortDescription() {
+        return modifiedShortDescription;
     }
 
-    public void setShortDescription(String shortDescription) {
-        this.shortDescription = shortDescription;
+    public void setModifiedShortDescription(String modifiedShortDescription) {
+        this.modifiedShortDescription = modifiedShortDescription;
     }
 
-    public String getLongDescription() {
-        return longDescription;
+    public String getModifiedLongDescription() {
+        return modifiedLongDescription;
     }
 
-    public void setLongDescription(String longDescription) {
-        this.longDescription = longDescription;
+    public void setModifiedLongDescription(String modifiedLongDescription) {
+        this.modifiedLongDescription = modifiedLongDescription;
     }
 
-    public Double getTargetAmount() {
-        return targetAmount;
+    public CommonsMultipartFile getModifiedImageFile() {
+        return modifiedImageFile;
     }
 
-    public void setTargetAmount(Double targetAmount) {
-        this.targetAmount = targetAmount;
+    public void setModifiedImageFile(CommonsMultipartFile modifiedImageFile) {
+        this.modifiedImageFile = modifiedImageFile;
     }
 
-    public LocalDate getEndDate() {
-        return endDate;
+    public String getOldImageUrl() {
+        return oldImageUrl;
     }
 
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
+    public void setOldImageUrl(String oldImageUrl) {
+        this.oldImageUrl = oldImageUrl;
     }
 
-    public String getStatus() {
-        return status;
+    public Double getModifiedTargetAmount() {
+        return modifiedTargetAmount;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setModifiedTargetAmount(Double modifiedTargetAmount) {
+        this.modifiedTargetAmount = modifiedTargetAmount;
     }
 
+    public LocalDate getModifiedEndDate() {
+        return modifiedEndDate;
+    }
 
+    public void setModifiedEndDate(LocalDate modifiedEndDate) {
+        this.modifiedEndDate = modifiedEndDate;
+    }
 
+    public String getModifiedStatus() {
+        return modifiedStatus;
+    }
+
+    public void setModifiedStatus(String modifiedStatus) {
+        this.modifiedStatus = modifiedStatus;
+    }
 }

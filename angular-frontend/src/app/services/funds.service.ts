@@ -7,7 +7,6 @@ import {FundFormInitModel} from '../models/fundFormInit.model';
 import {FundDetailsItemModel} from '../models/fundDetailsItem.model';
 import {TranslateService} from '@ngx-translate/core';
 import {ModifyFundFormInitModel} from '../models/modifyFundFormInit.model';
-import {ModifyFundCommandModel} from '../models/modifyFundCommand.model';
 import {FundPageDataModel} from "../models/fundPageData.model";
 import {EnumDataModel} from "../models/enumData.model";
 import {MyFundsDataModel} from "../models/myFundsData.model";
@@ -54,7 +53,7 @@ export class FundsService {
         return this.http.get<ModifyFundFormInitModel>(BASE_URL + '/modify/' + id);
     }
 
-    modifyFund(data: ModifyFundCommandModel): Observable<any> {
+    modifyFund(data: FormData): Observable<any> {
         return this.http.put(BASE_URL + '/modify', data);
     }
 

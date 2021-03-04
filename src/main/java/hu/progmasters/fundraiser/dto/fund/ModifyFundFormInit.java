@@ -14,6 +14,8 @@ public class ModifyFundFormInit {
 
     private final String longDescription;
 
+    private final String oldImageUrl;
+
     private final String category;
 
     private final Double targetAmount;
@@ -33,6 +35,7 @@ public class ModifyFundFormInit {
         this.title = fund.getFundTitle();
         this.shortDescription = fund.getShortDescription();
         this.longDescription = fund.getLongDescription();
+        this.oldImageUrl = fund.getImageUrl();
         this.category = fund.getFundCategory().name();
         this.targetAmount = fund.getTargetAmount();
         this.currency = fund.getCurrency().name();
@@ -80,5 +83,9 @@ public class ModifyFundFormInit {
 
     public List<CategoryOption> getCategoryOptions() {
         return categoryOptions;
+    }
+
+    public String getOldImageUrl() {
+        return oldImageUrl;
     }
 }

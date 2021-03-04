@@ -18,21 +18,21 @@ public class ModifyFundFormCommandValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         ModifyFundFormCommand fund = (ModifyFundFormCommand) target;
-        if (fund.getTargetAmount() == null) {
-            errors.rejectValue("targetAmount", "target.amount.missing");
-        } else if (fund.getTargetAmount() <= 0) {
-            errors.rejectValue("targetAmount", "target.amount.wrong");
+        if (fund.getModifiedTargetAmount() == null) {
+            errors.rejectValue("modifiedTargetAmount", "target.amount.missing");
+        } else if (fund.getModifiedTargetAmount() <= 0) {
+            errors.rejectValue("modifiedTargetAmount", "target.amount.wrong");
         }
-        if (fund.getShortDescription() == null || fund.getShortDescription().isEmpty()) {
-            errors.rejectValue("shortDescription", "short.description.missing");
+        if (fund.getModifiedShortDescription() == null || fund.getModifiedShortDescription().isEmpty()) {
+            errors.rejectValue("modifiedShortDescription", "short.description.missing");
         }
-        if (fund.getShortDescription().length() < 5 || fund.getShortDescription().length() > 250) {
-            errors.rejectValue("shortDescription", "short.description.length.wrong");
+        if (fund.getModifiedShortDescription().length() < 5 || fund.getModifiedShortDescription().length() > 250) {
+            errors.rejectValue("modifiedShortDescription", "short.description.length.wrong");
         }
-        if (fund.getEndDate() != null) {
-            LocalDate date = fund.getEndDate();
+        if (fund.getModifiedEndDate() != null) {
+            LocalDate date = fund.getModifiedEndDate();
             if (date.isBefore(LocalDate.now())) {
-                errors.rejectValue("endDate", "end.date.wrong");
+                errors.rejectValue("modifiedEndDate", "end.date.wrong");
             }
         }
     }

@@ -154,18 +154,25 @@ public class FundService {
     public void modifyFund(String email, ModifyFundFormCommand modifyFundFormCommand) {
         Optional<Fund> optionalFund = fundRepository.findByCreatorAndId(accountService.findByEmail(email), modifyFundFormCommand.getId());
         if (optionalFund.isPresent()) {
+            String uploadedImageUrl;
+            if (modifyFundFormCommand.getModifiedImageFile() != null) {
+                uploadedImageUrl = storeFile(modifyFundFormCommand.getModifiedImageFile());
+            } else {
+                uploadedImageUrl = modifyFundFormCommand.getOldImageUrl();
+            }
             Fund fund = optionalFund.get();
-            fund.setShortDescription(modifyFundFormCommand.getShortDescription());
+            fund.setShortDescription(modifyFundFormCommand.getModifiedShortDescription());
             PolicyFactory policy = Sanitizers.BLOCKS
                     .and(Sanitizers.FORMATTING)
                     .and(Sanitizers.LINKS)
                     .and(Sanitizers.STYLES)
                     .and(Sanitizers.TABLES);
-            String safeLongDescription = policy.sanitize(modifyFundFormCommand.getLongDescription());
+            String safeLongDescription = policy.sanitize(modifyFundFormCommand.getModifiedLongDescription());
             fund.setLongDescription(safeLongDescription);
-            fund.setTargetAmount(modifyFundFormCommand.getTargetAmount());
-            fund.setEndDate(modifyFundFormCommand.getEndDate());
-            fund.setStatus(Status.valueOf(modifyFundFormCommand.getStatus()));
+            fund.setImageUrl(uploadedImageUrl);
+            fund.setTargetAmount(modifyFundFormCommand.getModifiedTargetAmount());
+            fund.setEndDate(modifyFundFormCommand.getModifiedEndDate());
+            fund.setStatus(Status.valueOf(modifyFundFormCommand.getModifiedStatus()));
             fundRepository.save(fund);
         } else {
             throw new EntityNotFoundException();
@@ -202,6 +209,13 @@ public class FundService {
         } else {
             uploadedImageUrl = "https://cdn.iconscout.com/icon/free/png-256/k-characters-character-alphabet-letter-36028.png";
         }
+        PolicyFactory policy = Sanitizers.BLOCKS
+                .and(Sanitizers.FORMATTING)
+                .and(Sanitizers.LINKS)
+                .and(Sanitizers.STYLES)
+                .and(Sanitizers.TABLES);
+        String safeLongDescription = policy.sanitize(fundFormCommand.getLongDescription());
+        fundFormCommand.setLongDescription(safeLongDescription);
         Fund fund = new Fund(fundFormCommand, myAccount, uploadedImageUrl);
         fundRepository.save(fund);
     }
