@@ -1,5 +1,6 @@
 package hu.progmasters.fundraiser.validation;
 
+import hu.progmasters.fundraiser.domain.Status;
 import hu.progmasters.fundraiser.dto.fund.ModifyFundFormCommand;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -24,10 +25,11 @@ public class ModifyFundFormCommandValidator implements Validator {
             errors.rejectValue("modifiedTargetAmount", "target.amount.wrong");
         }
         if (fund.getModifiedShortDescription() == null || fund.getModifiedShortDescription().isEmpty()) {
-            errors.rejectValue("modifiedShortDescription", "short.description.missing");
-        }
-        if (fund.getModifiedShortDescription().length() < 5 || fund.getModifiedShortDescription().length() > 250) {
-            errors.rejectValue("modifiedShortDescription", "short.description.length.wrong");
+            errors.rejectValue("shortDescription", "short.description.missing");
+        } else if (!fund.getModifiedShortDescription().equals(reduceSpaces(fund.getModifiedShortDescription()))) {
+            errors.rejectValue("shortDescription", "short.description.invalid.spaces");
+        } else if (fund.getModifiedShortDescription().length() < 5 || fund.getModifiedShortDescription().length() > 250) {
+            errors.rejectValue("shortDescription", "short.description.length.wrong");
         }
         if (fund.getModifiedEndDate() != null) {
             LocalDate date = LocalDate.parse(fund.getModifiedEndDate());
@@ -35,6 +37,19 @@ public class ModifyFundFormCommandValidator implements Validator {
                 errors.rejectValue("modifiedEndDate", "end.date.wrong");
             }
         }
+        if (fund.getModifiedStatus() == null || fund.getModifiedStatus().length() == 0) {
+            errors.rejectValue("status", "status.missing");
+        } else {
+            try {
+                Status.valueOf(fund.getModifiedStatus());
+            } catch (IllegalArgumentException e) {
+                errors.rejectValue("status", "status.invalid");
+            }
+        }
+    }
+
+    private String reduceSpaces(String s) {
+        return s.trim().replaceAll("\\s+", " ");
     }
 
 }

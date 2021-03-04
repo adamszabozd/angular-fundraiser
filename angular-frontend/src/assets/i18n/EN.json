@@ -70,7 +70,7 @@
         "TITLE_ERROR": "Please enter a title for your fundraiser between 5 and 100 character",
         "SHORT_DESCRIPTION": "Short description:",
         "SHORT_DESCRIPTION_PLACEHOLDER": "Please give a short description, which will be displayed in the Discover page. Max 250 characters",
-        "SHORT_DESCRIPTION_ERROR": "Please give a short description for your fund (max 250 characters)",
+        "SHORT_DESCRIPTION_ERROR": "Please enter a short description for your fund between 5 end 250 characters",
         "LONG_DESCRIPTION": "Long description (optional):",
         "LONG_DESCRIPTION_PLACEHOLDER": "The long, detailed description of your fund idea",
         "IMAGE_FILE": "Please upload an image file",

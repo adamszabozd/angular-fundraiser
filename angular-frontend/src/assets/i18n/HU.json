@@ -70,7 +70,7 @@
         "TITLE_ERROR": "Adjon meg egy 5 és 100 karakter közti hosszúságú címet a gyűjtésének",
         "SHORT_DESCRIPTION": "Rövid leírás:",
         "SHORT_DESCRIPTION_PLACEHOLDER": "Adjon meg egy rövid leírást, amit megjeleníthetünk a gyűjtések böngészése oldalon. Legfeljebb 250 karakter.",
-        "SHORT_DESCRIPTION_ERROR": "Adjon meg egy rövid leírást a gyűjtéséről (legfeljebb 250 karakter)",
+        "SHORT_DESCRIPTION_ERROR": "Adjon meg egy rövid leírást a gyűjtéséről (5 és 250 karakter között)",
         "LONG_DESCRIPTION": "Hosszú leírás (nem kötelező):",
         "LONG_DESCRIPTION_PLACEHOLDER": "A gyűjtés céljának hosszú, részletes leírása",
         "IMAGE_FILE": "Kép fájl",
