@@ -30,8 +30,9 @@ public class FundFormCommandValidator implements Validator {
         FundFormCommand fund = (FundFormCommand) target;
         if (fund.getTitle() == null || fund.getTitle().isEmpty()) {
             errors.rejectValue("title", "title.missing");
-        }
-        if (fund.getTitle().replaceAll("\\s", "").length() < 5 || fund.getTitle().length() > 100) {
+        } else if (!fund.getTitle().equals(reduceSpaces(fund.getTitle()))) {
+            errors.rejectValue("title", "title.invalid.spaces");
+        } else if (fund.getTitle().length() < 5 || fund.getTitle().length() > 100) {
             errors.rejectValue("title", "title.length.wrong");
         }
         if (validationService.fundTitleAlreadyExist(fund.getTitle())) {
@@ -39,8 +40,9 @@ public class FundFormCommandValidator implements Validator {
         }
         if (fund.getShortDescription() == null || fund.getShortDescription().isEmpty()) {
             errors.rejectValue("shortDescription", "short.description.missing");
-        }
-        if (fund.getShortDescription().replaceAll("\\s", "").length() < 5 || fund.getShortDescription().length() > 250) {
+        } else if (!fund.getShortDescription().equals(reduceSpaces(fund.getShortDescription()))) {
+            errors.rejectValue("shortDescription", "short.description.invalid.spaces");
+        } else if (fund.getShortDescription().length() < 5 || fund.getShortDescription().length() > 250) {
             errors.rejectValue("shortDescription", "short.description.length.wrong");
         }
         if (fund.getCategory() == null || fund.getCategory().length() == 0) {
@@ -81,6 +83,10 @@ public class FundFormCommandValidator implements Validator {
                 errors.rejectValue("status", "status.invalid");
             }
         }
+    }
+
+    private String reduceSpaces(String s) {
+        return s.trim().replaceAll("\\s+", " ");
     }
 
 }

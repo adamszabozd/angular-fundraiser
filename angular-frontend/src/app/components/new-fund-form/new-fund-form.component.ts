@@ -25,8 +25,8 @@ export class NewFundFormComponent implements OnInit {
     formInitData: FundFormInitModel | undefined;
 
     form = this.formBuilder.group({
-                                      title           : ['', [Validators.required, Validators.pattern(/^[^\s]+(\s+[^\s]+)*$/)]],
-                                      shortDescription: ['', [Validators.required, Validators.maxLength(250), Validators.pattern(/^[^\s]+(\s+[^\s]+)*$/)]],
+                                      title           : ['', [Validators.required]],
+                                      shortDescription: ['', [Validators.required, Validators.maxLength(250)]],
                                       longDescription : [''],
                                       imageFile       : [null],
                                       category        : [null],
