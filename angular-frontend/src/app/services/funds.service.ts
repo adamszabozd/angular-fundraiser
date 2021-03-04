@@ -54,7 +54,7 @@ export class FundsService {
     }
 
     modifyFund(data: FormData): Observable<any> {
-        return this.http.put(BASE_URL + '/modify', data);
+        return this.http.post(BASE_URL + '/modify', data);
     }
 
     saveNewFund(data: FormData): Observable<any> {

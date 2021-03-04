@@ -30,7 +30,7 @@ public class ModifyFundFormCommandValidator implements Validator {
             errors.rejectValue("modifiedShortDescription", "short.description.length.wrong");
         }
         if (fund.getModifiedEndDate() != null) {
-            LocalDate date = fund.getModifiedEndDate();
+            LocalDate date = LocalDate.parse(fund.getModifiedEndDate());
             if (date.isBefore(LocalDate.now())) {
                 errors.rejectValue("modifiedEndDate", "end.date.wrong");
             }

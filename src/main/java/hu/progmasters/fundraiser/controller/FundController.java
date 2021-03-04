@@ -78,7 +78,7 @@ public class FundController {
         return new ResponseEntity<>(fundService.fillModifyFundForm(principal.getName(), id, locale), HttpStatus.OK);
     }
 
-    @PutMapping("/modify")
+    @PostMapping("/modify")
     public ResponseEntity<Void> modifyFund(@ModelAttribute @Valid ModifyFundFormCommand modifyFundFormCommand, Principal principal) {
         fundService.modifyFund(principal.getName(), modifyFundFormCommand);
         return new ResponseEntity<>(HttpStatus.OK);

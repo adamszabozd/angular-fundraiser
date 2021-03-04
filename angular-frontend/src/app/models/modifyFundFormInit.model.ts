@@ -3,6 +3,7 @@ import {CategoryOptionModel} from "./categoryOption.model";
 
 export interface ModifyFundFormInitModel {
 
+    id: number;
     title: string;
     shortDescription: string;
     longDescription: string;

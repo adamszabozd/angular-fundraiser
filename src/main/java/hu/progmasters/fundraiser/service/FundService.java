@@ -171,7 +171,11 @@ public class FundService {
             fund.setLongDescription(safeLongDescription);
             fund.setImageUrl(uploadedImageUrl);
             fund.setTargetAmount(modifyFundFormCommand.getModifiedTargetAmount());
-            fund.setEndDate(modifyFundFormCommand.getModifiedEndDate());
+            if (modifyFundFormCommand.getModifiedEndDate() != null) {
+                fund.setEndDate(LocalDate.parse(modifyFundFormCommand.getModifiedEndDate()));
+            } else {
+                fund.setEndDate(null);
+            }
             fund.setStatus(Status.valueOf(modifyFundFormCommand.getModifiedStatus()));
             fundRepository.save(fund);
         } else {

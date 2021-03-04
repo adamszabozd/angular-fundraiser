@@ -8,6 +8,8 @@ import java.util.List;
 
 public class ModifyFundFormInit {
 
+    private Long id;
+
     private final String title;
 
     private final String shortDescription;
@@ -32,6 +34,7 @@ public class ModifyFundFormInit {
     private final List<CategoryOption> categoryOptions;
 
     public ModifyFundFormInit(Fund fund, List<StatusOption> statusOptions, List<CategoryOption> categoryOptions) {
+        this.id = fund.getId();
         this.title = fund.getFundTitle();
         this.shortDescription = fund.getShortDescription();
         this.longDescription = fund.getLongDescription();
@@ -87,5 +90,13 @@ public class ModifyFundFormInit {
 
     public String getOldImageUrl() {
         return oldImageUrl;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

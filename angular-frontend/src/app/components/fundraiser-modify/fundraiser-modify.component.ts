@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {validationHandler} from '../../utils/validationHandler';
 import {ModifyFundFormInitModel} from '../../models/modifyFundFormInit.model';
 import {formAppearAnimation} from '../../animations';
+import {numberToString} from "../../utils/numberFormatter";
 
 @Component({
                selector   : 'app-fundraiser-modify',
@@ -114,6 +115,7 @@ export class FundraiserModifyComponent implements OnInit {
 
     onSubmit() {
         const formData = new FormData();
+        formData.append('id', numberToString(this.formData.id));
         formData.append('title', this.form.get('title').value);
         formData.append('modifiedShortDescription', this.form.get('shortDescription').value);
         formData.append('modifiedLongDescription', this.form.get('longDescription').value);

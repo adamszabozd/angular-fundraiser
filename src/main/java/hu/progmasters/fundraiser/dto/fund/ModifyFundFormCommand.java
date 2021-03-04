@@ -20,7 +20,7 @@ public class ModifyFundFormCommand {
 
     private Double modifiedTargetAmount;
 
-    private LocalDate modifiedEndDate;
+    private String modifiedEndDate;
 
     private String modifiedStatus;
 
@@ -33,7 +33,7 @@ public class ModifyFundFormCommand {
         instance.setModifiedImageFile(null);
         instance.setOldImageUrl("https://cdn.iconscout.com/icon/free/png-256/k-characters-character-alphabet-letter-36028.png");
         instance.setModifiedTargetAmount(1000.0);
-        instance.setModifiedEndDate(LocalDate.parse("2025-01-01"));
+        instance.setModifiedEndDate("2025-01-01");
         instance.setModifiedStatus("ACTIVE");
         return instance;
     }
@@ -86,11 +86,11 @@ public class ModifyFundFormCommand {
         this.modifiedTargetAmount = modifiedTargetAmount;
     }
 
-    public LocalDate getModifiedEndDate() {
+    public String getModifiedEndDate() {
         return modifiedEndDate;
     }
 
-    public void setModifiedEndDate(LocalDate modifiedEndDate) {
+    public void setModifiedEndDate(String modifiedEndDate) {
         this.modifiedEndDate = modifiedEndDate;
     }
 
